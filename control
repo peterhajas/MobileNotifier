@@ -1,0 +1,9 @@
+Package: com.peterhajassoftware.mobilenotifier
+Name: MobileNotifier
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: Peter Hajas
+Author: Peter Hajas
+Section: Tweaks

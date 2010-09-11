@@ -1,0 +1,123 @@
+/*
+
+MobileNotifier, by Peter Hajas
+
+Copyright 2010 Peter Hajas, Peter Hajas Software
+
+This code is licensed under the GPL. The full text of which is available in the file "LICENSE"
+which should have been included with this package. If not, please see:
+
+http://www.gnu.org/licenses/gpl.txt
+
+
+iOS Notifications. Done right. Like 2010 right.
+
+This is an RCOS project for the Spring 2010 semester. The website for RCOS is at rcos.cs.rpi.edu/
+
+Thanks to:
+
+Mukkai Krishnamoorthy - cs.rpi.edu/~moorthy
+Sean O' Sullivan
+
+Dustin Howett - howett.net
+Ryan Petrich - github.com/rpetrich
+chpwn - chpwn.com
+KennyTM - github.com/kennytm
+Jay Freeman - saurik.com
+
+for all your help and mega-useful tools.
+
+To build this, use "make" in the directory. This project utilizes Theos as its makefile system and Logos as its hooking preprocessor.
+
+You will need Theos installed:
+http://github.com/DHowett/theos
+With the decompiled headers in /theos/include/:
+http://github.com/kennytm/iphone-private-frameworks
+
+I hope you enjoy! Questions and comments to peterhajas (at) gmail (dot) com
+
+And, as always, have fun!
+
+*/
+
+#import <SpringBoard/SpringBoard.h>
+#import <ChatKit/ChatKit.h>
+
+//Hook the display method for receiving an SMS message
+%hook SBSMSAlertItem
+
+-(void)init
+{
+	%log;
+	NSString *name = [self name];
+	NSLog(@"Test!");
+	NSLog(@"Name: %@", name);
+	
+	NSString *messageText = [self messageText];
+	NSLog(@"Message Text: %@", messageText);
+	
+	NSLog(@"Address: %@", 
+	
+	//CKMessage parsing code:
+	//How to hook ivars!
+	//MSHookIvar<ObjectType *>("self", "OBJECTNAME");
+	
+	CKMessage *demo = MSHookIvar<CKMessage *>(self, "_message");
+	
+	if(demo == nil)
+	{
+		NSLog(@"Message is null");
+	}
+	NSString *text = [demo text];
+	NSString *subject = [demo subject];
+	NSString *address = [demo address];
+	
+	NSLog(@"Text: %@", text);
+	NSLog(@"Subject: %@", subject);
+	NSLog(@"Address: %@", address);
+	
+	//Call the original function, we kind of would like to be notified of
+	//getting a new text message while this is in its early stages.
+	%orig;
+}
+
+%end
+
+
+
+//Information about Logos for future reference:
+
+/* How to Hook with Logos
+Hooks are written with syntax similar to that of an Objective-C @implementation.
+You don't need to #include <substrate.h>, it will be done automatically, as will
+the generation of a class list and an automatic constructor.
+
+%hook ClassName
+
+// Hooking a class method
++ (id)sharedInstance {
+	return %orig;
+}
+
+// Hooking an instance method with an argument.
+- (void)messageName:(int)argument {
+	%log; // Write a message about this call, including its class, name and arguments, to the system log.
+
+	%orig; // Call through to the original function with its original arguments.
+	%orig(nil); // Call through to the original function with a custom argument.
+
+	// If you use %orig(), you MUST supply all arguments (except for self and _cmd, the automatically generated ones.)
+}
+
+// Hooking an instance method with no arguments.
+- (id)noArguments {
+	%log;
+	id awesome = %orig;
+	[awesome doSomethingElse];
+
+	return awesome;
+}
+
+// Always make sure you clean up after yourself; Not doing so could have grave conseqeuences!
+%end
+*/
