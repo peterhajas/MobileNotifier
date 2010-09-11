@@ -56,11 +56,12 @@ And, as always, have fun!
 	NSString *messageText = [self messageText];
 	NSLog(@"Message Text: %@", messageText);
 	
-	NSLog(@"Address: %@", 
+	NSLog(@"Address: %@", [self address]);
 	
 	//CKMessage parsing code:
 	//How to hook ivars!
 	//MSHookIvar<ObjectType *>("self", "OBJECTNAME");
+	
 	
 	CKMessage *demo = MSHookIvar<CKMessage *>(self, "_message");
 	
@@ -78,6 +79,34 @@ And, as always, have fun!
 	
 	//Call the original function, we kind of would like to be notified of
 	//getting a new text message while this is in its early stages.
+	%orig;
+}
+
+-(void)setMessage:(id)message
+{
+	NSLog(@"setMessage called!");
+	CKSMSMessage *theMessage = message;
+	
+	NSLog(@"Messages: %@", [theMessage messages]); 
+	//CKSMSRecord object
+	
+	NSLog(@"Sender: %@", [[theMessage sender] name]);
+	//CKSMSEntity object is [theMessage sender],
+	//With name flag, we get the name in the address book!
+	
+	NSLog(@"Address: %@", [theMessage address]); 
+	//Phone number of user sending text
+	
+	NSLog(@"Total Message Count: %d", [theMessage totalMessageCount]); 
+	//Number of new messages? - not so with messages of > 160 characters
+	
+	%orig;
+}
+
+-(void)reply
+{
+	NSLog(@"Reply called!");
+	//Equivalent to pressing "View" with a long message
 	%orig;
 }
 
