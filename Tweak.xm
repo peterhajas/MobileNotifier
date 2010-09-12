@@ -43,6 +43,11 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
+//Our UIWindow:
+
+static UIWindow *alertWindow;
+
+
 //View initialization for a very very (VERY) basic view
 
 @interface alertDisplayController : UIViewController
@@ -67,12 +72,7 @@ And, as always, have fun!
 {
 	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
 	self.view.backgroundColor = [UIColor blueColor];
-	
-	UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0,0,160,30)];
-	testView.backgroundColor = [UIColor redColor];
-	
-	[self.view addSubview:testView];
-	
+
 	///*UILabel **/alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
 	//alertText.text = @"Test alert";
 
@@ -146,7 +146,12 @@ And, as always, have fun!
 	
 	alert.alertText.text = [NSString stringWithFormat:@"New SMS from %@: %@", [[theMessage sender] name], @"message placeholder"];
 	
-	[[[%c(SBUIController) sharedInstance] window] addSubview:alert.view];
+	alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	alertWindow.windowLevel = 99999;
+	alertWindow.userInteractionEnabled = NO;
+	alertWindow.hidden = NO;
+	
+	[alertWindow addSubview:alert.view];
 	
 	%orig;
 }
