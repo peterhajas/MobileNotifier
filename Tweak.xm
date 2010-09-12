@@ -43,6 +43,45 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
+//View initialization for a very very (VERY) basic view
+
+@interface alertDisplayController : UIViewController
+{
+	UILabel *alertText;
+}
+
+@property (readwrite, retain) UILabel *alertText;
+
+@end
+
+@implementation alertDisplayController
+
+@synthesize alertText;
+
+- (void)config
+{
+	alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+}
+
+- (void)viewDidLoad
+{
+	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+	self.view.backgroundColor = [UIColor blueColor];
+	
+	UIView *testView = [[UIView alloc] initWithFrame:CGRectMake(0,0,160,30)];
+	testView.backgroundColor = [UIColor redColor];
+	
+	[self.view addSubview:testView];
+	
+	///*UILabel **/alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+	//alertText.text = @"Test alert";
+
+	[self.view addSubview:alertText];
+	[alertText release];
+}
+
+@end
+
 //Hook the display method for receiving an SMS message
 %hook SBSMSAlertItem
 
@@ -100,12 +139,22 @@ And, as always, have fun!
 	NSLog(@"Total Message Count: %d", [theMessage totalMessageCount]); 
 	//Number of new messages? - not so with messages of > 160 characters
 	
+	
+	//Display our alert!
+	alertDisplayController *alert = [[alertDisplayController alloc] init];
+	[alert config];
+	
+	alert.alertText.text = [NSString stringWithFormat:@"New SMS from %@: %@", [[theMessage sender] name], @"message placeholder"];
+	
+	[[[%c(SBUIController) sharedInstance] window] addSubview:alert.view];
+	
 	%orig;
 }
 
 -(void)reply
 {
 	NSLog(@"Reply called!");
+	
 	//Equivalent to pressing "View" with a long message
 	%orig;
 }
