@@ -162,7 +162,6 @@ And, as always, have fun!
 %end
 
 
-
 //Information about Logos for future reference:
 
 /* How to Hook with Logos
