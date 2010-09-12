@@ -53,19 +53,28 @@ static UIWindow *alertWindow;
 @interface alertDisplayController : UIViewController
 {
 	UILabel *alertText;
+	SBSMSAlertItem *smsAlert;
 }
 
 @property (readwrite, retain) UILabel *alertText;
+@property (readwrite, retain) SBSMSAlertItem *smsAlert;
 
 @end
 
 @implementation alertDisplayController
 
-@synthesize alertText;
+@synthesize alertText, smsAlert;
 
 - (void)config
 {
 	alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
+{	
+	//UITouch *touch = [touches anyObject];
+	NSLog(@"Alert touched!");
+	[smsAlert reply];
 }
 
 - (void)viewDidLoad
@@ -145,9 +154,10 @@ static UIWindow *alertWindow;
 	[alert config];
 	
 	alert.alertText.text = [NSString stringWithFormat:@"New SMS from %@: %@", [[theMessage sender] name], @"message placeholder"];
+	alert.smsAlert = self;
 	
 	alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	alertWindow.windowLevel = 99999;
+	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
 	alertWindow.userInteractionEnabled = NO;
 	alertWindow.hidden = NO;
 	
