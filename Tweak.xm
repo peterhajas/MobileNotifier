@@ -132,7 +132,9 @@ static UIWindow *alertWindow;
 
 -(void)setMessage:(id)message
 {
-	NSLog(@"setMessage called!");
+	//This gets called when we receive an MMS also!
+
+    NSLog(@"setMessage called!");
 	CKSMSMessage *theMessage = message;
 	
 	NSLog(@"Messages: %@", [theMessage messages]); 
@@ -148,6 +150,9 @@ static UIWindow *alertWindow;
 	NSLog(@"Total Message Count: %d", [theMessage totalMessageCount]); 
 	//Number of new messages? - not so with messages of > 160 characters
 	
+    //This is an attempt at rudimentary MMS detection:
+
+    NSLog(@"Alert Image Data: %@", [theMessage alertImageData]);
 	
 	//Display our alert!
 	alertDisplayController *alert = [[alertDisplayController alloc] init];
