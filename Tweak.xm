@@ -45,7 +45,7 @@ And, as always, have fun!
 
 //Mail class declaration. This was dumped with class dump z (by kennytm)
 //and was generated with MobileMail.app
-/*
+
 @protocol AFCVisibleMailboxFetch <NSObject>
 -(void)setShouldCompact:(BOOL)compact;
 -(void)setMessageCount:(unsigned)count;
@@ -61,7 +61,7 @@ And, as always, have fun!
 -(int)messageCount;
 
 @end
-*/
+
 //Our UIWindow:
 
 static UIWindow *alertWindow;
@@ -205,7 +205,7 @@ static UIWindow *alertWindow;
 //To be completed
 
 //Hook AutoFetchRequestPrivate for getting new mail
-/*
+
 %hook AutoFetchRequestPrivate
 
 -(void)run
@@ -222,7 +222,7 @@ static UIWindow *alertWindow;
 }
 
 %end
-*/
+
 //Information about Logos for future reference:
 
 /* How to Hook with Logos
