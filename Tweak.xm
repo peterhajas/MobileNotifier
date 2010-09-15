@@ -1,5 +1,3 @@
-NSString
-
 /*
 
 MobileNotifier, by Peter Hajas
