@@ -1,3 +1,5 @@
+NSString
+
 /*
 
 MobileNotifier, by Peter Hajas
@@ -43,6 +45,25 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
+//Mail class declaration. This was dumped with class dump z (by kennytm)
+//and was generated with MobileMail.app
+/*
+@protocol AFCVisibleMailboxFetch <NSObject>
+-(void)setShouldCompact:(BOOL)compact;
+-(void)setMessageCount:(unsigned)count;
+-(void)setRemoteIDToPreserve:(id)preserve;
+-(void)setDisplayErrors:(BOOL)errors;
+-(id)mailbox;
+@end
+
+@interface AutoFetchRequestPrivate{
+}
+-(void)run;
+-(BOOL)gotNewMessages;
+-(int)messageCount;
+
+@end
+*/
 //Our UIWindow:
 
 static UIWindow *alertWindow;
@@ -181,7 +202,29 @@ static UIWindow *alertWindow;
 
 %end
 
+//Hook SBAlertItem for doing push notifications
 
+//To be completed
+
+//Hook AutoFetchRequestPrivate for getting new mail
+/*
+%hook AutoFetchRequestPrivate
+
+-(void)run
+{
+	%orig;
+	if([self gotNewMessages])
+	{
+		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]);
+	}
+	else
+	{
+		NSLog(@"Attempted fetch with no new mail.");
+	}
+}
+
+%end
+*/
 //Information about Logos for future reference:
 
 /* How to Hook with Logos
