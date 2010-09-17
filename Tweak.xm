@@ -43,6 +43,10 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
+//Our UIWindow:
+
+static UIWindow *alertWindow;
+
 //Mail class declaration. This was dumped with class dump z (by kennytm)
 //and was generated with MobileMail.app
 
@@ -62,27 +66,41 @@ And, as always, have fun!
 
 @end
 
-//Our UIWindow:
+//Hook into Springboard init method to initialize our window
 
-static UIWindow *alertWindow;
+%hook SpringBoard
+
+-(void)applicationDidFinishLaunching:(id)application
+{
+    
+    %orig;
+    
+    NSLog(@"Initializing alertWindow");
+
+    alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
+	alertWindow.userInteractionEnabled = NO;
+	alertWindow.hidden = NO;
+    
+}
+
+%end;
 
 
 //View initialization for a very very (VERY) basic view
 
 @interface alertDisplayController : UIViewController
 {
-	UILabel *alertText;
-	SBSMSAlertItem *smsAlert;
+	UILabel *alertText;	
 }
 
 @property (readwrite, retain) UILabel *alertText;
-@property (readwrite, retain) SBSMSAlertItem *smsAlert;
 
 @end
 
 @implementation alertDisplayController
 
-@synthesize alertText, smsAlert;
+@synthesize alertText; 
 
 - (void)config
 {
@@ -91,18 +109,13 @@ static UIWindow *alertWindow;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {	
-	//UITouch *touch = [touches anyObject];
 	NSLog(@"Alert touched!");
-	[smsAlert reply];
 }
 
 - (void)viewDidLoad
 {
 	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
 	self.view.backgroundColor = [UIColor blueColor];
-
-	///*UILabel **/alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 40)];
-	//alertText.text = @"Test alert";
 
 	[self.view addSubview:alertText];
 	[alertText release];
@@ -124,25 +137,6 @@ static UIWindow *alertWindow;
 	NSLog(@"Message Text: %@", messageText);
 	
 	NSLog(@"Address: %@", [self address]);
-	
-	//CKMessage parsing code:
-	//How to hook ivars!
-	//MSHookIvar<ObjectType *>("self", "OBJECTNAME");
-	
-	
-	CKMessage *demo = MSHookIvar<CKMessage *>(self, "_message");
-	
-	if(demo == nil)
-	{
-		NSLog(@"Message is null");
-	}
-	NSString *text = [demo text];
-	NSString *subject = [demo subject];
-	NSString *address = [demo address];
-	
-	NSLog(@"Text: %@", text);
-	NSLog(@"Subject: %@", subject);
-	NSLog(@"Address: %@", address);
 	
 	//Call the original function, we kind of would like to be notified of
 	//getting a new text message while this is in its early stages.
@@ -178,15 +172,11 @@ static UIWindow *alertWindow;
 	[alert config];
 	
 	alert.alertText.text = [NSString stringWithFormat:@"New SMS from %@: %@", [[theMessage sender] name], @"message placeholder"];
-	alert.smsAlert = self;
-	
-	alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
-	alertWindow.userInteractionEnabled = NO;
-	alertWindow.hidden = NO;
-	
+		
 	[alertWindow addSubview:alert.view];
-	
+
+    [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
+
 	%orig;
 }
 
@@ -208,12 +198,25 @@ static UIWindow *alertWindow;
 
 %hook AutoFetchRequestPrivate
 
--(void)run
+-(void)run //This works! This is an appropriate way for us to display a new mail notification to the user
 {
 	%orig;
 	if([self gotNewMessages])
 	{
-		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]);
+		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]); //Message count corresponds to maximum storage in an inbox (ie 200), not to the count of messages received...
+    
+        //Display our alert!
+	    alertDisplayController *alert = [[alertDisplayController alloc] init];
+	    [alert config];
+	
+	    alert.alertText.text = @"New email!";
+	
+		
+	    [alertWindow addSubview:alert.view];
+
+        [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
+
+
 	}
 	else
 	{
@@ -259,3 +262,6 @@ the generation of a class list and an automatic constructor.
 // Always make sure you clean up after yourself; Not doing so could have grave conseqeuences!
 %end
 */
+
+	//How to hook ivars!
+	//MSHookIvar<ObjectType *>("self", "OBJECTNAME");
