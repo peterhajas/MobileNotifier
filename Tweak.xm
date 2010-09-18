@@ -130,7 +130,7 @@ static UIWindow *alertWindow;
 {
 	%log;
 	NSString *name = [self name];
-	NSLog(@"Test!");
+	NSLog(@"SBSMSAlertItem detected!");
 	NSLog(@"Name: %@", name);
 	
 	NSString *messageText = [self messageText];
@@ -192,7 +192,24 @@ static UIWindow *alertWindow;
 
 //Hook SBAlertItem for doing push notifications
 
-//To be completed
+%hook SBAlertItem
+
+-(BOOL)willActivate
+{
+    //Output lots of information on the alert item
+    
+    BOOL result = %orig;
+
+    NSLog(@"SBAlertItem will activate!");
+    
+    NSLog(@"LockLabel: %@", [self lockLabel]);
+
+    NSLog(@"AwayItem: %@", [self awayItem]);
+ 
+    return result;
+}
+
+%end
 
 //Hook AutoFetchRequestPrivate for getting new mail
 
