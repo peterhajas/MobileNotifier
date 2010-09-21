@@ -177,6 +177,32 @@ static UIWindow *alertWindow;
 
 %end
 
+//Hook SBAwayView for showing our lockscreen view.
+//SBAwayView is released each time the phone is unlocked, and a new instance created when the phone is locked (thanks Limneos!)
+
+%hook SBAwayView
+
+-(void)viewDidLoad
+{
+    alertDisplayController *alert = [[alertDisplayController alloc] init];
+    [alert config];
+	
+	alert.alertText.text = @"Test!";
+ 
+    [self addSubview:alert.view];
+    [self bringSubviewToFront:alert.view];
+
+    %orig;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+     
+    %orig;
+}
+
+%end;
+
 //Hook AutoFetchRequestPrivate for getting new mail
 
 %hook AutoFetchRequestPrivate
