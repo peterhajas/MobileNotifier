@@ -118,7 +118,7 @@ static UIWindow *alertWindow;
 	self.view.backgroundColor = [UIColor blueColor];
 
 	[self.view addSubview:alertText];
-	[alertText release];
+	[alertText release]
 }
 
 @end
