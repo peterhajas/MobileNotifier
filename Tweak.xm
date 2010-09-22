@@ -138,7 +138,7 @@ static UIWindow *alertWindow;
     }
     else
     {
-        alert.alertText.text = [NSString stringWithFormat:@"New MMS from %@: %@", [self name], [self messageText]]; 
+        alert.alertText.text = [NSString stringWithFormat:@"New MMS from %@", [self name]]; 
     }
 
 	[alertWindow addSubview:alert.view];
