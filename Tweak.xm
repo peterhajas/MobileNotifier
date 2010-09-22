@@ -114,11 +114,11 @@ static UIWindow *alertWindow;
 
 - (void)viewDidLoad
 {
-	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, (([[UIScreen mainScreen] bounds].size.height) * 40), [[UIScreen mainScreen] bounds].size.width, 60)];
+	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, ([[alertWindow subviews] count] * 60), [[UIScreen mainScreen] bounds].size.width, 60)];
 	self.view.backgroundColor = [UIColor blueColor];
 
 	[self.view addSubview:alertText];
-	[alertText release]
+	[alertText release];
 }
 
 @end
