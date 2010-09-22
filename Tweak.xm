@@ -105,6 +105,7 @@ static UIWindow *alertWindow;
 - (void)config
 {
 	alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, [[UIScreen mainScreen] bounds].size.width , 40)];
+    alertText.backgroundColor = [UIColor clearColor];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
@@ -115,7 +116,7 @@ static UIWindow *alertWindow;
 - (void)viewDidLoad
 {
 	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 60)];
-	self.view.backgroundColor = [UIColor blueColor];
+	self.view.backgroundColor = [UIColor orangeColor];
 
 	[self.view addSubview:alertText];
 	[alertText release];
