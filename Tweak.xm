@@ -114,9 +114,9 @@ static UIWindow *alertWindow;
 }
 
 - (void)viewDidLoad
-{
-	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, 60)];
-	self.view.backgroundColor = [UIColor orangeColor];
+{	
+	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, ([[alertWindow subviews] count] * 60), [[UIScreen mainScreen] bounds].size.width, 60)];
+    self.view.backgroundColor = [UIColor orangeColor];	
 
 	[self.view addSubview:alertText];
 	[alertText release];
@@ -140,6 +140,7 @@ static UIWindow *alertWindow;
     {
         alert.alertText.text = [NSString stringWithFormat:@"New MMS from %@: %@", [self name], [self messageText]]; 
     }
+
 	[alertWindow addSubview:alert.view];
 
     [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
