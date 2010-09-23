@@ -61,13 +61,17 @@ And, as always, have fun!
 
 //Our alertController object, which will handle all event processing
 
-@interface alertController : NSObject
+@interface alertController : NSObject <LAListener>
 {
     NSMutableDictionary *eventDict;
 
 }
 
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType;
+
+//libactivator methods:
+- (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event;
+- (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event;
 
 @property (readwrite, retain) NSMutableDictionary *eventDict;
 
@@ -117,6 +121,10 @@ static UIWindow *alertWindow;
 	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
 	alertWindow.userInteractionEnabled = NO;
 	alertWindow.hidden = NO;
+
+    //libactivator initialization:
+
+    [[LAActivator sharedInstance] registerListener:controller forName:@"com.peterhajassoftware.mobilenotifier"];
     
 }
 
@@ -139,6 +147,16 @@ static UIWindow *alertWindow;
     [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
 }
 
+
+//libactivator methods:
+- (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
+{
+
+}
+- (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
+{
+
+}
 @end
 
 @implementation alertDisplayController
@@ -249,6 +267,7 @@ static UIWindow *alertWindow;
 -(void)run //This works! This is an appropriate way for us to display a new mail notification to the user
 {
 	%orig;
+    %log;
 	if([self gotNewMessages])
 	{
 		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]); //Message count corresponds to maximum storage in an inbox (ie 200), not to the count of messages received...
