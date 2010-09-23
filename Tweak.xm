@@ -43,6 +43,40 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
+#import <libactivator/libactivator.h>
+
+//Some class initialization:
+//View initialization for a very very (VERY) basic view
+
+@interface alertDisplayController : UIViewController
+{
+	UILabel *alertText;	
+}
+
+@property (readwrite, retain) UILabel *alertText;
+
+- (void)config;
+
+@end
+
+//Our alertController object, which will handle all event processing
+
+@interface alertController : NSObject
+{
+    NSMutableDictionary *eventDict;
+
+}
+
+- (void)newAlert:(NSString *)title ofType:(NSString *)alertType;
+
+@property (readwrite, retain) NSMutableDictionary *eventDict;
+
+@end
+
+
+//Alert Controller:
+alertController *controller;
+
 //Our UIWindow:
 
 static UIWindow *alertWindow;
@@ -75,7 +109,9 @@ static UIWindow *alertWindow;
     
     %orig;
     
-    NSLog(@"Initializing alertWindow");
+    NSLog(@"Initializing alertWindow and controller");
+
+    controller = [[alertController alloc] init];
 
     alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
@@ -87,14 +123,21 @@ static UIWindow *alertWindow;
 %end;
 
 
-//View initialization for a very very (VERY) basic view
+@implementation alertController
 
-@interface alertDisplayController : UIViewController
+@synthesize eventDict;
+
+- (void)newAlert:(NSString *)title ofType:(NSString *)alertType
 {
-	UILabel *alertText;	
-}
+    alertDisplayController *alert = [[alertDisplayController alloc] init];
+    [alert config];
+	
+	alert.alertText.text = title;
+		
+	[alertWindow addSubview:alert.view];
 
-@property (readwrite, retain) UILabel *alertText;
+    [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
+}
 
 @end
 
@@ -129,23 +172,17 @@ static UIWindow *alertWindow;
 
 -(void)willActivate
 {	
-	//Display our alert!
-	alertDisplayController *alert = [[alertDisplayController alloc] init];
-	[alert config];
+	//Display our alert!	
 	if([self alertImageData] == nil) //If we didn't get an MMS
 	{
-        alert.alertText.text = [NSString stringWithFormat:@"New SMS from %@: %@", [self name], [self messageText]];
+        [controller newAlert:[NSString stringWithFormat:@"New SMS from %@: %@", [self name], [self messageText]] ofType:@"SMS"];
     }
     else
     {
-        alert.alertText.text = [NSString stringWithFormat:@"New MMS from %@", [self name]]; 
+        [controller newAlert:[NSString stringWithFormat:@"New MMS from %@", [self name]] ofType:@"MMS"];
     }
 
-	[alertWindow addSubview:alert.view];
-
-    [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
-
-	%orig;
+    %orig;
 }
 
 -(void)reply
@@ -216,18 +253,8 @@ static UIWindow *alertWindow;
 	{
 		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]); //Message count corresponds to maximum storage in an inbox (ie 200), not to the count of messages received...
     
-        //Display our alert!
-	    alertDisplayController *alert = [[alertDisplayController alloc] init];
-	    [alert config];
-	
-	    alert.alertText.text = @"New email!";
-	
-		
-	    [alertWindow addSubview:alert.view];
-
-        [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
-
-
+        //Display our alert! 
+        [controller newAlert:@"New mail!" ofType:@"Mail"];
 	}
 	else
 	{
