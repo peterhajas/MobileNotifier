@@ -151,11 +151,13 @@ static UIWindow *alertWindow;
 //libactivator methods:
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
 {
-
+   NSLog(@"We received an LAEvent!");
+   NSLog(@"Name: %@ Mode: %@", event._name, event._mode);
 }
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
-
+   NSLog(@"We received an LAEvent abort!");
+   NSLog(@"Name: %@ Mode: %@", [event _name], [event _mode]); 
 }
 @end
 
