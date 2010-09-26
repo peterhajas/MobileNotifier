@@ -94,9 +94,7 @@ BOOL isFullyCharged;
 }
 
 -(void)batteryStatusDidChange:(id)batteryStatus
-{
-    %log;
-    
+{   
     //Read out from the battery information dictionary contained in batteryStatus
 
     /*
