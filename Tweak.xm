@@ -82,7 +82,7 @@ static UIWindow *alertWindow;
 	alertWindow.hidden = NO;
 }
 
--(void)batteryStatusDidChange:(id)batteryStatus;
+-(void)batteryStatusDidChange:(id)batteryStatus
 {
     %log;
     NSLog(@"%@", batteryStatus);
