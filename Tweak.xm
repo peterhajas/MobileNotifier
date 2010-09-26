@@ -71,8 +71,7 @@ static UIWindow *alertWindow;
 %hook SpringBoard
 
 -(void)applicationDidFinishLaunching:(id)application
-{
-    
+{    
     %orig;
     
     NSLog(@"Initializing alertWindow");
@@ -81,7 +80,13 @@ static UIWindow *alertWindow;
 	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
 	alertWindow.userInteractionEnabled = NO;
 	alertWindow.hidden = NO;
-    
+}
+
+-(void)batteryStatusDidChange:(id)batteryStatus;
+{
+    %log;
+    NSLog(@"%@", batteryStatus);
+    %orig;
 }
 
 %end;
