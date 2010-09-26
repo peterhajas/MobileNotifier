@@ -56,6 +56,7 @@ And, as always, have fun!
 @property (readwrite, retain) UILabel *alertText;
 
 - (void)config;
+//- (void)dismiss;
 
 @end
 
@@ -152,12 +153,21 @@ static UIWindow *alertWindow;
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
 {
    NSLog(@"We received an LAEvent!");
-   NSLog(@"Name: %@ Mode: %@", event._name, event._mode);
+   
+   //For now, when we receive the event, we'll dismiss all current notifications
+/*
+   for(unsigned int i = 0; i < [[alertWindow subviews] count]; i++)
+   {
+       [[[alertWindow subviews] objectAtIndex:i] removeFromSuperview];
+   }
+*/
+
+   [event setHandled:YES];
 }
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
    NSLog(@"We received an LAEvent abort!");
-   NSLog(@"Name: %@ Mode: %@", [event _name], [event _mode]); 
+    
 }
 @end
 
@@ -170,7 +180,12 @@ static UIWindow *alertWindow;
 	alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, [[UIScreen mainScreen] bounds].size.width , 40)];
     alertText.backgroundColor = [UIColor clearColor];
 }
-
+/*
+- (void)dismiss
+{
+    [self.view removeFromSuperview];
+}
+*/
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {	
 	NSLog(@"Alert touched!");
