@@ -43,6 +43,44 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
+#import <libactivator/libactivator.h>
+
+//Some class initialization:
+//View initialization for a very very (VERY) basic view
+
+@interface alertDisplayController : UIViewController
+{
+	UILabel *alertText;	
+}
+
+@property (readwrite, retain) UILabel *alertText;
+
+- (void)config;
+
+@end
+
+//Our alertController object, which will handle all event processing
+
+@interface alertController : NSObject <LAListener>
+{
+    NSMutableDictionary *eventDict;
+
+}
+
+- (void)newAlert:(NSString *)title ofType:(NSString *)alertType;
+
+//libactivator methods:
+- (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event;
+- (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event;
+
+@property (readwrite, retain) NSMutableDictionary *eventDict;
+
+@end
+
+
+//Alert Controller:
+alertController *controller;
+
 //Our UIWindow:
 
 static UIWindow *alertWindow;
@@ -80,7 +118,9 @@ BOOL isFullyCharged;
 {    
     %orig;
     
-    NSLog(@"Initializing alertWindow");
+    NSLog(@"Initializing alertWindow and controller");
+
+    controller = [[alertController alloc] init];
 
     alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
@@ -90,6 +130,8 @@ BOOL isFullyCharged;
     isCritical = NO;
     isWarning = NO;
     isFullyCharged = NO;
+
+    [[LAActivator sharedInstance] registerListener:controller forName:@"com.peterhajassoftware.mobilenotifier"];
     
 }
 
@@ -146,15 +188,34 @@ BOOL isFullyCharged;
 %end;
 
 
-//View initialization for a very very (VERY) basic view
+@implementation alertController
 
-@interface alertDisplayController : UIViewController
+@synthesize eventDict;
+
+- (void)newAlert:(NSString *)title ofType:(NSString *)alertType
 {
-	UILabel *alertText;	
+    alertDisplayController *alert = [[alertDisplayController alloc] init];
+    [alert config];
+	
+	alert.alertText.text = title;
+		
+	[alertWindow addSubview:alert.view];
+
+    [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
 }
 
-@property (readwrite, retain) UILabel *alertText;
 
+//libactivator methods:
+- (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
+{
+   NSLog(@"We received an LAEvent!");
+   NSLog(@"Name: %@ Mode: %@", event._name, event._mode);
+}
+- (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
+{
+   NSLog(@"We received an LAEvent abort!");
+   NSLog(@"Name: %@ Mode: %@", [event _name], [event _mode]); 
+}
 @end
 
 @implementation alertDisplayController
@@ -188,23 +249,17 @@ BOOL isFullyCharged;
 
 -(void)willActivate
 {	
-	//Display our alert!
-	alertDisplayController *alert = [[alertDisplayController alloc] init];
-	[alert config];
+	//Display our alert!	
 	if([self alertImageData] == nil) //If we didn't get an MMS
 	{
-        alert.alertText.text = [NSString stringWithFormat:@"New SMS from %@: %@", [self name], [self messageText]];
+        [controller newAlert:[NSString stringWithFormat:@"New SMS from %@: %@", [self name], [self messageText]] ofType:@"SMS"];
     }
     else
     {
-        alert.alertText.text = [NSString stringWithFormat:@"New MMS from %@", [self name]]; 
+        [controller newAlert:[NSString stringWithFormat:@"New MMS from %@", [self name]] ofType:@"MMS"];
     }
 
-	[alertWindow addSubview:alert.view];
-
-    [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
-
-	%orig;
+    %orig;
 }
 
 -(void)reply
@@ -271,22 +326,13 @@ BOOL isFullyCharged;
 -(void)run //This works! This is an appropriate way for us to display a new mail notification to the user
 {
 	%orig;
+    %log;
 	if([self gotNewMessages])
 	{
 		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]); //Message count corresponds to maximum storage in an inbox (ie 200), not to the count of messages received...
     
-        //Display our alert!
-	    alertDisplayController *alert = [[alertDisplayController alloc] init];
-	    [alert config];
-	
-	    alert.alertText.text = @"New email!";
-	
-		
-	    [alertWindow addSubview:alert.view];
-
-        [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
-
-
+        //Display our alert! 
+        [controller newAlert:@"New mail!" ofType:@"Mail"];
 	}
 	else
 	{
