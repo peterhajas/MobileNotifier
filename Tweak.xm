@@ -47,6 +47,12 @@ And, as always, have fun!
 
 static UIWindow *alertWindow;
 
+//Absolutely gross global variables. These will change when the libactivator branch is merged.
+//These are for battery management
+BOOL isCritical;
+BOOL isWarning;
+BOOL isFullyCharged;
+
 //Mail class declaration. This was dumped with class dump z (by kennytm)
 //and was generated with MobileMail.app
 
@@ -80,12 +86,62 @@ static UIWindow *alertWindow;
 	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
 	alertWindow.userInteractionEnabled = NO;
 	alertWindow.hidden = NO;
+
+    isCritical = NO;
+    isWarning = NO;
+    isFullyCharged = NO;
+    
 }
 
 -(void)batteryStatusDidChange:(id)batteryStatus
 {
     %log;
-    NSLog(@"%@", batteryStatus);
+    
+    //Read out from the battery information dictionary contained in batteryStatus
+
+    /*
+    if([[batteryStatus] objectForKey:@"isCritical"] != isCritical)
+    {
+        //Trigger an alert!
+        
+        if(!isCritical)
+        {
+            isCritical = YES;
+        }
+         
+    }
+    else //Well, nothing's changed, let's keep that in mind
+    {
+        isCritical = [[batteryStatus] objectForKey:@"FullyCharged"];
+    }
+
+    if([[batteryStatus] objectForKey:@"FullyCharged"] != isWarning)
+    {
+        if(!isCritical)
+        {
+            isCritical = YES;
+        } 
+        
+    }
+    else 
+    {
+        isWarning = [[batteryStatus] objectForKey:@"isWarning"];
+    }
+
+    if([[batteryStatus] objectForKey:@"FullyCharged"] != isFullyCharged)
+    {
+        if(!isCritical)
+        {
+            isCritical = YES;
+        } 
+        
+    }
+    else 
+    {
+        isFullyCharged = [[batteryStatus] objectForKey:@"FullyCharged"];
+    }
+    */
+
     %orig;
 }
 
