@@ -68,6 +68,7 @@ And, as always, have fun!
 }
 
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType;
+- (void)updateSize;
 
 //libactivator methods:
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event;
@@ -122,9 +123,9 @@ BOOL isFullyCharged;
 
     controller = [[alertController alloc] init];
 
-    alertWindow = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below!
 	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
-	alertWindow.userInteractionEnabled = NO;
+	alertWindow.userInteractionEnabled = YES;
 	alertWindow.hidden = NO;
 
     isCritical = NO;
@@ -198,10 +199,18 @@ BOOL isFullyCharged;
     [alert config];
 	
 	alert.alertText.text = title;
-		
+	
+    alertWindow.frame = CGRectMake(0,0,320,([[alertWindow subviews] count] * alert.view.frame.size.height));
 	[alertWindow addSubview:alert.view];
 
     [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
+    [self performSelector:@selector(updateSize) withObject:nil afterDelay:5.1];
+}
+
+//Update the size of the UIWindow we use to show our alerts
+- (void)updateSize
+{
+    alertWindow.frame = CGRectMake(0,0,320,([[alertWindow subviews] count] * 60));
 }
 
 
@@ -209,12 +218,10 @@ BOOL isFullyCharged;
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
 {
    NSLog(@"We received an LAEvent!");
-   NSLog(@"Name: %@ Mode: %@", event._name, event._mode);
 }
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
    NSLog(@"We received an LAEvent abort!");
-   NSLog(@"Name: %@ Mode: %@", [event _name], [event _mode]); 
 }
 @end
 
