@@ -124,7 +124,7 @@ BOOL isFullyCharged;
     controller = [[alertController alloc] init];
 
     alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below!
-	alertWindow.windowLevel = 99998; //Don't mess around with WindowPlaner if the user has it installed :)
+	alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 	alertWindow.userInteractionEnabled = YES;
 	alertWindow.hidden = NO;
 
@@ -201,6 +201,9 @@ BOOL isFullyCharged;
 	alert.alertText.text = title;
 	
     alertWindow.frame = CGRectMake(0,0,320,([[alertWindow subviews] count] * alert.view.frame.size.height));
+    
+    NSLog(@"New alertWindow frame: %@", alertWindow.frame);
+
 	[alertWindow addSubview:alert.view];
 
     [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
@@ -238,6 +241,8 @@ BOOL isFullyCharged;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {	
 	NSLog(@"Alert touched!");
+    [self.view removeFromSuperview];
+    [controller updateSize];
 }
 
 - (void)viewDidLoad
