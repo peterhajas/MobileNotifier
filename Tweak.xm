@@ -50,10 +50,12 @@ And, as always, have fun!
 
 @interface alertDisplayController : UIViewController
 {
-	UILabel *alertText;	
+	UILabel *alertText;
+    UIImageView *alertBG;
 }
 
 @property (readwrite, retain) UILabel *alertText;
+@property (readwrite, retain) UIImageView *alertBG;
 
 - (void)config;
 
@@ -116,6 +118,10 @@ BOOL isFullyCharged;
 -(int)messageCount;
 
 @end
+
+//SBSMSAlertItem and SBRemoteNotificationAlert class declarations:
+//Header taken from kennytm's headers
+
 
 //Hook into Springboard init method to initialize our window
 
@@ -213,7 +219,8 @@ BOOL isFullyCharged;
     alertWindow.frame = CGRectMake(0,0,320,(numAlerts * alertHeight));
     
     NSLog(@"New alertWindow frame: %f x %f", alertWindow.frame.size.width, alertWindow.frame.size.height);
-
+    
+    alert.view.frame = CGRectMake(0, ((numAlerts * alertHeight) + 20) - alertHeight, 320, alertHeight);
 	[alertWindow addSubview:alert.view];
 
     [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
@@ -242,12 +249,23 @@ BOOL isFullyCharged;
 
 @implementation alertDisplayController
 
-@synthesize alertText; 
+@synthesize alertText, alertBG; 
 
 - (void)config
 {
-	alertText = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, [[UIScreen mainScreen] bounds].size.width , 40)];
+	alertText = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280 , 40)];
     alertText.backgroundColor = [UIColor clearColor];
+
+    if ([[UIScreen mainScreen] bounds].size.width >= 640)
+    {
+        //Retina display or iPad display
+        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_retina.png"]];
+    }
+    else
+    {
+        //Regular display, we call this "cornea display" because we have a good sense of humor
+        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_cornea.png"]];
+    }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
@@ -260,41 +278,14 @@ BOOL isFullyCharged;
 - (void)viewDidLoad
 {	
 	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, ([[alertWindow subviews] count] * 60), [[UIScreen mainScreen] bounds].size.width, 60)];
-    self.view.backgroundColor = [UIColor orangeColor];	
-
+    self.view.backgroundColor = [UIColor clearColor];	
+    
+    [self.view addSubview:alertBG];
 	[self.view addSubview:alertText];
 	[alertText release];
 }
 
 @end
-
-//Hook the display method for receiving an SMS message
-%hook SBSMSAlertItem
-
--(void)willActivate
-{	
-	//Display our alert!	
-	if([self alertImageData] == nil) //If we didn't get an MMS
-	{
-        [controller newAlert:[NSString stringWithFormat:@"New SMS from %@: %@", [self name], [self messageText]] ofType:@"SMS"];
-    }
-    else
-    {
-        [controller newAlert:[NSString stringWithFormat:@"New MMS from %@", [self name]] ofType:@"MMS"];
-    }
-
-    %orig;
-}
-
--(void)reply
-{
-	NSLog(@"Reply called!");
-	
-	//Equivalent to pressing "View" with a long message
-	%orig;
-}
-
-%end
 
 //Experimental: Hook SBAlertItemsController for skipping the alert grabbing and going right for the built-in manager
 
@@ -302,8 +293,29 @@ BOOL isFullyCharged;
 
 -(void)activateAlertItem:(id)item
 {
-    %log;
-
+    if([item isKindOfClass:%c(SBSMSAlertItem)])
+    {
+        //It's an SMS/MMS!
+        if([item alertImageData] == NULL)
+        {
+            [controller newAlert: [NSString stringWithFormat:@"SMS from %@: %@", [item name], [item messageText]] ofType:@"SMS"];
+        }
+        else
+        {
+            [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS"];
+        }
+    }
+    else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
+    {
+        //It's a push notification!
+        SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
+        NSString *body(MSHookIvar<NSString *>(self, "_body"));
+        [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push"];
+    }
+    else
+    {
+        //It's a different alert (power, for example)
+    }
 
 
     %orig;
@@ -313,27 +325,6 @@ BOOL isFullyCharged;
 {
     %log;
     %orig;
-}
-
-%end
-
-//Hook SBAlertItem for doing push notifications
-
-%hook SBAlertItem
-
--(BOOL)willActivate
-{
-    //Output lots of information on the alert item
-    
-    BOOL result = %orig;
-
-    NSLog(@"SBAlertItem will activate!");
-    
-    NSLog(@"LockLabel: %@", [self lockLabel]);
-
-    NSLog(@"AwayItem: %@", [self awayItem]);
- 
-    return result;
 }
 
 %end
