@@ -296,6 +296,24 @@ BOOL isFullyCharged;
 
 %end
 
+//Experimental: Hook SBAlertItemsController for skipping the alert grabbing and going right for the built-in manager
+
+%hook SBAlertItemsController
+
+-(void)activateAlertItem:(id)item
+{
+    %log;
+    %orig;
+}
+
+-(void)deactivateAlertItem:(id)item
+{
+    %log;
+    %orig;
+}
+
+%end
+
 //Hook SBAlertItem for doing push notifications
 
 %hook SBAlertItem
