@@ -86,6 +86,12 @@ alertController *controller;
 
 static UIWindow *alertWindow;
 
+//Number of alerts currently onscreen:
+int numAlerts = 0;
+
+//How high each alert view is
+int alertHeight = 60;
+
 //Absolutely gross global variables. These will change when the libactivator branch is merged.
 //These are for battery management
 BOOL isCritical;
@@ -199,10 +205,14 @@ BOOL isFullyCharged;
     [alert config];
 	
 	alert.alertText.text = title;
+
+    numAlerts++;
+
+    NSLog(@"Number of alerts: %d");
 	
-    alertWindow.frame = CGRectMake(0,0,320,([[alertWindow subviews] count] * alert.view.frame.size.height));
+    alertWindow.frame = CGRectMake(0,0,320,(numAlerts * alertHeight));
     
-    NSLog(@"New alertWindow frame: %@", alertWindow.frame);
+    NSLog(@"New alertWindow frame: %f x %f", alertWindow.frame.size.width, alertWindow.frame.size.height);
 
 	[alertWindow addSubview:alert.view];
 
@@ -213,7 +223,9 @@ BOOL isFullyCharged;
 //Update the size of the UIWindow we use to show our alerts
 - (void)updateSize
 {
-    alertWindow.frame = CGRectMake(0,0,320,([[alertWindow subviews] count] * 60));
+    numAlerts--;
+    NSLog(@"Number of alerts: %d");
+    alertWindow.frame = CGRectMake(0,0,320,(numAlerts * alertHeight));
 }
 
 
