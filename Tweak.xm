@@ -303,6 +303,9 @@ BOOL isFullyCharged;
 -(void)activateAlertItem:(id)item
 {
     %log;
+
+
+
     %orig;
 }
 
