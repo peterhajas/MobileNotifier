@@ -69,7 +69,7 @@ And, as always, have fun!
 - (void)hideAlert;
 - (void)dismissAlert;
 
-- (void)configWithType:(NSString *)type andBundle:(NSString *)bundle;
+- (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle;
 
 @property (readwrite, retain) UILabel *alertLabel;
 @property (readwrite, retain) UIButton *dismissAlertButton;
@@ -90,6 +90,7 @@ And, as always, have fun!
 }
 
 - (void)initWithAlertDisplayController:(alertDisplayController *) dispController;
+- (void)initWithText:(NSString *)text bundleID:(NSString *)bundle andType:(NSString *)type;
 
 @property (nonatomic, copy) NSString *alertText;
 @property (nonatomic, copy) NSString *bundleIdentifier;
@@ -156,33 +157,24 @@ int alertHeight = 60;
 
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle
 {
-    NSLog(@"newAlert!");
-    alertDisplayController *alert = [[alertDisplayController alloc] init];
-    [alert configWithType:alertType andBundle:bundle];
-    NSLog(@"and we're after configWithType");	
-
+    //Add the alert to our internal array for tracking:
     alertDataController *data = [[alertDataController alloc] init];
-    [data initWithAlertDisplayController: alert];
-    data.alertText = title;
-    NSLog(@"after init'ing data");
-    NSLog(@"data: %@, %@, %@, %@", data, data.alertText, data.bundleIdentifier, data.alertType);
-    
-    //Why does this call fail?
-    [eventArray addObject: data];
-    NSLog(@"after adding object");
-    alertWindow.frame = CGRectMake(0,20,320, ([eventArray count] * alertHeight));
-    NSLog(@"after changing frame");
-    NSLog(@"New alertWindow frame: %f x %f", alertWindow.frame.size.width, alertWindow.frame.size.height);
-    
-    alert.view.frame = CGRectMake(0, (([eventArray count] * alertHeight) + 20) - alertHeight, 320, alertHeight);
-	NSLog(@"about to add alert.view");
-    [alertWindow addSubview:alert.view];
-    NSLog(@"added alert.view");
+    [data initWithText:title bundleID:bundle andType:alertType];
 
-    [[alert view] performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:5.0];
-    [self performSelector:@selector(updateSize) withObject:nil afterDelay:5.1];
+    //NSLog(@"I'm guessing it's about to crash:");
+    //This call fails, for whatever reason:
+    [eventArray addObject:data];
+    //NSLog(@"Was I right?");
+    //Create alertDisplayController object, and populate members
+    
+    alertDisplayController *display = [[alertDisplayController alloc] init];
+    [display intWithText:title type:alertType andBundle:bundle];
 
-    [self saveArray];
+    //Add alertDisplayController to alertWindow
+
+    display.view.center = CGPointMake(0, alertHeight * [eventArray count]);
+    [alertWindow addSubview: display.view];
+
 }
 
 - (void)removeAlertFromArray:(alertDataController *)alert
@@ -269,26 +261,21 @@ int alertHeight = 60;
 {
     //Launch the app specified by the notification
     
-    //[[SBUIController sharedInstance] activateApplicationAnimated: [[[SBApplicationController sharedInstance] applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex: 0]];
-
-    //[(SBUIController *)[objc_getClass("SBUIController") sharedInstance] activateApplicationAnimated: [[(SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance] applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex: 0]];
-
     SBUIController *uicontroller = (SBUIController *)[objc_getClass("SBUIController") sharedInstance];
     SBApplicationController *appcontroller = (SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance];
 
     [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex:0]];
 }
 
-- (void)configWithType:(NSString *)type andBundle:(NSString *)bundle
+- (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle
 {
-    NSLog(@"configWithType!");
-    
     self.bundleID = [NSString stringWithString:bundle];
     self.alertType = [NSString stringWithString:type];
-    
+
     alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280 , 40)];
     alertLabel.backgroundColor = [UIColor clearColor];
-
+    alertLabel.text = text;
+    
     //Wire up the UIButton!
     
     dismissAlertButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -317,9 +304,6 @@ int alertHeight = 60;
 
 - (void)viewDidLoad
 {	
-	self.alertText = alertLabel.text;
-
-    self.view = [[UIView alloc] initWithFrame:CGRectMake(0, ([[alertWindow subviews] count] * 60), [[UIScreen mainScreen] bounds].size.width, 60)];
     self.view.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:alertBG];
@@ -344,6 +328,13 @@ int alertHeight = 60;
     self.alertText = [[NSString alloc] init];
     self.bundleIdentifier = [NSString stringWithString:dispController.bundleID];
     self.alertType = [NSString stringWithString:dispController.alertType];
+}
+
+- (void)initWithText:(NSString *)text bundleID:(NSString *)bundle andType:(NSString *)type
+{
+    self.alertText = [NSString stringWithString:text];
+    self.bundleIdentifier = [NSString stringWithString:bundle];
+    self.alertType = [NSString stringWithString:type];
 }
 
 @end
