@@ -9,6 +9,7 @@ which should have been included with this package. If not, please see:
 
 http://www.gnu.org/licenses/gpl.txt
 
+and notify Peter Hajas
 
 iOS Notifications. Done right. Like 2010 right.
 
@@ -16,14 +17,14 @@ This is an RCOS project for the Spring 2010 semester. The website for RCOS is at
 
 Thanks to:
 
-Mukkai Krishnamoorthy - cs.rpi.edu/~moorthy
-Sean O' Sullivan
+Mukkai Krishnamoorthy - cs.rpi.edu/~moorthy - for being the faculty sponsor
+Sean O' Sullivan - for his financial contributions. Thanks so much Mr. Sullivan.
 
-Dustin Howett - howett.net
-Ryan Petrich - github.com/rpetrich
-chpwn - chpwn.com
-KennyTM - github.com/kennytm
-Jay Freeman - saurik.com
+Dustin Howett - howett.net - for Theos and amazing help on IRC!
+Ryan Petrich - github.com/rpetrich - for Activator and help on IRC
+chpwn - chpwn.com - for his awesome tweaks and help on IRC
+KennyTM - github.com/kennytm - for his decompiled headers
+Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Veency and countless other gifts to the community
 
 for all your help and mega-useful tools.
 
@@ -46,32 +47,50 @@ And, as always, have fun!
 #import <libactivator/libactivator.h>
 
 //Some class initialization:
-//View initialization for a very very (VERY) basic view
 
+//View initialization for a very very (VERY) basic view
 @interface alertDisplayController : UIViewController
 {
 	//UI Elements
-    UILabel *alertText;
+    UILabel *alertLabel;
     UIButton *dismissAlertButton;
 
     UIImageView *alertBG;
 
     //Alert properties
-    SBAlertItem *item;
+
+    NSString *alertText;
+    NSString *bundleIdentifier;
     NSString *alertType;
 }
 
 - (void)hideAlert;
 - (void)dismissAlert;
 
-- (void)configWithType:(NSString *)type andItem:(SBAlertItem *)item;
+- (void)configWithType:(NSString *)type andBundle:(NSString *)bundle;
 
-@property (readwrite, retain) UILabel *alertText;
+@property (readwrite, retain) UILabel *alertLabel;
 @property (readwrite, retain) UIButton *dismissAlertButton;
 
 @property (readwrite, retain) UIImageView *alertBG;
 
-@property (readwrite, retain) SBAlertItem *item;
+@property (readwrite, retain) NSString *alertText;
+@property (readwrite, retain) NSString *bundleID;
+@property (readwrite, retain) NSString *alertType;
+
+@end
+
+@interface alertDataController : NSObject
+{
+    NSString *alertText;
+    NSString *bundleIdentifier;
+    NSString *alertType;
+}
+
+- (void)initWithAlertDisplayController:(alertDisplayController *) dispController;
+
+@property (readwrite, retain) NSString *alertText;
+@property (readwrite, retain) NSString *bundleID;
 @property (readwrite, retain) NSString *alertType;
 
 @end
@@ -83,8 +102,8 @@ And, as always, have fun!
     NSMutableArray *eventArray;
 }
 
-- (void)newAlert:(NSString *)title ofType:(NSString *)alertType withItem:(SBAlertItem *)item;
-- (void)removeAlertFromArray:(alertDisplayController *)alert;
+- (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle;
+- (void)removeAlertFromArray:(alertDataController *)alert;
 - (void)saveArray;
 - (void)updateSize;
 
@@ -118,8 +137,11 @@ int alertHeight = 60;
 -(id)mailbox;
 @end
 
-@interface AutoFetchRequestPrivate{
+@interface AutoFetchRequestPrivate
+{
+
 }
+
 -(void)run;
 -(BOOL)gotNewMessages;
 -(int)messageCount;
@@ -130,14 +152,17 @@ int alertHeight = 60;
 
 @synthesize eventArray;
 
-- (void)newAlert:(NSString *)title ofType:(NSString *)alertType withItem:(SBAlertItem *)item
+- (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle
 {
     alertDisplayController *alert = [[alertDisplayController alloc] init];
-    [alert configWithType:alertType andItem:item];
+    [alert configWithType:alertType andBundle:bundle];
 	
-	alert.alertText.text = title;
+	//alert.alertText.text = title;
 
-    [eventArray addObject:alert];
+    alertDataController *data = [[alertDataController alloc] init];
+    [data initWithAlertDisplayController: alert];
+
+    [eventArray addObject: data];
 
     alertWindow.frame = CGRectMake(0,20,320, ([eventArray count] * alertHeight));
     
@@ -152,16 +177,9 @@ int alertHeight = 60;
     [self saveArray];
 }
 
-- (void)removeAlertFromArray:(alertDisplayController *)alert
+- (void)removeAlertFromArray:(alertDataController *)alert
 {
-    //Remove the alert from our array
-    for(unsigned int i = 0; i < [eventArray count]; i++)
-    {
-        if([eventArray objectAtIndex:i] == alert)
-        {
-            [eventArray removeObjectAtIndex:i];
-        }
-    }
+    [eventArray removeObject:alert];
 
     [self saveArray];
 }
@@ -198,6 +216,9 @@ int alertHeight = 60;
         //First time user! Let's present them with some information.
         NSLog(@"Event array file doesn't exist!"); 
         
+        //Create the directory!
+        [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/MobileNotifier/" withIntermediateDirectories:NO attributes:nil error:NULL];
+
         //Now, we should create the array.
         [eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
     }
@@ -222,20 +243,35 @@ int alertHeight = 60;
 
 @implementation alertDisplayController
 
-@synthesize alertText, alertBG, item, dismissAlertButton, alertType; 
+@synthesize alertText, bundleID, alertType;
+
+@synthesize alertLabel, dismissAlertButton, alertBG;
 
 - (void)hideAlert
 {
-
+    //Play an animation, then remove us from our superview
 }
+
 - (void)dismissAlert
 {
 
 }
-- (void)configWithType:(NSString *)type andItem:(SBAlertItem *)item
+
+- (void)takeAction
 {
-	alertText = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280 , 40)];
-    alertText.backgroundColor = [UIColor clearColor];
+    //Launch the app specified by the notification
+    
+    [[SBUIController sharedInstance] activateApplicationAnimated: [[[SBApplicationController sharedInstance] applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex: 0]];
+
+}
+
+- (void)configWithType:(NSString *)type andBundle:(NSString *)bundle
+{
+    self.bundleID = [NSString stringWithString:bundle];
+    self.alertType = [NSString stringWithString:type];
+    
+    alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280 , 40)];
+    alertLabel.backgroundColor = [UIColor clearColor];
 
     if ([[UIScreen mainScreen] bounds].size.width >= 640)
     {
@@ -258,11 +294,13 @@ int alertHeight = 60;
 
 - (void)viewDidLoad
 {	
-	self.view = [[UIView alloc] initWithFrame:CGRectMake(0, ([[alertWindow subviews] count] * 60), [[UIScreen mainScreen] bounds].size.width, 60)];
+	self.alertText = alertLabel.text;
+
+    self.view = [[UIView alloc] initWithFrame:CGRectMake(0, ([[alertWindow subviews] count] * 60), [[UIScreen mainScreen] bounds].size.width, 60)];
     self.view.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:alertBG];
-	[self.view addSubview:alertText];
+	[self.view addSubview:alertLabel];
 	[alertText release];
 }
 
@@ -301,11 +339,11 @@ int alertHeight = 60;
         //It's an SMS/MMS!
         if([item alertImageData] == NULL)
         {
-            [controller newAlert: [NSString stringWithFormat:@"SMS from %@: %@", [item name], [item messageText]] ofType:@"SMS" withItem:item];
+            [controller newAlert: [NSString stringWithFormat:@"SMS from %@: %@", [item name], [item messageText]] ofType:@"SMS" withBundle:@"com.apple.mobilesms"];
         }
         else
         {
-            [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS" withItem:item];
+            [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS" withBundle:@"com.apple.mobilesms"];
         }
     }
     else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
@@ -313,7 +351,7 @@ int alertHeight = 60;
         //It's a push notification!
         SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
         NSString *body(MSHookIvar<NSString *>(self, "_body"));
-        [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push" withItem:item];
+        [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push" withBundle:[app bundleIdentifier]];
     }
     else
     {
