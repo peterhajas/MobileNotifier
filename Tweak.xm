@@ -44,6 +44,8 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
+#import <runtime.h>
+
 #import <libactivator/libactivator.h>
 
 //Some class initialization:
@@ -90,7 +92,7 @@ And, as always, have fun!
 - (void)initWithAlertDisplayController:(alertDisplayController *) dispController;
 
 @property (readwrite, retain) NSString *alertText;
-@property (readwrite, retain) NSString *bundleID;
+@property (readwrite, retain) NSString *bundleIdentifier;
 @property (readwrite, retain) NSString *alertType;
 
 @end
@@ -261,8 +263,14 @@ int alertHeight = 60;
 {
     //Launch the app specified by the notification
     
-    [[SBUIController sharedInstance] activateApplicationAnimated: [[[SBApplicationController sharedInstance] applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex: 0]];
+    //[[SBUIController sharedInstance] activateApplicationAnimated: [[[SBApplicationController sharedInstance] applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex: 0]];
 
+    //[(SBUIController *)[objc_getClass("SBUIController") sharedInstance] activateApplicationAnimated: [[(SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance] applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex: 0]];
+
+    //SBUIController *uicontroller = (SBUIController *)[objc_getClass("SBUIController") sharedInstance];
+    //SBApplicationController *appcontroller = (SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance];
+
+    [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex:0]];
 }
 
 - (void)configWithType:(NSString *)type andBundle:(NSString *)bundle
@@ -272,6 +280,13 @@ int alertHeight = 60;
     
     alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280 , 40)];
     alertLabel.backgroundColor = [UIColor clearColor];
+
+    //Wire up the UIButton!
+    
+    dismissAlertButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [dismissAlertButton addTarget:self action:@selector(dismissAlert:) forControlEvents:UIControlEventTouchDown];
+    [dismissAlertButton setTitle:@"X" forState:UIControlStateNormal];
+    dismissAlertButton.frame = CGRectMake(280, 20, 50, 50);
 
     if ([[UIScreen mainScreen] bounds].size.width >= 640)
     {
@@ -301,7 +316,21 @@ int alertHeight = 60;
     
     [self.view addSubview:alertBG];
 	[self.view addSubview:alertLabel];
+    [self.view addSubview:dismissAlertButton];
 	[alertText release];
+}
+
+@end
+
+@implementation alertDataController
+
+@synthesize alertText, bundleIdentifier, alertType;
+
+- (void)initWithAlertDisplayController:(alertDisplayController *) dispController
+{
+    self.alertText = dispController.alertLabel.text;
+    self.bundleIdentifier = dispController.bundleID;
+    self.alertType = dispController.alertType;
 }
 
 @end
