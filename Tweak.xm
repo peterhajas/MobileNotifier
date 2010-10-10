@@ -44,7 +44,7 @@ And, as always, have fun!
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
 
-#import <runtime.h>
+#import <objc/runtime.h>
 
 #import <libactivator/libactivator.h>
 
@@ -267,8 +267,8 @@ int alertHeight = 60;
 
     //[(SBUIController *)[objc_getClass("SBUIController") sharedInstance] activateApplicationAnimated: [[(SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance] applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex: 0]];
 
-    //SBUIController *uicontroller = (SBUIController *)[objc_getClass("SBUIController") sharedInstance];
-    //SBApplicationController *appcontroller = (SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance];
+    SBUIController *uicontroller = (SBUIController *)[objc_getClass("SBUIController") sharedInstance];
+    SBApplicationController *appcontroller = (SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance];
 
     [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex:0]];
 }
