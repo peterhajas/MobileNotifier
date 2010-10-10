@@ -91,9 +91,9 @@ And, as always, have fun!
 
 - (void)initWithAlertDisplayController:(alertDisplayController *) dispController;
 
-@property (readwrite, retain) NSString *alertText;
-@property (readwrite, retain) NSString *bundleIdentifier;
-@property (readwrite, retain) NSString *alertType;
+@property (nonatomic, copy) NSString *alertText;
+@property (nonatomic, copy) NSString *bundleIdentifier;
+@property (nonatomic, copy) NSString *alertType;
 
 @end
 
