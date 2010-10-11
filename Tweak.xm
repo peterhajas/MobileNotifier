@@ -270,6 +270,18 @@ int alertHeight = 60;
 - (void)dismissAlert:(id)sender
 {
     NSLog(@"button pushed!");
+
+    [self.view removeFromSuperview];
+    //Remove from the alertController
+
+    //Create data member
+
+    alertDataController *data = [[alertDataController alloc] init];
+    [data initWithAlertDisplayController:self];
+    NSLog(@"data is %@, %@, %@, %@", data, data.alertText, data.bundleIdentifier, data.alertType);
+    [controller removeAlertFromArray:data];
+
+    [controller updateSize];
 }
 
 - (void)takeAction
@@ -296,7 +308,7 @@ int alertHeight = 60;
     
     dismissAlertButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [dismissAlertButton retain];
-    [dismissAlertButton addTarget:self action:@selector(dismissAlert) forControlEvents:UIControlEventTouchDown];
+    [dismissAlertButton addTarget:self action:@selector(dismissAlert:) forControlEvents:UIControlEventTouchDown];
     [dismissAlertButton setTitle:@"X" forState:UIControlStateNormal];
     dismissAlertButton.frame = CGRectMake(280, 20, 50, 50);
 
@@ -315,17 +327,10 @@ int alertHeight = 60;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
 {	
 	NSLog(@"Alert touched!");
-    [self.view removeFromSuperview];
-    //Remove from the alertController
-
-    //Create data member
-
-    alertDataController *data = [[alertDataController alloc] init];
-    [data initWithAlertDisplayController:self];
-    NSLog(@"data is %@, %@, %@, %@", data, data.alertText, data.bundleIdentifier, data.alertType);
-    [controller removeAlertFromArray:data];
-
-    [controller updateSize];
+    
+    [self takeAction];
+    //nil until I can figure out a better thing to pass...
+    [self dismissAlert:nil];
 }
 
 - (void)loadView
@@ -401,11 +406,11 @@ int alertHeight = 60;
         //It's an SMS/MMS!
         if([item alertImageData] == NULL)
         {
-            [controller newAlert: [NSString stringWithFormat:@"SMS from %@: %@", [item name], [item messageText]] ofType:@"SMS" withBundle:@"com.apple.mobilesms"];
+            [controller newAlert: [NSString stringWithFormat:@"SMS from %@: %@", [item name], [item messageText]] ofType:@"SMS" withBundle:@"com.apple.MobileSMS"];
         }
         else
         {
-            [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS" withBundle:@"com.apple.mobilesms"];
+            [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS" withBundle:@"com.apple.MobileSMS"];
         }
     }
     else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
@@ -420,7 +425,7 @@ int alertHeight = 60;
         //It's a different alert (power, for example)
     }
 
-
+    //We still need this! It makes stuff vibrate and make noise!
     %orig;
 }
 
