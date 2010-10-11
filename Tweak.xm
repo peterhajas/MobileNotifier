@@ -67,7 +67,7 @@ And, as always, have fun!
 }
 
 - (void)hideAlert;
-- (void)dismissAlert;
+- (void)dismissAlert:(id)sender;
 
 - (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle;
 
@@ -179,7 +179,19 @@ int alertHeight = 60;
 
 - (void)removeAlertFromArray:(alertDataController *)alert
 {
-    [eventArray removeObject:alert];
+    for(unsigned int i = 0; i < [eventArray count]; i++)
+    {
+        //if([eventArray objectAtIndex:i].alertText == alert.alertText)
+        {
+            //if([eventArray objectAtIndex:i].alertType == alert.alertType)
+            {
+                //if([eventArray objectAtIndex:i].bundleIdentifier == alert.bundleIdentifier)
+                {
+                    [eventArray removeObjectAtIndex:i];
+                }
+            }
+        }
+    }
 
     [self saveArray];
 }
@@ -255,7 +267,7 @@ int alertHeight = 60;
     //Play an animation, then remove us from our superview
 }
 
-- (void)dismissAlert
+- (void)dismissAlert:(id)sender
 {
     NSLog(@"button pushed!");
 }
@@ -274,6 +286,7 @@ int alertHeight = 60;
 {
     self.bundleID = [NSString stringWithString:bundle];
     self.alertType = [NSString stringWithString:type];
+    self.alertText = [NSString stringWithString:text];
 
     alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280 , 40)];
     alertLabel.backgroundColor = [UIColor clearColor];
@@ -283,7 +296,7 @@ int alertHeight = 60;
     
     dismissAlertButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [dismissAlertButton retain];
-    [dismissAlertButton addTarget:self action:@selector(dismissAlert:) forControlEvents:UIControlEventTouchDown];
+    [dismissAlertButton addTarget:self action:@selector(dismissAlert) forControlEvents:UIControlEventTouchDown];
     [dismissAlertButton setTitle:@"X" forState:UIControlStateNormal];
     dismissAlertButton.frame = CGRectMake(280, 20, 50, 50);
 
@@ -303,6 +316,15 @@ int alertHeight = 60;
 {	
 	NSLog(@"Alert touched!");
     [self.view removeFromSuperview];
+    //Remove from the alertController
+
+    //Create data member
+
+    alertDataController *data = [[alertDataController alloc] init];
+    [data initWithAlertDisplayController:self];
+    NSLog(@"data is %@, %@, %@, %@", data, data.alertText, data.bundleIdentifier, data.alertType);
+    [controller removeAlertFromArray:data];
+
     [controller updateSize];
 }
 
@@ -332,7 +354,7 @@ int alertHeight = 60;
 
 - (void)initWithAlertDisplayController:(alertDisplayController *) dispController
 {
-    self.alertText = [[NSString alloc] init];
+    self.alertText = [NSString stringWithString:dispController.alertText];
     self.bundleIdentifier = [NSString stringWithString:dispController.bundleID];
     self.alertType = [NSString stringWithString:dispController.alertType];
 }
