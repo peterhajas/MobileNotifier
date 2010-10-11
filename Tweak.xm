@@ -171,11 +171,10 @@ int alertHeight = 60;
     //Add alertDisplayController to alertWindow
 
     display.view.origin = CGPointMake(0, alertHeight * ([eventArray count] - 1));
-    NSLog(@"origin: %f, %f", display.view.origin.x, display.view.origin.y);
+
     [self updateSize];
+    NSLog(@"size updated");
     [alertWindow addSubview: display.view];
-
-
 }
 
 - (void)removeAlertFromArray:(alertDataController *)alert
@@ -229,8 +228,9 @@ int alertHeight = 60;
 
 - (void)updateSize
 {
-    alertWindow.frame.size = CGSizeMake(320, ([eventArray count] * alertHeight));
-    NSLog(@"new alertWindow size is: %f x %f", alertWindow.frame.size.width, alertWindow.frame.size.height);
+    int newHeight = (CGFloat)(alertHeight * [eventArray count]);
+
+    alertWindow.frame = CGRectMake(0,20,320, newHeight);
 }
 
 //libactivator methods:
@@ -257,7 +257,7 @@ int alertHeight = 60;
 
 - (void)dismissAlert
 {
-
+    NSLog(@"button pushed!");
 }
 
 - (void)takeAction
@@ -307,6 +307,7 @@ int alertHeight = 60;
 
 - (void)viewDidLoad
 {	
+    NSLog(@"now at viewDidLoad!");
     self.view.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:alertBG];
@@ -318,6 +319,7 @@ int alertHeight = 60;
 	[alertBG release];
     [alertLabel release];
     [dismissAlertButton release];
+    NSLog(@"everything released!");
 }
 
 @end
