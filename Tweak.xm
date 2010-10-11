@@ -391,6 +391,12 @@ int alertHeight = 60;
 
     //Connect up to Activator
     [[LAActivator sharedInstance] registerListener:controller forName:@"com.peterhajassoftware.mobilenotifier"];
+
+    //UIAlertView initialization to tell them this is alpha1 !
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"MobileNotifier alpha1 by Peter Hajas" message:@"This is alpha. Your device could explode, or worse, start to run Android. I take no responsibility. For more, peterhajas.com." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+
+    [alert show];
+    
 }
 
 %end;
