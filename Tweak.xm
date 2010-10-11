@@ -161,10 +161,8 @@ int alertHeight = 60;
     alertDataController *data = [[alertDataController alloc] init];
     [data initWithText:title bundleID:bundle andType:alertType];
 
-    NSLog(@"I'm guessing it's about to crash:");
-    //This call fails, for whatever reason:
     [eventArray addObject:data];
-    NSLog(@"Was I right?");
+    [self saveArray];
     //Create alertDisplayController object, and populate members
     
     alertDisplayController *display = [[alertDisplayController alloc] init];
@@ -172,8 +170,11 @@ int alertHeight = 60;
 
     //Add alertDisplayController to alertWindow
 
-    display.view.center = CGPointMake(0, alertHeight * [eventArray count]);
+    display.view.origin = CGPointMake(0, alertHeight * ([eventArray count] - 1));
+    NSLog(@"origin: %f, %f", display.view.origin.x, display.view.origin.y);
+    [self updateSize];
     [alertWindow addSubview: display.view];
+
 
 }
 
@@ -200,15 +201,16 @@ int alertHeight = 60;
 
 - (void)loadArray
 {
-    if(eventArray == NULL)
+    if(eventArray == nil)
     {
+        NSLog(@"Allocating eventArray");
         eventArray = [[NSMutableArray alloc] initWithCapacity:10];
     }
 
     if([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/MobileNotifier/notifications.plist"])
     {
         //Aha! Good, let's load the array
-        [eventArray initWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"];
+        //[eventArray initWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"];
     }
     
     else
@@ -220,7 +222,7 @@ int alertHeight = 60;
         [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/MobileNotifier/" withIntermediateDirectories:NO attributes:nil error:NULL];
 
         //Now, we should create the array.
-        [eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
+        //[eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
     }
 
 }
@@ -228,6 +230,7 @@ int alertHeight = 60;
 - (void)updateSize
 {
     alertWindow.frame.size = CGSizeMake(320, ([eventArray count] * alertHeight));
+    NSLog(@"new alertWindow size is: %f x %f", alertWindow.frame.size.width, alertWindow.frame.size.height);
 }
 
 //libactivator methods:
