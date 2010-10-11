@@ -114,7 +114,7 @@ And, as always, have fun!
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event;
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event;
 
-@property (nonatomic, copy) NSMutableArray *eventArray;
+//@property (nonatomic, retain) NSMutableArray *eventArray;
 
 @end
 
@@ -153,7 +153,7 @@ int alertHeight = 60;
 
 @implementation alertController
 
-@synthesize eventArray;
+//@synthesize eventArray;
 
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle
 {
@@ -161,10 +161,10 @@ int alertHeight = 60;
     alertDataController *data = [[alertDataController alloc] init];
     [data initWithText:title bundleID:bundle andType:alertType];
 
-    //NSLog(@"I'm guessing it's about to crash:");
+    NSLog(@"I'm guessing it's about to crash:");
     //This call fails, for whatever reason:
     [eventArray addObject:data];
-    //NSLog(@"Was I right?");
+    NSLog(@"Was I right?");
     //Create alertDisplayController object, and populate members
     
     alertDisplayController *display = [[alertDisplayController alloc] init];
@@ -202,7 +202,7 @@ int alertHeight = 60;
 {
     if(eventArray == NULL)
     {
-        eventArray = [[NSMutableArray alloc] init];
+        eventArray = [[NSMutableArray alloc] initWithCapacity:10];
     }
 
     if([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/MobileNotifier/notifications.plist"])
