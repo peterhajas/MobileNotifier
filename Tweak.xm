@@ -282,6 +282,7 @@ int alertHeight = 60;
     //Wire up the UIButton!
     
     dismissAlertButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [dismissAlertButton retain];
     [dismissAlertButton addTarget:self action:@selector(dismissAlert:) forControlEvents:UIControlEventTouchDown];
     [dismissAlertButton setTitle:@"X" forState:UIControlStateNormal];
     dismissAlertButton.frame = CGRectMake(280, 20, 50, 50);
@@ -305,9 +306,10 @@ int alertHeight = 60;
     [controller updateSize];
 }
 
-- (void)viewDidLoad
+- (void)loadView
 {	
-    NSLog(@"now at viewDidLoad!");
+    [super loadView];
+    NSLog(@"now at loadView!");
     self.view.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:alertBG];
