@@ -23,6 +23,7 @@ Sean O' Sullivan - for his financial contributions. Thanks so much Mr. Sullivan.
 Dustin Howett - howett.net - for Theos and amazing help on IRC!
 Ryan Petrich - github.com/rpetrich - for Activator and help on IRC
 chpwn - chpwn.com - for his awesome tweaks and help on IRC
+Aaron Ash - multifl0w.com - for his help on IRC and invaluable advice
 KennyTM - github.com/kennytm - for his decompiled headers
 Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Veency and countless other gifts to the community
 
