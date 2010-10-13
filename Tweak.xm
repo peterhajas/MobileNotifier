@@ -69,7 +69,7 @@ And, as always, have fun!
 - (void)hideAlert;
 - (void)dismissAlert:(id)sender;
 
-- (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle;
+- (void)initWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle;
 
 @property (readwrite, retain) UILabel *alertLabel;
 @property (readwrite, retain) UIButton *dismissAlertButton;
@@ -166,7 +166,7 @@ int alertHeight = 60;
     //Create alertDisplayController object, and populate members
     
     alertDisplayController *display = [[alertDisplayController alloc] init];
-    [display intWithText:title type:alertType andBundle:bundle];
+    [display initWithText:title type:alertType andBundle:bundle];
 
     //Add alertDisplayController to alertWindow
 
@@ -181,11 +181,11 @@ int alertHeight = 60;
 {
     for(unsigned int i = 0; i < [eventArray count]; i++)
     {
-        //if([eventArray objectAtIndex:i].alertText == alert.alertText)
+        if([[[eventArray objectAtIndex:i] alertText] isEqual:[alert alertText]])
         {
-            //if([eventArray objectAtIndex:i].alertType == alert.alertType)
+            //if([[[eventArray objectAtIndex:i] alertType] isEqual:[alert alertType]])
             {
-                //if([eventArray objectAtIndex:i].bundleIdentifier == alert.bundleIdentifier)
+                if([[[eventArray objectAtIndex:i] bundleIdentifier] isEqual:[alert bundleIdentifier]])
                 {
                     [eventArray removeObjectAtIndex:i];
                 }
@@ -212,16 +212,14 @@ int alertHeight = 60;
 
 - (void)loadArray
 {
-    if(eventArray == nil)
-    {
-        NSLog(@"Allocating eventArray");
-        eventArray = [[NSMutableArray alloc] initWithCapacity:10];
-    }
+    NSLog(@"Allocating eventArray");
+    eventArray = [[NSMutableArray alloc] initWithCapacity:10];
+    
 
     if([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/MobileNotifier/notifications.plist"])
     {
         //Aha! Good, let's load the array
-        //[eventArray initWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"];
+        [eventArray initWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"];
     }
     
     else
@@ -233,7 +231,7 @@ int alertHeight = 60;
         [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/MobileNotifier/" withIntermediateDirectories:NO attributes:nil error:NULL];
 
         //Now, we should create the array.
-        //[eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
+        [eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
     }
 
 }
@@ -294,7 +292,7 @@ int alertHeight = 60;
     [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex:0]];
 }
 
-- (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle
+- (void)initWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle
 {
     self.bundleID = [NSString stringWithString:bundle];
     self.alertType = [NSString stringWithString:type];
