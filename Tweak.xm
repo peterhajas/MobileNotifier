@@ -301,27 +301,29 @@ int alertHeight = 60;
     self.alertType = [NSString stringWithString:type];
     self.alertText = [NSString stringWithString:text];
 
-    alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280 , 40)];
+    alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 9, 250 , 40)];
     alertLabel.backgroundColor = [UIColor clearColor];
     alertLabel.text = text;
     
     //Wire up the UIButton!
     
-    dismissAlertButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    dismissAlertButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [dismissAlertButton retain];
     [dismissAlertButton addTarget:self action:@selector(dismissAlert:) forControlEvents:UIControlEventTouchDown];
-    [dismissAlertButton setTitle:@"X" forState:UIControlStateNormal];
-    dismissAlertButton.frame = CGRectMake(280, 20, 50, 50);
+    
+    dismissAlertButton.frame = CGRectMake(260, 3, 50, 50);
 
     if ([[UIScreen mainScreen] bounds].size.width >= 640)
     {
         //Retina display or iPad display
         alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_retina.png"]];
+        [dismissAlertButton setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_retina.png"] forState:UIControlStateNormal];
     }
     else
     {
         //Regular display, we call this "cornea display" because we have a good sense of humor
         alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_cornea.png"]];
+        [dismissAlertButton setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_cornea.png"] forState:UIControlStateNormal];
     }
 }
 
