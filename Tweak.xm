@@ -44,10 +44,13 @@ And, as always, have fun!
 
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
+#import <GraphicsServices/GraphicsServices.h>
 
 #import <objc/runtime.h>
+#include <notify.h>
 
 #import <libactivator/libactivator.h>
+
 
 //Some class initialization:
 
@@ -119,6 +122,14 @@ And, as always, have fun!
 
 @end
 
+@interface alertWhistleBlower : NSObject
+{
+
+}
+
+- (void)notifyOfNewAlertOfType:(NSString *)alertType;
+
+@end
 
 //Alert Controller:
 alertController *controller;
@@ -176,6 +187,8 @@ int alertHeight = 60;
     [self updateSize];
     NSLog(@"size updated");
     [alertWindow addSubview: display.view];
+
+    //Alert the user
 }
 
 - (void)removeAlertFromArray:(alertDataController *)alert
@@ -370,6 +383,33 @@ int alertHeight = 60;
     self.alertText = [NSString stringWithString:text];
     self.bundleIdentifier = [NSString stringWithString:bundle];
     self.alertType = [NSString stringWithString:type];
+}
+
+@end
+
+//Class for playing sounds or vibrating the vibrate motor (if supported)
+@implementation alertWhistleBlower
+
+- (void)notifyOfNewAlertOfType:(NSString *)alertType
+{
+    char* stateIdentifier = "com.apple.springboard.ringerstate"; 
+    
+    int* token = (int*)malloc(sizeof(int));
+
+    notify_register_check(stateIdentifier, token);
+
+    int* state = (int*)malloc(sizeof(int));
+
+    notify_get_state(token, *state);
+    
+    if((alertType == @"SMS") || (alertType == @"MMS"))
+    {
+
+    }
+    else
+    {
+
+    }
 }
 
 @end
