@@ -164,6 +164,8 @@ int alertHeight = 60;
 
     [eventArray addObject:data];
     [self saveArray];
+
+    NSLog(@"%@", eventArray);
     //Create alertDisplayController object, and populate members
     
     alertDisplayController *display = [[alertDisplayController alloc] init];
@@ -211,32 +213,23 @@ int alertHeight = 60;
     }
 }
 
-- (void)loadArray
-{
-    if(eventArray == nil)
-    {
+- (void)loadArray {
         NSLog(@"Allocating eventArray");
-        eventArray = [[NSMutableArray alloc] initWithCapacity:10];
-    }
 
-    if([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/MobileNotifier/notifications.plist"])
-    {
-        //Aha! Good, let's load the array
-        //[eventArray initWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"];
-    }
-    
-    else
-    {
-        //First time user! Let's present them with some information.
-        NSLog(@"Event array file doesn't exist!"); 
-        
-        //Create the directory!
-        [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/MobileNotifier/" withIntermediateDirectories:NO attributes:nil error:NULL];
+        eventArray = [[NSMutableArray arrayWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"] retain];
+        if(!eventArray)
+        {
+                //First time user! Let's present them with some information.
+                NSLog(@"Event array file doesn't exist!"); 
 
-        //Now, we should create the array.
-        //[eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
-    }
+                //Create the directory!
+                [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/MobileNotifier/" withIntermediateDirectories:NO attributes:nil error:NULL];
 
+                eventArray = [[NSMutableArray alloc] init];
+
+                //Now, we should create the array.
+                [eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
+        }       
 }
 
 - (void)updateSize
