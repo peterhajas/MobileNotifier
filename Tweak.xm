@@ -83,7 +83,7 @@ And, as always, have fun!
 
 @end
 
-@interface alertDataController : NSObject
+@interface alertDataController : NSObject <NSCoding>
 {
     NSString *alertText;
     NSString *bundleIdentifier;
@@ -213,7 +213,8 @@ int alertHeight = 60;
     }
 }
 
-- (void)loadArray {
+- (void)loadArray 
+{
         NSLog(@"Allocating eventArray");
 
         eventArray = [[NSMutableArray arrayWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"] retain];
@@ -238,6 +239,8 @@ int alertHeight = 60;
 
     alertWindow.frame = CGRectMake(0,20,320, newHeight);
 }
+
+
 
 //libactivator methods:
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
@@ -365,6 +368,23 @@ int alertHeight = 60;
     self.alertText = [NSString stringWithString:text];
     self.bundleIdentifier = [NSString stringWithString:bundle];
     self.alertType = [NSString stringWithString:type];
+}
+
+//NSCoder fun!
+- (void) encodeWithCoder:(NSCoder*)encoder 
+{
+    [encoder encodeObject:alertText forKey:@"alertText"];
+    [encoder encodeObject:bundleIdentifier forKey:@"bundleIdentifier"];
+    [encoder encodeObject:alertType forKey:@"alertType"];
+}
+
+- (id) initWithCoder:(NSCoder*)decoder
+{
+    alertText = [[decoder decodeObjectForKey:@"alertText"] retain];
+    bundleIdentifier = [[decoder decodeObjectForKey:@"bundleIdentifier"] retain];
+    alertType = [[decoder decodeObjectForKey:@"alertType"] retain];
+
+    return self;
 }
 
 @end
