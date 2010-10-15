@@ -297,6 +297,21 @@ int alertHeight = 60;
     self.alertType = [NSString stringWithString:type];
     self.alertText = [NSString stringWithString:text];
 
+    NSString *imageForAlert = [[NSString alloc] init];
+
+    if(alertType == @"SMS")
+    {
+        imageForAlert = @"/Library/Application Support/MobileNotifier/greenAlert_";
+    }
+    else if(alertType == @"Email")
+    {
+        imageForAlert = @"/Library/Application Support/MobileNotifier/yellowAlert_";
+    }
+    else
+    {
+        imageForAlert = @"/Library/Application Support/MobileNotifier/blueAlert_";
+    }
+
     alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 9, 250 , 40)];
     alertLabel.backgroundColor = [UIColor clearColor];
     alertLabel.text = text;
@@ -312,13 +327,13 @@ int alertHeight = 60;
     if ([[UIScreen mainScreen] bounds].size.width >= 640)
     {
         //Retina display or iPad display
-        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_retina.png"]];
+        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[NSString stringWithFormat: @"%@%@", imageForAlert, @"retina.png"]]];
         [dismissAlertButton setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_retina.png"] forState:UIControlStateNormal];
     }
     else
     {
         //Regular display, we call this "cornea display" because we have a good sense of humor
-        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_cornea.png"]];
+        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[NSString stringWithFormat: @"%@%@", imageForAlert, @"cornea.png"]]]; 
         [dismissAlertButton setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_cornea.png"] forState:UIControlStateNormal];
     }
 }
