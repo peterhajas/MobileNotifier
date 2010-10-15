@@ -311,7 +311,7 @@ int alertHeight = 60;
     [dismissAlertButton retain];
     [dismissAlertButton addTarget:self action:@selector(dismissAlert:) forControlEvents:UIControlEventTouchDown];
     
-    dismissAlertButton.frame = CGRectMake(260, 3, 50, 50);
+    dismissAlertButton.frame = CGRectMake(275, 13, 33, 33);
 
     if ([[UIScreen mainScreen] bounds].size.width >= 640)
     {
