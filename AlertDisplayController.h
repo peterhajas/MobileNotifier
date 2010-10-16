@@ -1,3 +1,5 @@
+#import "AlertDataController.h"
+
 @interface alertDisplayController : UIViewController
 {
 	//UI Elements

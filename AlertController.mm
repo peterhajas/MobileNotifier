@@ -12,7 +12,8 @@ int alertHeight = 60;
     alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
 	alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 	alertWindow.userInteractionEnabled = YES;
-	alertWindow.hidden = NO; 
+	alertWindow.hidden = NO;
+    return self;
 }
 
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle
@@ -31,8 +32,7 @@ int alertHeight = 60;
     [display intWithText:title type:alertType andBundle:bundle];
 
     //Add alertDisplayController to alertWindow
-
-    display.view.origin = CGPointMake(0, alertHeight * ([eventArray count] - 1));
+    display.view.frame = CGRectMake(0, alertHeight * ([eventArray count] - 1), 320, alertHeight);
 
     [self updateSize];
     NSLog(@"size updated");
