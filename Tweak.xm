@@ -49,75 +49,8 @@ And, as always, have fun!
 
 #import <libactivator/libactivator.h>
 
-//Some class initialization:
 
-//View initialization for a very very (VERY) basic view
-@interface alertDisplayController : UIViewController
-{
-	//UI Elements
-    UILabel *alertLabel;
-    UIButton *dismissAlertButton;
 
-    UIImageView *alertBG;
-
-    //Alert properties
-
-    NSString *alertText;
-    NSString *bundleIdentifier;
-    NSString *alertType;
-}
-
-- (void)hideAlert;
-- (void)dismissAlert:(id)sender;
-
-- (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle;
-
-@property (readwrite, retain) UILabel *alertLabel;
-@property (readwrite, retain) UIButton *dismissAlertButton;
-
-@property (readwrite, retain) UIImageView *alertBG;
-
-@property (readwrite, retain) NSString *alertText;
-@property (readwrite, retain) NSString *bundleID;
-@property (readwrite, retain) NSString *alertType;
-
-@end
-
-@interface alertDataController : NSObject <NSCoding>
-{
-    NSString *alertText;
-    NSString *bundleIdentifier;
-    NSString *alertType;
-}
-
-- (void)initWithAlertDisplayController:(alertDisplayController *) dispController;
-- (void)initWithText:(NSString *)text bundleID:(NSString *)bundle andType:(NSString *)type;
-
-@property (nonatomic, copy) NSString *alertText;
-@property (nonatomic, copy) NSString *bundleIdentifier;
-@property (nonatomic, copy) NSString *alertType;
-
-@end
-
-//Our alertController object, which will handle all event processing
-
-@interface alertController : NSObject <LAListener>
-{
-    NSMutableArray *eventArray;
-}
-
-- (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle;
-- (void)removeAlertFromArray:(alertDataController *)alert;
-- (void)saveArray;
-- (void)updateSize;
-
-//libactivator methods:
-- (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event;
-- (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event;
-
-//@property (nonatomic, retain) NSMutableArray *eventArray;
-
-@end
 
 
 //Alert Controller:
@@ -184,15 +117,15 @@ int alertHeight = 60;
 {
     for(unsigned int i = 0; i < [eventArray count]; i++)
     {
-        //if([eventArray objectAtIndex:i].alertText == alert.alertText)
+        if([[[eventArray objectAtIndex:i] alertText] isEqual:alert.alertText])
         {
-            //if([eventArray objectAtIndex:i].alertType == alert.alertType)
-            {
-                //if([eventArray objectAtIndex:i].bundleIdentifier == alert.bundleIdentifier)
+            //if([[[eventArray objectAtIndex:i] alertType] isEqual:alert.alertType])
+            //{
+                if([[[eventArray objectAtIndex:i] bundleIdentifier] isEqual:alert.bundleIdentifier])
                 {
                     [eventArray removeObjectAtIndex:i];
                 }
-            }
+            //}
         }
     }
 
@@ -201,36 +134,38 @@ int alertHeight = 60;
 
 - (void)saveArray
 {
-    if([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/MobileNotifier/notifications.plist"])
+    if([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/MobileNotifier/notifications.plist"])
     {
         //Aha! Good, let's save the array
-        [eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
+        [NSKeyedArchiver archiveRootObject:eventArray toFile:@"/var/mobile/Library/MobileNotifier/notifications.plist"];
     }
     else
     {
         //Something terrible has happened!
-        [eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
+        [NSKeyedArchiver archiveRootObject:eventArray toFile:@"/var/mobile/Library/MobileNotifier/notifications.plist"];
     }
 }
 
 - (void)loadArray 
 {
-        NSLog(@"Allocating eventArray");
+    NSLog(@"Allocating eventArray");
 
-        eventArray = [[NSMutableArray arrayWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"] retain];
-        if(!eventArray)
-        {
-                //First time user! Let's present them with some information.
-                NSLog(@"Event array file doesn't exist!"); 
+    //eventArray = [[NSMutableArray arrayWithContentsOfFile:@"/var/mobile/MobileNotifier/notifications.plist"] retain];
+    eventArray = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/notifications.plist"] retain];
+    if(!eventArray)
+    {
+        //First time user! Let's present them with some information.
+        NSLog(@"Event array file doesn't exist!"); 
 
-                //Create the directory!
-                [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/MobileNotifier/" withIntermediateDirectories:NO attributes:nil error:NULL];
+        //Create the directory!
+        [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Library/MobileNotifier/" withIntermediateDirectories:NO attributes:nil error:NULL];
 
-                eventArray = [[NSMutableArray alloc] init];
+        eventArray = [[NSMutableArray alloc] init];
 
-                //Now, we should create the array.
-                [eventArray writeToFile:@"/var/mobile/MobileNotifier/notifications.plist" atomically:YES];
-        }       
+        //Now, we should create the array.
+        [NSKeyedArchiver archiveRootObject:eventArray toFile:@"/var/mobile/Library/MobileNotifier/notifications.plist"];
+
+    } 
 }
 
 - (void)updateSize
@@ -251,157 +186,6 @@ int alertHeight = 60;
 {
     NSLog(@"We received an LAEvent abort!");
 }
-@end
-
-@implementation alertDisplayController
-
-@synthesize alertText, bundleID, alertType;
-
-@synthesize alertLabel, dismissAlertButton, alertBG;
-
-- (void)hideAlert
-{
-    //Play an animation, then remove us from our superview
-}
-
-- (void)dismissAlert:(id)sender
-{
-    NSLog(@"button pushed!");
-
-    [self.view removeFromSuperview];
-    //Remove from the alertController
-
-    //Create data member
-
-    alertDataController *data = [[alertDataController alloc] init];
-    [data initWithAlertDisplayController:self];
-    NSLog(@"data is %@, %@, %@, %@", data, data.alertText, data.bundleIdentifier, data.alertType);
-    [controller removeAlertFromArray:data];
-
-    [controller updateSize];
-}
-
-- (void)takeAction
-{
-    //Launch the app specified by the notification
-    
-    SBUIController *uicontroller = (SBUIController *)[objc_getClass("SBUIController") sharedInstance];
-    SBApplicationController *appcontroller = (SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance];
-
-    [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex:0]];
-}
-
-- (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle
-{
-    self.bundleID = [NSString stringWithString:bundle];
-    self.alertType = [NSString stringWithString:type];
-    self.alertText = [NSString stringWithString:text];
-
-    NSString *imageForAlert = [[NSString alloc] init];
-
-    if(alertType == @"SMS")
-    {
-        imageForAlert = @"/Library/Application Support/MobileNotifier/greenAlert_";
-    }
-    else if(alertType == @"Email")
-    {
-        imageForAlert = @"/Library/Application Support/MobileNotifier/yellowAlert_";
-    }
-    else
-    {
-        imageForAlert = @"/Library/Application Support/MobileNotifier/blueAlert_";
-    }
-
-    alertLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 9, 250 , 40)];
-    alertLabel.backgroundColor = [UIColor clearColor];
-    alertLabel.text = text;
-    
-    //Wire up the UIButton!
-    
-    dismissAlertButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [dismissAlertButton retain];
-    [dismissAlertButton addTarget:self action:@selector(dismissAlert:) forControlEvents:UIControlEventTouchDown];
-    
-    dismissAlertButton.frame = CGRectMake(275, 13, 33, 33);
-
-    if ([[UIScreen mainScreen] bounds].size.width >= 640)
-    {
-        //Retina display or iPad display
-        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[NSString stringWithFormat: @"%@%@", imageForAlert, @"retina.png"]]];
-        [dismissAlertButton setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_retina.png"] forState:UIControlStateNormal];
-    }
-    else
-    {
-        //Regular display, we call this "cornea display" because we have a good sense of humor
-        alertBG = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[NSString stringWithFormat: @"%@%@", imageForAlert, @"cornea.png"]]]; 
-        [dismissAlertButton setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_cornea.png"] forState:UIControlStateNormal];
-    }
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
-{	
-	NSLog(@"Alert touched!");
-    
-    [self takeAction];
-    //nil until I can figure out a better thing to pass...
-    [self dismissAlert:nil];
-}
-
-- (void)loadView
-{	
-    [super loadView];
-    NSLog(@"now at loadView!");
-    self.view.backgroundColor = [UIColor clearColor];
-    
-    [self.view addSubview:alertBG];
-    NSLog(@"alertBG added!");
-	[self.view addSubview:alertLabel];
-    NSLog(@"alertLabel added!");
-    [self.view addSubview:dismissAlertButton];
-    NSLog(@"dismissAlertButton added!");
-	[alertBG release];
-    [alertLabel release];
-    [dismissAlertButton release];
-    NSLog(@"everything released!");
-}
-
-@end
-
-@implementation alertDataController
-
-@synthesize alertText, bundleIdentifier, alertType;
-
-- (void)initWithAlertDisplayController:(alertDisplayController *) dispController
-{
-    self.alertText = [NSString stringWithString:dispController.alertText];
-    self.bundleIdentifier = [NSString stringWithString:dispController.bundleID];
-    self.alertType = [NSString stringWithString:dispController.alertType];
-}
-
-- (void)initWithText:(NSString *)text bundleID:(NSString *)bundle andType:(NSString *)type
-{
-    self.alertText = [NSString stringWithString:text];
-    self.bundleIdentifier = [NSString stringWithString:bundle];
-    self.alertType = [NSString stringWithString:type];
-}
-
-//NSCoder fun!
-- (void) encodeWithCoder:(NSCoder*)encoder 
-{
-    [encoder encodeObject:alertText forKey:@"alertText"];
-    [encoder encodeObject:bundleIdentifier forKey:@"bundleIdentifier"];
-    [encoder encodeObject:alertType forKey:@"alertType"];
-}
-
-- (id) initWithCoder:(NSCoder*)decoder
-{
-    alertText = [[decoder decodeObjectForKey:@"alertText"] retain];
-    bundleIdentifier = [[decoder decodeObjectForKey:@"bundleIdentifier"] retain];
-    alertType = [[decoder decodeObjectForKey:@"alertType"] retain];
-
-    return self;
-}
-
 @end
 
 //Hook into Springboard init method to initialize our window
