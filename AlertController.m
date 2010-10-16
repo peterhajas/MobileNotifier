@@ -1,6 +1,19 @@
+#import "AlertController.h"
+
+//How tall each alertDisplayController is
+int alertHeight = 60;
+
 @implementation alertController
 
-//@synthesize eventArray;
+@synthesize alertWindow;
+
+- (id)init
+{
+    alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
+	alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
+	alertWindow.userInteractionEnabled = YES;
+	alertWindow.hidden = NO; 
+}
 
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle
 {

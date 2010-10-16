@@ -1,3 +1,5 @@
+#import "AlertDataController.h"
+
 @implementation alertDataController
 
 @synthesize alertText, bundleIdentifier, alertType;

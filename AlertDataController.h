@@ -1,4 +1,4 @@
-#import "AlertDisplayController"
+#import "alertDisplayController.h"
 
 @interface alertDataController : NSObject <NSCoding>
 {
