@@ -1,4 +1,5 @@
 #import "AlertDataController.h"
+#import "AlertDisplayController.h"
 
 @implementation alertDataController
 

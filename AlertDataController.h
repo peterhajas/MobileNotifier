@@ -1,5 +1,7 @@
 #import "alertDisplayController.h"
 
+@class alertDisplayController;
+
 @interface alertDataController : NSObject <NSCoding>
 {
     NSString *alertText;

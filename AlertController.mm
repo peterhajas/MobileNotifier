@@ -1,7 +1,7 @@
 #import "AlertController.h"
 
 //How tall each alertDisplayController is
-int alertHeight = 60;
+int __alertHeight = 60;
 
 @implementation alertController
 
@@ -32,7 +32,7 @@ int alertHeight = 60;
     [display intWithText:title type:alertType andBundle:bundle];
 
     //Add alertDisplayController to alertWindow
-    display.view.frame = CGRectMake(0, alertHeight * ([eventArray count] - 1), 320, alertHeight);
+    display.view.frame = CGRectMake(0, __alertHeight * ([eventArray count] - 1), 320, __alertHeight);
 
     [self updateSize];
     NSLog(@"size updated");
@@ -96,11 +96,17 @@ int alertHeight = 60;
 
 - (void)updateSize
 {
-    int newHeight = (CGFloat)(alertHeight * [eventArray count]);
+    int newHeight = (CGFloat)(__alertHeight * [eventArray count]);
 
     alertWindow.frame = CGRectMake(0,20,320, newHeight);
 }
 
+//Protocol for AlertDisplayController
+
+- (void)alert_DisplayController:(alertDisplayController *)adc hadActionTaken:(int)action
+{
+    NSLog(@"Action taken: %d", action);
+}
 
 
 //libactivator methods:

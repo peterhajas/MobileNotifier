@@ -2,7 +2,7 @@
 #import <libactivator/libactivator.h>
 #import "alertDataController.h"
 
-@interface alertController : NSObject <LAListener>
+@interface alertController : NSObject <LAListener, alertDisplayControllerDelegate>
 {
     NSMutableArray *eventArray;
     UIWindow *alertWindow;

@@ -6,6 +6,8 @@
 
 @synthesize alertLabel, dismissAlertButton, alertBG;
 
+@synthesize delegate = _delegate;
+
 - (void)hideAlert
 {
     //Play an animation, then remove us from our superview
@@ -19,23 +21,29 @@
     //Remove from the alertController
 
     //Create data member
-
+    /*
     alertDataController *data = [[alertDataController alloc] init];
     [data initWithAlertDisplayController:self];
     NSLog(@"data is %@, %@, %@, %@", data, data.alertText, data.bundleIdentifier, data.alertType);
     [controller removeAlertFromArray:data];
 
     [controller updateSize];
+    */
+
+    [_delegate alert_DisplayController:self hadActionTaken:1];
 }
 
 - (void)takeAction
 {
     //Launch the app specified by the notification
-    
+    /* 
     SBUIController *uicontroller = (SBUIController *)[objc_getClass("SBUIController") sharedInstance];
     SBApplicationController *appcontroller = (SBApplicationController *)[objc_getClass("SBApplicationController") sharedInstance];
 
     [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex:0]];
+    */
+
+    [_delegate alert_DisplayController:self hadActionTaken:2];
 }
 
 - (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle
