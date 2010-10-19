@@ -1,12 +1,15 @@
+#define kHideAlert 0
+#define kTakeActionOnAlert 1
+
 #import "AlertDataController.h"
 
-@class alertDisplayController;
-@protocol alertDisplayControllerDelegate
-- (void)alert_DisplayController:(alertDisplayController *)adc hadActionTaken:(int)action;
+@class AlertDisplayController;
+@protocol AlertDisplayControllerDelegate
+- (void)alertDisplayController:(AlertDisplayController *)adc hadActionTaken:(int)action;
 @end
 
 
-@interface alertDisplayController : UIViewController
+@interface AlertDisplayController : UIViewController
 {
 	//UI Elements
     UILabel *alertLabel;
@@ -22,7 +25,7 @@
 
     //Delegate
 
-    id<alertDisplayControllerDelegate> _delegate;
+    id<AlertDisplayControllerDelegate> _delegate;
 }
 
 - (void)hideAlert;
@@ -30,7 +33,7 @@
 
 - (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle;
 
-@property (nonatomic, assign) id<alertDisplayControllerDelegate> delegate;
+@property (nonatomic, assign) id<AlertDisplayControllerDelegate> delegate;
 
 @property (readwrite, retain) UILabel *alertLabel;
 @property (readwrite, retain) UIButton *dismissAlertButton;
@@ -43,3 +46,4 @@
 
 @end
 
+// vim:ft=objc

@@ -1,11 +1,11 @@
 #import "AlertDataController.h"
 #import "AlertDisplayController.h"
 
-@implementation alertDataController
+@implementation AlertDataController
 
 @synthesize alertText, bundleIdentifier, alertType;
 
-- (void)initWithAlertDisplayController:(alertDisplayController *) dispController
+- (void)initWithAlertDisplayController:(AlertDisplayController *) dispController
 {
     self.alertText = [NSString stringWithString:dispController.alertText];
     self.bundleIdentifier = [NSString stringWithString:dispController.bundleID];
@@ -37,3 +37,5 @@
 }
 
 @end
+
+// vim:ft=objc

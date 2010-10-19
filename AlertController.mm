@@ -1,9 +1,10 @@
 #import "AlertController.h"
+#import "AlertDisplayController.h"
 
 //How tall each alertDisplayController is
 int __alertHeight = 60;
 
-@implementation alertController
+@implementation AlertController
 
 @synthesize alertWindow;
 
@@ -19,7 +20,7 @@ int __alertHeight = 60;
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle
 {
     //Add the alert to our internal array for tracking:
-    alertDataController *data = [[alertDataController alloc] init];
+    AlertDataController *data = [[AlertDataController alloc] init];
     [data initWithText:title bundleID:bundle andType:alertType];
 
     [eventArray addObject:data];
@@ -28,7 +29,7 @@ int __alertHeight = 60;
     NSLog(@"%@", eventArray);
     //Create alertDisplayController object, and populate members
     
-    alertDisplayController *display = [[alertDisplayController alloc] init];
+    AlertDisplayController *display = [[AlertDisplayController alloc] init];
     [display intWithText:title type:alertType andBundle:bundle];
 
     //Add alertDisplayController to alertWindow
@@ -39,7 +40,7 @@ int __alertHeight = 60;
     [alertWindow addSubview: display.view];
 }
 
-- (void)removeAlertFromArray:(alertDataController *)alert
+- (void)removeAlertFromArray:(AlertDataController *)alert
 {
     for(unsigned int i = 0; i < [eventArray count]; i++)
     {
@@ -103,7 +104,7 @@ int __alertHeight = 60;
 
 //Protocol for AlertDisplayController
 
-- (void)alert_DisplayController:(alertDisplayController *)adc hadActionTaken:(int)action
+- (void)alertDisplayController:(AlertDisplayController *)adc hadActionTaken:(int)action
 {
     NSLog(@"Action taken: %d", action);
 }
@@ -120,3 +121,4 @@ int __alertHeight = 60;
 }
 @end
 
+// vim:ft=objc

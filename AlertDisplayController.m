@@ -1,6 +1,6 @@
 #import "AlertDisplayController.h"
 
-@implementation alertDisplayController
+@implementation AlertDisplayController
 
 @synthesize alertText, bundleID, alertType;
 
@@ -30,7 +30,7 @@
     [controller updateSize];
     */
 
-    [_delegate alert_DisplayController:self hadActionTaken:1];
+    [_delegate alertDisplayController:self hadActionTaken:kHideAlert];
 }
 
 - (void)takeAction
@@ -43,7 +43,7 @@
     [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:[self bundleID]] objectAtIndex:0]];
     */
 
-    [_delegate alert_DisplayController:self hadActionTaken:2];
+    [_delegate alertDisplayController:self hadActionTaken:kTakeActionOnAlert];
 }
 
 - (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle
@@ -122,3 +122,5 @@
 
 @end
 
+
+// vim:ft=objc

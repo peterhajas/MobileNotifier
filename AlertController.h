@@ -1,15 +1,18 @@
 #import <UIKit/UIKit.h>
 #import <libactivator/libactivator.h>
-#import "alertDataController.h"
+#import "AlertDataController.h"
+#import "AlertDisplayController.h"
 
-@interface alertController : NSObject <LAListener, alertDisplayControllerDelegate>
+@class AlertDataController;
+
+@interface AlertController : NSObject <LAListener, AlertDisplayControllerDelegate>
 {
     NSMutableArray *eventArray;
     UIWindow *alertWindow;
 }
 
 - (void)newAlert:(NSString *)title ofType:(NSString *)alertType withBundle:(NSString *)bundle;
-- (void)removeAlertFromArray:(alertDataController *)alert;
+- (void)removeAlertFromArray:(AlertDataController *)alert;
 - (void)loadArray;
 - (void)saveArray;
 - (void)updateSize;
@@ -21,3 +24,5 @@
 @property (nonatomic, retain) UIWindow *alertWindow;
 
 @end
+
+// vim:ft=objc

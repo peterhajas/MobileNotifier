@@ -1,15 +1,15 @@
-#import "alertDisplayController.h"
+#import "AlertDisplayController.h"
 
-@class alertDisplayController;
+@class AlertDisplayController;
 
-@interface alertDataController : NSObject <NSCoding>
+@interface AlertDataController : NSObject <NSCoding>
 {
     NSString *alertText;
     NSString *bundleIdentifier;
     NSString *alertType;
 }
 
-- (void)initWithAlertDisplayController:(alertDisplayController *) dispController;
+- (void)initWithAlertDisplayController:(AlertDisplayController *) dispController;
 - (void)initWithText:(NSString *)text bundleID:(NSString *)bundle andType:(NSString *)type;
 
 @property (nonatomic, copy) NSString *alertText;
@@ -18,3 +18,4 @@
 
 @end
 
+// vim:ft=objc

@@ -14,7 +14,7 @@ and notify Peter Hajas
 iOS Notifications. Done right. Like 2010 right.
 
 This is an RCOS project for the Spring 2010 semester. The website for RCOS is at rcos.cs.rpi.edu/
-
+.h
 Thanks to:
 
 Mukkai Krishnamoorthy - cs.rpi.edu/~moorthy - for being the faculty sponsor
@@ -47,21 +47,14 @@ And, as always, have fun!
 
 #import <objc/runtime.h>
 
-#import <libactivator/libactivator.h>
 
-#import "AlertController.h"
 #import "AlertDataController.h"
 #import "AlertDisplayController.h"
+#import "AlertController.h"
+
 
 //Alert Controller:
-alertController *controller;
-
-//Our UIWindow:
-
-static UIWindow *alertWindow;
-
-//How tall each alertDisplayController is
-int alertHeight = 60;
+AlertController *controller;
 
 //Mail class declaration. This was dumped with class dump z (by kennytm)
 //and was generated with MobileMail.app
@@ -93,13 +86,8 @@ int alertHeight = 60;
 {    
     %orig;
     
-    controller = [[alertController alloc] init];
+    controller = [[AlertController alloc] init];
     [controller loadArray];
-
-    alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
-	alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
-	alertWindow.userInteractionEnabled = YES;
-	alertWindow.hidden = NO;
 
     //Connect up to Activator
     [[LAActivator sharedInstance] registerListener:controller forName:@"com.peterhajassoftware.mobilenotifier"];
@@ -228,3 +216,7 @@ the generation of a class list and an automatic constructor.
 
 	//How to hook ivars!
 	//MSHookIvar<ObjectType *>(self, "OBJECTNAME");
+
+
+
+// vim:ft=objc
