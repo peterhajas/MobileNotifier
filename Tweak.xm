@@ -52,9 +52,32 @@ And, as always, have fun!
 #import "AlertDisplayController.h"
 #import "AlertController.h"
 
+%class SBUIController;
 
 //Alert Controller:
 AlertController *controller;
+
+@interface PHACInterface    // < /*add in special magic protocol name here*/ >
+{
+
+
+
+}
+
+- (void)launchBundleID:(NSString *)bundleID;
+
+@end
+
+@implementation PHACInterface
+- (void)launchBundleID:(NSString *)bundleID
+{
+    SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
+    SBApplicationController *appcontroller = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
+
+    [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
+}
+
+@end
 
 //Mail class declaration. This was dumped with class dump z (by kennytm)
 //and was generated with MobileMail.app
