@@ -8,6 +8,8 @@ int __alertHeight = 60;
 
 @synthesize alertWindow;
 
+@synthesize delegate = _delegate;
+
 - (id)init
 {
     alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
@@ -107,6 +109,10 @@ int __alertHeight = 60;
 - (void)alertDisplayController:(AlertDisplayController *)adc hadActionTaken:(int)action
 {
     NSLog(@"Action taken: %d", action);
+    if(action == kTakeActionOnAlert)
+    {
+        [_delegate launchAppInSpringBoardWithBundleID:adc.bundleID];
+    }
 }
 
 

@@ -57,7 +57,7 @@ And, as always, have fun!
 //Alert Controller:
 AlertController *controller;
 
-@interface PHACInterface    // < /*add in special magic protocol name here*/ >
+@interface PHACInterface <AlertControllerDelegate>
 {
 
 
@@ -77,6 +77,10 @@ AlertController *controller;
     [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
 }
 
+- (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID
+{
+    [self launchBundleID:bundleID];
+}
 @end
 
 //Mail class declaration. This was dumped with class dump z (by kennytm)
