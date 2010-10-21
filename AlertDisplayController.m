@@ -19,7 +19,7 @@
 
     [self.view removeFromSuperview];
     //Remove from the alertController
-
+    //This has been implemented in AlertController.mm
     //Create data member
     /*
     alertDataController *data = [[alertDataController alloc] init];

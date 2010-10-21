@@ -54,10 +54,7 @@ And, as always, have fun!
 
 %class SBUIController;
 
-//Alert Controller:
-AlertController *controller;
-
-@interface PHACInterface <AlertControllerDelegate>
+@interface PHACInterface : NSObject <AlertControllerDelegate>
 {
 
 
@@ -105,6 +102,12 @@ AlertController *controller;
 
 @end
 
+//Alert Controller:
+AlertController *controller;
+
+//SB Interface
+PHACInterface *phacinterface;
+
 //Hook into Springboard init method to initialize our window
 
 %hook SpringBoard
@@ -112,9 +115,14 @@ AlertController *controller;
 -(void)applicationDidFinishLaunching:(id)application
 {    
     %orig;
-    
+   
+
+    phacinterface = [[PHACInterface alloc] init];
+
+
     controller = [[AlertController alloc] init];
     [controller loadArray];
+    controller.delegate = phacinterface;
 
     //Connect up to Activator
     [[LAActivator sharedInstance] registerListener:controller forName:@"com.peterhajassoftware.mobilenotifier"];
