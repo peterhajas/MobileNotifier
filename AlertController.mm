@@ -108,17 +108,18 @@ int __alertHeight = 60;
 
 - (void)alertDisplayController:(AlertDisplayController *)adc hadActionTaken:(int)action
 {
-    
+    AlertDataController *data = [[AlertDataController alloc] init];
+    [data initWithAlertDisplayController:adc];
     NSLog(@"Action taken: %d", action);
     if(action == kTakeActionOnAlert)
     {
         [_delegate launchAppInSpringBoardWithBundleID:adc.bundleID];
+        [self removeAlertFromArray:data];
     }
     //The guts inside this if-block are from AlertDisplayController.h
     if(action == kHideAlert)
     {
-        AlertDataController *data = [[AlertDataController alloc] init];
-        [data initWithAlertDisplayController:adc];
+        
         [self removeAlertFromArray:data];
         [self updateSize];
     }
