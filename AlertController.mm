@@ -16,6 +16,9 @@ int __alertHeight = 60;
 	alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 	alertWindow.userInteractionEnabled = YES;
 	alertWindow.hidden = NO;
+
+    visibleAlertDisplayControllers = [[NSMutableArray alloc] init];
+
     return self;
 }
 
@@ -40,6 +43,8 @@ int __alertHeight = 60;
 
     //Add alertDisplayController to alertWindow
     display.view.frame = CGRectMake(0, __alertHeight * ([eventArray count] - 1), 320, __alertHeight);
+
+    [visibleAlertDisplayControllers addObject:display];
 
     [self updateSize];
     NSLog(@"size updated");
@@ -108,22 +113,41 @@ int __alertHeight = 60;
     alertWindow.frame = CGRectMake(0,20,320, newHeight);
 }
 
+- (void)redrawAlertsFrom:(AlertDisplayController *)adc
+{
+    unsigned int i = 0;
+    //Find the alert controller we need to redraw after
+    for(i = 0; i < [visibleAlertDisplayControllers count]; i++)
+    {
+        if([adc equals:[visibleAlertDisplayControllers objectAtIndex:i]])
+        {
+            break;
+        }
+    }
+
+    //Now, go through and shift the frame up
+    for(unsigned int j = i; j < [visibleAlertDisplayControllers count]; j++)
+    {
+        AlertDisplayController *alertToShift = [visibleAlertDisplayControllers objectAtIndex:j];
+        [alertToShift.view setCenter:CGPointMake(alertToShift.view.center.x, alertToShift.view.center.y - __alertHeight)];
+    }
+    
+    //Redraw the window
+    [alertWindow setNeedsDisplay];
+    [self updateSize];
+}
+
 //Protocol for AlertDisplayController
 
 - (void)alertDisplayController:(AlertDisplayController *)adc hadActionTaken:(int)action
 {
-    NSLog(@"I AM BEING RUN!");
-     NSLog(@"I AM BEING RUN!");
-      NSLog(@"I AM BEING RUN!");
-       NSLog(@"I AM BEING RUN!");
-        NSLog(@"I AM BEING RUN!");
     AlertDataController *data = [[AlertDataController alloc] init];
     [data initWithAlertDisplayController:adc];
     NSLog(@"Data: %@ %@ %@", data.alertText, data.bundleIdentifier, data.alertType);
     NSLog(@"Action taken: %d", action);
     if(action == kTakeActionOnAlert)
     {
-        [_delegate launchAppInSpringBoardWithBundleID:adc.bundleID];
+        [_delegate launchAppInSpringBoardWithBundleID:adc.bundleIdentifier];
         [self removeAlertFromArray:data];
     }
     //The guts inside this if-block are from AlertDisplayController.h
@@ -133,6 +157,7 @@ int __alertHeight = 60;
         [self removeAlertFromArray:data];
         [self updateSize];
     }
+    [self redrawAlertsFrom:adc];
 }
 
 

@@ -13,6 +13,7 @@
 @interface AlertController : NSObject <LAListener, AlertDisplayControllerDelegate>
 {
     NSMutableArray *eventArray;
+    NSMutableArray *visibleAlertDisplayControllers;
     UIWindow *alertWindow;
 
     //Delegate
@@ -25,6 +26,7 @@
 - (void)loadArray;
 - (void)saveArray;
 - (void)updateSize;
+- (void)redrawAlertsFrom:(AlertDisplayController *)adc;
 
 //libactivator methods:
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event;

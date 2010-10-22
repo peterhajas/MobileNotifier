@@ -8,7 +8,7 @@
 - (void)initWithAlertDisplayController:(AlertDisplayController *) dispController
 {
     self.alertText = [NSString stringWithString:dispController.alertText];
-    self.bundleIdentifier = [NSString stringWithString:dispController.bundleID];
+    self.bundleIdentifier = [NSString stringWithString:dispController.bundleIdentifier];
     self.alertType = [NSString stringWithString:dispController.alertType];
 }
 

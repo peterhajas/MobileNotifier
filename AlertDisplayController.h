@@ -33,6 +33,9 @@
 
 - (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle;
 
+- (BOOL)equals:(AlertDisplayController *)adc;
+- (BOOL)isEqualToAlertDataController:(AlertDataController *)adc;
+
 @property (nonatomic, assign) id<AlertDisplayControllerDelegate> delegate;
 
 @property (readwrite, retain) UILabel *alertLabel;
@@ -41,7 +44,7 @@
 @property (readwrite, retain) UIImageView *alertBG;
 
 @property (readwrite, retain) NSString *alertText;
-@property (readwrite, retain) NSString *bundleID;
+@property (readwrite, retain) NSString *bundleIdentifier;
 @property (readwrite, retain) NSString *alertType;
 
 @end

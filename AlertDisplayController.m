@@ -2,7 +2,7 @@
 
 @implementation AlertDisplayController
 
-@synthesize alertText, bundleID, alertType;
+@synthesize alertText, bundleIdentifier, alertType;
 
 @synthesize alertLabel, dismissAlertButton, alertBG;
 
@@ -48,7 +48,7 @@
 
 - (void)intWithText:(NSString *)text type:(NSString *)type andBundle:(NSString *)bundle
 {
-    self.bundleID = [NSString stringWithString:bundle];
+    self.bundleIdentifier = [NSString stringWithString:bundle];
     self.alertType = [NSString stringWithString:type];
     self.alertText = [NSString stringWithString:text];
 
@@ -118,6 +118,30 @@
     [alertLabel release];
     [dismissAlertButton release];
     NSLog(@"everything released!");
+}
+
+- (BOOL)equals:(AlertDisplayController *)adc
+{
+    if(([adc.alertText isEqualToString: self.alertText]) && ([adc.alertType isEqualToString: self.alertType]) && ([adc.bundleIdentifier isEqualToString: self.bundleIdentifier]))
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (BOOL)isEqualToAlertDataController:(AlertDataController *)adc
+{
+    if(([adc.alertText isEqualToString: self.alertText]) && ([adc.alertType isEqualToString: self.alertType]) && ([adc.bundleIdentifier isEqualToString: self.bundleIdentifier]))
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 @end
