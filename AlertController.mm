@@ -33,6 +33,10 @@ int __alertHeight = 60;
     
     AlertDisplayController *display = [[AlertDisplayController alloc] init];
     [display intWithText:title type:alertType andBundle:bundle];
+    
+    //Assign the delegate, as this is always a good idea...
+
+    display.delegate = self;
 
     //Add alertDisplayController to alertWindow
     display.view.frame = CGRectMake(0, __alertHeight * ([eventArray count] - 1), 320, __alertHeight);
@@ -108,8 +112,14 @@ int __alertHeight = 60;
 
 - (void)alertDisplayController:(AlertDisplayController *)adc hadActionTaken:(int)action
 {
+    NSLog(@"I AM BEING RUN!");
+     NSLog(@"I AM BEING RUN!");
+      NSLog(@"I AM BEING RUN!");
+       NSLog(@"I AM BEING RUN!");
+        NSLog(@"I AM BEING RUN!");
     AlertDataController *data = [[AlertDataController alloc] init];
     [data initWithAlertDisplayController:adc];
+    NSLog(@"Data: %@ %@ %@", data.alertText, data.bundleIdentifier, data.alertType);
     NSLog(@"Action taken: %d", action);
     if(action == kTakeActionOnAlert)
     {
