@@ -3,6 +3,8 @@
 
 #import "AlertDataController.h"
 
+@class AlertDataController;
+
 @class AlertDisplayController;
 @protocol AlertDisplayControllerDelegate
 - (void)alertDisplayController:(AlertDisplayController *)adc hadActionTaken:(int)action;
