@@ -9,4 +9,5 @@ include $(FW_MAKEDIR)/tweak.mk
 MobileNotifier_FRAMEWORKS = UIKit Foundation
 MobileNotifier_LDFLAGS = -lactivator
 
+SUBPROJECTS = settings
 include $(FW_MAKEDIR)/aggregate.mk

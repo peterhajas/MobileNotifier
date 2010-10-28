@@ -1,0 +1,10 @@
+{
+    entry = {
+	bundle = MobileNotifierSettings;
+	cell = PSLinkCell;
+	detail = MobileNotifierSettingsListController;
+	icon = MobileNotifierSettings.png;
+	isController = 1;
+	label = MobileNotifierSettings;
+    };
+}
