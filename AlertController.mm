@@ -174,6 +174,12 @@ int __alertHeight = 60;
 	else
 	{
 		//Allocate the alertDash
+		alertDash = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,440)];
+		alertDash.windowLevel = 991; //Above alertWindow, but still not above WindowPlaner or SBSettings
+		alertDash.userInteractionEnabled = YES;
+		alertDash.hidden = NO;
+		alertDashIsShowing = YES;
+ 
 	}		
 }
 
