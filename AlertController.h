@@ -15,7 +15,9 @@
     NSMutableArray *eventArray;
     NSMutableArray *visibleAlertDisplayControllers;
     UIWindow *alertWindow;
+	UIWindow *alertDash;
 
+	BOOL alertDashIsShowing;
     //Delegate
 
     id<AlertControllerDelegate> _delegate;
@@ -27,6 +29,8 @@
 - (void)saveArray;
 - (void)updateSize;
 - (void)redrawAlertsFrom:(AlertDisplayController *)adc;
+
+- (void)toggleAlertDash;
 
 //libactivator methods:
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event;

@@ -17,6 +17,8 @@ int __alertHeight = 60;
 	alertWindow.userInteractionEnabled = YES;
 	alertWindow.hidden = NO;
 
+	alertDashIsShowing = NO;
+
     visibleAlertDisplayControllers = [[NSMutableArray alloc] init];
 
     return self;
@@ -160,11 +162,27 @@ int __alertHeight = 60;
     [self redrawAlertsFrom:adc];
 }
 
+- (void)toggleAlertDash
+{
+	if(alertDashIsShowing)
+	{
+		//Get rid of the alertDash!
+		alertDash.hidden = YES;
+		[alertDash release];
+	}
+	
+	else
+	{
+		//Allocate the alertDash
+	}		
+}
 
 //libactivator methods:
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
 {
     NSLog(@"We received an LAEvent!");
+	[self toggleAlertDash];
+
 }
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
