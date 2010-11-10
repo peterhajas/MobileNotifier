@@ -15,3 +15,27 @@
 	self.type = _type;
 	self.status = _status;
 }
+
+//Yay NSCoder!
+
+-(void)encodeWithCoder:(NSCoder*)encoder
+{
+	[encoder encodeObject:header forKey:@"header"];
+	[encoder encodeObject:text forKey:@"text"];
+	[encoder encodeInt:type forKey:@"type"];
+	[encoder encodeObject:bundleID forKey:@"bundleID"];
+	[encoder encodeObject:time forKey:@"time"];
+	[encoder encodeInt:status forKey:@"status"];
+}
+
+-(id)initWithCoder:(NSCoder*)decoder
+{
+	header = [[decoder decodeObjectForKey:@"header"] retain];
+	text = [[decoder decodeObjectForKey:@"text"] retain];
+	type = [decoder decodeIntForKey:@"type"];
+	bundleID = [[decoder decodeObjectForKey:@"bundleID"] retain];
+	time = [[decoder decodeObjectForKey:@"time"] retain];
+	status = [decoder decodeIntForKey:@"status"];
+}
+
+@end

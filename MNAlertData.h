@@ -1,4 +1,4 @@
-@interface MNAlertData : NSObject
+@interface MNAlertData : NSObject <NSCoding>
 {
 	NSString *header;
 	NSString *text;
