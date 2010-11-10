@@ -1,0 +1,21 @@
+@interface MNAlertData : NSObject
+{
+	NSString *header;
+	NSString *text;
+	int type;
+	NSString *bundleID;
+	NSDate *time;
+	int status;
+}
+
+-(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;
+
+@property(nonatomic, retain) NSString *header;
+@property(nonatomic, retain) NSString *text;
+@property(nonatomic) int type;
+@property(nonatomic, retain) NSString *bundleID;
+@property(nonatomic, retain) NSDate *time;
+@property(nonatomic) int status;
+
+@end
+
