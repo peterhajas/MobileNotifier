@@ -24,8 +24,13 @@
 
 		//Move all elements from pendingAlerts into sentAwayAlerts
 	
-		//I will do this later.
-	
+		for(int i = 0; i < [pendingAlerts count]; i++)
+		{
+			[sentAwayAlerts addObject:[pendingAlerts objectAtIndex:i]];
+		}
+
+		//Somewhere, these should be arranged by time...
+
 		//Init the pendingAlertViews array
 	
 		pendingAlertViews = [[NSMutableArray alloc] init];

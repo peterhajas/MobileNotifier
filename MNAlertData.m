@@ -14,6 +14,8 @@
 
 	self.type = _type;
 	self.status = _status;
+
+	return self;
 }
 
 //Yay NSCoder!

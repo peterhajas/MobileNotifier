@@ -1,3 +1,8 @@
+
+#define kNewAlertForeground 0
+#define kNewAlertBackground 1
+#define kOldAlert 2
+
 @interface MNAlertData : NSObject <NSCoding>
 {
 	NSString *header;
