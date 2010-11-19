@@ -41,9 +41,14 @@
 
 -(void)newAlertWithData:(MNAlertData *)data
 {
-	//It would be a good idea to create a new alert here with the data that was passed in
-	
-	//This, also, I will do later.	
+	//New foreground alert!
+	if(data.status == kNewAlertForeground)
+	{
+		
+		//Build a new MNAlertViewController
+		
+		//MNAlertViewController *viewController = 
+	}
 }
 
 -(void)saveOut

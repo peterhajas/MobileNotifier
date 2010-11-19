@@ -47,10 +47,9 @@ And, as always, have fun!
 
 #import <objc/runtime.h>
 
-
-#import "AlertDataController.h"
-#import "AlertDisplayController.h"
-#import "AlertController.h"
+#import "MNAlertData.h"
+#import "MNAlertManager.h"
+#import "MNAlertViewController.h"
 
 %class SBUIController;
 
@@ -117,13 +116,11 @@ PHACInterface *phacinterface;
 
     phacinterface = [[PHACInterface alloc] init];
 
-
-    controller = [[AlertController alloc] init];
-    [controller loadArray];
+	MNAlertManager *manager = [[MNAlertManager alloc] init];
     controller.delegate = phacinterface;
 
     //Connect up to Activator
-    [[LAActivator sharedInstance] registerListener:controller forName:@"com.peterhajassoftware.mobilenotifier"];
+    [[LAActivator sharedInstance] registerListener:manager forName:@"com.peterhajassoftware.mobilenotifier"];
 }
 
 %end;
