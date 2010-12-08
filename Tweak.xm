@@ -120,7 +120,8 @@ PHACInterface *phacinterface;
     manager.delegate = phacinterface;
 
     //Connect up to Activator
-    [[LAActivator sharedInstance] registerListener:manager forName:@"com.peterhajassoftware.mobilenotifier"];
+	//Commented out for now
+    //[[LAActivator sharedInstance] registerListener:manager forName:@"com.peterhajassoftware.mobilenotifier"];
 }
 
 %end;

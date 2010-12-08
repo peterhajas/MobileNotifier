@@ -15,6 +15,7 @@
 	UILabel *alertHeader;
 	UILabel *alertText;
 	UIButton *sendAway;
+	UIButton *takeAction;
 	UIImageView *alertBackground;
 
 	MNAlertData *dataObj;
@@ -22,7 +23,7 @@
 	id<MNAlertViewControllerDelegate> _delegate;
 }
 
--(void)initWithData:(MNAlertData*) data;
+-(id)initWithMNData:(MNAlertData*) data;
 -(void)sendAway:(id)sender;
 -(void)takeAction:(id)sender;
 
@@ -31,8 +32,9 @@
 @property(nonatomic, retain) UILabel *alertHeader;
 @property(nonatomic, retain) UILabel *alertText;
 @property(nonatomic, retain) UIButton *sendAway;
+@property(nonatomic, retain) UIButton *takeAction;
 @property(nonatomic, retain) UIImageView *alertBackground;
 
-@property(readwrite, retain) id<MNAlertViewControllerDelegate> _delegate;
+@property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
 
 @end

@@ -2,9 +2,9 @@
 
 @implementation MNAlertManager
 
-@synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts;
+@synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts, pendingAlertViews;
 @synthesize delegate = _delegate;
-
+@synthesize alertWindow;
 -(id)init
 {
 	self = [super init];
@@ -24,8 +24,8 @@
 
 
 		//Move all elements from pendingAlerts into sentAwayAlerts
-	
-		for(int i = 0; i < [pendingAlerts count]; i++)
+		int i;
+		for(i = 0; i < [pendingAlerts count]; i++)
 		{
 			[sentAwayAlerts addObject:[pendingAlerts objectAtIndex:i]];
 		}
@@ -47,7 +47,7 @@
 	if(data.status == kNewAlertForeground)
 	{
 		//Build a new MNAlertViewController
-		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithData:data];
+		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
 		viewController.delegate = self;
 		[pendingAlerts addObject:data];
 		[pendingAlertViews addObject:viewController];
