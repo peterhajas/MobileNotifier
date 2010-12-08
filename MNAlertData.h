@@ -3,6 +3,8 @@
 #define kNewAlertBackground 1
 #define kOldAlert 2
 
+#define kSMSAlert 0
+
 @interface MNAlertData : NSObject <NSCoding>
 {
 	NSString *header;
@@ -14,6 +16,7 @@
 }
 
 -(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;
+-(id)init;
 
 @property(nonatomic, retain) NSString *header;
 @property(nonatomic, retain) NSString *text;

@@ -3,6 +3,7 @@
 @implementation MNAlertManager
 
 @synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts;
+@synthesize delegate = _delegate;
 
 -(id)init
 {
@@ -28,13 +29,14 @@
 		{
 			[sentAwayAlerts addObject:[pendingAlerts objectAtIndex:i]];
 		}
+		
+		[pendingAlerts removeObjectsInArray:sentAwayAlerts];
 
 		//Somewhere, these should be arranged by time...
 
 		//Init the pendingAlertViews array
 	
 		pendingAlertViews = [[NSMutableArray alloc] init];
-
 	}
 	return self;
 }
@@ -44,10 +46,16 @@
 	//New foreground alert!
 	if(data.status == kNewAlertForeground)
 	{
-		
 		//Build a new MNAlertViewController
-		
-		//MNAlertViewController *viewController = 
+		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithData:data];
+		viewController.delegate = self;
+		[pendingAlerts addObject:data];
+		[pendingAlertViews addObject:viewController];
+	}
+	//Not a foreground alert, but a background alert
+	else if(data.status == kNewAlertBackground)
+	{
+		[sentAwayAlerts addObject:data];
 	}
 }
 
@@ -56,7 +64,12 @@
 	[NSKeyedArchiver archiveRootObject:pendingAlerts toFile:@"/var/mobile/Library/MobileNotifier/pending.plist"];
 	[NSKeyedArchiver archiveRootObject:sentAwayAlerts toFile:@"/var/mobile/Library/MobileNotifier/sentaway.plist"];
 	[NSKeyedArchiver archiveRootObject:dismissedAlerts toFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"];
+}
 
+//Delegate method for MNAlertViewController
+-(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action
+{
+	
 }
 
 @end

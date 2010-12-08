@@ -1,5 +1,7 @@
 #import "MNAlertViewController.h"
 
+@synthesize dataObj;
+
 @synthesize alertHeader, alertText, sendAway, alertBackground;
 
 @synthesize delegate = _delegate;
@@ -18,6 +20,8 @@
 
 -(void)initWithData:(MNAlertData *data)
 {
+	dataObj = data;
+	
 	alertHeader = [[UILabel alloc] init];
 	alertHeader.text = data.header;
 
@@ -28,8 +32,10 @@
 	alertBackground = [[UIImageView alloc] init];
 
 	//Wire up sendAway!
-	
 	[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchDown];
+	//Wire up the takeAction!
+	[alertBackground addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchDown];
+	
 }
 
 -(void)sendAway:(id)sender
@@ -38,4 +44,10 @@
 	[delegate alertViewController:self hadActionTaken:kAlertSentAway];
 
 	//And that's it! The delegate will take care of everything else.
+}
+
+-(void)takeAction:(id)sender
+{
+	//Notify the delegate
+	[delegate alertViewController:self hadActionTaken:kAlertTakeAction];
 }

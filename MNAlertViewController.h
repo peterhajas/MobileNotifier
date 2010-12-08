@@ -1,10 +1,15 @@
 #define kAlertSentAway 0
+#define kAlertTakeAction 1
 
-@class MNAlertViewController
+#import <UIKit/UIKit.h>
+#import "MNAlertData.h"
+
+
+@class MNAlertViewController;
 
 @protocol MNAlertViewControllerDelegate
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action;
-
+@end
 @interface MNAlertViewController : UIViewController
 {
 	UILabel *alertHeader;
@@ -12,10 +17,16 @@
 	UIButton *sendAway;
 	UIImageView *alertBackground;
 
+	MNAlertData *dataObj;
+
 	id<MNAlertViewControllerDelegate> _delegate;
 }
 
--(void)initWithData:(MNAlertData *data);
+-(void)initWithData:(MNAlertData*) data;
+-(void)sendAway:(id)sender;
+-(void)takeAction:(id)sender;
+
+@property(nonatomic, retain) MNAlertData *dataObj;
 
 @property(nonatomic, retain) UILabel *alertHeader;
 @property(nonatomic, retain) UILabel *alertText;

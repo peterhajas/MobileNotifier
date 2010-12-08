@@ -53,7 +53,7 @@ And, as always, have fun!
 
 %class SBUIController;
 
-@interface PHACInterface : NSObject <AlertControllerDelegate>
+@interface PHACInterface : NSObject <MNAlertManagerDelegate>
 {
 
 
@@ -100,7 +100,7 @@ And, as always, have fun!
 @end
 
 //Alert Controller:
-AlertController *controller;
+MNAlertManager *manager;
 
 //SB Interface
 PHACInterface *phacinterface;
@@ -117,7 +117,7 @@ PHACInterface *phacinterface;
     phacinterface = [[PHACInterface alloc] init];
 
 	MNAlertManager *manager = [[MNAlertManager alloc] init];
-    controller.delegate = phacinterface;
+    manager.delegate = phacinterface;
 
     //Connect up to Activator
     [[LAActivator sharedInstance] registerListener:manager forName:@"com.peterhajassoftware.mobilenotifier"];
@@ -131,24 +131,35 @@ PHACInterface *phacinterface;
 
 -(void)activateAlertItem:(id)item
 {
-    if([item isKindOfClass:%c(SBSMSAlertItem)])
+    //Build the alert data part of the way
+	MNAlertData* data = [[MNAlertData alloc] init];
+	//Current date + time
+	data.time = [[NSDate alloc] init];
+	data.status = kNewAlertForeground;
+
+	if([item isKindOfClass:%c(SBSMSAlertItem)])
     {
         //It's an SMS/MMS!
-        if([item alertImageData] == NULL)
+        data.type = kSMSAlert;
+		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
+		if([item alertImageData] == NULL)
         {
-            [controller newAlert: [NSString stringWithFormat:@"SMS from %@: %@", [item name], [item messageText]] ofType:@"SMS" withBundle:@"com.apple.MobileSMS"];
-        }
+			data.header = [[NSString alloc] initWithFormat:@"SMS from", [item name]];
+			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
+		}
         else
         {
-            [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS" withBundle:@"com.apple.MobileSMS"];
+			data.header = [[NSString alloc] initWithFormat:@"MMS from", [item name]];
+			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
         }
     }
     else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
     {
         //It's a push notification!
-        SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
+        /*SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
         NSString *body(MSHookIvar<NSString *>(self, "_body"));
         [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push" withBundle:[app bundleIdentifier]];
+		*/
     }
     else
     {
