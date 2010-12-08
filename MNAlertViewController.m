@@ -32,9 +32,9 @@
 	alertBackground = [[UIImageView alloc] init];
 
 	//Wire up sendAway!
-	[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchDown];
+	[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchUpInside];
 	//Wire up the takeAction!
-	[alertBackground addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchDown];
+	[alertBackground addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchUpInside];
 	
 }
 
