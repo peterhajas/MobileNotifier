@@ -148,20 +148,18 @@ PHACInterface *phacinterface;
             [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS" withBundle:@"com.apple.MobileSMS"];
         }
     }
-    else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
+    /*else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
     {
         //It's a push notification!
         SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
         NSString *body(MSHookIvar<NSString *>(self, "_body"));
         [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push" withBundle:[app bundleIdentifier]];
-    }
+    }*/
     else
     {
         //It's a different alert (power, for example)
-    }
-
-    //We still need this! It makes stuff vibrate and make noise!
-    %orig;
+		%orig;
+    }    
 }
 
 -(void)deactivateAlertItem:(id)item
