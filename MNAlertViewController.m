@@ -27,13 +27,14 @@
 -(id)initWithMNData:(MNAlertData*) data
 {
 	self = [super init];
+	
 	dataObj = data;
 	
-	alertHeader = [[UILabel alloc] init];
+	alertHeader = [[UILabel alloc] initWithFrame:CGRectMake(20, 4, 250 , 40)];
 	alertHeader.text = data.header;
 	alertHeader.font = [UIFont fontWithName:@"Helvetica" size:10];
 
-	alertText = [[UILabel alloc] init];
+	alertText = [[UILabel alloc] initWithFrame:CGRectMake(20, 9, 250 , 40)];
 	alertText.text = data.text;
 	alertText.font = [UIFont fontWithName:@"Helvetica" size:16];
 
@@ -41,6 +42,11 @@
 	takeAction = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	
 	alertBackground = [[UIImageView alloc] init];
+	
+	if(data.type == kSMSAlert)
+	{
+		alertBackground.image = [UIImage imageNamed:@"/Library/Application Support/MobileNotifier/greenAlert_retina.png"];
+	}
 
 	//Wire up sendAway!
 	[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchUpInside];
@@ -48,6 +54,17 @@
 	[takeAction addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchUpInside];
 	
 	return self;
+}
+
+-(void)loadView
+{
+	[super loadView];
+	[self.view addSubview:alertBackground];
+	[self.view addSubview:alertHeader];
+	[self.view addSubview:alertText];
+	[self.view addSubview:sendAway];
+	[self.view addSubview:takeAction];
+	
 }
 
 -(void)sendAway:(id)sender
