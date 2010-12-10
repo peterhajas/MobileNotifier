@@ -85,46 +85,45 @@
 	{
 		//Move the alert from pendingAlerts into sentAwayAlerts
 		MNAlertData *data = viewController.dataObj;
-		[pendingAlerts removeObject:data];
+		int index = [pendingAlertViews indexOfObject:viewController];
+		
 		[sentAwayAlerts addObject:data];
+		[pendingAlerts removeObject:data];
+		[viewController.view removeFromSuperview];
+		[pendingAlertViews removeObject:viewController];
 		//Redraw alerts
-		[self redrawPendingAlerts];
+		[self redrawAlertsBelowIndex:index];
+		if([pendingAlertViews count] == 0)
+		{
+			alertWindow.frame = CGRectMake(0,20,320,0);
+		}
 	}
-	if(action == kAlertTakeAction)
+	else if(action == kAlertTakeAction)
 	{
 		MNAlertData *data = viewController.dataObj;
+		int index = [pendingAlertViews indexOfObject:viewController];
+		
 		//Launch the bundle
 		[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
 		//Move alert into dismissedAlerts from pendingAlerts
-		[pendingAlerts removeObject:data];
 		[dismissedAlerts addObject:data];
+		[pendingAlerts removeObject:data];
+		[viewController.view removeFromSuperview];
+		[pendingAlertViews removeObject:viewController];
 		//Redraw alerts
-		[self redrawPendingAlerts];
+		[self redrawAlertsBelowIndex:index];
+		if([pendingAlertViews count] == 0)
+		{
+			alertWindow.frame = CGRectMake(0,20,320,0);
+		}
 	}
 }
--(void)redrawPendingAlerts
+-(void)redrawAlertsBelowIndex:(int)index
 {
-	for (UIView *view in alertWindow.subviews) 
+	for(int i = index; i < [pendingAlertViews count]; i++)
 	{
-		[view removeFromSuperview];
+		UIViewController* temp = [pendingAlertViews objectAtIndex:i];
+		[temp.view setFrame:CGRectMake(0,temp.view.frame.origin.y - 60,320,60)];
 	}
-	for (UIViewController *viewc in pendingAlertViews) 
-	{
-		[viewc.view removeFromSuperview];
-	}
-	//Change the window size
-	[alertWindow setFrame:CGRectMake(0, 20, 320, 60 * ([pendingAlerts count]))];
-	NSLog(@"New window height: %f", 60 * ([pendingAlerts count]));
-	//Re-add the other pending views
-	int i;
-	for(i = 0; i < [pendingAlerts count]; i++)
-	{
-		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:i]];
-		[viewController.view setFrame:CGRectMake(0,(i* 60) ,320,60)];
-		[pendingAlertViews addObject:viewController];
-		[alertWindow addSubview:viewController.view];
-	}
-	NSLog(@"New window height: %f", 60 * ([pendingAlerts count]));
-	
 }
 @end
