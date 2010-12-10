@@ -1,0 +1,28 @@
+MobileNotifier Class Hierarchy Plan:
+
+Model = MNAlertData
+ ivars:
+	NSString alertHeader
+	NSString alertText
+	NSString alertType
+	NSString bundleID
+	 
+View = MNAlertViewController
+ ivars:
+	UILabel alertHeader
+	UILabel alertText
+	UIButton sendAway
+	UIImageView alertBackground
+	delegate for communicating with MNAlertController
+
+Controller = MNAlertController
+ ivars:
+	MNAlertData data
+	MNAlertViewController viewController	
+	
+Management Class = MNAlertManager
+ ivars:
+	NSMutableArray pendingAlerts
+	NSMutableArray sentAwayAlerts
+	NSMutableArray dismissedAlerts 
+
