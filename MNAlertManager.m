@@ -12,7 +12,7 @@
 	//Let's hope the NSObject init doesn't fail!
 	if(self != nil)
 	{
-		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,20)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
+		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,60)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
 		alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 		alertWindow.userInteractionEnabled = YES;
 		alertWindow.hidden = NO;
@@ -57,6 +57,10 @@
 		viewController.delegate = self;
 		[pendingAlerts addObject:data];
 		[pendingAlertViews addObject:viewController];
+		//Change the window size
+		[alertWindow setFrame:CGRectMake(0, 20, 320, 60 * ([pendingAlerts count]))];
+		NSLog(@"New window height: %f", 60 * ([pendingAlerts count]));
+		//Add the subview
 		[alertWindow addSubview:viewController.view];
 	}
 	//Not a foreground alert, but a background alert
@@ -104,5 +108,23 @@
 	{
 		[view removeFromSuperview];
 	}
+	for (UIViewController *viewc in pendingAlertViews) 
+	{
+		[viewc.view removeFromSuperview];
+	}
+	//Change the window size
+	[alertWindow setFrame:CGRectMake(0, 20, 320, 60 * ([pendingAlerts count]))];
+	NSLog(@"New window height: %f", 60 * ([pendingAlerts count]));
+	//Re-add the other pending views
+	int i;
+	for(i = 0; i < [pendingAlerts count]; i++)
+	{
+		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:i]];
+		[viewController.view setFrame:CGRectMake(0,(i* 60) ,320,60)];
+		[pendingAlertViews addObject:viewController];
+		[alertWindow addSubview:viewController.view];
+	}
+	NSLog(@"New window height: %f", 60 * ([pendingAlerts count]));
+	
 }
 @end

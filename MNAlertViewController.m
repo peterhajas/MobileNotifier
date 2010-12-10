@@ -76,6 +76,7 @@
 -(void)sendAway:(id)sender
 {
 	//Notify the delegate
+	NSLog(@"Action!");
 	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
 
 	//And that's it! The delegate will take care of everything else.
@@ -84,6 +85,7 @@
 -(void)takeAction:(id)sender
 {
 	//Notify the delegate
+	NSLog(@"Action!");
 	[_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
 }
 
