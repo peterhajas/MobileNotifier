@@ -23,6 +23,7 @@
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
+-(void)redrawPendingAlerts;
 
 @property (nonatomic, retain) UIWindow *alertWindow;
 

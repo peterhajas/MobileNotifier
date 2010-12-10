@@ -38,20 +38,27 @@
 {
 	[super loadView];
 	
-	alertHeader = [[UILabel alloc] initWithFrame:CGRectMake(20, 4, 250 , 40)];
-	alertHeader.text = data.header;
-	alertHeader.font = [UIFont fontWithName:@"Helvetica" size:10];
+	alertHeader = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 250 , 40)];
+	alertHeader.text = dataObj.header;
+	alertHeader.font = [UIFont fontWithName:@"Helvetica" size:12];
+	alertHeader.backgroundColor = [UIColor clearColor];
 
 	sendAway = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	sendAway.frame = CGRectMake(275, 13, 33, 33);
+	[sendAway setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_retina.png"] forState:UIControlStateNormal];
 	takeAction = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	[takeAction setTitle:data.text forState:UIControlStateNormal];
-	takeAction.frame = CGRectMake(20, 30, 250, 40);
+	[takeAction setTitle:dataObj.text forState:UIControlStateNormal];
+	[takeAction setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+	[takeAction setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	//Negative frame, because of centered UIButton text. Gross.
+	takeAction.frame = CGRectMake(20, 20, 250, 40);
 	
 	alertBackground = [[UIImageView alloc] init];
+	[alertBackground setFrame:CGRectMake(0,0,320,60)];
 	
-	if(data.type == kSMSAlert)
+	if(dataObj.type == kSMSAlert)
 	{
-		alertBackground.image = [UIImage imageNamed:@"/Library/Application Support/MobileNotifier/greenAlert_retina.png"];
+		alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/greenAlert_retina.png"];
 	}
 
 	//Wire up sendAway!

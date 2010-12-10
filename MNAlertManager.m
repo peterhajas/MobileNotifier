@@ -12,7 +12,7 @@
 	//Let's hope the NSObject init doesn't fail!
 	if(self != nil)
 	{
-		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,240)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
+		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,20)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
 		alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 		alertWindow.userInteractionEnabled = YES;
 		alertWindow.hidden = NO;
@@ -27,7 +27,6 @@
 		pendingAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/pending.plist"] retain] ?: [[NSMutableArray alloc] init];
 		sentAwayAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/sentaway.plist"] retain] ?: [[NSMutableArray alloc] init];
 		dismissedAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"] retain] ?: [[NSMutableArray alloc] init];
-
 
 		//Move all elements from pendingAlerts into sentAwayAlerts
 		int i;
@@ -54,6 +53,7 @@
 	{
 		//Build a new MNAlertViewController
 		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+		[viewController.view setFrame:CGRectMake(0,([pendingAlertViews count] * 60) ,320,60)];
 		viewController.delegate = self;
 		[pendingAlerts addObject:data];
 		[pendingAlertViews addObject:viewController];
@@ -77,7 +77,32 @@
 //Delegate method for MNAlertViewController
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action
 {
-	
+	if(action == kAlertSentAway)
+	{
+		//Move the alert from pendingAlerts into sentAwayAlerts
+		MNAlertData *data = viewController.dataObj;
+		[pendingAlerts removeObject:data];
+		[sentAwayAlerts addObject:data];
+		//Redraw alerts
+		[self redrawPendingAlerts];
+	}
+	if(action == kAlertTakeAction)
+	{
+		MNAlertData *data = viewController.dataObj;
+		//Launch the bundle
+		[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
+		//Move alert into dismissedAlerts from pendingAlerts
+		[pendingAlerts removeObject:data];
+		[dismissedAlerts addObject:data];
+		//Redraw alerts
+		[self redrawPendingAlerts];
+	}
 }
-
+-(void)redrawPendingAlerts
+{
+	for (UIView *view in alertWindow.subviews) 
+	{
+		[view removeFromSuperview];
+	}
+}
 @end
