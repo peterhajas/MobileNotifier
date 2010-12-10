@@ -6,16 +6,17 @@
 @synthesize delegate = _delegate;
 @synthesize alertWindow;
 -(id)init
-{
-	alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,240)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
-	alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
-	alertWindow.userInteractionEnabled = YES;
-	alertWindow.hidden = NO;
-	
+{	
 	self = [super init];
+	
 	//Let's hope the NSObject init doesn't fail!
 	if(self != nil)
 	{
+		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,240)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
+		alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
+		alertWindow.userInteractionEnabled = YES;
+		alertWindow.hidden = NO;
+		
 		//If the directory doesn't exist, create it!
 		if(![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/MobileNotifier/"])
 		{
@@ -63,6 +64,7 @@
 	{
 		[sentAwayAlerts addObject:data];
 	}
+	[self saveOut];
 }
 
 -(void)saveOut

@@ -4,23 +4,24 @@
 
 @synthesize dataObj;
 
-@synthesize alertHeader, alertText, sendAway, takeAction, alertBackground;
+@synthesize alertHeader, sendAway, takeAction, alertBackground;
 
 @synthesize delegate = _delegate;
 
 -(id)init
 {
 	self = [super init];
-	alertHeader = [[UILabel alloc] init];
-	alertText = [[UILabel alloc] init];
-	sendAway = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	alertBackground = [[UIImageView alloc] init];
+	if(self != nil)
+	{
+		alertHeader = [[UILabel alloc] init];
+		sendAway = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		alertBackground = [[UIImageView alloc] init];
 
-	//Wire up sendAway!
-	[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchUpInside];
-	//Wire up the takeAction!
-	[takeAction addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchUpInside];
-	
+		//Wire up sendAway!
+		[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchUpInside];
+		//Wire up the takeAction!
+		[takeAction addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchUpInside];
+	}
 	return self;
 }
 
@@ -30,16 +31,21 @@
 	
 	dataObj = data;
 	
+	return self;
+}
+
+-(void)loadView
+{
+	[super loadView];
+	
 	alertHeader = [[UILabel alloc] initWithFrame:CGRectMake(20, 4, 250 , 40)];
 	alertHeader.text = data.header;
 	alertHeader.font = [UIFont fontWithName:@"Helvetica" size:10];
 
-	alertText = [[UILabel alloc] initWithFrame:CGRectMake(20, 9, 250 , 40)];
-	alertText.text = data.text;
-	alertText.font = [UIFont fontWithName:@"Helvetica" size:16];
-
 	sendAway = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	takeAction = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	[takeAction setTitle:data.text forState:UIControlStateNormal];
+	takeAction.frame = CGRectMake(20, 30, 250, 40);
 	
 	alertBackground = [[UIImageView alloc] init];
 	
@@ -53,15 +59,8 @@
 	//Wire up the takeAction!
 	[takeAction addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchUpInside];
 	
-	return self;
-}
-
--(void)loadView
-{
-	[super loadView];
 	[self.view addSubview:alertBackground];
 	[self.view addSubview:alertHeader];
-	[self.view addSubview:alertText];
 	[self.view addSubview:sendAway];
 	[self.view addSubview:takeAction];
 	

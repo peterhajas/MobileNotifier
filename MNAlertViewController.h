@@ -13,7 +13,6 @@
 @interface MNAlertViewController : UIViewController
 {
 	UILabel *alertHeader;
-	UILabel *alertText;
 	UIButton *sendAway;
 	UIButton *takeAction;
 	UIImageView *alertBackground;
@@ -30,7 +29,6 @@
 @property(nonatomic, retain) MNAlertData *dataObj;
 
 @property(nonatomic, retain) UILabel *alertHeader;
-@property(nonatomic, retain) UILabel *alertText;
 @property(nonatomic, retain) UIButton *sendAway;
 @property(nonatomic, retain) UIButton *takeAction;
 @property(nonatomic, retain) UIImageView *alertBackground;

@@ -116,7 +116,7 @@ PHACInterface *phacinterface;
 
     phacinterface = [[PHACInterface alloc] init];
 
-	MNAlertManager *manager = [[MNAlertManager alloc] init];
+	manager = [[MNAlertManager alloc] init];
     manager.delegate = phacinterface;
 
     //Connect up to Activator
@@ -139,21 +139,22 @@ PHACInterface *phacinterface;
 	data.status = kNewAlertForeground;
 
 	if([item isKindOfClass:%c(SBSMSAlertItem)])
-    {
+	{
         //It's an SMS/MMS!
         data.type = kSMSAlert;
 		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
 		if([item alertImageData] == NULL)
-        {
-			data.header = [[NSString alloc] initWithFormat:@"SMS from", [item name]];
+		{
+			data.header = [[NSString alloc] initWithFormat:@"SMS from %@:", [item name]];
 			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
 		}
-        else
-        {
-			data.header = [[NSString alloc] initWithFormat:@"MMS from", [item name]];
+	    else
+	    {
+			data.header = [[NSString alloc] initWithFormat:@"MMS from %@:", [item name]];
 			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
-        }
-    }
+	    }
+		[manager newAlertWithData:data];
+	}
     else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
     {
         //It's a push notification!
