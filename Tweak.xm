@@ -141,16 +141,6 @@ PHACInterface *phacinterface;
 	if([item isKindOfClass:%c(SBSMSAlertItem)])
 	{
         //It's an SMS/MMS!
-        if([item alertImageData] == NULL)
-        {
-            [controller newAlert: [NSString stringWithFormat:@"SMS from %@: %@", [item name], [item messageText]] ofType:@"SMS" withBundle:@"com.apple.MobileSMS"];
-        }
-        else
-        {
-            [controller newAlert: [NSString stringWithFormat:@"MMS from %@", [item name]] ofType: @"MMS" withBundle:@"com.apple.MobileSMS"];
-        }
-    }
-    /*else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
         data.type = kSMSAlert;
 		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
 		if([item alertImageData] == NULL)
@@ -171,12 +161,12 @@ PHACInterface *phacinterface;
         /*SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
         NSString *body(MSHookIvar<NSString *>(self, "_body"));
         [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push" withBundle:[app bundleIdentifier]];
-    }*/
+		*/
+    }
     else
     {
         //It's a different alert (power, for example)
-		%orig;
-    }    
+    }
 }
 
 -(void)deactivateAlertItem:(id)item
