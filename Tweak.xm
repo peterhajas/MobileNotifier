@@ -29,7 +29,8 @@ Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Veency and countless othe
 
 for all your help and mega-useful tools.
 
-To build this, use "make" in the directory. This project utilizes Theos as its makefile system and Logos as its hooking preprocessor.
+To build this, use "make" in the directory.
+This project utilizes Theos as its makefile system and Logos as its hooking preprocessor.
 
 You will need Theos installed:
 http://github.com/DHowett/theos
@@ -213,8 +214,8 @@ PHACInterface *phacinterface;
     %log;
 	if([self gotNewMessages])
 	{
-		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]); //Message count corresponds to maximum storage in an inbox (ie 200), not to the count of messages received...
-    
+		//Message count corresponds to maximum storage in an inbox (ie 200), /not/ to the count of messages received...
+		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]);
         //Display our alert! 
 	}
 	else
