@@ -60,6 +60,10 @@
 	{
 		alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/greenAlert_retina.png"];
 	}
+	if(dataObj.type == kPushAlert)
+	{
+		alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_retina.png"];
+	}
 
 	//Wire up sendAway!
 	[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchUpInside];

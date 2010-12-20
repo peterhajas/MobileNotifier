@@ -158,16 +158,19 @@ PHACInterface *phacinterface;
     else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
     {
         //It's a push notification!
-        /*SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
-        NSString *body(MSHookIvar<NSString *>(self, "_body"));
-        [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push" withBundle:[app bundleIdentifier]];
-		*/
-		//Let's run the original function for now
-		%orig;
+        
+		//Get the SBApplication object, we need its bundle identifier
+		SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
+		
+		data.type = kPushAlert;
+		data.bundleID = [app bundleIdentifier];
+		data.header = [[item alertSheet] title];
+		data.text = [[item alertSheet] bodyText];
+		[manager newAlertWithData:data];
     }
     else
     {
-        //It's a different alert (power, for example)
+        //It's a different alert (power/app store, for example)
 
 		//Let's run the original function for now
 		%orig;

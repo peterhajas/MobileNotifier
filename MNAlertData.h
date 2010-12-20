@@ -1,9 +1,9 @@
-
 #define kNewAlertForeground 0
 #define kNewAlertBackground 1
 #define kOldAlert 2
 
 #define kSMSAlert 0
+#define kPushAlert 1
 
 @interface MNAlertData : NSObject <NSCoding>
 {
