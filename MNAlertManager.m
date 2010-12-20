@@ -120,7 +120,8 @@
 }
 -(void)redrawAlertsBelowIndex:(int)index
 {
-	for(int i = index; i < [pendingAlertViews count]; i++)
+	int i;
+	for(i = index; i < [pendingAlertViews count]; i++)
 	{
 		UIViewController* temp = [pendingAlertViews objectAtIndex:i];
 		[temp.view setFrame:CGRectMake(0,temp.view.frame.origin.y - 60,320,60)];
