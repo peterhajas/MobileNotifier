@@ -162,10 +162,15 @@ PHACInterface *phacinterface;
         NSString *body(MSHookIvar<NSString *>(self, "_body"));
         [controller newAlert: [NSString stringWithFormat:@"%@: %@", [app displayName], body] ofType:@"Push" withBundle:[app bundleIdentifier]];
 		*/
+		//Let's run the original function for now
+		%orig;
     }
     else
     {
         //It's a different alert (power, for example)
+
+		//Let's run the original function for now
+		%orig;
     }
 }
 
