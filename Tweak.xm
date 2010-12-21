@@ -156,18 +156,20 @@ PHACInterface *phacinterface;
 	    }
 		[manager newAlertWithData:data];
 	}
-    else if([item isKindOfClass:%c(SBRemoteNotificationAlert)])
+    else if(([item isKindOfClass:%c(SBRemoteNotificationAlert)]) || ([item isKindOfClass:%c(SBRemoteLocalNotificationAlert)]))
     {
         //It's a push notification!
         
 		//Get the SBApplication object, we need its bundle identifier
-		SBApplication *app(MSHookIvar<SBApplication *>(self, "_app"));
+		SBApplication *app(MSHookIvar<SBApplication *>(item, "_app"));
 		
+		[[item alertSheet] retain];
 		data.type = kPushAlert;
 		data.bundleID = [app bundleIdentifier];
 		data.header = [[item alertSheet] title];
 		data.text = [[item alertSheet] bodyText];
 		[manager newAlertWithData:data];
+		[[item alertSheet] release];
     }
     else
     {
