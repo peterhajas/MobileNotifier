@@ -3,7 +3,7 @@ Name: MobileNotifier
 Depends: mobilesubstrate
 Version: 0.0.1
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: iOS notifications. Done right.
 Maintainer: Peter Hajas
 Author: Peter Hajas
 Section: Tweaks
