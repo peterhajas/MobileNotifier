@@ -156,20 +156,29 @@ PHACInterface *phacinterface;
 	    }
 		[manager newAlertWithData:data];
 	}
-    else if(([item isKindOfClass:%c(SBRemoteNotificationAlert)]) || ([item isKindOfClass:%c(SBRemoteLocalNotificationAlert)]))
+    else if(([item isKindOfClass:%c(SBRemoteNotificationAlert)]) || 
+			([item isKindOfClass:%c(SBRemoteLocalNotificationAlert)]))
     {
         //It's a push notification!
         
 		//Get the SBApplication object, we need its bundle identifier
 		SBApplication *app(MSHookIvar<SBApplication *>(item, "_app"));
-		
-		[[item alertSheet] retain];
-		data.type = kPushAlert;
-		data.bundleID = [app bundleIdentifier];
-		data.header = [[item alertSheet] title];
-		data.text = [[item alertSheet] bodyText];
-		[manager newAlertWithData:data];
-		[[item alertSheet] release];
+		if(([[app bundleIdentifier] rangeOfString:@"mobiletimer"].location == NSNotFound) || 
+		   ([[app bundleIdentifier] rangeOfString:@"MobileTimer"].location == NSNotFound))
+		{
+			[[item alertSheet] retain];
+			data.type = kPushAlert;
+			data.bundleID = [app bundleIdentifier];
+			data.header = [[item alertSheet] title];
+			data.text = [[item alertSheet] bodyText];
+			[manager newAlertWithData:data];
+			[[item alertSheet] release];
+		}
+		else
+		{
+			//We do not want to intercept MobileTimer events.
+			%orig;
+		}
     }
     else
     {
