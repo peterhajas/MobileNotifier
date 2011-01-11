@@ -54,6 +54,10 @@ And, as always, have fun!
 
 %class SBUIController;
 
+@interface SBUIController (peterhajas)
+-(void)activateApplicationFromSwitcher:(SBApplication *) app;
+@end
+
 @interface PHACInterface : NSObject <MNAlertManagerDelegate>
 {
 
@@ -68,8 +72,17 @@ And, as always, have fun!
 {
     SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
     SBApplicationController *appcontroller = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
-
-    [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
+	if([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
+	{
+		//Do the awesome, animated switch to the new app
+		[uicontroller activateApplicationFromSwitcher:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
+	}
+	else
+	{
+		//Boring old way (which still doesn't work outside of Springboard)
+		//TODO: switch to URL for this
+		[uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
+	}
 }
 
 - (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID
