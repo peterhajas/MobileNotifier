@@ -9,7 +9,7 @@
 - (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, UITableViewDataSource>
+@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate>
 {
 	NSMutableArray *pendingAlerts;
 	NSMutableArray *pendingAlertViews;
