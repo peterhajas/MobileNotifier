@@ -1,4 +1,3 @@
-#import "MNAlertManager.h"
 #import "MNAlertData.h"
 
 #define kPendingActive 0

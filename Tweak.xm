@@ -56,6 +56,8 @@ And, as always, have fun!
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
+-(void)_toggleSwitcher;
+-(BOOL)isSwitcherShowing;
 @end
 
 @interface PHACInterface : NSObject <MNAlertManagerDelegate>
@@ -227,6 +229,20 @@ PHACInterface *phacinterface;
 }
 
 %end;
+
+//Hook SBUIController for fun stuff related to the switcher coming out and going away
+
+%hook SBUIController
+
+-(void)_toggleSwitcher
+{
+	%orig;
+	//If the switcher's showing, let's turn on the dashboard
+	//If not, hide the dashboard
+	[manager.dashboard toggleDashboard:[self isSwitcherShowing]];
+}
+
+%end
 
 //Hook AutoFetchRequestPrivate for getting new mail
 

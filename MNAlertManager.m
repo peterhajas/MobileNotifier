@@ -5,6 +5,8 @@
 @synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts, pendingAlertViews;
 @synthesize delegate = _delegate;
 @synthesize alertWindow;
+@synthesize dashboard;
+
 -(id)init
 {	
 	self = [super init];
@@ -42,6 +44,10 @@
 		//Init the pendingAlertViews array
 	
 		pendingAlertViews = [[NSMutableArray alloc] init];
+		
+		//Alloc and init the dashboard
+		dashboard = [[MNAlertDashboardViewController alloc] init];
+		dashboard.delegate = self;
 	}
 	return self;
 }
@@ -112,12 +118,20 @@
 		[pendingAlertViews removeObject:viewController];
 		//Redraw alerts
 		[self redrawAlertsBelowIndex:index];
-		if([pendingAlertViews count] == 0)
-		{
-			alertWindow.frame = CGRectMake(0,20,320,0);
-		}
 	}
 }
+
+-(void)takeActionOnAlertWithData:(MNAlertData *)data
+{
+	//Launch the bundle
+	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
+	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
+	[dismissedAlerts addObject:data];
+	[pendingAlerts removeObject:data];
+	[sentAwayAlerts removeObject:data];
+	//Cool! All done!
+}
+
 -(void)redrawAlertsBelowIndex:(int)index
 {
 	int i;
@@ -126,17 +140,28 @@
 		UIViewController* temp = [pendingAlertViews objectAtIndex:i];
 		[temp.view setFrame:CGRectMake(0,temp.view.frame.origin.y - 60,320,60)];
 	}
+	if([pendingAlertViews count] == 0)
+	{
+		alertWindow.frame = CGRectMake(0,20,320,0);
+	}
 }
 
-//UITableViewDataSource methods
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//MNAlertDashboardViewControllerProtocol Methods:
+- (void)actionOnAlertAtIndex:(int)index inArray:(int)array
 {
-	return nil;
+	
 }
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSMutableArray *)getPendingAlerts
 {
-	return [sentAwayAlerts count];
+	return pendingAlerts;
+}
+- (NSMutableArray *)getSentAwayAlerts
+{
+	return sentAwayAlerts;
+}
+- (NSMutableArray *)getDismissedAlerts
+{
+	return dismissedAlerts;
 }
 
 @end

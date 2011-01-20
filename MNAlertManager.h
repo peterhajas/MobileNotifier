@@ -1,6 +1,7 @@
 #define kNewAlertForeground 0
 #define kNewAlertBackground 1
 
+#import "MNAlertDashboardViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
 
@@ -9,7 +10,7 @@
 - (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate>
+@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, MNAlertDashboardViewControllerProtocol>
 {
 	NSMutableArray *pendingAlerts;
 	NSMutableArray *pendingAlertViews;
@@ -17,6 +18,8 @@
 	NSMutableArray *dismissedAlerts;
 	
 	UIWindow *alertWindow;
+	
+	MNAlertDashboardViewController *dashboard;
 	
 	id<MNAlertManagerDelegate> _delegate;
 }
@@ -31,6 +34,8 @@
 @property (nonatomic, retain) NSMutableArray *pendingAlertViews;
 @property (nonatomic, retain) NSMutableArray *sentAwayAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
+
+@property (nonatomic, retain) MNAlertDashboardViewController *dashboard;
 
 @property (nonatomic, assign) id<MNAlertManagerDelegate> delegate;
 
