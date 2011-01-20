@@ -60,13 +60,11 @@ And, as always, have fun!
 -(BOOL)_revealSwitcher:(double)switcher;
 @end
 
+@interface SBRemoteLocalNotificationAlert : SBAlertItem
+-(id)alertItemNotificationSender;
+@end
+
 @interface PHACInterface : NSObject <MNAlertManagerDelegate>
-{
-
-
-
-}
-
 @end
 
 @implementation PHACInterface
@@ -184,8 +182,8 @@ PHACInterface *phacinterface;
 			[[item alertSheet] retain];
 			data.type = kPushAlert;
 			data.bundleID = [app bundleIdentifier];
-			data.header = [[item alertSheet] title];
-			data.text = [[item alertSheet] bodyText];
+			data.header = [[item alertItemNotificationSender] retain];
+			data.text = [[[item alertSheet] bodyText] retain];
 			[manager newAlertWithData:data];
 			[[item alertSheet] release];
 		}
