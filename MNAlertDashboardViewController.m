@@ -14,7 +14,11 @@
 		
 		//Initialize ivars:
 		//picker:
-		NSArray *items = [NSArray arrayWithObjects:@"sent", "@pending", @"saved", nil];
+		NSMutableArray *items = [[NSMutableArray alloc] init];
+		[items addObject:@"sent"];
+		[items addObject:@"pending"];
+		[items addObject:@"saved"];
+		//NSArray *items = [[NSArray alloc] initWithObjects:@"sent", "@pending", @"saved", nil];
 		activeArray = -1;
 		picker = [[UISegmentedControl alloc] initWithItems: items];
 		picker.segmentedControlStyle = UISegmentedControlStyleBar;
