@@ -75,16 +75,29 @@
 	}
 }
 
-//UITableViewDataSource methods
+//UITableViewDataSource methods:
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return nil;
+	//Declare our temporary cell. Reuse identifier of nil, as alert cells won't be recycled
+	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+	//Set the text to the text represented in the AlertData object
+	cell.textLabel.text = ((MNAlertData*)[activeArrayReference objectAtIndex:indexPath.row]).text;
+	//TODO: Now, set the background color
+	
+	return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return [activeArrayReference count];
+}
+
+//UITableViewDelegate methods:
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	
 }
 
 @end
