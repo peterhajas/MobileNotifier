@@ -15,7 +15,7 @@
 		//Initialize ivars:
 		//picker:
 		NSArray *items = [NSArray arrayWithObjects:@"sent", "@pending", @"saved", nil];
-		activeArray = 0;
+		activeArray = -1;
 		picker = [[UISegmentedControl alloc] initWithItems: items];
 		picker.segmentedControlStyle = UISegmentedControlStyleBar;
 		picker.frame = CGRectMake(0, 20, screenBounds.size.width, 20);
@@ -97,7 +97,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
+	[_delegate actionOnAlertAtIndex:indexPath.row inArray:activeArray];
 }
 
 @end
