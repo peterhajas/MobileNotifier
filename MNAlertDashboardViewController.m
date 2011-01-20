@@ -51,10 +51,22 @@
 	return self;
 }
 
--(void)toggleDashboard:(BOOL)toggle
+-(void)toggleDashboard
 {
-	window.userInteractionEnabled = toggle;
-	window.hidden = !toggle;
+	window.userInteractionEnabled = !window.userInteractionEnabled;
+	window.hidden = !window.hidden;
+}
+
+-(void)hideDashboard
+{
+	window.userInteractionEnabled = NO;
+	window.hidden = YES;
+}
+
+-(void)showDashboard
+{
+	window.userInteractionEnabled = YES;
+	window.hidden = NO;
 }
 
 -(void)activeArrayChanged:(id)sender

@@ -48,6 +48,9 @@
 		//Alloc and init the dashboard
 		dashboard = [[MNAlertDashboardViewController alloc] init];
 		dashboard.delegate = self;
+		
+		//Register for libactivator events
+		[[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
 	}
 	return self;
 }
@@ -149,7 +152,27 @@
 //MNAlertDashboardViewControllerProtocol Methods:
 - (void)actionOnAlertAtIndex:(int)index inArray:(int)array
 {
-	
+	NSMutableArray *activeArray = nil;
+	//Interpret the activeArray
+	if(array == kPendingActive)
+	{
+		activeArray = pendingAlerts;
+	}
+	if(array == kSentActive)   
+	{
+		activeArray = sentAwayAlerts;
+	}
+	if(array == kDismissActive)
+	{
+		activeArray = dismissedAlerts;
+	}
+	//Create the data object
+	MNAlertData *data;
+	data = [activeArray objectAtIndex:index];
+	//Take action on it
+	[self takeActionOnAlertWithData:data];
+	//Hide the dashboard
+	[dashboard hideDashboard];
 }
 - (NSMutableArray *)getPendingAlerts
 {
@@ -162,6 +185,17 @@
 - (NSMutableArray *)getDismissedAlerts
 {
 	return dismissedAlerts;
+}
+
+//Libactivator methods
+- (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
+{
+	[dashboard toggleDashboard];
+}
+
+- (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
+{
+	[dashboard hideDashboard];
 }
 
 @end

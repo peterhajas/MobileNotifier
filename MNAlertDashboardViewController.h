@@ -25,7 +25,9 @@
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
 }
 
--(void)toggleDashboard:(BOOL)toggle;
+-(void)toggleDashboard;
+-(void)hideDashboard;
+-(void)showDashboard;
 -(void)activeArrayChanged:(id)sender;
 
 @property (nonatomic, retain) UISegmentedControl *picker;

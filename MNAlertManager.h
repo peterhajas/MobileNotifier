@@ -1,6 +1,8 @@
 #define kNewAlertForeground 0
 #define kNewAlertBackground 1
 
+#import <libactivator/libactivator.h>
+
 #import "MNAlertDashboardViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
@@ -10,7 +12,9 @@
 - (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, MNAlertDashboardViewControllerProtocol>
+@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
+									  MNAlertDashboardViewControllerProtocol,
+									  LAListener>
 {
 	NSMutableArray *pendingAlerts;
 	NSMutableArray *pendingAlertViews;
