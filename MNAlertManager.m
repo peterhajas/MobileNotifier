@@ -127,4 +127,16 @@
 		[temp.view setFrame:CGRectMake(0,temp.view.frame.origin.y - 60,320,60)];
 	}
 }
+
+//UITableViewDataSource methods
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return [sentAwayAlerts count];
+}
+
 @end
