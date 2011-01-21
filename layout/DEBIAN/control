@@ -1,6 +1,6 @@
 Package: com.peterhajassoftware.mobilenotifier
 Name: MobileNotifier
-Depends: mobilesubstrate
+Depends: mobilesubstrate, libactivator (>= 1.4.6)
 Version: 0.0.1
 Architecture: iphoneos-arm
 Description: iOS notifications. Done right.
