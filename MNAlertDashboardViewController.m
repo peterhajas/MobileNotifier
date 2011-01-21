@@ -16,8 +16,8 @@
 		//Initialize ivars:
 		//picker:
 		NSMutableArray *items = [[NSMutableArray alloc] init];
-		[items addObject:@"sent"];
 		[items addObject:@"pending"];
+		[items addObject:@"sent"];
 		[items addObject:@"saved"];
 		activeArray = -1;
 		picker = [[UISegmentedControl alloc] initWithItems: items];
