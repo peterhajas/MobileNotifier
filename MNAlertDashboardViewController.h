@@ -16,7 +16,6 @@
 {
 	UISegmentedControl *picker;
 	UITableView *tableView;
-	UILabel *infoDisplay;
 	UIWindow *window;
 	NSMutableArray *activeArrayReference;
 	
@@ -32,7 +31,6 @@
 
 @property (nonatomic, retain) UISegmentedControl *picker;
 @property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic, retain) UILabel *infoDisplay;
 @property (nonatomic, retain) UIWindow *window;
 
 @property (nonatomic, retain) id <MNAlertDashboardViewControllerProtocol> delegate;

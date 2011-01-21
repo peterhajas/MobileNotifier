@@ -3,7 +3,7 @@
 
 @implementation MNAlertDashboardViewController
 
-@synthesize picker, tableView, infoDisplay, window;
+@synthesize picker, tableView, window;
 @synthesize delegate = _delegate;
 
 -(id)init
@@ -19,7 +19,6 @@
 		[items addObject:@"sent"];
 		[items addObject:@"pending"];
 		[items addObject:@"saved"];
-		//NSArray *items = [[NSArray alloc] initWithObjects:@"sent", "@pending", @"saved", nil];
 		activeArray = -1;
 		picker = [[UISegmentedControl alloc] initWithItems: items];
 		picker.segmentedControlStyle = UISegmentedControlStyleBar;
@@ -35,11 +34,6 @@
 		//Rounded corners!
 		tableView.layer.cornerRadius = 5;
 		
-		//infoDisplay:
-		infoDisplay = [[UILabel alloc] init];
-		infoDisplay.text = @"Tapping an alert will send it to saved.";
-		infoDisplay.frame = CGRectMake(10, 400, screenBounds.size.width - 20, 10);
-		
 		//window:
 		window = [[UIWindow alloc] initWithFrame:CGRectMake(10 ,20,screenBounds.size.width,screenBounds.size.height)];
 		window.windowLevel = 989;
@@ -49,7 +43,6 @@
 		//add our stuff!
 		[window addSubview:picker];
 		[window addSubview:tableView];
-		[window addSubview:infoDisplay];
 	}
 	return self;
 }
