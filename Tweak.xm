@@ -210,20 +210,26 @@ PHACInterface *phacinterface;
 
 %end
 
-//Hook SBAwayView for showing our lockscreen view.
-//SBAwayView is released each time the phone is unlocked, and a new instance created when the phone is locked (thanks Limneos!)
+//Hook SBAwayController for showing our lockscreen view.
 
-%hook SBAwayView
+%hook SBAwayController
 
--(void)viewDidLoad
+-(void)lock
 {
-    %orig;
+	%orig;
+	//Move down the frame
+	CGRect screenBounds = [[UIScreen mainScreen] bounds];
+	manager.dashboard.window.frame = CGRectMake(10 ,80,screenBounds.size.width,(screenBounds.size.height / 2) + 55);
+	[manager.dashboard showDashboard];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+-(void)_finishedUnlockAttemptWithStatus:(BOOL)status
 {
-     
-    %orig;
+	%orig;
+	//Move up the frame
+	CGRect screenBounds = [[UIScreen mainScreen] bounds];
+	manager.dashboard.window.frame = CGRectMake(10 ,20,screenBounds.size.width,(screenBounds.size.height / 2) + 55);
+	[manager.dashboard hideDashboard];
 }
 
 %end;
