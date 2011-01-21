@@ -35,7 +35,7 @@
 		tableView.layer.cornerRadius = 5;
 		
 		//window:
-		window = [[UIWindow alloc] initWithFrame:CGRectMake(10 ,20,screenBounds.size.width,screenBounds.size.height)];
+		window = [[UIWindow alloc] initWithFrame:CGRectMake(10 ,20,screenBounds.size.width,(screenBounds.size.height / 2) + 55)];
 		window.windowLevel = 989;
 		window.userInteractionEnabled = NO;
 		window.hidden = YES;
