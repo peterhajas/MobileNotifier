@@ -101,10 +101,11 @@
 	//Declare our temporary cell. Reuse identifier of nil, as alert cells won't be recycled
 	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
 	//Set the text to the text represented in the AlertData object
-	cell.textLabel.text = ((MNAlertData*)[activeArrayReference objectAtIndex:indexPath.row]).header;
+	MNAlertData *data = (MNAlertData*)[activeArrayReference objectAtIndex: [activeArrayReference count] - indexPath.row];
+	cell.textLabel.text = data.header;
 	cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
 	cell.textLabel.textColor = [UIColor darkGrayColor];
-	cell.detailTextLabel.text = ((MNAlertData*)[activeArrayReference objectAtIndex:indexPath.row]).text;
+	cell.detailTextLabel.text = data.text;
 	cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:11];
 	cell.detailTextLabel.textColor = [UIColor blackColor];
 	
