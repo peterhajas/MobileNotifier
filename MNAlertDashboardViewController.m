@@ -100,8 +100,9 @@
 {
 	//Declare our temporary cell. Reuse identifier of nil, as alert cells won't be recycled
 	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
+	//We want to sort these in inverse order
+	MNAlertData *data = (MNAlertData*)[activeArrayReference objectAtIndex: [activeArrayReference count] - 1 - indexPath.row];
 	//Set the text to the text represented in the AlertData object
-	MNAlertData *data = (MNAlertData*)[activeArrayReference objectAtIndex: [activeArrayReference count] - indexPath.row];
 	cell.textLabel.text = data.header;
 	cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
 	cell.textLabel.textColor = [UIColor darkGrayColor];
