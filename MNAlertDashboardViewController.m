@@ -1,3 +1,4 @@
+#import <QuartzCore/QuartzCore.h>
 #import "MNAlertDashboardViewController.h"
 
 @implementation MNAlertDashboardViewController
@@ -22,23 +23,25 @@
 		activeArray = -1;
 		picker = [[UISegmentedControl alloc] initWithItems: items];
 		picker.segmentedControlStyle = UISegmentedControlStyleBar;
-		picker.frame = CGRectMake(0, 20, screenBounds.size.width, 20);
+		picker.frame = CGRectMake(0, 10, screenBounds.size.width - 20, 40);
 		[picker			  addTarget:self
 		                     action:@selector(activeArrayChanged:)
 		           forControlEvents:UIControlEventValueChanged];
 		
 		//tableView:
-		tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 40, screenBounds.size.width, screenBounds.size.height / 2) style: UITableViewStylePlain];
+		tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 55, screenBounds.size.width - 20, screenBounds.size.height / 2) style: UITableViewStylePlain];
 		tableView.dataSource = self;
 		tableView.delegate = self;
+		//Rounded corners!
+		tableView.layer.cornerRadius = 5;
 		
 		//infoDisplay:
 		infoDisplay = [[UILabel alloc] init];
 		infoDisplay.text = @"Tapping an alert will send it to saved.";
-		infoDisplay.frame = CGRectMake(10, 100, screenBounds.size.width - 20, 10);
+		infoDisplay.frame = CGRectMake(10, 400, screenBounds.size.width - 20, 10);
 		
 		//window:
-		window = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,screenBounds.size.width,screenBounds.size.height)];
+		window = [[UIWindow alloc] initWithFrame:CGRectMake(10 ,20,screenBounds.size.width,screenBounds.size.height)];
 		window.windowLevel = 989;
 		window.userInteractionEnabled = NO;
 		window.hidden = YES;
@@ -96,10 +99,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	//Declare our temporary cell. Reuse identifier of nil, as alert cells won't be recycled
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
 	//Set the text to the text represented in the AlertData object
-	cell.textLabel.text = ((MNAlertData*)[activeArrayReference objectAtIndex:indexPath.row]).text;
-	//TODO: Now, set the background color
+	cell.textLabel.text = ((MNAlertData*)[activeArrayReference objectAtIndex:indexPath.row]).header;
+	cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+	cell.textLabel.textColor = [UIColor darkGrayColor];
+	cell.detailTextLabel.text = ((MNAlertData*)[activeArrayReference objectAtIndex:indexPath.row]).text;
+	cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:11];
+	cell.detailTextLabel.textColor = [UIColor blackColor];
+	
+	//TODO: Set the icon for the cell.imageView.image property
 	
 	return cell;
 }

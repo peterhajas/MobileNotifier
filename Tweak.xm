@@ -70,6 +70,7 @@ And, as always, have fun!
 @implementation PHACInterface
 - (void)launchBundleID:(NSString *)bundleID
 {
+	//TODO: switch to URL for this
     SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
     SBApplicationController *appcontroller = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
 	if([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
@@ -80,7 +81,6 @@ And, as always, have fun!
 	else
 	{
 		//Boring old way (which still doesn't work outside of Springboard)
-		//TODO: switch to URL for this
 		[uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
 	}
 }

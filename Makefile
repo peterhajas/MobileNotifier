@@ -6,7 +6,7 @@ MobileNotifier_FILES = Tweak.xm MNAlertData.m MNAlertManager.m MNAlertViewContro
 SUBPROJECTS = settings
 
 include $(FW_MAKEDIR)/tweak.mk
-MobileNotifier_FRAMEWORKS = UIKit Foundation
+MobileNotifier_FRAMEWORKS = UIKit Foundation QuartzCore
 MobileNotifier_LDFLAGS = -lactivator
 
 SUBPROJECTS = settings
