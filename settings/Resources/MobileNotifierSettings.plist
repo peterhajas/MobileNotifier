@@ -6,93 +6,21 @@
 	<array>
 		<dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
+			<string>PSGiantCell</string>
 			<key>label</key>
-			<string>I&apos;m a PSGroupCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSLinkCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSLinkCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSLinkListCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSLinkListCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSListItemCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSListItemCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSTitleValueCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSTitleValueCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSSliderCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSSwitchCell! Turn me </string>
+			<string>MobileNotifier</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>I&apos;m a PSStaticTextCell!</string>
+			<string>Copyright 2010-2011 Peter Hajas Software</string>
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>default</key>
-			<string>I&apos;m a PSEditTextCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSegmentCell</string>
+			<string>PSSwitchCell</string>
 			<key>label</key>
-			<string>I&apos;m a PSSegmentCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGiantIconCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSEditTextViewCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGiantCell</string>
-			<key>default</key>
-			<string>I&apos;m a PSGiantCell! I&apos;m HUGE!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSecureEditTextCell</string>
-			<key>default</key>
-			<string>I&apos;m a PSSecureEditTextCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSButtonCell</string>
-			<key>label</key>
-			<string>I&apos;m a PSButtonCell!</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextViewCell</string>
-			<key>default</key>
-			<string>I&apos;m a PSEditTextViewCell!</string>
+			<string>AlertDashboard on lock</string>
 		</dict>
 	</array>
 	<key>title</key>
