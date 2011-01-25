@@ -14,6 +14,12 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
+			<string>beta2r2. how cool do you feel?</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
 			<string>Copyright 2010-2011 Peter Hajas Software</string>
 		</dict>
 		<dict>
@@ -21,6 +27,10 @@
 			<string>PSSwitchCell</string>
 			<key>label</key>
 			<string>AlertDashboard on lock</string>
+			<key>defaults</key>
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>key</key>
+			<string>MNDashboardOnLock</string>
 		</dict>
 	</array>
 	<key>title</key>
