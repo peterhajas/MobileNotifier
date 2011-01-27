@@ -13,8 +13,8 @@ and notify Peter Hajas
 
 iOS Notifications. Done right. Like 2010 right.
 
-This is an RCOS project for the Spring 2010 semester. The website for RCOS is at rcos.cs.rpi.edu/
-.h
+This is an RCOS project for the Fall 2010, Spring 2011 semester. The website for RCOS is at rcos.cs.rpi.edu/
+
 Thanks to:
 
 Mukkai Krishnamoorthy - cs.rpi.edu/~moorthy - for being the faculty sponsor
