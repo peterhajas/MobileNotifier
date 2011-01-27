@@ -1,45 +1,37 @@
 /*
-
 MobileNotifier, by Peter Hajas
-
-Copyright 2010 Peter Hajas, Peter Hajas Software
-
-This code is licensed under the GPL. The full text of which is available in the file "LICENSE"
-which should have been included with this package. If not, please see:
-
-http://www.gnu.org/licenses/gpl.txt
-
-and notify Peter Hajas
-
 iOS Notifications. Done right. Like 2010 right.
 
-This is an RCOS project for the Fall 2010, Spring 2011 semester. The website for RCOS is at rcos.cs.rpi.edu/
+Copyright 2010 Peter Hajas, Peter Hajas Software
+This code is licensed under the BSD license
+*/
 
-Thanks to:
+/*
 
-Mukkai Krishnamoorthy - cs.rpi.edu/~moorthy - for being the faculty sponsor
-Sean O' Sullivan - for his financial contributions. Thanks so much Mr. Sullivan.
+Copyright (c) 2010-2011, Peter Hajas
+All rights reserved.
 
-Dustin Howett - howett.net - for Theos and amazing help on IRC!
-Ryan Petrich - github.com/rpetrich - for Activator and help on IRC
-chpwn - chpwn.com - for his awesome tweaks and help on IRC
-Aaron Ash - multifl0w.com - for his help on IRC and invaluable advice
-KennyTM - github.com/kennytm - for his decompiled headers
-Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Veency and countless other gifts to the community
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the <organization> nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
 
-for all your help and mega-useful tools.
-
-To build this, use "make" in the directory.
-This project utilizes Theos as its makefile system and Logos as its hooking preprocessor.
-
-You will need Theos installed:
-http://github.com/DHowett/theos
-With the decompiled headers in /theos/include/:
-http://github.com/kennytm/iphone-private-frameworks
-
-I hope you enjoy! Questions and comments to peterhajas (at) gmail (dot) com
-
-And, as always, have fun!
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
