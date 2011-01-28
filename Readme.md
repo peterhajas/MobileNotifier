@@ -23,7 +23,7 @@ To build MobileNotifier, you'll need Theos (the iOS makefile system by Dustin Ho
 
 http://iphonedevwiki.net/index.php/Theos/Getting_Started
 
-Theos can be installed on Mac OS X, Linux and iOS. MobileNotifier has only been built on iOS.
+Theos can be installed on Mac OS X, Linux and iOS. MobileNotifier has only been built on Mac OS X.
 
 Then, you'll need the decompiled 3.x headers from rpetrich's fork of Kennytm in $THEOS/include/ with frameworks at top level (i.e. $THEOS/include/Springboard). You can find those here:
 
