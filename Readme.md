@@ -16,6 +16,8 @@ MobileNotifier is a complete rewrite, from the ground up, of the iOS Notificatio
 
 Due to the way the software functions, MobileNotifier requires a jailbroken iOS device running MobileSubstrate, Activator and Preference Loader. MobileNotifier will inform you of missing dependencies upon install.
 
+MobileNotifier now includes a pretty awesome new companion app: MobileNukifier! MobileNukifier does what it sounds like - it deletes your MobileNotifier directory (/var/mobile/Library/MobileNotifier/) containing your notifications, and resprings the phone. This clears things out, and allows for easier testing once new versions are released.
+
 Building
 --------
 
