@@ -166,8 +166,8 @@ PHACInterface *phacinterface;
         
 		//Get the SBApplication object, we need its bundle identifier
 		SBApplication *app(MSHookIvar<SBApplication *>(item, "_app"));
-		if(([[app bundleIdentifier] rangeOfString:@"mobiletimer"].location == NSNotFound) || 
-		   ([[app bundleIdentifier] rangeOfString:@"MobileTimer"].location == NSNotFound))
+		//Filter out clock alerts
+		if([[item alertItemNotificationSender] rangeOfString:@"Clock"].location == NSNotFound)
 		{
 			[[item alertSheet] retain];
 			data.type = kPushAlert;
