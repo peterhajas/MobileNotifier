@@ -45,11 +45,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									  LAListener>
 {
 	NSMutableArray *pendingAlerts;
-	NSMutableArray *pendingAlertViews;
 	NSMutableArray *sentAwayAlerts;
 	NSMutableArray *dismissedAlerts;
 	
+	bool alertIsShowing;
+	
 	UIWindow *alertWindow;
+	MNAlertViewController *pendingAlertViewController;
 	
 	MNAlertDashboardViewController *dashboard;
 	
@@ -58,16 +60,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
--(void)redrawAlertsBelowIndex:(int)index;
 
 @property (nonatomic, retain) UIWindow *alertWindow;
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
-@property (nonatomic, retain) NSMutableArray *pendingAlertViews;
 @property (nonatomic, retain) NSMutableArray *sentAwayAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
 
 @property (nonatomic, retain) MNAlertDashboardViewController *dashboard;
+@property (nonatomic, retain) MNAlertViewController *pendingAlertViewController;
 
 @property (nonatomic, assign) id<MNAlertManagerDelegate> delegate;
 

@@ -29,9 +29,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @implementation MNAlertManager
 
-@synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts, pendingAlertViews;
+@synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts;
 @synthesize delegate = _delegate;
-@synthesize alertWindow;
+@synthesize alertWindow, pendingAlertViewController;
 @synthesize dashboard;
 
 -(id)init
@@ -67,10 +67,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[pendingAlerts removeObjectsInArray:sentAwayAlerts];
 
 		//Somewhere, these should be arranged by time...
-
-		//Init the pendingAlertViews array
-	
-		pendingAlertViews = [[NSMutableArray alloc] init];
+		
+		alertIsShowing = NO;
 		
 		//Alloc and init the dashboard
 		dashboard = [[MNAlertDashboardViewController alloc] init];
@@ -88,14 +86,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	if(data.status == kNewAlertForeground)
 	{
 		//Build a new MNAlertViewController
+		if(alertIsShowing)
+		{
+			[pendingAlertViewController.view removeFromSuperview];
+		}
 		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
-		[viewController.view setFrame:CGRectMake(0,([pendingAlertViews count] * 60) ,320,60)];
+		[viewController.view setFrame:CGRectMake(0,0,320,62)];
 		viewController.delegate = self;
 		[pendingAlerts addObject:data];
-		[pendingAlertViews addObject:viewController];
+		pendingAlertViewController = viewController;
+		
+		alertIsShowing = YES;
+		
 		//Change the window size
-		[alertWindow setFrame:CGRectMake(0, 20, 320, 60 * ([pendingAlerts count]))];
-		NSLog(@"New window height: %f", 60 * ([pendingAlerts count]));
+		[alertWindow setFrame:CGRectMake(0, 20, 320, 62)];
 		//Add the subview
 		[alertWindow addSubview:viewController.view];
 	}
@@ -119,25 +123,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	if(action == kAlertSentAway)
 	{
+		alertIsShowing = NO;
 		//Move the alert from pendingAlerts into sentAwayAlerts
 		MNAlertData *data = viewController.dataObj;
-		int index = [pendingAlertViews indexOfObject:viewController];
 		
 		[sentAwayAlerts addObject:data];
 		[pendingAlerts removeObject:data];
 		[viewController.view removeFromSuperview];
-		[pendingAlertViews removeObject:viewController];
-		//Redraw alerts
-		[self redrawAlertsBelowIndex:index];
-		if([pendingAlertViews count] == 0)
-		{
-			alertWindow.frame = CGRectMake(0,20,320,0);
-		}
 	}
 	else if(action == kAlertTakeAction)
 	{
+		alertIsShowing = NO;
 		MNAlertData *data = viewController.dataObj;
-		int index = [pendingAlertViews indexOfObject:viewController];
 		
 		//Launch the bundle
 		[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
@@ -145,10 +142,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[dismissedAlerts addObject:data];
 		[pendingAlerts removeObject:data];
 		[viewController.view removeFromSuperview];
-		[pendingAlertViews removeObject:viewController];
-		//Redraw alerts
-		[self redrawAlertsBelowIndex:index];
 	}
+	alertWindow.frame = CGRectMake(0,20,320,0);
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
@@ -165,20 +160,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)iconForBundleID:(NSString *)bundleID
 {
 	return [_delegate getAppIconForBundleID:bundleID];
-}
-
--(void)redrawAlertsBelowIndex:(int)index
-{
-	int i;
-	for(i = index; i < [pendingAlertViews count]; i++)
-	{
-		UIViewController* temp = [pendingAlertViews objectAtIndex:i];
-		[temp.view setFrame:CGRectMake(0,temp.view.frame.origin.y - 60,320,60)];
-	}
-	if([pendingAlertViews count] == 0)
-	{
-		alertWindow.frame = CGRectMake(0,20,320,0);
-	}
 }
 
 //MNAlertDashboardViewControllerProtocol Methods:
