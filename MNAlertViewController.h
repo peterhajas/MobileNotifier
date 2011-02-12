@@ -31,11 +31,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <UIKit/UIKit.h>
 #import "MNAlertData.h"
 
-
 @class MNAlertViewController;
 
 @protocol MNAlertViewControllerDelegate
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action;
+-(id)iconForBundleID:(NSString *)bundleID;
 @end
 @interface MNAlertViewController : UIViewController
 {
@@ -43,6 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	UIButton *sendAway;
 	UIButton *takeAction;
 	UIImageView *alertBackground;
+	UIImageView *applicationIcon;
 
 	MNAlertData *dataObj;
 
@@ -59,6 +60,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(nonatomic, retain) UIButton *sendAway;
 @property(nonatomic, retain) UIButton *takeAction;
 @property(nonatomic, retain) UIImageView *alertBackground;
+@property(nonatomic, retain) UIImageView *applicationIcon;
 
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
 

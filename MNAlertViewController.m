@@ -31,8 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @synthesize dataObj;
 
-@synthesize alertHeader, sendAway, takeAction, alertBackground;
-
+@synthesize alertHeader, sendAway, takeAction, alertBackground, applicationIcon;
 @synthesize delegate = _delegate;
 
 -(id)init
@@ -71,26 +70,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertHeader.backgroundColor = [UIColor clearColor];
 
 	sendAway = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	sendAway.frame = CGRectMake(275, 13, 33, 33);
-	[sendAway setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dismiss_retina.png"] forState:UIControlStateNormal];
+	sendAway.frame = CGRectMake(265, 18, 34, 20);
+	[sendAway setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/sendAwayButton.png"] forState:UIControlStateNormal];
 	takeAction = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	[takeAction setTitle:dataObj.text forState:UIControlStateNormal];
 	[takeAction setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
 	[takeAction setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	//Negative frame, because of centered UIButton text. Gross.
-	takeAction.frame = CGRectMake(20, 20, 250, 40);
+	takeAction.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
+
+	takeAction.frame = CGRectMake(20, 20, 230, 40);
 	
 	alertBackground = [[UIImageView alloc] init];
-	[alertBackground setFrame:CGRectMake(0,0,320,60)];
+	[alertBackground setFrame:CGRectMake(0,0,320,62)];
+	alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alertBackground.png"];
 	
-	if(dataObj.type == kSMSAlert)
-	{
-		alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/greenAlert_retina.png"];
-	}
-	if(dataObj.type == kPushAlert)
-	{
-		alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/blueAlert_retina.png"];
-	}
+	//Not yet functional :/
+	applicationIcon = [[UIImageView alloc] init];
+	[applicationIcon setFrame:CGRectMake(10,10,42,42)];
+	applicationIcon.image = [_delegate iconForBundleID:dataObj.bundleID];
+
 
 	//Wire up sendAway!
 	[sendAway addTarget:self action:@selector(sendAway:) forControlEvents:UIControlEventTouchUpInside];
@@ -98,16 +96,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[takeAction addTarget:self action:@selector(takeAction:) forControlEvents:UIControlEventTouchUpInside];
 	
 	[self.view addSubview:alertBackground];
+	
 	[self.view addSubview:alertHeader];
 	[self.view addSubview:sendAway];
 	[self.view addSubview:takeAction];
+	[self.view addSubview:applicationIcon];
 	
 }
 
 -(void)sendAway:(id)sender
 {
 	//Notify the delegate
-	NSLog(@"Action!");
 	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
 
 	//And that's it! The delegate will take care of everything else.
@@ -116,7 +115,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)takeAction:(id)sender
 {
 	//Notify the delegate
-	NSLog(@"Action!");
 	[_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
 }
 

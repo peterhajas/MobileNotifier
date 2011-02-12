@@ -162,6 +162,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Cool! All done!
 }
 
+-(id)iconForBundleID:(NSString *)bundleID
+{
+	return [_delegate getAppIconForBundleID:bundleID];
+}
+
 -(void)redrawAlertsBelowIndex:(int)index
 {
 	int i;

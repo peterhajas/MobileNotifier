@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @class MNAlertManager;
 @protocol MNAlertManagerDelegate
 - (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
+- (UIImage*) getAppIconForBundleID:(NSString *)bundleID;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 

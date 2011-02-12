@@ -43,11 +43,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNAlertViewController.h"
 
 %class SBUIController;
+%class SBIconModel;
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
 -(void)dismissSwitcher;
 -(BOOL)_revealSwitcher:(double)switcher;
+@end
+
+@interface SBIconModel (peterhajas)
++(id)sharedInstance;
+-(id)applicationIconForDisplayIdentifier:(id)displayIdentifier;
+@end
+
+@interface SBApplicationIcon (peterhajas)
+-(id)getIconImage:(int)image;
 @end
 
 @interface SBRemoteLocalNotificationAlert : SBAlertItem
@@ -78,6 +88,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID
 {
     [self launchBundleID:bundleID];
+}
+
+- (UIImage*)getAppIconForBundleID:(NSString *)bundleID
+{
+	//Grab the image for the corresponding icon:
+	SBIconModel* sbIconModel = (SBIconModel *)[%c(SBIconModel) sharedInstance];
+	SBApplicationIcon* appIcon = [sbIconModel applicationIconForDisplayIdentifier: bundleID];
+	return [appIcon getIconImage:0];
 }
 @end
 
