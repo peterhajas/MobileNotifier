@@ -31,10 +31,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)alertArrived
 {
-	//Have the device vibrate
+	//Have the device vibrate, if the ringer switch is flipped (and if the device supports it)
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-	//Play noise?
-	AudioServicesPlaySystemSound(0x00001000);
+	//Play noise, if the ringer switch is not flipped (and if the device supports it)
+	AudioServicesPlaySystemSound(1007);
 }
 
 @end
