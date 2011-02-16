@@ -25,55 +25,16 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#define kNewAlertForeground 0
-#define kNewAlertBackground 1
-
-#import <libactivator/libactivator.h>
-
-#import "MNAlertDashboardViewController.h"
-#import "MNAlertData.h"
-#import "MNAlertViewController.h"
 #import "MNWhistleBlowerController.h"
 
-@class MNAlertManager;
-@protocol MNAlertManagerDelegate
-- (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
-- (UIImage*) getAppIconForBundleID:(NSString *)bundleID;
-@end
+@implementation MNWhistleBlowerController
 
-@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
-									  MNAlertDashboardViewControllerProtocol,
-									  LAListener>
+-(void)alertArrived
 {
-	NSMutableArray *pendingAlerts;
-	NSMutableArray *sentAwayAlerts;
-	NSMutableArray *dismissedAlerts;
-	
-	bool alertIsShowing;
-	
-	UIWindow *alertWindow;
-	MNAlertViewController *pendingAlertViewController;
-	
-	MNAlertDashboardViewController *dashboard;
-	
-	MNWhistleBlowerController *whistleBlower;
-	
-	id<MNAlertManagerDelegate> _delegate;
+	//Have the device vibrate
+	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+	//Play noise?
+	AudioServicesPlaySystemSound(0x00001000);
 }
-
--(void)newAlertWithData:(MNAlertData *)data;
--(void)saveOut;
-
-@property (nonatomic, retain) UIWindow *alertWindow;
-
-@property (nonatomic, retain) NSMutableArray *pendingAlerts;
-@property (nonatomic, retain) NSMutableArray *sentAwayAlerts;
-@property (nonatomic, retain) NSMutableArray *dismissedAlerts;
-
-@property (nonatomic, retain) MNAlertDashboardViewController *dashboard;
-@property (nonatomic, retain) MNAlertViewController *pendingAlertViewController;
-@property (nonatomic, retain) MNWhistleBlowerController *whistleBlower;
-
-@property (nonatomic, assign) id<MNAlertManagerDelegate> delegate;
 
 @end

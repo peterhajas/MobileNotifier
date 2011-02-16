@@ -140,7 +140,7 @@ PHACInterface *phacinterface;
 
 	manager = [[MNAlertManager alloc] init];
     manager.delegate = phacinterface;
-
+	
     //Connect up to Activator
 	//Commented out for now
     //[[LAActivator sharedInstance] registerListener:manager forName:@"com.peterhajassoftware.mobilenotifier"];

@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts;
 @synthesize delegate = _delegate;
 @synthesize alertWindow, pendingAlertViewController;
+@synthesize whistleBlower;
 @synthesize dashboard;
 
 -(id)init
@@ -70,6 +71,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		alertIsShowing = NO;
 		
+		//Allocate and init the whistle blower
+		whistleBlower = [[MNWhistleBlowerController alloc] init];
+		
 		//Alloc and init the dashboard
 		dashboard = [[MNAlertDashboardViewController alloc] init];
 		dashboard.delegate = self;
@@ -102,6 +106,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[alertWindow setFrame:CGRectMake(0, 20, 320, 62)];
 		//Add the subview
 		[alertWindow addSubview:viewController.view];
+		//Make noise
+		[whistleBlower alertArrived];
 	}
 	//Not a foreground alert, but a background alert
 	else if(data.status == kNewAlertBackground)
