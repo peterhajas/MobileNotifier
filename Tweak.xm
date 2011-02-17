@@ -99,23 +99,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 @end
 
-//Mail class declaration. This was dumped with class dump z (by kennytm)
-//and was generated with MobileMail.app
-
-@protocol AFCVisibleMailboxFetch <NSObject>
--(void)setShouldCompact:(BOOL)compact;
--(void)setMessageCount:(unsigned)count;
--(void)setRemoteIDToPreserve:(id)preserve;
--(void)setDisplayErrors:(BOOL)errors;
--(id)mailbox;
-@end
+//Mail class declaration for fetched messages
 
 @interface AutoFetchRequestPrivate
-{
 
-}
-
--(void)run;
 -(BOOL)gotNewMessages;
 -(int)messageCount;
 
@@ -225,19 +212,11 @@ PHACInterface *phacinterface;
 -(void)lock
 {
 	%orig;
-	//Move down the frame
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	manager.dashboard.window.frame = CGRectMake(10 ,80,screenBounds.size.width,(screenBounds.size.height / 2) + 55);
-	[manager.dashboard showDashboard];
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
 {
 	%orig;
-	//Move up the frame
-	CGRect screenBounds = [[UIScreen mainScreen] bounds];
-	manager.dashboard.window.frame = CGRectMake(10 ,20,screenBounds.size.width,(screenBounds.size.height / 2) + 55);
-	[manager.dashboard hideDashboard];
 }
 
 %end;
@@ -273,13 +252,19 @@ PHACInterface *phacinterface;
     %log;
 	if([self gotNewMessages])
 	{
-		//Message count corresponds to maximum storage in an inbox (ie 200), /not/ to the count of messages received...
-		NSLog(@"Attempted fetch with %d new mail!", [self messageCount]);
-        //Display our alert! 
-	}
-	else
-	{
-		NSLog(@"Attempted fetch with no new mail.");
+		//Build the alert data part of the way
+		MNAlertData* data = [[MNAlertData alloc] init];
+		//Current date + time
+		data.time = [[NSDate alloc] init];
+		data.status = kNewAlertForeground;
+
+	    data.type = kSMSAlert;
+		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileMail"];
+		
+		data.header = [[NSString alloc] initWithFormat:@"Mail"];
+		data.text = [[NSString alloc] initWithFormat:@"%d new messages", [self messageCount]];
+		
+		[manager newAlertWithData:data];
 	}
 }
 
