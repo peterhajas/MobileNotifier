@@ -174,13 +174,12 @@ PHACInterface *phacinterface;
 		//Filter out clock alerts
 		if([[item alertItemNotificationSender] rangeOfString:@"Clock"].location == NSNotFound)
 		{
-			[[item alertSheet] retain];
+			NSString* _body = MSHookIvar<NSString*>(item, "_body");
 			data.type = kPushAlert;
 			data.bundleID = [app bundleIdentifier];
-			data.header = [[item alertItemNotificationSender] retain];
-			data.text = [[[item alertSheet] bodyText] retain];
+			data.header = [item alertItemNotificationSender];
+			data.text = _body;
 			[manager newAlertWithData:data];
-			[[item alertSheet] release];
 		}
 		else
 		{
