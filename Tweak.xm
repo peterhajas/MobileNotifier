@@ -44,6 +44,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 %class SBUIController;
 %class SBIconModel;
+%class SBIcon;
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
@@ -56,8 +57,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)applicationIconForDisplayIdentifier:(id)displayIdentifier;
 @end
 
-@interface SBApplicationIcon (peterhajas)
--(id)getIconImage:(int)image;
+@interface SBIcon (peterhajas)
+-(id)iconImageView;
 @end
 
 @interface SBRemoteLocalNotificationAlert : SBAlertItem
@@ -90,12 +91,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self launchBundleID:bundleID];
 }
 
-- (UIImage*)getAppIconForBundleID:(NSString *)bundleID
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
 {
-	//Grab the image for the corresponding icon:
-	SBIconModel* sbIconModel = (SBIconModel *)[%c(SBIconModel) sharedInstance];
-	SBApplicationIcon* appIcon = [sbIconModel applicationIconForDisplayIdentifier: bundleID];
-	return [appIcon getIconImage:0];
+	if([bundleID isEqualToString:@"com.apple.MobileSMS"])
+	{
+		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon@2x.png"] retain];
+	}
+	
+	SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
+	//Let's grab the application's icon using some awesome NSBundle stuff!
+	//First, grab the app's bundle:
+	NSBundle *appBundle = (NSBundle*)[[[sbac applicationsWithBundleIdentifier:bundleID] objectAtIndex:0] bundle];
+	//Next, ask the dictionary for the IconFile name
+	NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
+	//Finally, query the bundle for the path of the icon minus its path extension (usually .png)
+	NSString *iconPath = [appBundle pathForResource:[iconName stringByDeletingPathExtension] 
+											 ofType:[iconName pathExtension]];
+	//Return our UIImage!
+	return [[UIImage imageWithContentsOfFile:iconPath] retain];
 }
 @end
 
@@ -154,12 +167,12 @@ PHACInterface *phacinterface;
 		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
 		if([item alertImageData] == NULL)
 		{
-			data.header = [[NSString alloc] initWithFormat:@"SMS from %@:", [item name]];
+			data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
 			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
 		}
 	    else
 	    {
-			data.header = [[NSString alloc] initWithFormat:@"MMS from %@:", [item name]];
+			data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
 			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
 	    }
 		[manager newAlertWithData:data];

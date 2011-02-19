@@ -29,39 +29,63 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define kAlertTakeAction 1
 
 #import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <SpringBoard/SpringBoard.h>
 #import "MNAlertData.h"
 
 @class MNAlertViewController;
 
 @protocol MNAlertViewControllerDelegate
+
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action;
--(id)iconForBundleID:(NSString *)bundleID;
+-(void)alertExpanded:(bool)isExpanded;
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
+
 @end
+
 @interface MNAlertViewController : UIViewController
 {
-	UILabel *alertHeader;
-	UIButton *sendAway;
-	UIButton *takeAction;
-	UIImageView *alertBackground;
-	UIImageView *applicationIcon;
+	UIImageView* alertBackgroundImageView;
+	UIImageView* alertActionBackgroundImageView;
+	UIImageView* iconImageView;
 
-	MNAlertData *dataObj;
+	UIButton* chevronButton;
+
+	UILabel* alertHeaderLabel;
+	UILabel* alertTextLabel;
+	
+	UIButton* replyButton;
+	UIButton* laterButton;
+	UIButton* openButton;
+
+	bool alertIsExpanded;
+
+	MNAlertData* dataObj;
 
 	id<MNAlertViewControllerDelegate> _delegate;
 }
 
 -(id)initWithMNData:(MNAlertData*) data;
--(void)sendAway:(id)sender;
--(void)takeAction:(id)sender;
+
+-(void)chevronPushed:(id)sender;
+-(void)replyPushed:(id)sender;
+-(void)laterPushed:(id)sender;
+-(void)openPushed:(id)sender;
 
 @property(nonatomic, retain) MNAlertData *dataObj;
-
-@property(nonatomic, retain) UILabel *alertHeader;
-@property(nonatomic, retain) UIButton *sendAway;
-@property(nonatomic, retain) UIButton *takeAction;
-@property(nonatomic, retain) UIImageView *alertBackground;
-@property(nonatomic, retain) UIImageView *applicationIcon;
-
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
+
+@property(nonatomic, retain) UIImageView* alertBackgroundImageView;
+@property(nonatomic, retain) UIImageView* alertActionBackgroundImageView;
+@property(nonatomic, retain) UIImageView* iconImageView;
+
+@property(nonatomic, retain) UIButton* chevronButton;
+
+@property(nonatomic, retain) UILabel* alertHeaderLabel;
+@property(nonatomic, retain) UILabel* alertTextLabel;
+
+@property(nonatomic, retain) UIButton* replyButton;
+@property(nonatomic, retain) UIButton* laterButton;
+@property(nonatomic, retain) UIButton* openButton;
 
 @end

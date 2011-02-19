@@ -42,10 +42,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Let's hope the NSObject init doesn't fail!
 	if(self != nil)
 	{
-		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
+		alertWindow = [[MNAlertWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
 		alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 		alertWindow.userInteractionEnabled = YES;
 		alertWindow.hidden = NO;
+		alertWindow.clipsToBounds = YES;
 		
 		//If the directory doesn't exist, create it!
 		if(![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/MobileNotifier/"])
@@ -95,17 +96,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[pendingAlertViewController.view removeFromSuperview];
 		}
 		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
-		[viewController.view setFrame:CGRectMake(0,0,320,62)];
 		viewController.delegate = self;
+		[viewController.view setFrame:CGRectMake(0,0,320,60)];
 		[pendingAlerts addObject:data];
 		pendingAlertViewController = viewController;
 		
 		alertIsShowing = YES;
 		
 		//Change the window size
-		[alertWindow setFrame:CGRectMake(0, 20, 320, 62)];
+		[alertWindow setFrame:CGRectMake(0, 20, 320, 60)];
 		//Add the subview
 		[alertWindow addSubview:viewController.view];
+		[alertWindow setNeedsDisplay];
 		//Make noise
 		[whistleBlower alertArrived];
 	}
@@ -163,9 +165,38 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Cool! All done!
 }
 
--(id)iconForBundleID:(NSString *)bundleID
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
 {
-	return [_delegate getAppIconForBundleID:bundleID];
+	NSLog(@"At MNAlertManager! Delegate: %@", _delegate);
+	return [_delegate iconForBundleID:bundleID];
+}
+
+-(void)alertExpanded:(bool)isExpanded
+{
+	if(isExpanded)
+	{
+		[MNAlertWindow beginAnimations : @"Contract" context:nil];
+		[MNAlertWindow setAnimationDuration:0.3];
+		[MNAlertWindow setAnimationBeginsFromCurrentState:YES];
+
+		CGRect frame = alertWindow.frame;
+		frame.size.height += 45;
+		alertWindow.frame = frame;
+
+		[MNAlertWindow commitAnimations];
+	}
+	else
+	{
+		[MNAlertWindow beginAnimations : @"Expand" context:nil];
+		[MNAlertWindow setAnimationDuration:0.3];
+		[MNAlertWindow setAnimationBeginsFromCurrentState:YES];
+
+		CGRect frame = alertWindow.frame;
+		frame.size.height -= 45;
+		alertWindow.frame = frame;
+
+		[MNAlertWindow commitAnimations];
+	}
 }
 
 //MNAlertDashboardViewControllerProtocol Methods:

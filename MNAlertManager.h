@@ -33,12 +33,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNAlertDashboardViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
+#import "MNAlertWindow.h"
 #import "MNWhistleBlowerController.h"
 
 @class MNAlertManager;
 @protocol MNAlertManagerDelegate
-- (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
-- (UIImage*) getAppIconForBundleID:(NSString *)bundleID;
+-(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
@@ -51,7 +52,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	bool alertIsShowing;
 	
-	UIWindow *alertWindow;
+	MNAlertWindow *alertWindow;
 	MNAlertViewController *pendingAlertViewController;
 	
 	MNAlertDashboardViewController *dashboard;
@@ -64,7 +65,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
 
-@property (nonatomic, retain) UIWindow *alertWindow;
+@property (nonatomic, retain) MNAlertWindow *alertWindow;
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
 @property (nonatomic, retain) NSMutableArray *sentAwayAlerts;
