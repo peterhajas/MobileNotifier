@@ -104,9 +104,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	NSBundle *appBundle = (NSBundle*)[[[sbac applicationsWithBundleIdentifier:bundleID] objectAtIndex:0] bundle];
 	//Next, ask the dictionary for the IconFile name
 	NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
-	//Finally, query the bundle for the path of the icon minus its path extension (usually .png)
-	NSString *iconPath = [appBundle pathForResource:[iconName stringByDeletingPathExtension] 
-											 ofType:[iconName pathExtension]];
+	NSString *iconPath;
+	if(iconName != nil)
+	{
+		//Finally, query the bundle for the path of the icon minus its path extension (usually .png)
+		iconPath = [appBundle pathForResource:[iconName stringByDeletingPathExtension] 
+												 ofType:[iconName pathExtension]];
+	}
+	else
+	{
+		//Some apps, like Boxcar, prefer an array of icons. We need to deal with that appropriately.
+		NSArray *iconArray = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFiles"];
+		//objectAtIndex:1 is the retina icon, from some testing
+		iconPath = [appBundle pathForResource:[[iconArray objectAtIndex:1] stringByDeletingPathExtension] 
+												 ofType:[[iconArray objectAtIndex:1] pathExtension]];
+	}
 	//Return our UIImage!
 	return [[UIImage imageWithContentsOfFile:iconPath] retain];
 }

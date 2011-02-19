@@ -38,7 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @protocol MNAlertViewControllerDelegate
 
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action;
--(void)alertExpanded:(bool)isExpanded;
+-(void)alertShowingPopOver:(bool)isShowingPopOver;
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 
 @end
@@ -46,19 +46,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @interface MNAlertViewController : UIViewController
 {
 	UIImageView* alertBackgroundImageView;
-	UIImageView* alertActionBackgroundImageView;
+	UIImageView* alertBackgroundShadow;
 	UIImageView* iconImageView;
 
 	UIButton* chevronButton;
+	UIButton* alertExpandButton;
 
 	UILabel* alertHeaderLabel;
 	UILabel* alertTextLabel;
 	
-	UIButton* replyButton;
-	UIButton* laterButton;
+	UIView *actionView;
+	
+	UIImageView* alertActionBackgroundImageView;
+	UIImageView* alertActionBackgroundImageViewShadow;
 	UIButton* openButton;
+	UIButton* laterButton;
 
-	bool alertIsExpanded;
+	bool alertIsShowingPopOver;
 
 	MNAlertData* dataObj;
 
@@ -68,14 +72,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)initWithMNData:(MNAlertData*) data;
 
 -(void)chevronPushed:(id)sender;
--(void)replyPushed:(id)sender;
--(void)laterPushed:(id)sender;
 -(void)openPushed:(id)sender;
+-(void)laterPushed:(id)sender;
 
 @property(nonatomic, retain) MNAlertData *dataObj;
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
 
 @property(nonatomic, retain) UIImageView* alertBackgroundImageView;
+@property(nonatomic, retain) UIImageView* alertBackgroundShadow;
 @property(nonatomic, retain) UIImageView* alertActionBackgroundImageView;
 @property(nonatomic, retain) UIImageView* iconImageView;
 
@@ -84,8 +88,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(nonatomic, retain) UILabel* alertHeaderLabel;
 @property(nonatomic, retain) UILabel* alertTextLabel;
 
-@property(nonatomic, retain) UIButton* replyButton;
-@property(nonatomic, retain) UIButton* laterButton;
 @property(nonatomic, retain) UIButton* openButton;
+@property(nonatomic, retain) UIButton* laterButton;
 
 @end

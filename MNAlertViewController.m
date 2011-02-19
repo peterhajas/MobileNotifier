@@ -38,10 +38,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @implementation MNAlertViewController
 
-@synthesize alertBackgroundImageView, alertActionBackgroundImageView, iconImageView;
+@synthesize alertBackgroundImageView, alertActionBackgroundImageView, iconImageView, alertBackgroundShadow;
 @synthesize chevronButton;
 @synthesize alertHeaderLabel, alertTextLabel;
-@synthesize replyButton, laterButton, openButton;
+@synthesize laterButton, openButton;
 
 @synthesize dataObj;
 
@@ -71,14 +71,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[super loadView];
 	
 	self.view.frame = CGRectMake(0,0,320,60);
-	
+
 	alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 60.0)];
 	alertBackgroundImageView.frame = CGRectMake(0.0, 0.0, 320.0, 60.0);
 	alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg.png"];
 
-	alertActionBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 60.0, 320.0, 45.0)];
-	alertActionBackgroundImageView.frame = CGRectMake(0.0, 60.0, 320.0, 45.0);
-	alertActionBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_actions_bg.png"];
+	alertBackgroundShadow = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 60.0, 320, 17)];
+	alertBackgroundShadow.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg_shadow.png"];
 
 	iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15.0, 15.0, 30.0, 30.0)];
 	iconImageView.frame = CGRectMake(12.0, 10.0, 38.0, 38.0);
@@ -86,9 +85,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	chevronButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	chevronButton.contentMode = UIViewContentModeCenter;
-	chevronButton.frame = CGRectMake(284.0, 8.0, 29.0, 44.0);
-	[chevronButton setImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_chevron_half.png"] 
+	chevronButton.frame = CGRectMake(290.0, 22, 10.0, 15.0);
+	[chevronButton setImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_chevron.png"] 
 				   forState:UIControlStateNormal];
+	
+	alertExpandButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 60.0);
 
 	alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(60.0, 11.0, 216.0, 22.0)];
 	alertHeaderLabel.frame = CGRectMake(60.0, 11.0, 216.0, 22.0);
@@ -108,59 +110,61 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertTextLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1.000];
 	alertTextLabel.backgroundColor = [UIColor clearColor];
 
-	replyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	replyButton.frame = CGRectMake(135.0, 66.0, 50.0, 32.0);
-	replyButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.000];
-	replyButton.titleLabel.shadowOffset = CGSizeMake(0.0, 0.0);
-	[replyButton setTitle:@"Reply" forState:UIControlStateNormal];
-	[replyButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[replyButton setTitleShadowColor:[UIColor colorWithWhite:0.500 alpha:1.000] forState:UIControlStateNormal];
-	[replyButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_actions_bg.png"] 
-						   forState:UIControlStateNormal];
-
-	laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	laterButton.frame = CGRectMake(231.0, 66.0, 50.0, 32.0);
-	laterButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.000];
-	[laterButton setTitle:@"Later" forState:UIControlStateNormal];
-	[laterButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[laterButton setTitleShadowColor:[UIColor colorWithWhite:0.500 alpha:1.000] forState:UIControlStateNormal];
-	[laterButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_actions_bg.png"] 
-						   forState:UIControlStateNormal];
+	//Popdown alert actions
+	alertActionBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(1.0, 47.0, 319.0, 93.0)];
+	alertActionBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/popup_bg.png"];
+	alertActionBackgroundImageView.opaque = NO;
+	//alertActionBackgroundImageView.opaque = NO;
+	alertActionBackgroundImageView.backgroundColor = [UIColor clearColor];
+	
+	//We also need the shadow for the Popdown
+	alertActionBackgroundImageViewShadow = [[UIImageView alloc] initWithFrame:CGRectMake(1.0, 47.0, 319.0, 93.0)];
+	alertActionBackgroundImageViewShadow.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/popup_bg_shadow.png"];
+	alertActionBackgroundImageViewShadow.opaque = NO;
 	
 	openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	openButton.frame = CGRectMake(39.0, 66.0, 50.0, 32.0);
-	openButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.000];
-	[openButton setTitle:@"Open" forState:UIControlStateNormal];
-	[openButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[openButton setTitleShadowColor:[UIColor colorWithWhite:0.500 alpha:1.000] forState:UIControlStateNormal];
-	[openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_actions_bg.png"] 
+	openButton.frame = CGRectMake(163.0, 80.0, 139.0, 42.0);
+	if(dataObj.type == kSMSAlert)
+	{
+		//Change this to quick reply once that feature is functional
+		[openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/open_btn.png"] 
+							  forState:UIControlStateNormal];
+	}
+	else
+	{
+		[openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/open_btn.png"] 
+							  forState:UIControlStateNormal];
+	}
+	
+	laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	laterButton.frame = CGRectMake(16.0, 80.0, 139.0, 42.0);
+	[laterButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/close_btn.png"] 
 						   forState:UIControlStateNormal];
 
 	//Wire up buttons
 	
 	[chevronButton addTarget:self action:@selector(chevronPushed:) 
 			forControlEvents:UIControlEventTouchUpInside];
-			
-	[replyButton addTarget:self action:@selector(replyPushed:)
-		  forControlEvents:UIControlEventTouchUpInside];
+
+	[openButton addTarget:self action:@selector(openPushed:)
+			 forControlEvents:UIControlEventTouchUpInside];
 
 	[laterButton addTarget:self action:@selector(laterPushed:)
 		  forControlEvents:UIControlEventTouchUpInside];
 	
-	[openButton addTarget:self action:@selector(openPushed:)
-		 forControlEvents:UIControlEventTouchUpInside];
+	[alertExpandButton addTarget:self action:@selector(chevronPushed:)
+				forControlEvents:UIControlEventTouchUpInside];
 
 	[self.view addSubview:alertBackgroundImageView];
 	[self.view addSubview:iconImageView];
 	[self.view addSubview:alertHeaderLabel];
 	[self.view addSubview:alertTextLabel];
 	[self.view addSubview:chevronButton];
-	[self.view addSubview:alertActionBackgroundImageView];
-	[self.view addSubview:replyButton];
-	[self.view addSubview:openButton];
-	[self.view addSubview:laterButton];
+	[self.view addSubview:alertBackgroundShadow];
 	
-	alertIsExpanded = NO;
+	[self.view addSubview:alertExpandButton];
+	
+	alertIsShowingPopOver = NO;
 	
 	/*
 	
@@ -188,7 +192,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)chevronPushed:(id)sender
 {	
-	if(alertIsExpanded)
+	if(alertIsShowingPopOver)
 	{
 		CGRect frame = self.view.frame;
 		frame.size.height -= 45;
@@ -200,11 +204,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		chevronButton.transform = transform;
 		[UIButton commitAnimations];
 		
+		[self.view addSubview:alertBackgroundShadow];
+		[alertActionBackgroundImageView removeFromSuperview];
+		[alertActionBackgroundImageViewShadow removeFromSuperview];
+		[openButton removeFromSuperview];
+		[laterButton removeFromSuperview];
 	}
 	else
 	{
 		CGRect frame = self.view.frame;
-		frame.size.height += 45;
+		frame.size.height += 93;
 		self.view.frame = frame;
 		
 		[UIButton beginAnimations:nil context:NULL];
@@ -212,15 +221,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		CGAffineTransform transform = CGAffineTransformMakeRotation(3.14/2);
 		chevronButton.transform = transform;
 		[UIButton commitAnimations];
+		
+		[alertBackgroundShadow removeFromSuperview];
+		[self.view addSubview:alertActionBackgroundImageViewShadow];
+		[self.view addSubview:alertActionBackgroundImageView];
+		[self.view addSubview:openButton];
+		[self.view addSubview:laterButton];
 	}
 	
-	alertIsExpanded = !alertIsExpanded;
-	[_delegate alertExpanded:alertIsExpanded];
+	alertIsShowingPopOver = !alertIsShowingPopOver;
+	[_delegate alertShowingPopOver:alertIsShowingPopOver];
 }
 
--(void)replyPushed:(id)sender
+-(void)openPushed:(id)sender
 {
-	NSLog(@"Reply pushed");
+	//Notify the delegate
+	[_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
 }
 
 -(void)laterPushed:(id)sender
@@ -229,12 +245,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
 
 	//And that's it! The delegate will take care of everything else.
-}
-
--(void)openPushed:(id)sender
-{
-	//Notify the delegate
-	[_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
 }
 
 @end

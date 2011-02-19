@@ -46,7 +46,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 		alertWindow.userInteractionEnabled = YES;
 		alertWindow.hidden = NO;
-		alertWindow.clipsToBounds = YES;
+		alertWindow.clipsToBounds = NO;
+		alertWindow.backgroundColor = [UIColor clearColor];
 		
 		//If the directory doesn't exist, create it!
 		if(![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/MobileNotifier/"])
@@ -171,31 +172,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	return [_delegate iconForBundleID:bundleID];
 }
 
--(void)alertExpanded:(bool)isExpanded
+-(void)alertShowingPopOver:(bool)isShowingPopOver;
 {
-	if(isExpanded)
+	if(isShowingPopOver)
 	{
-		[MNAlertWindow beginAnimations : @"Contract" context:nil];
-		[MNAlertWindow setAnimationDuration:0.3];
-		[MNAlertWindow setAnimationBeginsFromCurrentState:YES];
-
 		CGRect frame = alertWindow.frame;
-		frame.size.height += 45;
+		frame.size.height += 93;
 		alertWindow.frame = frame;
-
-		[MNAlertWindow commitAnimations];
 	}
 	else
 	{
-		[MNAlertWindow beginAnimations : @"Expand" context:nil];
-		[MNAlertWindow setAnimationDuration:0.3];
-		[MNAlertWindow setAnimationBeginsFromCurrentState:YES];
-
 		CGRect frame = alertWindow.frame;
-		frame.size.height -= 45;
+		frame.size.height -= 93;
 		alertWindow.frame = frame;
-
-		[MNAlertWindow commitAnimations];
 	}
 }
 
