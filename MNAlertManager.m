@@ -235,6 +235,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
 	[dashboard hideDashboard];
+	[self alertViewController:pendingAlertViewController hadActionTaken: kAlertSentAway];
 }
 
 @end
