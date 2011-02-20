@@ -119,6 +119,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		iconPath = [appBundle pathForResource:[[iconArray objectAtIndex:1] stringByDeletingPathExtension] 
 												 ofType:[[iconArray objectAtIndex:1] pathExtension]];
 	}
+	
+	if([UIImage imageWithContentsOfFile:iconPath] == nil)
+	{
+		iconPath = [appBundle pathForResource:@"Icon@2x" ofType:@"png"];
+	}
+	
+	if([UIImage imageWithContentsOfFile:iconPath] == nil)
+	{
+		iconPath = [appBundle pathForResource:@"Icon" ofType:@"png"];
+	}
+		
+	if(![[[appBundle infoDictionary] objectForKey:@"UIPrerenderedIcon"] boolValue])
+	{
+		//If they didn't preprocess the icon (Facebook, looking at you)
+		//then we should preprocess it ourselves!
+		
+		return [[UIImage imageWithContentsOfFile:iconPath] _applicationIconImagePrecomposed:YES];
+	}
+	
 	//Return our UIImage!
 	return [[UIImage imageWithContentsOfFile:iconPath] retain];
 }
