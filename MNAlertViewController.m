@@ -72,25 +72,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	self.view.frame = CGRectMake(0,0,320,60);
 
+	[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
+	[UIView setAnimationDelegate:self];
+
 	alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 60.0)];
 	alertBackgroundImageView.frame = CGRectMake(0.0, 0.0, 320.0, 60.0);
 	alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg.png"];
+	[alertBackgroundImageView setAlpha:0.0];
 
 	alertBackgroundShadow = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 60.0, 320, 17)];
 	alertBackgroundShadow.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg_shadow.png"];
+	[alertBackgroundShadow setAlpha:0.0];
 
 	iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15.0, 15.0, 30.0, 30.0)];
 	iconImageView.frame = CGRectMake(12.0, 10.0, 38.0, 38.0);
 	iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
+	[iconImageView setAlpha:0.0];
 
 	chevronButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	chevronButton.contentMode = UIViewContentModeCenter;
 	chevronButton.frame = CGRectMake(290.0, 22, 10.0, 15.0);
 	[chevronButton setImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_chevron.png"] 
 				   forState:UIControlStateNormal];
+	[chevronButton setAlpha:0.0];
 	
 	alertExpandButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 60.0);
+	[alertExpandButton setAlpha:0.0];
 
 	alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(60.0, 11.0, 216.0, 22.0)];
 	alertHeaderLabel.frame = CGRectMake(60.0, 11.0, 216.0, 22.0);
@@ -100,6 +108,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertHeaderLabel.textAlignment = UITextAlignmentLeft;
 	alertHeaderLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1.000];
 	alertHeaderLabel.backgroundColor = [UIColor clearColor];
+	alertHeaderLabel.shadowColor = [UIColor whiteColor];
+	alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
+	[alertHeaderLabel setAlpha:0.0];
 
 	alertTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60.0, 27.0, 216.0, 22.0)];
 	alertTextLabel.frame = CGRectMake(60.0, 27.0, 216.0, 22.0);
@@ -109,6 +120,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertTextLabel.textAlignment = UITextAlignmentLeft;
 	alertTextLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1.000];
 	alertTextLabel.backgroundColor = [UIColor clearColor];
+	alertTextLabel.shadowColor = [UIColor whiteColor];
+	alertTextLabel.shadowOffset = CGSizeMake(0,1);
+	[alertTextLabel setAlpha:0.0];
 
 	//Popdown alert actions
 	alertActionBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(1.0, 47.0, 319.0, 93.0)];
@@ -116,6 +130,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertActionBackgroundImageView.opaque = NO;
 	//alertActionBackgroundImageView.opaque = NO;
 	alertActionBackgroundImageView.backgroundColor = [UIColor clearColor];
+	alertActionBackgroundImageView.alpha = 0.0;
 	
 	//We also need the shadow for the Popdown
 	alertActionBackgroundImageViewShadow = [[UIImageView alloc] initWithFrame:CGRectMake(1.0, 47.0, 319.0, 93.0)];
@@ -123,7 +138,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertActionBackgroundImageViewShadow.opaque = NO;
 	
 	openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	openButton.frame = CGRectMake(163.0, 80.0, 139.0, 42.0);
+	openButton.frame = CGRectMake(163.0, 76.0, 139.0, 47.0);
+	[openButton setAlpha:0.0];
+
 	if(dataObj.type == kSMSAlert)
 	{
 		//Change this to quick reply once that feature is functional
@@ -137,10 +154,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 	
 	laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	laterButton.frame = CGRectMake(16.0, 80.0, 139.0, 42.0);
+	laterButton.frame = CGRectMake(16.0, 76.0, 139.0, 47.0);
 	[laterButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/close_btn.png"] 
 						   forState:UIControlStateNormal];
-
+	[laterButton setAlpha:0.0];
+	
 	//Wire up buttons
 	
 	[chevronButton addTarget:self action:@selector(chevronPushed:) 
@@ -165,6 +183,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[self.view addSubview:alertExpandButton];
 	
 	alertIsShowingPopOver = NO;
+	
+	[self fadeInView];
 	
 	/*
 	
@@ -204,11 +224,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		chevronButton.transform = transform;
 		[UIButton commitAnimations];
 		
-		[self.view addSubview:alertBackgroundShadow];
-		[alertActionBackgroundImageView removeFromSuperview];
-		[alertActionBackgroundImageViewShadow removeFromSuperview];
-		[openButton removeFromSuperview];
-		[laterButton removeFromSuperview];
+		[self fadeBottomAway:YES];
 	}
 	else
 	{
@@ -222,9 +238,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		chevronButton.transform = transform;
 		[UIButton commitAnimations];
 		
-		[alertBackgroundShadow removeFromSuperview];
-		[self.view addSubview:alertActionBackgroundImageViewShadow];
-		[self.view addSubview:alertActionBackgroundImageView];
+		[self fadeBottomAway:NO];
+		
 		[self.view addSubview:openButton];
 		[self.view addSubview:laterButton];
 	}
@@ -233,14 +248,101 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[_delegate alertShowingPopOver:alertIsShowingPopOver];
 }
 
+-(void)fadeBottomAway:(bool)fadeBottom
+{
+	if(fadeBottom)
+	{
+		[self.view addSubview:alertBackgroundShadow];
+		
+		[UIView beginAnimations:@"hideLower" context:NULL];
+		
+		[UIView setAnimationDuration:0.3];
+		[alertActionBackgroundImageView setAlpha:0.0];
+		[alertActionBackgroundImageViewShadow setAlpha:0.0];
+		[openButton setAlpha:0.0];
+		[laterButton setAlpha:0.0];
+		
+		[UIView commitAnimations];
+	}
+	else
+	{
+		[self.view addSubview:alertActionBackgroundImageViewShadow];
+		[self.view addSubview:alertActionBackgroundImageView];
+				
+		[UIView beginAnimations:@"showLower" context:NULL];
+		
+		[UIView setAnimationDuration:0.3];
+		[alertActionBackgroundImageView setAlpha:0.7];
+		[alertActionBackgroundImageViewShadow setAlpha:1.0];
+		[openButton setAlpha:1.0];
+		[laterButton setAlpha:1.0];
+		
+		[UIView commitAnimations];
+	}
+}
+
+-(void)fadeOutWholeView
+{
+	[UIView beginAnimations:@"fadeOutWholeView" context:NULL];
+	[UIView setAnimationDuration:0.2];
+	
+	[alertBackgroundImageView			   setAlpha:0.0];
+	[iconImageView           			   setAlpha:0.0];
+	[alertHeaderLabel        			   setAlpha:0.0];
+	[alertTextLabel          			   setAlpha:0.0];
+	[chevronButton           			   setAlpha:0.0];
+	[alertBackgroundShadow   			   setAlpha:0.0];
+	[alertExpandButton       			   setAlpha:0.0];
+	
+	[alertActionBackgroundImageView        setAlpha:0.0];
+	[alertActionBackgroundImageViewShadow  setAlpha:0.0];
+	[openButton                            setAlpha:0.0];
+	[laterButton                           setAlpha:0.0];
+	
+	[UIView commitAnimations];
+}
+
+-(void)fadeInView
+{
+	[UIView beginAnimations:@"fadeInView" context:NULL];
+	[UIView setAnimationDuration:0.2];
+	[alertBackgroundImageView setAlpha:1.0];
+	[iconImageView            setAlpha:1.0];
+	[alertHeaderLabel         setAlpha:1.0];
+	[alertTextLabel           setAlpha:1.0];
+	[chevronButton            setAlpha:1.0];
+	[alertBackgroundShadow    setAlpha:1.0];
+	[alertExpandButton        setAlpha:1.0];
+	[UIView commitAnimations];
+}
+
+-(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
+{
+	if([animationID isEqualToString:@"hideLower"])
+	{
+		[alertActionBackgroundImageView removeFromSuperview];
+		[alertActionBackgroundImageViewShadow removeFromSuperview];
+		[openButton removeFromSuperview];
+		[laterButton removeFromSuperview];
+	}
+	if([animationID isEqualToString:@"fadeOutWholeView"])
+	{
+		[self.view removeFromSuperview];
+	}
+}
+
 -(void)openPushed:(id)sender
 {
+	[self fadeOutWholeView];
+	
 	//Notify the delegate
 	[_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
 }
 
 -(void)laterPushed:(id)sender
 {
+	[self fadeOutWholeView];
+	
 	//Notify the delegate
 	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
 

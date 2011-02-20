@@ -72,6 +72,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)initWithMNData:(MNAlertData*) data;
 
 -(void)chevronPushed:(id)sender;
+
+-(void)fadeBottomAway:(bool)fadeBottom;
+-(void)fadeOutWholeView;
+-(void)fadeInView;
+-(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context;
+
 -(void)openPushed:(id)sender;
 -(void)laterPushed:(id)sender;
 

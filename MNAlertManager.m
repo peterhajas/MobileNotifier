@@ -138,7 +138,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		[sentAwayAlerts addObject:data];
 		[pendingAlerts removeObject:data];
-		[viewController.view removeFromSuperview];
 	}
 	else if(action == kAlertTakeAction)
 	{
@@ -150,7 +149,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//Move alert into dismissedAlerts from pendingAlerts
 		[dismissedAlerts addObject:data];
 		[pendingAlerts removeObject:data];
-		[viewController.view removeFromSuperview];
 	}
 	alertWindow.frame = CGRectMake(0,20,320,0);
 }
