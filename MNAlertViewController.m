@@ -44,6 +44,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize laterButton, openButton;
 
 @synthesize dataObj;
+@synthesize alertIsShowingPopOver;
 
 @synthesize delegate = _delegate;
 
@@ -88,6 +89,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	iconImageView.frame = CGRectMake(12.0, 10.0, 38.0, 38.0);
 	iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
 	[iconImageView setAlpha:0.0];
+	iconImageView.layer.cornerRadius = 5.5;
+	iconImageView.layer.masksToBounds = YES;
 
 	chevronButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	chevronButton.contentMode = UIViewContentModeCenter;
@@ -300,6 +303,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[laterButton                           setAlpha:0.0];
 	
 	[UIView commitAnimations];
+	
+	alertIsShowingPopOver = NO;
 }
 
 -(void)fadeInView

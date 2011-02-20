@@ -91,24 +91,34 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//New foreground alert!
 	if(data.status == kNewAlertForeground)
 	{
-		//Build a new MNAlertViewController
-		if(alertIsShowing)
+		if(!pendingAlertViewController.alertIsShowingPopOver)
 		{
-			[pendingAlertViewController.view removeFromSuperview];
+			//Build a new MNAlertViewController
+			if(alertIsShowing)
+			{
+				[pendingAlertViewController.view removeFromSuperview];
+			}
+			MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+			viewController.delegate = self;
+			[viewController.view setFrame:CGRectMake(0,0,320,60)];
+			[pendingAlerts addObject:data];
+			pendingAlertViewController = viewController;
+		
+			alertIsShowing = YES;
+		
+			//Change the window size
+			[alertWindow setFrame:CGRectMake(0, 20, 320, 60)];
+			//Add the subview
+			[alertWindow addSubview:viewController.view];
+			[alertWindow setNeedsDisplay];
 		}
-		MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
-		viewController.delegate = self;
-		[viewController.view setFrame:CGRectMake(0,0,320,60)];
-		[pendingAlerts addObject:data];
-		pendingAlertViewController = viewController;
-		
-		alertIsShowing = YES;
-		
-		//Change the window size
-		[alertWindow setFrame:CGRectMake(0, 20, 320, 60)];
-		//Add the subview
-		[alertWindow addSubview:viewController.view];
-		[alertWindow setNeedsDisplay];
+		else
+		{
+			//The user is interacting with an alert!
+			//Let's send this to pending, and let them
+			//continue with what they're doing
+			[pendingAlerts addObject:data];
+		}
 		//Make noise
 		[whistleBlower alertArrived];
 	}

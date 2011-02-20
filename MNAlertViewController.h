@@ -91,6 +91,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @property(nonatomic, retain) UIButton* chevronButton;
 
+@property(readwrite) bool alertIsShowingPopOver;
+
 @property(nonatomic, retain) UILabel* alertHeaderLabel;
 @property(nonatomic, retain) UILabel* alertTextLabel;
 
