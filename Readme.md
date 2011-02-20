@@ -9,6 +9,10 @@ web: peterhajas.com
 
 email: peterhajas (at) gmail (dot) com
 
+UI Design and User Experience by Kyle Adams
+
+twitter: http://twitter.com/#!/iamkyleadams
+
 Intro
 -----
 
@@ -43,7 +47,11 @@ MobileNotifier is open source, and would greatly appreciate your help. Please su
 Licence
 -------
 
-MobileNotifier is open source software and licensed under the BSD license, because I enjoy readability. You can read this license in the License file included with this source tree, and at the top of every file.
+MobileNotifier is open source software and licensed under the BSD license, because I enjoy readability. You can read this license in the LICENSE file included with this source tree, and at the top of every file.
+
+MobileNotifier's images and graphical content are licensed under a separate license, the Creative Commons Attribution-NoDerivs 3.0 Unported License. Please see the included ContentLicense.md file at the root of the repository.
+
+Please note that all images and graphical content, unless noted otherwise, are Copyright Kyle Adams 2011. You can read more about the license Kyle has on his work in the ContentLicense.md file.
 
 Credits
 -------
