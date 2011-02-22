@@ -137,6 +137,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[NSKeyedArchiver archiveRootObject:dismissedAlerts toFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"];
 }
 
+-(void)showDashboard
+{
+	[dashboard showDashboard];
+}
+
+-(void)hideDashboard
+{
+	[dashboard hideDashboard];
+}
+
 //Delegate method for MNAlertViewController
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action
 {

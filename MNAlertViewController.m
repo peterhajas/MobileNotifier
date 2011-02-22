@@ -323,7 +323,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
 {
-	if([animationID isEqualToString:@"hideLower"])
+	if([animationID isEqualToString:@"fadeInView"])
 	{
 		[alertActionBackgroundImageView removeFromSuperview];
 		[alertActionBackgroundImageViewShadow removeFromSuperview];

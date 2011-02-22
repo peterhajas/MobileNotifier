@@ -52,7 +52,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	bool alertIsShowing;
 	
-	MNAlertWindow *alertWindow;
+	MNAlertWindow *alertWindow;	
 	MNAlertViewController *pendingAlertViewController;
 	
 	MNAlertDashboardViewController *dashboard;
@@ -64,6 +64,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
+-(void)showDashboard;
+-(void)hideDashboard;
 
 @property (nonatomic, retain) MNAlertWindow *alertWindow;
 

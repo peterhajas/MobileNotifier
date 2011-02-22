@@ -35,6 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <SpringBoard/SpringBoard.h>
 #import <ChatKit/ChatKit.h>
+#import "SBAppSwitcherController.h"
 
 #import <objc/runtime.h>
 
@@ -45,6 +46,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %class SBUIController;
 %class SBIconModel;
 %class SBIcon;
+%class SBAppSwitcherController;
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
@@ -262,29 +264,21 @@ PHACInterface *phacinterface;
 	%orig;
 }
 
-%end;
+%end
 
-//Hook SBUIController for fun stuff related to the switcher coming out and going away
-/*
-%hook SBUIController
-
--(void)dismissSwitcher
+%hook SBAppSwitcherController
+-(void)viewWillAppear
 {
 	%orig;
-	//Hide the dashboard
-	[manager.dashboard hideDashboard];
+	[manager showDashboard];
 }
-
--(BOOL)_revealSwitcher:(double)switcher
+-(void)viewDidDisappear
 {
-	BOOL ans = %orig;
-	//Show the dashboard
-	[manager.dashboard showDashboard];
-	return ans;
+	%orig;
+	[manager hideDashboard];
 }
-
 %end
-*/
+
 //Hook AutoFetchRequestPrivate for getting new mail
 
 %hook AutoFetchRequestPrivate

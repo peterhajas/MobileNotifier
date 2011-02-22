@@ -39,25 +39,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - (NSMutableArray *)getDismissedAlerts;
 @end
 
-@interface MNAlertDashboardViewController : NSObject <UITableViewDelegate, UITableViewDataSource>
+@interface MNAlertDashboardViewController : NSObject
 {
-	UISegmentedControl *picker;
-	UITableView *tableView;
 	UIWindow *window;
-	NSMutableArray *activeArrayReference;
+	UIImageView *dashboardBackground;
 	
-	int activeArray;
-	
+	bool dashboardShowing;
+		
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
 }
 
 -(void)toggleDashboard;
 -(void)hideDashboard;
 -(void)showDashboard;
--(void)activeArrayChanged:(id)sender;
 
-@property (nonatomic, retain) UISegmentedControl *picker;
-@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) UIWindow *window;
 
 @property (nonatomic, retain) id <MNAlertDashboardViewControllerProtocol> delegate;
