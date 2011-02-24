@@ -154,12 +154,12 @@ PHACInterface *phacinterface;
 		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
 		if([item alertImageData] == NULL)
 		{
-			data.header = [[NSString alloc] initWithFormat:@"SMS from %@:", [item name]];
+			data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
 			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
 		}
 	    else
 	    {
-			data.header = [[NSString alloc] initWithFormat:@"MMS from %@:", [item name]];
+			data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
 			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
 	    }
 		[manager newAlertWithData:data];
