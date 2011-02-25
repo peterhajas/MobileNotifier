@@ -189,7 +189,7 @@ PHACInterface *phacinterface;
     //Build the alert data part of the way
 	MNAlertData* data = [[MNAlertData alloc] init];
 	//Current date + time
-	data.time = [[NSDate alloc] init];
+    data.time = [[NSDate date] retain];
 	data.status = kNewAlertForeground;
 
 	if([item isKindOfClass:%c(SBSMSAlertItem)])
@@ -294,7 +294,7 @@ PHACInterface *phacinterface;
 		//Build the alert data part of the way
 		MNAlertData* data = [[MNAlertData alloc] init];
 		//Current date + time
-		data.time = [[NSDate alloc] init];
+        data.time = [[NSDate date] retain];
 		data.status = kNewAlertForeground;
 
 	    data.type = kSMSAlert;
