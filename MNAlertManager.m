@@ -115,6 +115,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[pendingAlerts addObject:data];
 	}
 	[self saveOut];
+    [dashboard refresh];
 }
 
 -(void)saveOut
@@ -139,10 +140,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	if(action == kAlertSentAway)
 	{
 		alertIsShowing = NO;
-		//Move the alert from pendingAlerts into sentAwayAlerts
-		MNAlertData *data = viewController.dataObj;
-		
-		[pendingAlerts removeObject:data];
 	}
 	else if(action == kAlertTakeAction)
 	{
@@ -156,6 +153,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[pendingAlerts removeObject:data];
 	}
 	alertWindow.frame = CGRectMake(0,20,320,0);
+	
+    [dashboard refresh];
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
@@ -165,6 +164,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
 	[dismissedAlerts addObject:data];
 	[pendingAlerts removeObject:data];
+    [dashboard refresh];
 	//Cool! All done!
 }
 
@@ -202,6 +202,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[dashboard hideDashboard];
 }
 
+-(void)dismissedAlertAtIndex:(int)index
+{
+    MNAlertData *data = [pendingAlerts objectAtIndex:index];
+	[dismissedAlerts addObject:data];
+	[pendingAlerts removeObject:data];
+}
+
 - (NSMutableArray *)getPendingAlerts
 {
 	return pendingAlerts;
@@ -212,13 +219,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	return dismissedAlerts;
 }
 
--(void)actionOnPendingAlertAtIndex:(int)index
+-(void)dismissSwitcher
 {
-	return;
-}
--(void)dismissedPendingAlertAtIndex:(int)index
-{
-	return;
+    [_delegate dismissSwitcher];
 }
 
 //Libactivator methods

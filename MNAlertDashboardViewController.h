@@ -30,11 +30,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @class MNAlertDashboardViewController;
 @protocol MNAlertDashboardViewControllerProtocol
--(void)actionOnPendingAlertAtIndex:(int)index;
--(void)dismissedPendingAlertAtIndex:(int)index;
+-(void)actionOnAlertAtIndex:(int)index;
+-(void)dismissedAlertAtIndex:(int)index;
 
 -(NSMutableArray *)getPendingAlerts;
 -(NSMutableArray *)getDismissedAlerts;
+
+-(void)dismissSwitcher;
 
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
@@ -48,6 +50,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	UITableView *alertListView;
 	UILabel *mobileNotifierTextLabel;
 	
+    UIImageView *alertListViewBackground;
+    UIImageView *alertListViewShadow;
+	
 	bool dashboardShowing;
 		
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
@@ -57,6 +62,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)toggleDashboard;
 -(void)hideDashboard;
 -(void)showDashboard;
+-(void)refresh;
 
 @property (nonatomic, retain) UIWindow *window;
 

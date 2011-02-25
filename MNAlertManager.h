@@ -40,6 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @protocol MNAlertManagerDelegate
 -(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
+-(void)dismissSwitcher;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 

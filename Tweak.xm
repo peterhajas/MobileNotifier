@@ -142,6 +142,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Return our UIImage!
 	return [[UIImage imageWithContentsOfFile:iconPath] retain];
 }
+
+-(void)dismissSwitcher
+{
+    SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
+    [uicontroller dismissSwitcher];
+}
+
 @end
 
 //Mail class declaration for fetched messages
@@ -277,6 +284,18 @@ PHACInterface *phacinterface;
 {
     [manager showDashboard];
     return %orig;
+}
+
+-(void)activateApplicationAnimated:(id)animated
+{
+    %orig;
+    [manager hideDashboard];
+}
+
+-(void)activateApplicationFromSwitcher:(id)switcher
+{
+    %orig;
+    [manager hideDashboard];
 }
 
 %end

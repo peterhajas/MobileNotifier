@@ -48,32 +48,75 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		window.userInteractionEnabled = YES;
 		window.hidden = YES;
 		
+		//button to return to the application
+		returnToApplicationButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
+    	[returnToApplicationButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/returnToApplication.png"] 
+    						   forState:UIControlStateNormal];
+    	[returnToApplicationButton setAlpha:0.0];
+		
 		//Create the tableview
-		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,20,288,320) style:UITableViewStylePlain];
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,55,288,297) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
 		[alertListView setAlpha:0.0];
+        alertListView.backgroundColor = [UIColor clearColor];
 		
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height - 92)];
-		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/complete_bg.png"];
+		//Background for the alertListView
+        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,370.5)];
+        alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
+        [alertListViewBackground setAlpha:0.0];
+		
+		//Awesome looking shadow for the alertListView
+        alertListViewShadow = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,370.5)];
+        [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewShadow.png"];
+        [alertListViewShadow setAlpha:0.0];
+        alertListViewShadow.userInteractionEnabled = NO;
+		
+		//Dashboard background image
+		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,346)];
+		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
 		[dashboardBackground setAlpha:0.0];
 		
 		_delegate = __delegate;
 		
 		dashboardShowing = NO;
 		[window addSubview:dashboardBackground];
+        [window addSubview:alertListViewBackground];
 		[window addSubview:alertListView];
+        [window addSubview:alertListViewShadow];
 		
 		[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
 	}
 	return self;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        //Dismiss the alert
+        [_delegate dismissedAlertAtIndex:indexPath.row];
+        //Delete row from tableview
+        [alertListView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //Update ourselves
+        [alertListView reloadData];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //Take action on the alert
+    [_delegate actionOnAlertAtIndex:indexPath.row];
+    //Update ourselves
+    [alertListView reloadData];
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	MNTableViewCell *cell = [[MNTableViewCell alloc] init];
 	
-	MNAlertData *dataObj = [[_delegate getDismissedAlerts] objectAtIndex:indexPath.row];
+	MNAlertData *dataObj = [[_delegate getPendingAlerts] objectAtIndex:indexPath.row];
 	
 	cell.iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
 	cell.headerLabel.text = dataObj.header;
@@ -84,12 +127,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [[_delegate getDismissedAlerts] count];
+	return [[_delegate getPendingAlerts] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60.0;
+}
+
+-(void)refresh
+{
+    [alertListView reloadData];
+}
+
+-(void)dismissSwitcher:(id)sender
+{
+    [_delegate dismissSwitcher];
 }
 
 -(void)toggleDashboard
@@ -109,8 +162,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	window.userInteractionEnabled = NO;
 	[UIView beginAnimations:@"fadeOut" context:NULL];
 	[UIView setAnimationDuration:0.3];
-	[dashboardBackground setAlpha:0.0];
-	[alertListView setAlpha:0.0];
+	
+    [dashboardBackground        setAlpha:0.0];
+    [returnToApplicationButton  setAlpha:0.0];
+    [alertListView              setAlpha:0.0];
+    [mobileNotifierTextLabel    setAlpha:0.0];
+    [alertListViewBackground    setAlpha:0.0];
+    [alertListViewShadow        setAlpha:0.0];
+	
 	[UIView commitAnimations];
 }
 
@@ -120,8 +179,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	window.userInteractionEnabled = YES;
 	[UIView beginAnimations:@"fadeIn" context:NULL];
 	[UIView setAnimationDuration:0.3];
-	[dashboardBackground setAlpha:1.0];
-	[alertListView setAlpha:1.0];
+	
+	[dashboardBackground        setAlpha:1.0];
+    [returnToApplicationButton  setAlpha:1.0];
+    [alertListView              setAlpha:1.0];
+    [mobileNotifierTextLabel    setAlpha:1.0];
+    [alertListViewBackground    setAlpha:1.0];
+    [alertListViewShadow        setAlpha:1.0];
+	
 	[UIView commitAnimations];
 }
 

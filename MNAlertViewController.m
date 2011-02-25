@@ -350,8 +350,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	//Notify the delegate
 	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
-
-	//And that's it! The delegate will take care of everything else.
 }
 
 @end
