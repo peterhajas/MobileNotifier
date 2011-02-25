@@ -78,8 +78,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	cell.iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
 	cell.headerLabel.text = dataObj.header;
 	cell.alertTextLabel.text = dataObj.text;
-
-	NSLog(@".......................................dimensions: %f x %f", cell.frame.size.width, cell.frame.size.height);
 	
 	return cell;
 }
