@@ -47,7 +47,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 									  LAListener>
 {
 	NSMutableArray *pendingAlerts;
-	NSMutableArray *sentAwayAlerts;
 	NSMutableArray *dismissedAlerts;
 	
 	bool alertIsShowing;
@@ -70,7 +69,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, retain) MNAlertWindow *alertWindow;
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
-@property (nonatomic, retain) NSMutableArray *sentAwayAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
 
 @property (nonatomic, retain) MNAlertDashboardViewController *dashboard;

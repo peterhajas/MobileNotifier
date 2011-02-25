@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @implementation MNAlertManager
 
-@synthesize pendingAlerts, sentAwayAlerts, dismissedAlerts;
+@synthesize pendingAlerts, dismissedAlerts;
 @synthesize delegate = _delegate;
 @synthesize alertWindow, pendingAlertViewController;
 @synthesize whistleBlower;
@@ -55,23 +55,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Library/MobileNotifier" withIntermediateDirectories:NO attributes:nil error:NULL];
 		}
 
-		//Load data from files on init (which runs on SpringBoard applicationDidFinishLaunching)
+		//Load data from files
 		pendingAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/pending.plist"] retain] ?: [[NSMutableArray alloc] init];
-		sentAwayAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/sentaway.plist"] retain] ?: [[NSMutableArray alloc] init];
 		dismissedAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"] retain] ?: [[NSMutableArray alloc] init];
-
-		NSLog(@"pending alerts size is %d..................................................", [pendingAlerts count]);
-
-		//Move all elements from pendingAlerts into sentAwayAlerts
-		int i;
-		for(i = 0; i < [pendingAlerts count]; i++)
-		{
-			[sentAwayAlerts addObject:[pendingAlerts objectAtIndex:i]];
-		}
-		
-		[pendingAlerts removeObjectsInArray:sentAwayAlerts];
-
-		//Somewhere, these should be arranged by time...
 		
 		alertIsShowing = NO;
 		
@@ -126,7 +112,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Not a foreground alert, but a background alert
 	else if(data.status == kNewAlertBackground)
 	{
-		[sentAwayAlerts addObject:data];
+		[pendingAlerts addObject:data];
 	}
 	[self saveOut];
 }
@@ -134,7 +120,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)saveOut
 {
 	[NSKeyedArchiver archiveRootObject:pendingAlerts toFile:@"/var/mobile/Library/MobileNotifier/pending.plist"];
-	[NSKeyedArchiver archiveRootObject:sentAwayAlerts toFile:@"/var/mobile/Library/MobileNotifier/sentaway.plist"];
 	[NSKeyedArchiver archiveRootObject:dismissedAlerts toFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"];
 }
 
@@ -157,7 +142,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//Move the alert from pendingAlerts into sentAwayAlerts
 		MNAlertData *data = viewController.dataObj;
 		
-		[sentAwayAlerts addObject:data];
 		[pendingAlerts removeObject:data];
 	}
 	else if(action == kAlertTakeAction)
@@ -181,7 +165,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
 	[dismissedAlerts addObject:data];
 	[pendingAlerts removeObject:data];
-	[sentAwayAlerts removeObject:data];
 	//Cool! All done!
 }
 
@@ -208,48 +191,32 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 //MNAlertDashboardViewControllerProtocol Methods:
-- (void)actionOnAlertAtIndex:(int)index inArray:(int)array
+- (void)actionOnAlertAtIndex:(int)index
 {
-	NSMutableArray *activeArray = nil;
-	//Interpret the activeArray
-	if(array == kPendingActive)
-	{
-		activeArray = pendingAlerts;
-	}
-	if(array == kSentActive)   
-	{
-		activeArray = sentAwayAlerts;
-	}
-	if(array == kDismissActive)
-	{
-		activeArray = dismissedAlerts;
-	}
 	//Create the data object
 	MNAlertData *data;
-	data = [activeArray objectAtIndex:index];
+	data = [pendingAlerts objectAtIndex:index];
 	//Take action on it
 	[self takeActionOnAlertWithData:data];
 	//Hide the dashboard
 	[dashboard hideDashboard];
 }
+
 - (NSMutableArray *)getPendingAlerts
 {
 	return pendingAlerts;
 }
-- (NSMutableArray *)getSentAwayAlerts
-{
-	return sentAwayAlerts;
-}
+
 - (NSMutableArray *)getDismissedAlerts
 {
 	return dismissedAlerts;
 }
 
--(void)actionOnAlertAtIndex:(int)index
+-(void)actionOnPendingAlertAtIndex:(int)index
 {
 	return;
 }
--(void)dismissedAlertAtIndex:(int)index
+-(void)dismissedPendingAlertAtIndex:(int)index
 {
 	return;
 }

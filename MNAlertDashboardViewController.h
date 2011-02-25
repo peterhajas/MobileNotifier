@@ -28,16 +28,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNAlertData.h"
 #import "MNTableViewCell.h"
 
-#define kPendingActive 0
-#define kSentActive 1
-#define kDismissActive 2
-
 @class MNAlertDashboardViewController;
 @protocol MNAlertDashboardViewControllerProtocol
--(void)actionOnAlertAtIndex:(int)index;
--(void)dismissedAlertAtIndex:(int)index;
+-(void)actionOnPendingAlertAtIndex:(int)index;
+-(void)dismissedPendingAlertAtIndex:(int)index;
+
 -(NSMutableArray *)getPendingAlerts;
 -(NSMutableArray *)getDismissedAlerts;
+
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
