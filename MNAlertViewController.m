@@ -94,7 +94,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	chevronButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	chevronButton.contentMode = UIViewContentModeCenter;
-	chevronButton.frame = CGRectMake(295.0, 22, 10.0, 15.0);
+	chevronButton.frame = CGRectMake(285.0, 22, 10.0, 15.0);
 	[chevronButton setImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_chevron.png"] 
 				   forState:UIControlStateNormal];
 	[chevronButton setAlpha:0.0];
