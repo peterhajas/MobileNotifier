@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize window;
 @synthesize delegate = _delegate;
 
--(id)init
+-(id)initWithDelegate:(id)__delegate;
 {
 	self = [super init];
 	if(self)
@@ -44,20 +44,54 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		window = [[UIWindow alloc] 
 		initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height - 92)];
 		
-		window.windowLevel = 991;
-		window.userInteractionEnabled = NO;
+		window.windowLevel = UIWindowLevelAlert+102.0f;
+		window.userInteractionEnabled = YES;
 		window.hidden = YES;
+		
+		//Create the tableview
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,20,288,320) style:UITableViewStylePlain];
+		alertListView.delegate = self;
+		alertListView.dataSource = self;
+		[alertListView setAlpha:0.0];
 		
 		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height - 92)];
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/complete_bg.png"];
 		[dashboardBackground setAlpha:0.0];
 		
+		_delegate = __delegate;
+		
 		dashboardShowing = NO;
 		[window addSubview:dashboardBackground];
+		[window addSubview:alertListView];
 		
 		[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
 	}
 	return self;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	MNTableViewCell *cell = [[MNTableViewCell alloc] init];
+	
+	MNAlertData *dataObj = [[_delegate getDismissedAlerts] objectAtIndex:indexPath.row];
+	
+	cell.iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
+	cell.headerLabel.text = dataObj.header;
+	cell.alertTextLabel.text = dataObj.text;
+
+	NSLog(@".......................................dimensions: %f x %f", cell.frame.size.width, cell.frame.size.height);
+	
+	return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return [[_delegate getDismissedAlerts] count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return 60.0;
 }
 
 -(void)toggleDashboard
@@ -78,6 +112,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[UIView beginAnimations:@"fadeOut" context:NULL];
 	[UIView setAnimationDuration:0.3];
 	[dashboardBackground setAlpha:0.0];
+	[alertListView setAlpha:0.0];
 	[UIView commitAnimations];
 }
 
@@ -88,6 +123,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[UIView beginAnimations:@"fadeIn" context:NULL];
 	[UIView setAnimationDuration:0.3];
 	[dashboardBackground setAlpha:1.0];
+	[alertListView setAlpha:1.0];
 	[UIView commitAnimations];
 }
 

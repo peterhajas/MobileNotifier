@@ -60,6 +60,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		sentAwayAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/sentaway.plist"] retain] ?: [[NSMutableArray alloc] init];
 		dismissedAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"] retain] ?: [[NSMutableArray alloc] init];
 
+		NSLog(@"pending alerts size is %d..................................................", [pendingAlerts count]);
+
 		//Move all elements from pendingAlerts into sentAwayAlerts
 		int i;
 		for(i = 0; i < [pendingAlerts count]; i++)
@@ -77,8 +79,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		whistleBlower = [[MNWhistleBlowerController alloc] init];
 		
 		//Alloc and init the dashboard
-		dashboard = [[MNAlertDashboardViewController alloc] init];
-		dashboard.delegate = self;
+		dashboard = [[MNAlertDashboardViewController alloc] initWithDelegate:self];
 		
 		//Register for libactivator events
 		[[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
@@ -242,6 +243,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - (NSMutableArray *)getDismissedAlerts
 {
 	return dismissedAlerts;
+}
+
+-(void)actionOnAlertAtIndex:(int)index
+{
+	return;
+}
+-(void)dismissedAlertAtIndex:(int)index
+{
+	return;
 }
 
 //Libactivator methods

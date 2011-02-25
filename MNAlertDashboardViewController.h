@@ -26,6 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #import "MNAlertData.h"
+#import "MNTableViewCell.h"
 
 #define kPendingActive 0
 #define kSentActive 1
@@ -33,22 +34,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @class MNAlertDashboardViewController;
 @protocol MNAlertDashboardViewControllerProtocol
-- (void)actionOnAlertAtIndex:(int)index inArray:(int)array;
-- (NSMutableArray *)getPendingAlerts;
-- (NSMutableArray *)getSentAwayAlerts;
-- (NSMutableArray *)getDismissedAlerts;
+-(void)actionOnAlertAtIndex:(int)index;
+-(void)dismissedAlertAtIndex:(int)index;
+-(NSMutableArray *)getPendingAlerts;
+-(NSMutableArray *)getDismissedAlerts;
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertDashboardViewController : NSObject
+@interface MNAlertDashboardViewController : NSObject <UITableViewDataSource, UITableViewDelegate>
 {
 	UIWindow *window;
 	UIImageView *dashboardBackground;
+	
+	UIButton *returnToApplicationButton;
+	UITableView *alertListView;
+	UILabel *mobileNotifierTextLabel;
 	
 	bool dashboardShowing;
 		
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
 }
 
+-(id)initWithDelegate:(id)__delegate;
 -(void)toggleDashboard;
 -(void)hideDashboard;
 -(void)showDashboard;

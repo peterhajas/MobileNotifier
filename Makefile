@@ -2,7 +2,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = MobileNotifier
 
-MobileNotifier_FILES = Tweak.xm MNAlertData.m MNAlertManager.m MNAlertViewController.m MNAlertDashboardViewController.m MNAlertWindow.m MNWhistleBlowerController.m
+MobileNotifier_FILES = Tweak.xm MNAlertData.m MNAlertManager.m MNAlertViewController.m MNAlertDashboardViewController.m MNAlertWindow.m MNWhistleBlowerController.m MNTableViewCell.m
 SUBPROJECTS = settings mobilenukifier
 
 include $(FW_MAKEDIR)/tweak.mk
