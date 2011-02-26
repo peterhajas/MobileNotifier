@@ -60,7 +60,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     			 forControlEvents:UIControlEventTouchUpInside];
 		
 		//Create the tableview
-		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,45,288,297) style:UITableViewStylePlain];
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,45,287,297) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
 		[alertListView setAlpha:0.0];
