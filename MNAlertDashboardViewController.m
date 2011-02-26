@@ -54,37 +54,77 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     	[returnToApplicationButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/returnToApplication.png"] 
     						   forState:UIControlStateNormal];
     	[returnToApplicationButton setAlpha:0.0];
+    	
+    	//wire up the button!
+    	[returnToApplicationButton addTarget:self action:@selector(dismissSwitcher:)
+    			 forControlEvents:UIControlEventTouchUpInside];
 		
 		//Create the tableview
-		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,55,288,297) style:UITableViewStylePlain];
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,55,287.5,297) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
 		[alertListView setAlpha:0.0];
         alertListView.backgroundColor = [UIColor clearColor];
+        alertListView.layer.cornerRadius = 10;
 		
 		//Background for the alertListView
-        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,370.5)];
+        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,20,320,370.5)];
         alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
         [alertListViewBackground setAlpha:0.0];
 		
 		//Awesome looking shadow for the alertListView
-        alertListViewShadow = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,370.5)];
+        alertListViewShadow = [[UIImageView alloc] initWithFrame:CGRectMake(0,20,320,370.5)];
         [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewShadow.png"];
         [alertListViewShadow setAlpha:0.0];
+        alertListViewShadow.opaque = NO;
         alertListViewShadow.userInteractionEnabled = NO;
 		
 		//Dashboard background image
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,346)];
+		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,40,320,346)];
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
 		[dashboardBackground setAlpha:0.0];
 		
-		_delegate = __delegate;
+		//MobileNotifier title label
+        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,359,320,22)];
+        mobileNotifierTextLabel.text = @"MobileNotifier";
+        mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
+        mobileNotifierTextLabel.textAlignment = UITextAlignmentCenter;
+    	mobileNotifierTextLabel.textColor = [UIColor whiteColor];
+    	mobileNotifierTextLabel.shadowColor = [UIColor blackColor];
+    	mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
+        mobileNotifierTextLabel.backgroundColor = [UIColor clearColor];
+        [mobileNotifierTextLabel setAlpha:0.0];
+        
+        //Statusbar label
+        statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,20,320,20)];
+        statusBarTextLabel.text = @"Press to return to where you were";
+        statusBarTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
+        statusBarTextLabel.textAlignment = UITextAlignmentCenter;
+    	statusBarTextLabel.textColor = [UIColor whiteColor];
+    	statusBarTextLabel.shadowColor = [UIColor blackColor];
+    	statusBarTextLabel.shadowOffset = CGSizeMake(0,-1);
+        statusBarTextLabel.backgroundColor = [UIColor clearColor];
+        [statusBarTextLabel setAlpha:0.0];
+        
+        /*statusBar = [[UIStatusBar alloc] initWithFrame:CGRectMake(0,0,320,20)];
+        [statusBar requestStyle:1];
+        [statusBar setAlpha:0.0];*/
 		
+		//Badge for alerts
+        //badge = [[SBIconBadge alloc] init];
+		
+		_delegate = __delegate;
+	    
+		//Add everything to the view
 		dashboardShowing = NO;
 		[window addSubview:dashboardBackground];
         [window addSubview:alertListViewBackground];
 		[window addSubview:alertListView];
         [window addSubview:alertListViewShadow];
+        [window addSubview:returnToApplicationButton];
+        [window addSubview:mobileNotifierTextLabel];
+        [window addSubview:statusBarTextLabel];
+        //[window addSubview:statusBar];
 		
 		[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
 	}
@@ -159,6 +199,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)hideDashboard
 {
+	//Fade it all away
 	window.userInteractionEnabled = NO;
 	[UIView beginAnimations:@"fadeOut" context:NULL];
 	[UIView setAnimationDuration:0.3];
@@ -169,12 +210,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [mobileNotifierTextLabel    setAlpha:0.0];
     [alertListViewBackground    setAlpha:0.0];
     [alertListViewShadow        setAlpha:0.0];
+    [mobileNotifierTextLabel    setAlpha:0.0];
+    [statusBarTextLabel         setAlpha:0.0];
+    //[statusBar                  setAlpha:0.0];
 	
 	[UIView commitAnimations];
 }
 
 -(void)showDashboard
 {
+	//Fade it all in
 	window.hidden = NO;
 	window.userInteractionEnabled = YES;
 	[UIView beginAnimations:@"fadeIn" context:NULL];
@@ -186,7 +231,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [mobileNotifierTextLabel    setAlpha:1.0];
     [alertListViewBackground    setAlpha:1.0];
     [alertListViewShadow        setAlpha:1.0];
-	
+    [mobileNotifierTextLabel    setAlpha:1.0];
+    [statusBarTextLabel         setAlpha:1.0];
+    //[statusBar                  setAlpha:1.0];
+
 	[UIView commitAnimations];
 }
 

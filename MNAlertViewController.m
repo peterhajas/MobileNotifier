@@ -188,29 +188,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertIsShowingPopOver = NO;
 	
 	[self fadeInView];
-	
-	/*
-	
-	alertHeader = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 250 , 40)];
-	alertHeader.text = dataObj.header;
-	alertHeader.font = [UIFont fontWithName:@"Helvetica" size:12];
-	alertHeader.backgroundColor = [UIColor clearColor];
-
-	sendAway = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	sendAway.frame = CGRectMake(265, 18, 34, 20);
-	[sendAway setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/sendAwayButton.png"] forState:UIControlStateNormal];
-	takeAction = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	[takeAction setTitle:dataObj.text forState:UIControlStateNormal];
-	[takeAction setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-	[takeAction setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	takeAction.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
-
-	takeAction.frame = CGRectMake(20, 20, 230, 40);
-	
-	alertBackground = [[UIImageView alloc] init];
-	[alertBackground setFrame:CGRectMake(0,0,320,62)];
-	alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alertBackground.png"];		
-	*/
 }
 
 -(void)chevronPushed:(id)sender
@@ -275,7 +252,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[UIView beginAnimations:@"showLower" context:NULL];
 		
 		[UIView setAnimationDuration:0.3];
-		[alertActionBackgroundImageView setAlpha:0.7];
+		[alertActionBackgroundImageView setAlpha:0.9];
 		[alertActionBackgroundImageViewShadow setAlpha:1.0];
 		[openButton setAlpha:1.0];
 		[laterButton setAlpha:1.0];

@@ -17,12 +17,26 @@
 		iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15.0, 15.0, 30.0, 30.0)];
 		headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(60.0, 11.0, 216.0, 22.0)];
 		alertTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60.0, 27.0, 216.0, 22.0)];
+        headerLabel.backgroundColor = [UIColor clearColor];
+        headerLabel.textColor = [UIColor blackColor];
+        headerLabel.shadowColor = [UIColor whiteColor];
+    	headerLabel.shadowOffset = CGSizeMake(0,1);
+    	
+        alertTextLabel.backgroundColor = [UIColor clearColor];
+    	alertTextLabel.textColor = [UIColor blackColor];
+    	alertTextLabel.shadowColor = [UIColor whiteColor];
+    	alertTextLabel.shadowOffset = CGSizeMake(0,1);
+    	
+    	iconImageView.layer.cornerRadius = 5.5;
+    	iconImageView.layer.masksToBounds = YES;
 
 		backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg.png"]];
-		//[self addSubview:backgroundImageView];
+		[self addSubview:backgroundImageView];
 		[self addSubview:iconImageView];
 		[self addSubview:alertTextLabel];
 		[self addSubview:headerLabel];
+		
+        self.clipsToBounds = YES;
 	}
 	return self;
 }

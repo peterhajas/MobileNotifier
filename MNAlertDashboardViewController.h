@@ -25,8 +25,11 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+//#import <UIKit/UIStatusBar.h>
 #import "MNAlertData.h"
 #import "MNTableViewCell.h"
+
+//%class UIStatusBar;
 
 @class MNAlertDashboardViewController;
 @protocol MNAlertDashboardViewControllerProtocol
@@ -49,6 +52,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	UIButton *returnToApplicationButton;
 	UITableView *alertListView;
 	UILabel *mobileNotifierTextLabel;
+    UILabel *statusBarTextLabel;
+    
+    //UIStatusBar *statusBar;
+    //SBIconBadge *badge;
 	
     UIImageView *alertListViewBackground;
     UIImageView *alertListViewShadow;
