@@ -223,7 +223,7 @@ PHACInterface *phacinterface;
 			NSString* _body = MSHookIvar<NSString*>(item, "_body");
 			data.type = kPushAlert;
 			data.bundleID = [app bundleIdentifier];
-			data.header = [item alertItemNotificationSender];
+			data.header = [app displayName];
 			data.text = _body;
 			[manager newAlertWithData:data];
 		}
