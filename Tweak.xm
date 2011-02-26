@@ -262,12 +262,13 @@ PHACInterface *phacinterface;
 	//Hide the pending alert if the manager is showing one
 	[manager hidePendingAlert];
 	//Show our lockscreen view
+    [manager showLockscreen];
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
 {
 	//Hide our lockscreen view
-    
+    [manager hideLockscreen];
 }
 
 %end

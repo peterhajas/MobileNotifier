@@ -67,6 +67,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//Alloc and init the dashboard
 		dashboard = [[MNAlertDashboardViewController alloc] initWithDelegate:self];
 		
+		//Alloc and init the lockscreen view controller
+        lockscreen = [[MNLockScreenViewController alloc] initWithDelegate:self];
+		
 		//Register for libactivator events
 		[[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
 	}
@@ -137,6 +140,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[dashboard hideDashboard];
 }
 
+-(void)showLockscreen
+{
+    [lockscreen show];
+}
+-(void)hideLockscreen
+{
+    [lockscreen hide];
+}
+
 -(void)hidePendingAlert
 {
     [pendingAlertViewController.view removeFromSuperview];
@@ -163,6 +175,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertWindow.frame = CGRectMake(0,20,320,0);
 	
     [dashboard refresh];
+    [lockscreen refresh];
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
@@ -173,6 +186,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[dismissedAlerts addObject:data];
 	[pendingAlerts removeObject:data];
     [dashboard refresh];
+    [lockscreen refresh];
 	//Cool! All done!
 }
 

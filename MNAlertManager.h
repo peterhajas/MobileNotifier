@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <libactivator/libactivator.h>
 
 #import "MNAlertDashboardViewController.h"
+#import "MNLockScreenViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
 #import "MNAlertWindow.h"
@@ -45,6 +46,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
 									  MNAlertDashboardViewControllerProtocol,
+									  MNLockScreenViewControllerDelegate,
 									  LAListener>
 {
 	NSMutableArray *pendingAlerts;
@@ -56,6 +58,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	MNAlertViewController *pendingAlertViewController;
 	
 	MNAlertDashboardViewController *dashboard;
+    MNLockScreenViewController *lockscreen;
 	
 	MNWhistleBlowerController *whistleBlower;
 	
@@ -66,6 +69,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)saveOut;
 -(void)showDashboard;
 -(void)hideDashboard;
+-(void)showLockscreen;
+-(void)hideLockscreen;
 -(void)hidePendingAlert;
 
 @property (nonatomic, retain) MNAlertWindow *alertWindow;
