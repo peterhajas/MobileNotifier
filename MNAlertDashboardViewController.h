@@ -58,7 +58,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     //SBIconBadge *badge;
 	
     UIImageView *alertListViewBackground;
-    UIImageView *alertListViewShadow;
 	
 	bool dashboardShowing;
 		
@@ -70,6 +69,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hideDashboard;
 -(void)showDashboard;
 -(void)refresh;
+-(bool)isShowing;
 
 @property (nonatomic, retain) UIWindow *window;
 

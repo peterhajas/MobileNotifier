@@ -37,7 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	self = [super init];
 	if(self)
-	{
+	{	
 		CGRect screenBounds = [[UIScreen mainScreen] bounds];
 		
 		//window:
@@ -50,7 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//button to return to the application
 		returnToApplicationButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
+    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 20.0);
     	[returnToApplicationButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/returnToApplication.png"] 
     						   forState:UIControlStateNormal];
     	[returnToApplicationButton setAlpha:0.0];
@@ -60,7 +60,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     			 forControlEvents:UIControlEventTouchUpInside];
 		
 		//Create the tableview
-		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,55,287.5,297) style:UITableViewStylePlain];
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,45,288,297) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
 		[alertListView setAlpha:0.0];
@@ -68,24 +68,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertListView.layer.cornerRadius = 10;
 		
 		//Background for the alertListView
-        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,20,320,370.5)];
+        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(15,45,290,297)];
         alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
         [alertListViewBackground setAlpha:0.0];
 		
-		//Awesome looking shadow for the alertListView
-        alertListViewShadow = [[UIImageView alloc] initWithFrame:CGRectMake(0,20,320,370.5)];
-        [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewShadow.png"];
-        [alertListViewShadow setAlpha:0.0];
-        alertListViewShadow.opaque = NO;
-        alertListViewShadow.userInteractionEnabled = NO;
-		
 		//Dashboard background image
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,40,320,346)];
+		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,20,320,366)];
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
 		[dashboardBackground setAlpha:0.0];
 		
 		//MobileNotifier title label
-        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,359,320,22)];
+        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,349,320,22)];
         mobileNotifierTextLabel.text = @"MobileNotifier";
         mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         mobileNotifierTextLabel.textAlignment = UITextAlignmentCenter;
@@ -96,8 +89,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [mobileNotifierTextLabel setAlpha:0.0];
         
         //Statusbar label
-        statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,20,320,20)];
-        statusBarTextLabel.text = @"Press to return to where you were";
+        statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,20)];
+        statusBarTextLabel.text = @"Touch to return to where you were";
         statusBarTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
         statusBarTextLabel.textAlignment = UITextAlignmentCenter;
     	statusBarTextLabel.textColor = [UIColor whiteColor];
@@ -120,7 +113,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[window addSubview:dashboardBackground];
         [window addSubview:alertListViewBackground];
 		[window addSubview:alertListView];
-        [window addSubview:alertListViewShadow];
         [window addSubview:returnToApplicationButton];
         [window addSubview:mobileNotifierTextLabel];
         [window addSubview:statusBarTextLabel];
@@ -138,7 +130,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         //Dismiss the alert
         [_delegate dismissedAlertAtIndex:indexPath.row];
         //Delete row from tableview
-        [alertListView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [alertListView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
         //Update ourselves
         [alertListView reloadData];
     }
@@ -161,6 +153,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	cell.iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
 	cell.headerLabel.text = dataObj.header;
 	cell.alertTextLabel.text = dataObj.text;
+	
+	//If this is the last item, then let's set the shadow of it
+    if(indexPath.row == ([[_delegate getPendingAlerts] count] - 1))
+    {
+        //Don't do this yet - we want to show this BELOW the last alert
+        //cell.backgroundShadowImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/last-element-shadow.png"];
+    }
 	
 	return cell;
 }
@@ -209,7 +208,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [alertListView              setAlpha:0.0];
     [mobileNotifierTextLabel    setAlpha:0.0];
     [alertListViewBackground    setAlpha:0.0];
-    [alertListViewShadow        setAlpha:0.0];
     [mobileNotifierTextLabel    setAlpha:0.0];
     [statusBarTextLabel         setAlpha:0.0];
     //[statusBar                  setAlpha:0.0];
@@ -230,7 +228,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [alertListView              setAlpha:1.0];
     [mobileNotifierTextLabel    setAlpha:1.0];
     [alertListViewBackground    setAlpha:1.0];
-    [alertListViewShadow        setAlpha:1.0];
     [mobileNotifierTextLabel    setAlpha:1.0];
     [statusBarTextLabel         setAlpha:1.0];
     //[statusBar                  setAlpha:1.0];
@@ -249,6 +246,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		window.userInteractionEnabled = NO;
 		window.hidden = YES;
 	}
+}
+
+-(bool)isShowing
+{
+    return dashboardShowing;
 }
 
 @end

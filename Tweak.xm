@@ -66,6 +66,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)alertItemNotificationSender;
 @end
 
+//UIStatusBar we use for the AlertDashboard
+UIStatusBar *statusBar;
+//UIWindow in which to show it
+UIWindow *statusBarWindow;
+
 @interface PHACInterface : NSObject <MNAlertManagerDelegate>
 @end
 
@@ -180,9 +185,12 @@ PHACInterface *phacinterface;
 	manager = [[MNAlertManager alloc] init];
     manager.delegate = phacinterface;
 	
-    //Connect up to Activator
-	//Commented out for now
-    //[[LAActivator sharedInstance] registerListener:manager forName:@"com.peterhajassoftware.mobilenotifier"];
+    statusBarWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,20)];
+    statusBarWindow.userInteractionEnabled = NO;
+    statusBarWindow.hidden = YES;
+    statusBar = [[%c(UIStatusBar) alloc] initWithFrame:CGRectMake(0,0,320,20)];
+    [statusBarWindow addSubview:statusBar];
+    statusBarWindow.windowLevel = UIWindowLevelAlert+103.0f;
 }
 
 %end;
@@ -263,11 +271,15 @@ PHACInterface *phacinterface;
 -(void)lock
 {
 	%orig;
+	//Hide the pending alert if the manager is showing one
+	[manager hidePendingAlert];
+	//Show our lockscreen view
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
 {
-	%orig;
+	//Hide our lockscreen view
+    
 }
 
 %end
@@ -278,11 +290,15 @@ PHACInterface *phacinterface;
 {
     %orig;
     [manager hideDashboard];
+    //Hide the statusbar
+    statusBarWindow.hidden = YES;
 }
 
 -(BOOL)activateSwitcher
 {
     [manager showDashboard];
+    //Show the statusbar
+    statusBarWindow.hidden = NO;
     return %orig;
 }
 

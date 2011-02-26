@@ -66,6 +66,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)saveOut;
 -(void)showDashboard;
 -(void)hideDashboard;
+-(void)hidePendingAlert;
 
 @property (nonatomic, retain) MNAlertWindow *alertWindow;
 

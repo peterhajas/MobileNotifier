@@ -85,19 +85,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			{
 				[pendingAlertViewController.view removeFromSuperview];
 			}
-			MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
-			viewController.delegate = self;
-			[viewController.view setFrame:CGRectMake(0,0,320,60)];
-			[pendingAlerts addObject:data];
-			pendingAlertViewController = viewController;
-		
-			alertIsShowing = YES;
-		
-			//Change the window size
-			[alertWindow setFrame:CGRectMake(0, 20, 320, 60)];
-			//Add the subview
-			[alertWindow addSubview:viewController.view];
-			[alertWindow setNeedsDisplay];
+			if(![dashboard isShowing])
+			{
+			    MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+			    viewController.delegate = self;
+			    [viewController.view setFrame:CGRectMake(0,0,320,60)];
+			    [pendingAlerts addObject:data];
+			    pendingAlertViewController = viewController;
+		    
+			    alertIsShowing = YES;
+		    
+			    //Change the window size
+			    [alertWindow setFrame:CGRectMake(0, 20, 320, 60)];
+			    //Add the subview
+			    [alertWindow addSubview:viewController.view];
+			    [alertWindow setNeedsDisplay];
+			}
 		}
 		else
 		{
@@ -132,6 +135,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hideDashboard
 {
 	[dashboard hideDashboard];
+}
+
+-(void)hidePendingAlert
+{
+    [pendingAlertViewController.view removeFromSuperview];
 }
 
 //Delegate method for MNAlertViewController
