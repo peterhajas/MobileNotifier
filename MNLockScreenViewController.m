@@ -36,26 +36,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     self = [super init];
     if(self)
     {
-        lockWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,60)];
+        lockWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,115,320,60)];
         lockWindow.userInteractionEnabled = NO;
         lockWindow.windowLevel = UIWindowLevelAlert+102.0f;
         lockWindow.hidden = YES;
         
-    	logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15.0, 15.0, 30.0, 30.0)];
+    	logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 32, 32)];
         logoImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-logo.png"];
 
         backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,60)];
         backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreenbg.png"];
         backgroundImageView.opaque = NO;
         
-        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(270,10,35,22)];
-        numberOfPendingAlertsLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,18,35,22)];
+        numberOfPendingAlertsLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
         numberOfPendingAlertsLabel.textAlignment = UITextAlignmentCenter;
     	numberOfPendingAlertsLabel.textColor = [UIColor blackColor];
         numberOfPendingAlertsLabel.backgroundColor = [UIColor clearColor];
         numberOfPendingAlertsLabel.opaque = NO;
         
-        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(70,10,180,22)];
+        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,20,27,20)];
+        numberOfPendingAlertsBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-count-bg.png"];
+        numberOfPendingAlertsBackground.opaque = NO;
+        
+        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60,20,180,22)];
         mobileNotifierTextLabel.text = @"MobileNotifier";
         mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         mobileNotifierTextLabel.textAlignment = UITextAlignmentLeft;
@@ -64,8 +68,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     	mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
         mobileNotifierTextLabel.backgroundColor = [UIColor clearColor];
         
-        [lockWindow addSubview:logoImageView];
         [lockWindow addSubview:backgroundImageView];
+        [lockWindow addSubview:logoImageView];
+        [lockWindow addSubview:numberOfPendingAlertsBackground];
         [lockWindow addSubview:numberOfPendingAlertsLabel];
         [lockWindow addSubview:mobileNotifierTextLabel];
         
