@@ -99,5 +99,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self refresh];
 }
 
+-(bool)isShowing
+{
+    return !lockWindow.hidden;
+}
 
 @end

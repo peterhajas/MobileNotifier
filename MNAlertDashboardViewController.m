@@ -199,6 +199,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hideDashboard
 {
 	//Fade it all away
+	
+	dashboardShowing = NO;
+	
 	window.userInteractionEnabled = NO;
 	[UIView beginAnimations:@"fadeOut" context:NULL];
 	[UIView setAnimationDuration:0.3];
@@ -218,6 +221,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)showDashboard
 {
 	//Fade it all in
+	
+    dashboardShowing = YES;
+	
 	window.hidden = NO;
 	window.userInteractionEnabled = YES;
 	[UIView beginAnimations:@"fadeIn" context:NULL];

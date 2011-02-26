@@ -51,6 +51,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hide;
 -(void)show;
 
+-(bool)isShowing;
+
 @property (nonatomic, retain) id <MNLockScreenViewControllerDelegate> delegate;
 
 @end

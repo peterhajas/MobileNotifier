@@ -83,17 +83,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		if(!pendingAlertViewController.alertIsShowingPopOver)
 		{
+			//Add to pending alerts
+            [pendingAlerts addObject:data];
 			//Build a new MNAlertViewController
 			if(alertIsShowing)
 			{
 				[pendingAlertViewController.view removeFromSuperview];
 			}
-			if(![dashboard isShowing])
+            if(![dashboard isShowing] && ![lockscreen isShowing])
 			{
 			    MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
 			    viewController.delegate = self;
 			    [viewController.view setFrame:CGRectMake(0,0,320,60)];
-			    [pendingAlerts addObject:data];
 			    pendingAlertViewController = viewController;
 		    
 			    alertIsShowing = YES;
@@ -121,6 +122,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[pendingAlerts addObject:data];
 	}
 	[self saveOut];
+    [lockscreen refresh];
     [dashboard refresh];
 }
 
