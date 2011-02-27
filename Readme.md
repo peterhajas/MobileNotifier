@@ -9,9 +9,13 @@ web: peterhajas.com
 
 email: peterhajas (at) gmail (dot) com
 
+twitter: @peterhajas
+
 UI Design and User Experience by Kyle Adams
 
-twitter: http://twitter.com/#!/iamkyleadams
+web: kyleadams.org
+
+twitter: @iamkyleadams
 
 Intro
 -----
@@ -75,4 +79,4 @@ KennyTM - github.com/kennytm - for his decompiled headers
 
 Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Cycript, Veency and countless other gifts to the community
 
-Kyle Adams - @iamkyleadams - for his work on the user interface for the project and prerelease testing
+Kyle Adams - kyleadams.org - for his work on the user interface for the project and prerelease testing
