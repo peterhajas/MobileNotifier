@@ -78,13 +78,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)newAlertWithData:(MNAlertData *)data
 {
+	//Add to pending alerts
+    [pendingAlerts insertObject:data atIndex:0];
+	
 	//New foreground alert!
 	if(data.status == kNewAlertForeground)
 	{
 		if(!pendingAlertViewController.alertIsShowingPopOver)
 		{
-			//Add to pending alerts
-            [pendingAlerts addObject:data];
 			//Build a new MNAlertViewController
 			if(alertIsShowing)
 			{
@@ -111,7 +112,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			//The user is interacting with an alert!
 			//Let's send this to pending, and let them
 			//continue with what they're doing
-			[pendingAlerts addObject:data];
 		}
 		//Make noise
 		[whistleBlower alertArrived];
@@ -119,7 +119,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Not a foreground alert, but a background alert
 	else if(data.status == kNewAlertBackground)
 	{
-		[pendingAlerts addObject:data];
+        //We do nothing currently (already in pending)
 	}
 	[self saveOut];
     [lockscreen refresh];
@@ -179,6 +179,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 	alertWindow.frame = CGRectMake(0,20,320,0);
 	
+	[self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
 }
@@ -190,6 +191,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
 	[dismissedAlerts addObject:data];
 	[pendingAlerts removeObject:data];
+    [self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
 	//Cool! All done!
