@@ -128,7 +128,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	if([UIImage imageWithContentsOfFile:iconPath] == nil)
 	{
+		iconPath = [appBundle pathForResource:@"icon@2x" ofType:@"png"];
+	}
+	
+	if([UIImage imageWithContentsOfFile:iconPath] == nil)
+	{
 		iconPath = [appBundle pathForResource:@"Icon" ofType:@"png"];
+	}
+	
+	if([UIImage imageWithContentsOfFile:iconPath] == nil)
+	{
+		iconPath = [appBundle pathForResource:@"icon" ofType:@"png"];
 	}
 	
 	//Commented this function out - it was causing resprings on certain devices.
