@@ -154,6 +154,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hidePendingAlert
 {
     [pendingAlertViewController.view removeFromSuperview];
+    alertWindow.frame = CGRectMake(0,20,320,0);
+    alertIsShowing = YES;
+    
 }
 
 //Delegate method for MNAlertViewController
