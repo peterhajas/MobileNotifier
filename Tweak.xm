@@ -223,6 +223,7 @@ PHACInterface *phacinterface;
 		if([[item alertItemNotificationSender] rangeOfString:@"Clock"].location == NSNotFound)
 		{
 			NSString* _body = MSHookIvar<NSString*>(item, "_body");
+			data = [[MNAlertData alloc] init];
 			data.time = [[NSDate date] retain];
         	data.status = kNewAlertForeground;
 			data.type = kPushAlert;
@@ -254,10 +255,6 @@ PHACInterface *phacinterface;
     else
     {
         //It's a different alert (power/app store, for example)
-
-		
-		//Release the data object
-        [data release];
 		
 		//Let's run the original function for now
 		%orig;
