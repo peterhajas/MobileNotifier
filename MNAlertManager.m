@@ -134,6 +134,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showDashboard
 {
+    [self hidePendingAlert];
 	[dashboard showDashboard];
 }
 
@@ -144,6 +145,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showLockscreen
 {
+    [self hidePendingAlert];
     if([pendingAlerts count] != 0)
     {
         [lockscreen show];
