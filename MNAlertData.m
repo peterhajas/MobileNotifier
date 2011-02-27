@@ -52,6 +52,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	return self;
 }
 
+-(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID ofStatus:(int)_status
+{
+    self.header = [[NSString alloc] initWithString:_header];
+	self.text = [[NSString alloc] initWithString:_title];
+	self.bundleID = [[NSString alloc] initWithString:_bundleID];
+    self.time = [[NSDate date] retain];
+
+	self.type = _type;
+	self.status = _status;
+
+	return self;
+}
+
 //Yay NSCoder!
 
 -(void)encodeWithCoder:(NSCoder*)encoder

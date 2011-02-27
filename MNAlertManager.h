@@ -31,30 +31,34 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <libactivator/libactivator.h>
 
 #import "MNAlertDashboardViewController.h"
+#import "MNLockScreenViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
+#import "MNAlertWindow.h"
 #import "MNWhistleBlowerController.h"
 
 @class MNAlertManager;
 @protocol MNAlertManagerDelegate
-- (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
-- (UIImage*) getAppIconForBundleID:(NSString *)bundleID;
+-(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
+-(void)dismissSwitcher;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
 									  MNAlertDashboardViewControllerProtocol,
+									  MNLockScreenViewControllerDelegate,
 									  LAListener>
 {
 	NSMutableArray *pendingAlerts;
-	NSMutableArray *sentAwayAlerts;
 	NSMutableArray *dismissedAlerts;
 	
 	bool alertIsShowing;
 	
-	UIWindow *alertWindow;
+	MNAlertWindow *alertWindow;	
 	MNAlertViewController *pendingAlertViewController;
 	
 	MNAlertDashboardViewController *dashboard;
+    MNLockScreenViewController *lockscreen;
 	
 	MNWhistleBlowerController *whistleBlower;
 	
@@ -63,11 +67,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
+-(void)showDashboard;
+-(void)hideDashboard;
+-(void)showLockscreen;
+-(void)hideLockscreen;
+-(void)hidePendingAlert;
 
-@property (nonatomic, retain) UIWindow *alertWindow;
+@property (nonatomic, retain) MNAlertWindow *alertWindow;
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
-@property (nonatomic, retain) NSMutableArray *sentAwayAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
 
 @property (nonatomic, retain) MNAlertDashboardViewController *dashboard;

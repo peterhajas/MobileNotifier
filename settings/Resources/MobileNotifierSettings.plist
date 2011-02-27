@@ -14,13 +14,19 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>beta2r2. how cool do you feel?</string>
+			<string>beta2r4. how cool do you feel?</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>Copyright 2010-2011 Peter Hajas Software</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>UI Design Copyright 2010-2011 Kyle Adams</string>
 		</dict>
 		<dict>
 			<key>cell</key>

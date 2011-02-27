@@ -29,39 +29,74 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define kAlertTakeAction 1
 
 #import <UIKit/UIKit.h>
+#import <CoreGraphics/CoreGraphics.h>
+#import <SpringBoard/SpringBoard.h>
 #import "MNAlertData.h"
 
 @class MNAlertViewController;
 
 @protocol MNAlertViewControllerDelegate
+
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action;
--(id)iconForBundleID:(NSString *)bundleID;
+-(void)alertShowingPopOver:(bool)isShowingPopOver;
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
+
 @end
+
 @interface MNAlertViewController : UIViewController
 {
-	UILabel *alertHeader;
-	UIButton *sendAway;
-	UIButton *takeAction;
-	UIImageView *alertBackground;
-	UIImageView *applicationIcon;
+	UIImageView* alertBackgroundImageView;
+	UIImageView* alertBackgroundShadow;
+	UIImageView* iconImageView;
 
-	MNAlertData *dataObj;
+	UIButton* chevronButton;
+	UIButton* alertExpandButton;
+
+	UILabel* alertHeaderLabel;
+	UILabel* alertTextLabel;
+	
+	UIView *actionView;
+	
+	UIImageView* alertActionBackgroundImageView;
+	UIImageView* alertActionBackgroundImageViewShadow;
+	UIButton* openButton;
+	UIButton* laterButton;
+
+	bool alertIsShowingPopOver;
+
+	MNAlertData* dataObj;
 
 	id<MNAlertViewControllerDelegate> _delegate;
 }
 
 -(id)initWithMNData:(MNAlertData*) data;
--(void)sendAway:(id)sender;
--(void)takeAction:(id)sender;
+
+-(void)chevronPushed:(id)sender;
+
+-(void)fadeBottomAway:(bool)fadeBottom;
+-(void)fadeOutWholeView;
+-(void)fadeInView;
+-(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context;
+
+-(void)openPushed:(id)sender;
+-(void)laterPushed:(id)sender;
 
 @property(nonatomic, retain) MNAlertData *dataObj;
-
-@property(nonatomic, retain) UILabel *alertHeader;
-@property(nonatomic, retain) UIButton *sendAway;
-@property(nonatomic, retain) UIButton *takeAction;
-@property(nonatomic, retain) UIImageView *alertBackground;
-@property(nonatomic, retain) UIImageView *applicationIcon;
-
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
+
+@property(nonatomic, retain) UIImageView* alertBackgroundImageView;
+@property(nonatomic, retain) UIImageView* alertBackgroundShadow;
+@property(nonatomic, retain) UIImageView* alertActionBackgroundImageView;
+@property(nonatomic, retain) UIImageView* iconImageView;
+
+@property(nonatomic, retain) UIButton* chevronButton;
+
+@property(readwrite) bool alertIsShowingPopOver;
+
+@property(nonatomic, retain) UILabel* alertHeaderLabel;
+@property(nonatomic, retain) UILabel* alertTextLabel;
+
+@property(nonatomic, retain) UIButton* openButton;
+@property(nonatomic, retain) UIButton* laterButton;
 
 @end

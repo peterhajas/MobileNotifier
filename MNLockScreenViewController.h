@@ -25,54 +25,34 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-//#import <UIKit/UIStatusBar.h>
-#import "MNAlertData.h"
-#import "MNTableViewCell.h"
+@class MNLockScreenViewController;
 
-//%class UIStatusBar;
-
-@class MNAlertDashboardViewController;
-@protocol MNAlertDashboardViewControllerProtocol
--(void)actionOnAlertAtIndex:(int)index;
--(void)dismissedAlertAtIndex:(int)index;
+@protocol MNLockScreenViewControllerDelegate
 
 -(NSMutableArray *)getPendingAlerts;
--(NSMutableArray *)getDismissedAlerts;
 
--(void)dismissSwitcher;
-
--(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertDashboardViewController : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface MNLockScreenViewController : NSObject
 {
-	UIWindow *window;
-	UIImageView *dashboardBackground;
-	
-	UIButton *returnToApplicationButton;
-	UITableView *alertListView;
-	UILabel *mobileNotifierTextLabel;
-    UILabel *statusBarTextLabel;
+    UIWindow *lockWindow;
+    UIImageView *logoImageView;
+    UIImageView *backgroundImageView;
+    UIImageView *numberOfPendingAlertsBackground;
+    UILabel *numberOfPendingAlertsLabel;
+    UILabel *mobileNotifierTextLabel;
     
-    //UIStatusBar *statusBar;
-    //SBIconBadge *badge;
-	
-    UIImageView *alertListViewBackground;
-	
-	bool dashboardShowing;
-		
-	id <MNAlertDashboardViewControllerProtocol> _delegate;
+    id <MNLockScreenViewControllerDelegate> _delegate;
 }
 
 -(id)initWithDelegate:(id)__delegate;
--(void)toggleDashboard;
--(void)hideDashboard;
--(void)showDashboard;
+
 -(void)refresh;
+-(void)hide;
+-(void)show;
+
 -(bool)isShowing;
 
-@property (nonatomic, retain) UIWindow *window;
-
-@property (nonatomic, retain) id <MNAlertDashboardViewControllerProtocol> delegate;
+@property (nonatomic, retain) id <MNLockScreenViewControllerDelegate> delegate;
 
 @end

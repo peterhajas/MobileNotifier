@@ -44,11 +44,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 %class SBUIController;
 %class SBIconModel;
+%class SBIcon;
+%class SBAppSwitcherController;
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
 -(void)dismissSwitcher;
--(BOOL)_revealSwitcher:(double)switcher;
+-(BOOL)activateSwitcher;
 @end
 
 @interface SBIconModel (peterhajas)
@@ -56,8 +58,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)applicationIconForDisplayIdentifier:(id)displayIdentifier;
 @end
 
-@interface SBApplicationIcon (peterhajas)
--(id)getIconImage:(int)image;
+@interface SBIcon (peterhajas)
+-(id)iconImageView;
 @end
 
 @interface SBRemoteLocalNotificationAlert : SBAlertItem
@@ -90,13 +92,63 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self launchBundleID:bundleID];
 }
 
-- (UIImage*)getAppIconForBundleID:(NSString *)bundleID
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
 {
-	//Grab the image for the corresponding icon:
-	SBIconModel* sbIconModel = (SBIconModel *)[%c(SBIconModel) sharedInstance];
-	SBApplicationIcon* appIcon = [sbIconModel applicationIconForDisplayIdentifier: bundleID];
-	return [appIcon getIconImage:0];
+	if([bundleID isEqualToString:@"com.apple.MobileSMS"])
+	{
+		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon@2x.png"] retain];
+	}
+	
+	SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
+	//Let's grab the application's icon using some awesome NSBundle stuff!
+	//First, grab the app's bundle:
+	NSBundle *appBundle = (NSBundle*)[[[sbac applicationsWithBundleIdentifier:bundleID] objectAtIndex:0] bundle];
+	//Next, ask the dictionary for the IconFile name
+	NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
+	NSString *iconPath;
+	if(iconName != nil)
+	{
+		//Finally, query the bundle for the path of the icon minus its path extension (usually .png)
+		iconPath = [appBundle pathForResource:[iconName stringByDeletingPathExtension] 
+												 ofType:[iconName pathExtension]];
+	}
+	else
+	{
+		//Some apps, like Boxcar, prefer an array of icons. We need to deal with that appropriately.
+		NSArray *iconArray = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFiles"];
+		//objectAtIndex:1 is the retina icon, from some testing
+		iconPath = [appBundle pathForResource:[[iconArray objectAtIndex:1] stringByDeletingPathExtension] 
+												 ofType:[[iconArray objectAtIndex:1] pathExtension]];
+	}
+	
+	if([UIImage imageWithContentsOfFile:iconPath] == nil)
+	{
+		iconPath = [appBundle pathForResource:@"Icon@2x" ofType:@"png"];
+	}
+	
+	if([UIImage imageWithContentsOfFile:iconPath] == nil)
+	{
+		iconPath = [appBundle pathForResource:@"Icon" ofType:@"png"];
+	}
+		
+	if(![[[appBundle infoDictionary] objectForKey:@"UIPrerenderedIcon"] boolValue])
+	{
+		//If they didn't preprocess the icon (Facebook, looking at you)
+		//then we should preprocess it ourselves!
+		
+		return [[UIImage imageWithContentsOfFile:iconPath] _applicationIconImagePrecomposed:YES];
+	}
+	
+	//Return our UIImage!
+	return [[UIImage imageWithContentsOfFile:iconPath] retain];
 }
+
+-(void)dismissSwitcher
+{
+    SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
+    [uicontroller dismissSwitcher];
+}
+
 @end
 
 //Mail class declaration for fetched messages
@@ -127,10 +179,6 @@ PHACInterface *phacinterface;
 
 	manager = [[MNAlertManager alloc] init];
     manager.delegate = phacinterface;
-	
-    //Connect up to Activator
-	//Commented out for now
-    //[[LAActivator sharedInstance] registerListener:manager forName:@"com.peterhajassoftware.mobilenotifier"];
 }
 
 %end;
@@ -142,15 +190,15 @@ PHACInterface *phacinterface;
 -(void)activateAlertItem:(id)item
 {
     //Build the alert data part of the way
-	MNAlertData* data = [[MNAlertData alloc] init];
-	//Current date + time
-	data.time = [[NSDate alloc] init];
-	data.status = kNewAlertForeground;
+    MNAlertData* data;    
 
 	if([item isKindOfClass:%c(SBSMSAlertItem)])
 	{
         //It's an SMS/MMS!
+        data = [[MNAlertData alloc] init];
         data.type = kSMSAlert;
+        data.time = [[NSDate date] retain];
+    	data.status = kNewAlertForeground;
 		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
 		if([item alertImageData] == NULL)
 		{
@@ -175,6 +223,8 @@ PHACInterface *phacinterface;
 		if([[item alertItemNotificationSender] rangeOfString:@"Clock"].location == NSNotFound)
 		{
 			NSString* _body = MSHookIvar<NSString*>(item, "_body");
+			data.time = [[NSDate date] retain];
+        	data.status = kNewAlertForeground;
 			data.type = kPushAlert;
 			data.bundleID = [app bundleIdentifier];
 			data.header = [app displayName];
@@ -187,10 +237,28 @@ PHACInterface *phacinterface;
 			%orig;
 		}
     }
+    /*
+    else if([item isKindOfClass:%c(SBVoiceMailAlertItem)])
+    {
+        //It's a voicemail alert!
+        
+        data.time = [[NSDate date] retain];
+    	data.status = kNewAlertForeground;
+        data.type = kPhoneAlert;
+        data.bundleID = @"com.apple.mobilephone";
+        data.header = [item title];
+        data.text = [item bodyText];
+		[manager newAlertWithData:data];
+    }
+    */
     else
     {
         //It's a different alert (power/app store, for example)
 
+		
+		//Release the data object
+        [data release];
+		
 		//Let's run the original function for now
 		%orig;
     }
@@ -211,36 +279,48 @@ PHACInterface *phacinterface;
 -(void)lock
 {
 	%orig;
+	//Hide the pending alert if the manager is showing one
+	[manager hidePendingAlert];
+	//Show our lockscreen view
+    [manager showLockscreen];
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
 {
-	%orig;
+	//Hide our lockscreen view
+    [manager hideLockscreen];
 }
 
-%end;
+%end
 
-//Hook SBUIController for fun stuff related to the switcher coming out and going away
-/*
 %hook SBUIController
 
 -(void)dismissSwitcher
 {
-	%orig;
-	//Hide the dashboard
-	[manager.dashboard hideDashboard];
+    %orig;
+    [manager hideDashboard];
 }
 
--(BOOL)_revealSwitcher:(double)switcher
+-(BOOL)activateSwitcher
 {
-	BOOL ans = %orig;
-	//Show the dashboard
-	[manager.dashboard showDashboard];
-	return ans;
+    [manager showDashboard];
+    return %orig;
+}
+
+-(void)activateApplicationAnimated:(id)animated
+{
+    %orig;
+    [manager hideDashboard];
+}
+
+-(void)activateApplicationFromSwitcher:(id)switcher
+{
+    %orig;
+    [manager hideDashboard];
 }
 
 %end
-*/
+
 //Hook AutoFetchRequestPrivate for getting new mail
 
 %hook AutoFetchRequestPrivate
@@ -254,7 +334,7 @@ PHACInterface *phacinterface;
 		//Build the alert data part of the way
 		MNAlertData* data = [[MNAlertData alloc] init];
 		//Current date + time
-		data.time = [[NSDate alloc] init];
+        data.time = [[NSDate date] retain];
 		data.status = kNewAlertForeground;
 
 	    data.type = kSMSAlert;
