@@ -74,3 +74,5 @@ Aaron Ash - multifl0w.com - for his help on IRC and invaluable advice
 KennyTM - github.com/kennytm - for his decompiled headers
 
 Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Cycript, Veency and countless other gifts to the community
+
+Kyle Adams - @iamkyleadams - for his work on the user interface for the project and prerelease testing
