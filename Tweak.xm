@@ -190,15 +190,15 @@ PHACInterface *phacinterface;
 -(void)activateAlertItem:(id)item
 {
     //Build the alert data part of the way
-	MNAlertData* data = [[MNAlertData alloc] init];
-	//Current date + time
-    data.time = [[NSDate date] retain];
-	data.status = kNewAlertForeground;
+    MNAlertData* data;    
 
 	if([item isKindOfClass:%c(SBSMSAlertItem)])
 	{
         //It's an SMS/MMS!
+        data = [[MNAlertData alloc] init];
         data.type = kSMSAlert;
+        data.time = [[NSDate date] retain];
+    	data.status = kNewAlertForeground;
 		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
 		if([item alertImageData] == NULL)
 		{
@@ -223,6 +223,8 @@ PHACInterface *phacinterface;
 		if([[item alertItemNotificationSender] rangeOfString:@"Clock"].location == NSNotFound)
 		{
 			NSString* _body = MSHookIvar<NSString*>(item, "_body");
+			data.time = [[NSDate date] retain];
+        	data.status = kNewAlertForeground;
 			data.type = kPushAlert;
 			data.bundleID = [app bundleIdentifier];
 			data.header = [item alertItemNotificationSender];
@@ -235,10 +237,28 @@ PHACInterface *phacinterface;
 			%orig;
 		}
     }
+    /*
+    else if([item isKindOfClass:%c(SBVoiceMailAlertItem)])
+    {
+        //It's a voicemail alert!
+        
+        data.time = [[NSDate date] retain];
+    	data.status = kNewAlertForeground;
+        data.type = kPhoneAlert;
+        data.bundleID = @"com.apple.mobilephone";
+        data.header = [item title];
+        data.text = [item bodyText];
+		[manager newAlertWithData:data];
+    }
+    */
     else
     {
         //It's a different alert (power/app store, for example)
 
+		
+		//Release the data object
+        [data release];
+		
 		//Let's run the original function for now
 		%orig;
     }
