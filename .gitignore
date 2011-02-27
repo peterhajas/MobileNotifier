@@ -3,5 +3,5 @@
 obj
 .debmake
 Misc
-*.DS_Store
+.DS_Store
 .theos
