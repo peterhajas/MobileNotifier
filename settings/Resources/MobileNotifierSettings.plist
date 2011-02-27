@@ -14,29 +14,31 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>beta2r4. how cool do you feel?</string>
+			<string>beta3r1, Copious Corn Flakes</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Copyright 2010-2011 Peter Hajas Software</string>
+			<string>by Peter Hajas, © 2010-2011</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>UI Design Copyright 2010-2011 Kyle Adams</string>
+			<string>@peterhajas</string>
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSSwitchCell</string>
+			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>AlertDashboard on lock</string>
-			<key>defaults</key>
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>key</key>
-			<string>MNDashboardOnLock</string>
+			<string>UI Design © Kyle Adams 2011</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>@iamkyleadams</string>
 		</dict>
 	</array>
 	<key>title</key>
