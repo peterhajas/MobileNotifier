@@ -144,7 +144,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showLockscreen
 {
-    [lockscreen show];
+    if([pendingAlerts count] != 0)
+    {
+        [lockscreen show];
+    }
 }
 -(void)hideLockscreen
 {
