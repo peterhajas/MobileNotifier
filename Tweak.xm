@@ -223,7 +223,7 @@ PHACInterface *phacinterface;
 		//Get the SBApplication object, we need its bundle identifier
 		SBApplication *app(MSHookIvar<SBApplication *>(item, "_app"));
 		//Filter out clock alerts
-		if([[item alertItemNotificationSender] rangeOfString:@"Clock"].location == NSNotFound)
+		if([[app bundleIdentifier] rangeOfString:@"Clock"].location == NSNotFound)
 		{
 			NSString* _body = MSHookIvar<NSString*>(item, "_body");
 			data = [[MNAlertData alloc] init];

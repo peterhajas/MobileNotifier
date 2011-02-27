@@ -185,14 +185,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 -(void)toggleDashboard
-{
+{	
 	if(dashboardShowing)
 	{
-		[self showDashboard];
+		[self hideDashboard];
 	}
 	else
 	{
-		[self hideDashboard];
+		[self showDashboard];
 	}
 }
 
@@ -221,7 +221,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)showDashboard
 {
 	//Fade it all in
-	
     dashboardShowing = YES;
 	
 	window.hidden = NO;
