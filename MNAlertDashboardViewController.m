@@ -50,9 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//button to return to the application
 		returnToApplicationButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 20.0);
-    	[returnToApplicationButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/returnToApplication.png"] 
-    						   forState:UIControlStateNormal];
+    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 388.0);
     	[returnToApplicationButton setAlpha:0.0];
     	
     	//wire up the button!
@@ -73,7 +71,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [alertListViewBackground setAlpha:0.0];
 		
 		//Dashboard background image
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,20,320,366)];
+		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,386)];
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
 		[dashboardBackground setAlpha:0.0];
 		
@@ -111,9 +109,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//Add everything to the view
 		dashboardShowing = NO;
 		[window addSubview:dashboardBackground];
+		[window addSubview:returnToApplicationButton];
         [window addSubview:alertListViewBackground];
 		[window addSubview:alertListView];
-        [window addSubview:returnToApplicationButton];
         [window addSubview:mobileNotifierTextLabel];
         [window addSubview:statusBarTextLabel];
         //[window addSubview:statusBar];
