@@ -190,6 +190,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[self fadeInView];
 }
 
+-(void)viewDidLoad 
+{ 
+    [super viewDidLoad];
+
+    // Single finger, double tap
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
+        initWithTarget:self action:@selector(didSwipeRight)];
+ 
+    swipeRight.numberOfTouchesRequired = 1;
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:swipeRight];
+    [swipeRight release];
+}
+
+-(void)didSwipeRight
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    CGRect frame = self.view.frame;
+    frame.origin.x += 320;
+    self.view.frame = frame;
+    [UIView commitAnimations];
+    
+    //Notify the delegate
+	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
+}
+
 -(void)chevronPushed:(id)sender
 {	
 	if(alertIsShowingPopOver)

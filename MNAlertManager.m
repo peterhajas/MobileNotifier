@@ -183,7 +183,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[pendingAlerts removeObject:data];
 	}
 	alertWindow.frame = CGRectMake(0,20,320,0);
-	
 	[self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
