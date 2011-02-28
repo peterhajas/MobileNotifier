@@ -27,9 +27,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <AudioToolbox/AudioToolbox.h>
 
+@class MNWhistleBlowerController;
+@protocol MNWhistleBlowerControllerProtocol
+
+-(void)wakeDeviceScreen;
+
+@end
+
 @interface MNWhistleBlowerController : NSObject
 {
+    id <MNWhistleBlowerControllerProtocol> _delegate;
 }
+
 -(void)alertArrived;
+
+@property (nonatomic, retain) id <MNWhistleBlowerControllerProtocol> delegate;
 
 @end

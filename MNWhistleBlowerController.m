@@ -29,12 +29,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @implementation MNWhistleBlowerController
 
+@synthesize delegate = _delegate;
+
+-(id)initWithDelegate:(id)__delegate
+{
+    self = [super init];
+    if(self)
+    {
+        _delegate = __delegate;
+    }
+    return self;
+}
+
 -(void)alertArrived
 {
 	//Have the device vibrate, if the ringer switch is flipped (and if the device supports it)
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 	//Play noise, if the ringer switch is not flipped (and if the device supports it)
 	AudioServicesPlaySystemSound(1007);
+	//Wake the device's screen
+    [_delegate wakeDeviceScreen];
 }
 
 @end

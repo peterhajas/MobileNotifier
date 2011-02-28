@@ -46,6 +46,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %class SBIconModel;
 %class SBIcon;
 %class SBAppSwitcherController;
+%class SBAwayController;
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
@@ -160,6 +161,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
     [uicontroller dismissSwitcher];
+}
+
+-(void)wakeDeviceScreen
+{
+    SBAwayController* awayController = (SBAwayController *)[%c(SBAwayController) sharedAwayController];
+    [awayController undimScreen];
+    [awayController restartDimTimer:5.0];
 }
 
 @end
@@ -327,6 +335,12 @@ PHACInterface *phacinterface;
 {
     %orig;
     [manager hideDashboard];
+}
+
+-(BOOL)clickedMenuButton
+{
+    [manager hideDashboard];
+    return %orig;
 }
 
 %end

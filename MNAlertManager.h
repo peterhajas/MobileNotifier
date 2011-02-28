@@ -42,11 +42,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 -(void)dismissSwitcher;
+-(void)wakeDeviceScreen;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
 									  MNAlertDashboardViewControllerProtocol,
 									  MNLockScreenViewControllerDelegate,
+									  MNWhistleBlowerControllerProtocol,
 									  LAListener>
 {
 	NSMutableArray *pendingAlerts;

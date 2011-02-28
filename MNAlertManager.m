@@ -62,7 +62,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		alertIsShowing = NO;
 		
 		//Allocate and init the whistle blower
-		whistleBlower = [[MNWhistleBlowerController alloc] init];
+		whistleBlower = [[MNWhistleBlowerController alloc] initWithDelegate:self];
 		
 		//Alloc and init the dashboard
 		dashboard = [[MNAlertDashboardViewController alloc] initWithDelegate:self];
@@ -256,6 +256,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)dismissSwitcher
 {
     [_delegate dismissSwitcher];
+}
+
+//MNWhistleBlowerController delegate methods
+
+-(void)wakeDeviceScreen
+{
+    [_delegate wakeDeviceScreen];
 }
 
 //Libactivator methods
