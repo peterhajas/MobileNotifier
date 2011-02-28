@@ -309,6 +309,15 @@ PHACInterface *phacinterface;
     [manager hideLockscreen];
 }
 
+-(void)noteSyncStateChanged
+{
+    if(![self isSyncing])
+    {
+        //Hide our lockscreen view
+        [manager hideLockscreen];
+    }
+}
+
 %end
 
 %hook SBUIController
