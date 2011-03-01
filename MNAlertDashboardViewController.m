@@ -75,16 +75,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
 		[dashboardBackground setAlpha:0.0];
 		
-		//MobileNotifier title label
-        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,349,320,22)];
-        mobileNotifierTextLabel.text = @"MobileNotifier";
-        mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
-        mobileNotifierTextLabel.textAlignment = UITextAlignmentCenter;
-    	mobileNotifierTextLabel.textColor = [UIColor whiteColor];
-    	mobileNotifierTextLabel.shadowColor = [UIColor blackColor];
-    	mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
-        mobileNotifierTextLabel.backgroundColor = [UIColor clearColor];
-        [mobileNotifierTextLabel setAlpha:0.0];
+		//ClearAllButton
+        clearAllButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        clearAllButton.frame = CGRectMake(80,335,160,60);
+        clearAllButton.titleLabel.text = @"Clear all";
+        [clearAllButton setTitle:@"Clear pending" forState: UIControlStateNormal];
+        clearAllButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
+        clearAllButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    	clearAllButton.titleLabel.textColor = [UIColor whiteColor];
+    	clearAllButton.titleLabel.shadowColor = [UIColor blackColor];
+    	clearAllButton.titleLabel.shadowOffset = CGSizeMake(0,-1);
+    	clearAllButton.backgroundColor = [UIColor clearColor];
+
+        //Wire up clearAllButton
+        [clearAllButton addTarget:self action:@selector(clearDashboardPushed:)
+    			 forControlEvents:UIControlEventTouchUpInside];
         
         //Statusbar label
         statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,20)];
@@ -112,8 +117,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[window addSubview:returnToApplicationButton];
         [window addSubview:alertListViewBackground];
 		[window addSubview:alertListView];
-        [window addSubview:mobileNotifierTextLabel];
         [window addSubview:statusBarTextLabel];
+        [window addSubview:clearAllButton];
         //[window addSubview:statusBar];
 		
 		[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
@@ -207,9 +212,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [dashboardBackground        setAlpha:0.0];
     [returnToApplicationButton  setAlpha:0.0];
     [alertListView              setAlpha:0.0];
-    [mobileNotifierTextLabel    setAlpha:0.0];
+    [clearAllButton             setAlpha:0.0];
     [alertListViewBackground    setAlpha:0.0];
-    [mobileNotifierTextLabel    setAlpha:0.0];
     [statusBarTextLabel         setAlpha:0.0];
     //[statusBar                  setAlpha:0.0];
 	
@@ -226,16 +230,46 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[UIView beginAnimations:@"fadeIn" context:NULL];
 	[UIView setAnimationDuration:0.3];
 	
-	[dashboardBackground        setAlpha:1.0];
+	[dashboardBackground        setAlpha:0.7];
     [returnToApplicationButton  setAlpha:1.0];
     [alertListView              setAlpha:1.0];
-    [mobileNotifierTextLabel    setAlpha:1.0];
+    [clearAllButton             setAlpha:1.0];
     [alertListViewBackground    setAlpha:1.0];
-    [mobileNotifierTextLabel    setAlpha:1.0];
     [statusBarTextLabel         setAlpha:1.0];
     //[statusBar                  setAlpha:1.0];
 
 	[UIView commitAnimations];
+}
+
+-(void)clearDashboardPushed:(id)sender
+{
+    //Let's create a UIActionSheet to deal with this very destructive action
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Clear the Dashboard?" 
+                                                             delegate:self 
+                                                    cancelButtonTitle:@"Cancel" 
+                                               destructiveButtonTitle:@"Clear AlertDashboard" 
+                                                    otherButtonTitles:nil];
+    
+    //Show the sheet
+    [actionSheet showFromRect:CGRectMake(80,400,160,60) inView:window animated:YES];
+    [actionSheet removeFromSuperview];
+    [window addSubview:actionSheet];
+    [actionSheet release];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex == 0)
+    {
+        [actionSheet dismissWithClickedButtonIndex:0 animated:YES];
+        //Clear notifications!
+        [_delegate clearPending];
+    }
+    else if(buttonIndex == 1)
+    {
+        [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
+        //Don't do anything!
+    }
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context

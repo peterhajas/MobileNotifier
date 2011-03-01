@@ -242,6 +242,29 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[pendingAlerts removeObject:data];
 }
 
+-(void)clearPending
+{
+    if([pendingAlerts count] == 0)
+    {
+        return;
+    }
+    NSUInteger size = [pendingAlerts count];
+    NSUInteger i;
+    for(i = 0; i < size; i++)
+    {
+        MNAlertData* dataObj = [pendingAlerts lastObject];
+        if(!dataObj)
+        {
+            break;
+        }
+        [dismissedAlerts addObject:dataObj];
+        [pendingAlerts removeObject:dataObj];
+    }
+    [self saveOut];
+    [dashboard refresh];
+    [lockscreen refresh];
+}
+
 - (NSMutableArray *)getPendingAlerts
 {
 	return pendingAlerts;

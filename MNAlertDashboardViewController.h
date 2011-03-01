@@ -36,6 +36,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)actionOnAlertAtIndex:(int)index;
 -(void)dismissedAlertAtIndex:(int)index;
 
+-(void)clearPending;
+
 -(NSMutableArray *)getPendingAlerts;
 -(NSMutableArray *)getDismissedAlerts;
 
@@ -44,14 +46,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertDashboardViewController : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface MNAlertDashboardViewController : NSObject <UITableViewDataSource, 
+                                                      UITableViewDelegate,
+                                                      UIActionSheetDelegate>
 {
 	UIWindow *window;
 	UIImageView *dashboardBackground;
 	
 	UIButton *returnToApplicationButton;
+	UIButton *clearAllButton;
+	
 	UITableView *alertListView;
-	UILabel *mobileNotifierTextLabel;
     UILabel *statusBarTextLabel;
     
     //UIStatusBar *statusBar;
@@ -68,6 +73,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)toggleDashboard;
 -(void)hideDashboard;
 -(void)showDashboard;
+-(void)clearDashboardPushed:(id)sender;
 -(void)refresh;
 -(bool)isShowing;
 
