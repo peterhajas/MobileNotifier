@@ -206,6 +206,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)didSwipeRight
 {
+    if(alertIsShowingPopOver)
+    {
+        //Do nothing
+        return;
+    }
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.2];
     CGRect frame = self.view.frame;
