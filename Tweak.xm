@@ -107,6 +107,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Next, ask the dictionary for the IconFile name
 	NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
 	NSString *iconPath;
+	
 	if(iconName != nil)
 	{
 		//Finally, query the bundle for the path of the icon minus its path extension (usually .png)
@@ -117,10 +118,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		//Some apps, like Boxcar, prefer an array of icons. We need to deal with that appropriately.
 		NSArray *iconArray = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFiles"];
-		//objectAtIndex:1 is the retina icon, from some testing
-		iconPath = [appBundle pathForResource:[[iconArray objectAtIndex:1] stringByDeletingPathExtension] 
-												 ofType:[[iconArray objectAtIndex:1] pathExtension]];
+		//Interate through the array first
+		int count = [iconArray count];
+		if(count != 0)
+		{
+			int i;
+			for(i = 0; i < count; i++)
+			{
+				//With some preliminary testing, the highest-up item in the iconArray is the highest resolution image
+				iconPath = [appBundle pathForResource:[[iconArray objectAtIndex:i] stringByDeletingPathExtension] 
+														 ofType:[[iconArray objectAtIndex:i] pathExtension]];
+			}
+		}
 	}
+	
+	//Prefer retina images over non retina images
 	
 	if([UIImage imageWithContentsOfFile:iconPath] == nil)
 	{
@@ -154,7 +166,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	*/
 	
 	//Return our UIImage!
-	return [[UIImage imageWithContentsOfFile:iconPath] retain];
+	if(iconPath != nil)
+	{
+		return [[UIImage imageWithContentsOfFile:iconPath] retain];
+	}
+	else
+	{
+		//We don't have an image. Let's return one with the MobileNotifier logo.
+		return [[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-logo.png"] retain];
+	}
 }
 
 -(void)dismissSwitcher
