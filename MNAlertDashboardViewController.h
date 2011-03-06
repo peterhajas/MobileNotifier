@@ -65,7 +65,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UIImageView *alertListViewBackground;
 	
 	bool dashboardShowing;
-		
+	
+    UIActionSheet* clearActionSheet;
+	
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
 }
 

@@ -217,6 +217,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [statusBarTextLabel         setAlpha:0.0];
     //[statusBar                  setAlpha:0.0];
 	
+    [self actionSheet:clearActionSheet clickedButtonAtIndex:1];
+	
 	[UIView commitAnimations];
 }
 
@@ -244,17 +246,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)clearDashboardPushed:(id)sender
 {
     //Let's create a UIActionSheet to deal with this very destructive action
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Clear the Dashboard?" 
+    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@"Clear the Dashboard?" 
                                                              delegate:self 
                                                     cancelButtonTitle:@"Cancel" 
                                                destructiveButtonTitle:@"Clear AlertDashboard" 
                                                     otherButtonTitles:nil];
     
     //Show the sheet
-    [actionSheet showFromRect:CGRectMake(80,400,160,60) inView:window animated:YES];
-    [actionSheet removeFromSuperview];
-    [window addSubview:actionSheet];
-    [actionSheet release];
+    [clearActionSheet showFromRect:CGRectMake(80,400,160,60) inView:window animated:YES];
+    [clearActionSheet removeFromSuperview];
+    [window addSubview:clearActionSheet];
+    [clearActionSheet release];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
