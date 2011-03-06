@@ -106,7 +106,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	NSBundle *appBundle = (NSBundle*)[[[sbac applicationsWithBundleIdentifier:bundleID] objectAtIndex:0] bundle];
 	//Next, ask the dictionary for the IconFile name
 	NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
-	NSString *iconPath;
+	NSString *iconPath = @"";
 	
 	if(iconName != nil)
 	{
