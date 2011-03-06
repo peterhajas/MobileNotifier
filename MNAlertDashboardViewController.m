@@ -217,7 +217,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [statusBarTextLabel         setAlpha:0.0];
     //[statusBar                  setAlpha:0.0];
 	
-    [self actionSheet:clearActionSheet clickedButtonAtIndex:1];
+    [clearActionSheet dismissWithClickedButtonIndex:1 animated:YES];
 	
 	[UIView commitAnimations];
 }
@@ -256,7 +256,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [clearActionSheet showFromRect:CGRectMake(80,400,160,60) inView:window animated:YES];
     [clearActionSheet removeFromSuperview];
     [window addSubview:clearActionSheet];
-    [clearActionSheet release];
+    //[clearActionSheet release];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
