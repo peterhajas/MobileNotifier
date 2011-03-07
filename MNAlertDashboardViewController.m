@@ -256,7 +256,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [clearActionSheet showFromRect:CGRectMake(80,400,160,60) inView:window animated:YES];
     [clearActionSheet removeFromSuperview];
     [window addSubview:clearActionSheet];
-    //[clearActionSheet release];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
