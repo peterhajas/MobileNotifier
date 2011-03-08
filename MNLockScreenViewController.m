@@ -95,7 +95,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)show
 {
-    lockWindow.hidden = NO;
+	[lockWindow setFrame:CGRectMake(0,115,320,60)];
+	lockWindow.hidden = NO;
     [self refresh];
 }
 
