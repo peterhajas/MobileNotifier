@@ -325,6 +325,7 @@ PHACInterface *phacinterface;
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
 {
+	%orig;
 	//Hide our lockscreen view
     [manager hideLockscreen];
 }
