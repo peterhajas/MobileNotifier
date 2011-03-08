@@ -196,7 +196,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	//Thanks to a blog post by Marco Arment (http://www.marco.org/1648550153), we can support 3.x here.
 	
-	if([UISwipeGestureRecognizer class] != nil)
+	NSString* systemVersionString = [UIDevice currentDevice].systemVersion;
+	NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
+	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+	NSNumber *versionNumber = [numberFormatter numberFromString:systemVersionString];
+	[numberFormatter release];
+	
+	int systemVersionInteger = 0;
+	
+	if(versionNumber != nil)
+	{
+		systemVersionInteger = [versionNumber intValue];
+	}
+	
+	if(systemVersionInteger >= 3.2)
 	{
 		// Single finger, double tap
 	    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
