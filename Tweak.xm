@@ -376,8 +376,9 @@ PHACInterface *phacinterface;
 	if([telephonyManager incomingCallExists])
 	{
 		[manager hideLockscreen];
-		[manager hidePendingAlert];
 	}
+	//Hide pending alerts regardless
+	[manager hidePendingAlert];
 }
 
 %end
