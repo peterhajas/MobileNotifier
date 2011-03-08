@@ -368,6 +368,18 @@ PHACInterface *phacinterface;
     }
 }
 
+-(void)undimScreen
+{
+	%orig;
+	SBTelephonyManager *telephonyManager = (SBTelephonyManager *)[%c(SBTelephonyManager) sharedTelephonyManager];
+	//If someone's calling us, let's hide the lockscreen view and any pending alerts
+	if([telephonyManager incomingCallExists])
+	{
+		[manager hideLockscreen];
+		[manager hidePendingAlert];
+	}
+}
+
 %end
 
 %hook SBUIController
