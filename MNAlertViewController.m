@@ -194,14 +194,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 { 
     [super viewDidLoad];
 
-    // Single finger, double tap
-    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
-        initWithTarget:self action:@selector(didSwipeRight)];
- 
-    swipeRight.numberOfTouchesRequired = 1;
-    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:swipeRight];
-    [swipeRight release];
+	//Thanks to a blog post by Marco Arment (http://www.marco.org/1648550153), we can support 3.x here.
+	
+	if([UISwipeGestureRecognizer class] != nil)
+	{
+		// Single finger, double tap
+	    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
+	        initWithTarget:self action:@selector(didSwipeRight)];
+
+	    swipeRight.numberOfTouchesRequired = 1;
+	    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+	    [self.view addGestureRecognizer:swipeRight];
+	    [swipeRight release];
+	}
 }
 
 -(void)didSwipeRight
