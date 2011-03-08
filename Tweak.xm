@@ -68,10 +68,39 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @end
 
 @interface PHACInterface : NSObject <MNAlertManagerDelegate>
+{
+	NSArray* ignoredApplications;	
+}
+
+-(BOOL)isApplicationIgnored:(NSString*)bundleID;
+
 @end
 
 @implementation PHACInterface
-- (void)launchBundleID:(NSString *)bundleID
+
+-(BOOL)isApplicationIgnored:(NSString*)bundleID
+{
+	if([ignoredApplications indexOfObject:bundleID] != NSNotFound)
+	{
+		return YES;
+	}
+	else
+	{
+		return NO;
+	}
+}
+
+-(id)init
+{
+	self = [super init];
+	if(self)
+	{
+		ignoredApplications = [[NSArray alloc] initWithContentsOfFile:@"/Library/Application Support/MobileNotifier/ignoredApplications.plist"];
+	}
+	return self;
+}
+
+-(void)launchBundleID:(NSString *)bundleID
 {
 	//TODO: switch to URL for this
     SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
@@ -88,7 +117,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 }
 
-- (void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID
+-(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID
 {
     [self launchBundleID:bundleID];
 }
@@ -261,7 +290,7 @@ PHACInterface *phacinterface;
 		//Get the SBApplication object, we need its bundle identifier
 		SBApplication *app(MSHookIvar<SBApplication *>(item, "_app"));
 		//Filter out clock alerts
-		if([[app bundleIdentifier] rangeOfString:@"timer"].location == NSNotFound)
+		if(![phacinterface isApplicationIgnored:[app bundleIdentifier]])
 		{
 			NSString* _body = MSHookIvar<NSString*>(item, "_body");
 			data = [[MNAlertData alloc] init];
@@ -275,7 +304,7 @@ PHACInterface *phacinterface;
 		}
 		else
 		{
-			//We do not want to intercept MobileTimer events.
+			//We do not want to intercept ignored application events.
 			%orig;
 		}
     }
