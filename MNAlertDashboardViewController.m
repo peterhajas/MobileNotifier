@@ -260,14 +260,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	NSNumber *versionNumber = [numberFormatter numberFromString:systemVersionString];
 	[numberFormatter release];
 
-	int systemVersionInteger = 0;
+	double systemVersionDouble = 0;
 
 	if(versionNumber != nil)
 	{
-		systemVersionInteger = [versionNumber intValue];
+		systemVersionDouble = [versionNumber doubleValue];
 	}
 
-	if(systemVersionInteger >= 3.2)
+	if(systemVersionDouble >= 3.2)
 	{
 		[clearActionSheet showFromRect:CGRectMake(80,420,160,60) inView:window animated:YES];
 		[clearActionSheet removeFromSuperview];
