@@ -93,12 +93,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         
         //Statusbar label
         statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        statusBarTextLabel.text = @"Touch to return to where you were";
-        statusBarTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
-        statusBarTextLabel.textAlignment = UITextAlignmentCenter;
-    	statusBarTextLabel.textColor = [UIColor whiteColor];
-    	statusBarTextLabel.shadowColor = [UIColor blackColor];
-    	statusBarTextLabel.shadowOffset = CGSizeMake(0,-1);
         statusBarTextLabel.backgroundColor = [UIColor clearColor];
         [statusBarTextLabel setAlpha:0.0];
         
