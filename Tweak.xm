@@ -343,6 +343,7 @@ PHACInterface *phacinterface;
 	[manager hidePendingAlert];
 	//Show our lockscreen view
     [manager showLockscreen];
+	[manager hideDashboard];
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
