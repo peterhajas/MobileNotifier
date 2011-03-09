@@ -372,6 +372,11 @@ PHACInterface *phacinterface;
 		[manager hideLockscreen];
 		[manager hidePendingAlert];
 	}
+	
+	if([self isLocked])
+	{
+		[manager hidePendingAlert];
+	}
 }
 
 %end
@@ -410,8 +415,22 @@ PHACInterface *phacinterface;
 
 %end
 
-//Hook AutoFetchRequestPrivate for getting new mail
+//Don't do anything for alerts we already intercept
+%hook SBAwayModel
 
+-(void)populateWithMissedSMS:(id)missedSMS
+{
+	
+}
+-(void)populateWithMissedEnhancedVoiceMails:(id)missedEnhancedVoiceMails
+{
+	
+}
+
+%end
+
+//Hook AutoFetchRequestPrivate for getting new mail
+/*
 %hook AutoFetchRequestPrivate
 
 -(void)run //This works! This is an appropriate way for us to display a new mail notification to the user
@@ -437,7 +456,7 @@ PHACInterface *phacinterface;
 }
 
 %end
-
+*/
 static void reloadPrefsNotification(CFNotificationCenterRef center,
 									void *observer,
 									CFStringRef name,
