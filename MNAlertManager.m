@@ -232,7 +232,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 {
-	NSLog(@"At MNAlertManager! Delegate: %@", _delegate);
 	return [_delegate iconForBundleID:bundleID];
 }
 
@@ -273,7 +272,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)clearPending
 {
-	NSLog(@"clearing");
 	if([pendingAlerts count] == 0)
     {
         return;
