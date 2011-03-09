@@ -26,26 +26,35 @@ Due to the way the software functions, MobileNotifier requires a jailbroken iOS 
 
 MobileNotifier now includes a pretty awesome new companion app: MobileNukifier! MobileNukifier does what it sounds like - it deletes your MobileNotifier directory (/var/mobile/Library/MobileNotifier/) containing your notifications, and resprings the phone. This clears things out, and allows for easier testing once new versions are released.
 
+Environment Setup
+-----------------
+
+MobileNotifier has only been built on Mac OS X. Theos can be installed on Mac OS X, Linux and iOS.
+
+1. Install Theos *(the iOS makefile system by Dustin Howett)* using this guide:
+
+    http://iphonedevwiki.net/index.php/Theos/Getting_Started
+
+2. Download the decompiled 3.x headers from rpetrich's fork of Kennytm in `$THEOS/include/`. Be sure place the frameworks at top level *(i.e. $THEOS/include/Springboard)*.
+
+    https://github.com/rpetrich/iphoneheaders
+
+3. After copying the headers into ``$THEOS/include``, you'll need to run the following command to copy some required system files not included by default.
+
+    cp /System/Library/Frameworks/IOSurface.framework/Headers/IOSurfaceAPI.h $THEOS/include/IOSurface/.
+
+4. Copy libactivator.dylib to ``$THEOS/lib/`` *(you can get this off your iOS device with Activator installed)*
+
 Building
 --------
 
-To build MobileNotifier, you'll need Theos (the iOS makefile system by Dustin Howett) installable from:
+1. Run `make`
 
-http://iphonedevwiki.net/index.php/Theos/Getting_Started
+2. Run `make package` to generate a .deb.
 
-Theos can be installed on Mac OS X, Linux and iOS. MobileNotifier has only been built on Mac OS X.
-
-Then, you'll need the decompiled 3.x headers from rpetrich's fork of Kennytm in $THEOS/include/ with frameworks at top level (i.e. $THEOS/include/Springboard). You can find those here:
-
-https://github.com/rpetrich/iphoneheaders
-
-After copying the headers into $THEOS/include, you'll need to run the following command:
-
-cp /System/Library/Frameworks/IOSurface.framework/Headers/IOSurfaceAPI.h $THEOS/include/IOSurface/.
-
-You'll then need a copy of libactivator.dylib (you can get this off your iOS device with Activator installed) at $THEOS/lib/
-
-Once you have all that set up, run make and then make package to generate a .deb. scp this .deb to your device, and run dpkg -i thedeb.deb as root to install. Alternatively, you can run make package install with the "THEOS_DEVICE_IP" environment variable set (for example, iPhone.local).
+3. Installation methods
+ - **Manual:** `scp` the resulting .deb file to your device, and run `dpkg -i thedeb.deb` as root to install.
+ - **Automated:** run `make package install` with the **THEOS_DEVICE_IP** environment variable set (example: `export THEOS_DEVICE_IP=iPhone.local`).
 
 Helping
 -------
