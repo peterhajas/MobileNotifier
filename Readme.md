@@ -39,6 +39,10 @@ Then, you'll need the decompiled 3.x headers from rpetrich's fork of Kennytm in 
 
 https://github.com/rpetrich/iphoneheaders
 
+After copying the headers into $THEOS/include, you'll need to run the following command:
+
+cp /System/Library/Frameworks/IOSurface.framework/Headers/IOSurfaceAPI.h $THEOS/include/IOSurface/.
+
 You'll then need a copy of libactivator.dylib (you can get this off your iOS device with Activator installed) at $THEOS/lib/
 
 Once you have all that set up, run make and then make package to generate a .deb. scp this .deb to your device, and run dpkg -i thedeb.deb as root to install. Alternatively, you can run make package install with the "THEOS_DEVICE_IP" environment variable set (for example, iPhone.local).
