@@ -67,6 +67,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	MNPreferenceManager *preferenceManager;
 	
+	NSTimer* alertDismissTimer;
+	
 	id<MNAlertManagerDelegate> _delegate;
 }
 
@@ -79,6 +81,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hideLockscreen;
 -(void)hidePendingAlert;
 -(void)reloadPreferences;
+
+-(void)clearPending;
+-(void)alertShouldGoLaterTimerFired:(id)sender;
 
 @property (nonatomic, retain) MNAlertWindow *alertWindow;
 

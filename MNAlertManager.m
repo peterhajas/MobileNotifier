@@ -118,6 +118,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		}
 		//Make noise
 		[whistleBlower alertArrived];
+		
+		//Start the timer
+		alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+		
 	}
 	//Not a foreground alert, but a background alert
 	else if(data.status == kNewAlertBackground)
@@ -269,7 +273,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)clearPending
 {
-    if([pendingAlerts count] == 0)
+	NSLog(@"clearing");
+	if([pendingAlerts count] == 0)
     {
         return;
     }
@@ -288,6 +293,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
+}
+
+-(void)alertShouldGoLaterTimerFired:(id)sender
+{
+	if(!pendingAlertViewController)
+    {
+		return;
+    }
+	//If the alert is expanded, then let's not have the alert go to "later"
+	if(pendingAlertViewController.alertIsShowingPopOver)
+	{
+		return;
+	}
+		
+	[pendingAlertViewController laterPushed:nil];
 }
 
 -(void)reloadPreferences
