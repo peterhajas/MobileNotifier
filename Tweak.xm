@@ -128,6 +128,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon@2x.png"] retain];
 	}
+	if([bundleID isEqualToString:@"com.apple.mobilephone"])
+	{
+		return [[UIImage imageWithContentsOfFile:@"/Applications/MobilePhone.app/icon@2x.png"] retain];
+	}
 	
 	SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
 	//Let's grab the application's icon using some awesome NSBundle stuff!
@@ -297,20 +301,23 @@ PHACInterface *phacinterface;
 			%orig;
 		}
     }
-    /*
+    
     else if([item isKindOfClass:%c(SBVoiceMailAlertItem)])
     {
         //It's a voicemail alert!
-        
+        data = [[MNAlertData alloc] init];
         data.time = [[NSDate date] retain];
     	data.status = kNewAlertForeground;
         data.type = kPhoneAlert;
+		NSLog(@"Setting bundle ID......................................................................");
         data.bundleID = @"com.apple.mobilephone";
+		NSLog(@"Setting title......................................................................");
         data.header = [item title];
+		NSLog(@"Setting text......................................................................");
         data.text = [item bodyText];
 		[manager newAlertWithData:data];
     }
-    */
+    
     else
     {
         //It's a different alert (power/app store, for example)
