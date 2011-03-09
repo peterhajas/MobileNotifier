@@ -183,17 +183,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		iconPath = [appBundle pathForResource:@"icon" ofType:@"png"];
 	}
 	
-	//Commented this function out - it was causing resprings on certain devices.
-	/*	
-	if(![[[appBundle infoDictionary] objectForKey:@"UIPrerenderedIcon"] boolValue])
-	{
-		//If they didn't preprocess the icon (Facebook, looking at you)
-		//then we should preprocess it ourselves!
-		
-		return [[UIImage imageWithContentsOfFile:iconPath] _applicationIconImagePrecomposed:YES];
-	}
-	*/
-	
 	//Return our UIImage!
 	if(iconPath != nil)
 	{
