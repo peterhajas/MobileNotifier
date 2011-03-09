@@ -58,7 +58,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     			 forControlEvents:UIControlEventTouchUpInside];
 		
 		//Create the tableview
-		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,45,287,297) style:UITableViewStylePlain];
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,20,287,322) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
 		[alertListView setAlpha:0.0];
@@ -66,7 +66,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertListView.layer.cornerRadius = 10;
 		
 		//Background for the alertListView
-        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(15,45,290,297)];
+        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(15,20,290,322)];
         alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
         [alertListViewBackground setAlpha:0.0];
 		
