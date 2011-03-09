@@ -69,6 +69,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//Alloc and init the lockscreen view controller
         lockscreen = [[MNLockScreenViewController alloc] initWithDelegate:self];
+
+		//Alloc and init the preferences manager
+		preferenceManager = [[MNPreferenceManager alloc] init];
 		
 		//Register for libactivator events
 		[[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
@@ -115,6 +118,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		}
 		//Make noise
 		[whistleBlower alertArrived];
+		
+		//Start the timer
+		alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+		
 	}
 	//Not a foreground alert, but a background alert
 	else if(data.status == kNewAlertBackground)
@@ -132,6 +139,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[NSKeyedArchiver archiveRootObject:dismissedAlerts toFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"];
 }
 
+-(void)showDashboardFromSwitcher
+{
+    NSNumber *switcherViewEnabled = [preferenceManager.preferences valueForKey:@"switcherViewEnabled"];
+	bool shouldShow = switcherViewEnabled ? [switcherViewEnabled boolValue] : YES;
+
+	if(!shouldShow)
+	{
+		return;
+	}
+
+	[self hidePendingAlert];
+	[dashboard showDashboard];
+}
+
 -(void)showDashboard
 {
     [self hidePendingAlert];
@@ -145,7 +166,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showLockscreen
 {
-    [self hidePendingAlert];
+	NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
+	bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
+	
+	if(!shouldShow)
+	{
+		return;
+	}
+		
+	[self hidePendingAlert];
     if([pendingAlerts count] != 0)
     {
         [lockscreen show];
@@ -203,7 +232,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 {
-	NSLog(@"At MNAlertManager! Delegate: %@", _delegate);
 	return [_delegate iconForBundleID:bundleID];
 }
 
@@ -244,7 +272,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)clearPending
 {
-    if([pendingAlerts count] == 0)
+	if([pendingAlerts count] == 0)
     {
         return;
     }
@@ -263,6 +291,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
+}
+
+-(void)alertShouldGoLaterTimerFired:(id)sender
+{
+	if(!pendingAlertViewController)
+    {
+		return;
+    }
+	//If the alert is expanded, then let's not have the alert go to "later"
+	if(pendingAlertViewController.alertIsShowingPopOver)
+	{
+		return;
+	}
+		
+	[pendingAlertViewController laterPushed:nil];
+}
+
+-(void)reloadPreferences
+{
+	[preferenceManager reloadPreferences];
 }
 
 - (NSMutableArray *)getPendingAlerts

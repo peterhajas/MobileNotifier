@@ -192,24 +192,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)viewDidLoad 
 { 
-    [super viewDidLoad];
-
-	//Thanks to a blog post by Marco Arment (http://www.marco.org/1648550153), we can support 3.x here.
+	[super viewDidLoad];
 	
-	NSString* systemVersionString = [UIDevice currentDevice].systemVersion;
-	NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	NSNumber *versionNumber = [numberFormatter numberFromString:systemVersionString];
-	[numberFormatter release];
-	
-	int systemVersionDouble = 0;
-	
-	if(versionNumber != nil)
-	{
-		systemVersionDouble = [versionNumber doubleValue];
-	}
-	
-	if(systemVersionDouble >= 3.2)
+	//If the system understands UIGestureRecognizer, utilize it!
+	Class gestureRecognizer = NSClassFromString(@"UIGestureRecognizer");
+	if(gestureRecognizer != nil)
 	{
 		// Single finger, double tap
 	    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]

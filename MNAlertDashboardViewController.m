@@ -93,12 +93,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         
         //Statusbar label
         statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        statusBarTextLabel.text = @"Touch to return to where you were";
-        statusBarTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
-        statusBarTextLabel.textAlignment = UITextAlignmentCenter;
-    	statusBarTextLabel.textColor = [UIColor whiteColor];
-    	statusBarTextLabel.shadowColor = [UIColor blackColor];
-    	statusBarTextLabel.shadowOffset = CGSizeMake(0,-1);
         statusBarTextLabel.backgroundColor = [UIColor clearColor];
         [statusBarTextLabel setAlpha:0.0];
         
@@ -253,26 +247,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                     otherButtonTitles:nil];
     
     //Show the sheet
-	
-	NSString* systemVersionString = [UIDevice currentDevice].systemVersion;
-	NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	NSNumber *versionNumber = [numberFormatter numberFromString:systemVersionString];
-	[numberFormatter release];
 
-	double systemVersionDouble = 0;
-
-	if(versionNumber != nil)
-	{
-		systemVersionDouble = [versionNumber doubleValue];
-	}
-
-	if(systemVersionDouble >= 3.2)
+	if([clearActionSheet respondsToSelector:@selector(showFromRect: inView: animated:)])
 	{
 		[clearActionSheet showFromRect:CGRectMake(80,420,160,60) inView:window animated:YES];
 		[clearActionSheet removeFromSuperview];
 		[window addSubview:clearActionSheet];
 	}
+	
 	else
 	{
 		//If they're on an older device, do some fancy footwork to get the UIActionSheet to show up

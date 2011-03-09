@@ -126,7 +126,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	if([bundleID isEqualToString:@"com.apple.MobileSMS"])
 	{
-		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon@2x.png"] retain];
+		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon.png"] retain];
+	}
+	if([bundleID isEqualToString:@"com.apple.mobilephone"])
+	{
+		return [[UIImage imageWithContentsOfFile:@"/Applications/MobilePhone.app/icon.png"] retain];
 	}
 	
 	SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
@@ -182,17 +186,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		iconPath = [appBundle pathForResource:@"icon" ofType:@"png"];
 	}
-	
-	//Commented this function out - it was causing resprings on certain devices.
-	/*	
-	if(![[[appBundle infoDictionary] objectForKey:@"UIPrerenderedIcon"] boolValue])
-	{
-		//If they didn't preprocess the icon (Facebook, looking at you)
-		//then we should preprocess it ourselves!
-		
-		return [[UIImage imageWithContentsOfFile:iconPath] _applicationIconImagePrecomposed:YES];
-	}
-	*/
 	
 	//Return our UIImage!
 	if(iconPath != nil)
@@ -308,11 +301,11 @@ PHACInterface *phacinterface;
 			%orig;
 		}
     }
-    /*
+    
     else if([item isKindOfClass:%c(SBVoiceMailAlertItem)])
     {
         //It's a voicemail alert!
-        
+        data = [[MNAlertData alloc] init];
         data.time = [[NSDate date] retain];
     	data.status = kNewAlertForeground;
         data.type = kPhoneAlert;
@@ -321,7 +314,7 @@ PHACInterface *phacinterface;
         data.text = [item bodyText];
 		[manager newAlertWithData:data];
     }
-    */
+    
     else
     {
         //It's a different alert (power/app store, for example)
@@ -350,6 +343,7 @@ PHACInterface *phacinterface;
 	[manager hidePendingAlert];
 	//Show our lockscreen view
     [manager showLockscreen];
+	[manager hideDashboard];
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
@@ -376,9 +370,13 @@ PHACInterface *phacinterface;
 	if([telephonyManager incomingCallExists])
 	{
 		[manager hideLockscreen];
+		[manager hidePendingAlert];
 	}
-	//Hide pending alerts regardless
-	[manager hidePendingAlert];
+	
+	if([self isLocked])
+	{
+		[manager hidePendingAlert];
+	}
 }
 
 %end
@@ -393,7 +391,7 @@ PHACInterface *phacinterface;
 
 -(BOOL)activateSwitcher
 {
-    [manager showDashboard];
+    [manager showDashboardFromSwitcher];
     return %orig;
 }
 
@@ -417,8 +415,22 @@ PHACInterface *phacinterface;
 
 %end
 
-//Hook AutoFetchRequestPrivate for getting new mail
+//Don't do anything for alerts we already intercept
+%hook SBAwayModel
 
+-(void)populateWithMissedSMS:(id)missedSMS
+{
+	
+}
+-(void)populateWithMissedEnhancedVoiceMails:(id)missedEnhancedVoiceMails
+{
+	
+}
+
+%end
+
+//Hook AutoFetchRequestPrivate for getting new mail
+/*
 %hook AutoFetchRequestPrivate
 
 -(void)run //This works! This is an appropriate way for us to display a new mail notification to the user
@@ -444,6 +456,21 @@ PHACInterface *phacinterface;
 }
 
 %end
+*/
+static void reloadPrefsNotification(CFNotificationCenterRef center,
+									void *observer,
+									CFStringRef name,
+									const void *object,
+									CFDictionaryRef userInfo) {
+	[manager reloadPreferences];
+}
+
+%ctor
+{
+	//Register for the preferences-did-change notification
+	CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
+	CFNotificationCenterAddObserver(r, NULL, &reloadPrefsNotification, CFSTR("com.peterhajassoftware.mobilenotifier/reloadPrefs"), NULL, 0);
+}
 
 //Information about Logos for future reference:
 
