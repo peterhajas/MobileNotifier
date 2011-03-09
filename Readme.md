@@ -116,3 +116,5 @@ KennyTM - github.com/kennytm - for his decompiled headers
 Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Cycript, Veency and countless other gifts to the community
 
 Kyle Adams - kyleadams.org - for his work on the user interface for the project and prerelease testing
+
+Tim Novinger - timnovinger.com
