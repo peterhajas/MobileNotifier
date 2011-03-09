@@ -240,10 +240,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)clearDashboardPushed:(id)sender
 {
     //Let's create a UIActionSheet to deal with this very destructive action
-    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@"Clear the Dashboard?" 
+    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@""
                                                              delegate:self 
                                                     cancelButtonTitle:@"Cancel" 
-                                               destructiveButtonTitle:@"Clear AlertDashboard" 
+                                               destructiveButtonTitle:@"Clear all notifications?" 
                                                     otherButtonTitles:nil];
     
     //Show the sheet
