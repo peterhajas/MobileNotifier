@@ -253,26 +253,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                     otherButtonTitles:nil];
     
     //Show the sheet
-	
-	NSString* systemVersionString = [UIDevice currentDevice].systemVersion;
-	NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
-	[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	NSNumber *versionNumber = [numberFormatter numberFromString:systemVersionString];
-	[numberFormatter release];
 
-	double systemVersionDouble = 0;
-
-	if(versionNumber != nil)
-	{
-		systemVersionDouble = [versionNumber doubleValue];
-	}
-
-	if(systemVersionDouble >= 3.2)
+	if([clearActionSheet respondsToSelector:@selector(showFromRect: inView: animated:)])
 	{
 		[clearActionSheet showFromRect:CGRectMake(80,420,160,60) inView:window animated:YES];
 		[clearActionSheet removeFromSuperview];
 		[window addSubview:clearActionSheet];
 	}
+	
 	else
 	{
 		//If they're on an older device, do some fancy footwork to get the UIActionSheet to show up
