@@ -52,7 +52,9 @@ Building
 
 2. Run `make package` to generate a .deb.
 
-3. Installation methods
+Installation methods
+--------------------
+
  - **Manual:** `scp` the resulting .deb file to your device, and run `dpkg -i thedeb.deb` as root to install.
  - **Automated:** run `make package install` with the **THEOS_DEVICE_IP** environment variable set (example: `export THEOS_DEVICE_IP=iPhone.local`).
 
