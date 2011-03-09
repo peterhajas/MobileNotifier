@@ -69,6 +69,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//Alloc and init the lockscreen view controller
         lockscreen = [[MNLockScreenViewController alloc] initWithDelegate:self];
+
+		//Alloc and init the preferences manager
+		preferenceManager = [[MNPreferenceManager alloc] init];
 		
 		//Register for libactivator events
 		[[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
@@ -132,6 +135,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[NSKeyedArchiver archiveRootObject:dismissedAlerts toFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"];
 }
 
+-(void)showDashboardFromSwitcher
+{
+    NSNumber *switcherViewEnabled = [preferenceManager.preferences valueForKey:@"switcherViewEnabled"];
+	bool shouldShow = switcherViewEnabled ? [switcherViewEnabled boolValue] : YES;
+
+	if(!shouldShow)
+	{
+		return;
+	}
+
+	[self hidePendingAlert];
+	[dashboard showDashboard];
+}
+
 -(void)showDashboard
 {
     [self hidePendingAlert];
@@ -145,7 +162,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showLockscreen
 {
-    [self hidePendingAlert];
+	NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
+	bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
+	
+	if(!shouldShow)
+	{
+		return;
+	}
+		
+	[self hidePendingAlert];
     if([pendingAlerts count] != 0)
     {
         [lockscreen show];
@@ -263,6 +288,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
+}
+
+-(void)reloadPreferences
+{
+	[preferenceManager reloadPreferences];
 }
 
 - (NSMutableArray *)getPendingAlerts

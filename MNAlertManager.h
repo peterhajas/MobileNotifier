@@ -36,6 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNAlertViewController.h"
 #import "MNAlertWindow.h"
 #import "MNWhistleBlowerController.h"
+#import "MNPreferenceManager.h"
 
 @class MNAlertManager;
 @protocol MNAlertManagerDelegate
@@ -64,16 +65,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	MNWhistleBlowerController *whistleBlower;
 	
+	MNPreferenceManager *preferenceManager;
+	
 	id<MNAlertManagerDelegate> _delegate;
 }
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
 -(void)showDashboard;
+-(void)showDashboardFromSwitcher;
 -(void)hideDashboard;
 -(void)showLockscreen;
 -(void)hideLockscreen;
 -(void)hidePendingAlert;
+-(void)reloadPreferences;
 
 @property (nonatomic, retain) MNAlertWindow *alertWindow;
 

@@ -126,11 +126,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	if([bundleID isEqualToString:@"com.apple.MobileSMS"])
 	{
-		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon@2x.png"] retain];
+		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon.png"] retain];
 	}
 	if([bundleID isEqualToString:@"com.apple.mobilephone"])
 	{
-		return [[UIImage imageWithContentsOfFile:@"/Applications/MobilePhone.app/icon@2x.png"] retain];
+		return [[UIImage imageWithContentsOfFile:@"/Applications/MobilePhone.app/icon.png"] retain];
 	}
 	
 	SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
@@ -309,11 +309,8 @@ PHACInterface *phacinterface;
         data.time = [[NSDate date] retain];
     	data.status = kNewAlertForeground;
         data.type = kPhoneAlert;
-		NSLog(@"Setting bundle ID......................................................................");
         data.bundleID = @"com.apple.mobilephone";
-		NSLog(@"Setting title......................................................................");
         data.header = [item title];
-		NSLog(@"Setting text......................................................................");
         data.text = [item bodyText];
 		[manager newAlertWithData:data];
     }
@@ -388,7 +385,7 @@ PHACInterface *phacinterface;
 
 -(BOOL)activateSwitcher
 {
-    [manager showDashboard];
+    [manager showDashboardFromSwitcher];
     return %orig;
 }
 
@@ -439,6 +436,21 @@ PHACInterface *phacinterface;
 }
 
 %end
+
+static void reloadPrefsNotification(CFNotificationCenterRef center,
+									void *observer,
+									CFStringRef name,
+									const void *object,
+									CFDictionaryRef userInfo) {
+	[manager reloadPreferences];
+}
+
+%ctor
+{
+	//Register for the preferences-did-change notification
+	CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
+	CFNotificationCenterAddObserver(r, NULL, &reloadPrefsNotification, CFSTR("com.peterhajassoftware.mobilenotifier/reloadPrefs"), NULL, 0);
+}
 
 //Information about Logos for future reference:
 

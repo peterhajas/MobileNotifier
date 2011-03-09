@@ -6,12 +6,6 @@
 	<array>
 		<dict>
 			<key>cell</key>
-			<string>PSGiantCell</string>
-			<key>label</key>
-			<string>MobileNotifier</string>
-		</dict>
-		<dict>
-			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>beta3r5, Copious Corn Flakes</string>
@@ -39,6 +33,38 @@
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>@iamkyleadams, kyleadams.org</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>label</key>
+			<string>Lockscreen view</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>lockscreenEnabled</string>
+			<key>defaults</key> 
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>label</key>
+			<string>Dash on Switcher</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>switcherViewEnabled</string>
+			<key>defaults</key> 
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
 	</array>
 	<key>title</key>
