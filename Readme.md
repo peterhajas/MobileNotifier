@@ -33,11 +33,11 @@ MobileNotifier has only been built on Mac OS X. Theos can be installed on Mac OS
 
 1. Install Xcode. A free developer account is required in order to download it.
 
-    http://developer.apple.com/technologies/xcode.html
+    [http://developer.apple.com/technologies/xcode.html](http://developer.apple.com/technologies/xcode.html)
 
 2. Install MacPorts
 
-    http://www.macports.org/install.php
+    [http://www.macports.org/install.php](http://www.macports.org/install.php)
 
 3. Install Theos *(the iOS makefile system by Dustin Howett)* using this guide:
 
@@ -46,25 +46,25 @@ MobileNotifier has only been built on Mac OS X. Theos can be installed on Mac OS
 
 4. Download the decompiled 3.x headers from rpetrich's fork of Kennytm in `$THEOS/include/`. Be sure place the frameworks at top level *(i.e. $THEOS/include/Springboard)*.
 
-    https://github.com/rpetrich/iphoneheaders/archives/master
+    [https://github.com/rpetrich/iphoneheaders/archives/master](https://github.com/rpetrich/iphoneheaders/archives/master)
 
 5. After copying the headers into ``$THEOS/include``, you'll need to run the following command to copy some required system files not included by default.
 
-    cp /System/Library/Frameworks/IOSurface.framework/Headers/IOSurfaceAPI.h $THEOS/include/IOSurface/.
+    `cp /System/Library/Frameworks/IOSurface.framework/Headers/IOSurfaceAPI.h $THEOS/include/IOSurface/.`
 
 6. Copy libactivator.dylib to ``$THEOS/lib/`` *(you can get this off your iOS device with Activator installed)*
 
 7. Install dpkg via MacPorts *(if not already installed)*
 
-    sudo port install dpkg
+    `sudo port install dpkg`
 
 8. Install gnutar via MacPorts *(if not already installed)*
 
-    sudo port install gnutar
+    `sudo port install gnutar`
 
 9. Symlink tar to gnutar by running the following command:
 
-    ln -sf /usr/bin/gnutar /usr/bin/tar
+    `ln -sf /usr/bin/gnutar /usr/bin/tar`
 
 Building
 --------
