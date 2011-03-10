@@ -42,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//window:
 		window = [[UIWindow alloc] 
-		initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height - 92)];
+		initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
 		
 		window.windowLevel = UIWindowLevelAlert+102.0f;
 		window.userInteractionEnabled = YES;
@@ -50,7 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//button to return to the application
 		returnToApplicationButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 388.0);
+		returnToApplicationButton.frame = CGRectMake(0,0,320,480);
     	[returnToApplicationButton setAlpha:0.0];
     	
     	//wire up the button!
@@ -58,7 +58,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     			 forControlEvents:UIControlEventTouchUpInside];
 		
 		//Create the tableview
-		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,20,287,322) style:UITableViewStylePlain];
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16,112,287,322) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
 		[alertListView setAlpha:0.0];
@@ -66,18 +66,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertListView.layer.cornerRadius = 10;
 		
 		//Background for the alertListView
-        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(15,20,290,322)];
+        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(15,112,290,322)];
         alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
         [alertListViewBackground setAlpha:0.0];
 		
 		//Dashboard background image
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,386)];
+		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
 		[dashboardBackground setAlpha:0.0];
 		
 		//ClearAllButton
         clearAllButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        clearAllButton.frame = CGRectMake(80,335,160,60);
+        clearAllButton.frame = CGRectMake(80,427,160,60);
         clearAllButton.titleLabel.text = @"Clear all";
         [clearAllButton setTitle:@"Clear pending" forState: UIControlStateNormal];
         clearAllButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
@@ -92,11 +92,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     			 forControlEvents:UIControlEventTouchUpInside];
         
         //Statusbar label
-        statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,20)];
+        statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,92,320,20)];
         statusBarTextLabel.backgroundColor = [UIColor clearColor];
         [statusBarTextLabel setAlpha:0.0];
         
-        /*statusBar = [[UIStatusBar alloc] initWithFrame:CGRectMake(0,0,320,20)];
+        /*statusBar = [[UIStatusBar alloc] initWithFrame:CGRectMake(0,92,320,20)];
         [statusBar requestStyle:1];
         [statusBar setAlpha:0.0];*/
 		
@@ -193,44 +193,62 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 }
 
+// ----------------------------------------------------
+// Animate dashboard elements down for a "fade away"
+// effect similar to the multitasking drawer animation
+// ----------------------------------------------------
 -(void)hideDashboard
 {
-	//Fade it all away
-	
-	dashboardShowing = NO;
-	
 	window.userInteractionEnabled = NO;
+	dashboardShowing              = NO;
+
 	[UIView beginAnimations:@"fadeOut" context:NULL];
 	[UIView setAnimationDuration:0.3];
-	
+
+    window.transform = CGAffineTransformMakeTranslation(0,0);
+
     [dashboardBackground        setAlpha:0.0];
     [returnToApplicationButton  setAlpha:0.0];
+    [alertListViewBackground    setAlpha:0.0];
     [alertListView              setAlpha:0.0];
     [clearAllButton             setAlpha:0.0];
-    [alertListViewBackground    setAlpha:0.0];
     [statusBarTextLabel         setAlpha:0.0];
     //[statusBar                  setAlpha:0.0];
-	
+
     [clearActionSheet dismissWithClickedButtonIndex:1 animated:YES];
 	
-	[UIView commitAnimations];
+  [UIView commitAnimations];
+
+  // Reset dashboard elements to their original
+  // positions after the animation is complete
+  [returnToApplicationButton  setFrame:CGRectMake(0,0,360,480)];
+  [alertListViewBackground    setFrame:CGRectMake(15,112,290,322)];
+  [alertListView              setFrame:CGRectMake(16,112,287,322)];
+  [clearAllButton             setFrame:CGRectMake(80,427,160,60)];
+  [statusBarTextLabel         setFrame:CGRectMake(0,92,320,20)];
 }
 
+// -----------------------------------------------
+// Animate the dashboard elements "up" similar to
+// the multitasking drawer animation to make room
+// for the application switcher
+// -----------------------------------------------
 -(void)showDashboard
 {
-	//Fade it all in
-    dashboardShowing = YES;
-	
-	window.hidden = NO;
+	window.hidden                 = NO;
 	window.userInteractionEnabled = YES;
+  dashboardShowing              = YES;
+
 	[UIView beginAnimations:@"fadeIn" context:NULL];
 	[UIView setAnimationDuration:0.3];
-	
-	[dashboardBackground        setAlpha:0.7];
+
+    window.transform = CGAffineTransformMakeTranslation(0,-92);
+
+	  [dashboardBackground        setAlpha:0.75];
     [returnToApplicationButton  setAlpha:1.0];
+    [alertListViewBackground    setAlpha:0.9];
     [alertListView              setAlpha:1.0];
     [clearAllButton             setAlpha:1.0];
-    [alertListViewBackground    setAlpha:1.0];
     [statusBarTextLabel         setAlpha:1.0];
     //[statusBar                  setAlpha:1.0];
 
@@ -245,24 +263,29 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                     cancelButtonTitle:@"Cancel" 
                                                destructiveButtonTitle:@"Clear all notifications?" 
                                                     otherButtonTitles:nil];
-    
-    //Show the sheet
 
-	if([clearActionSheet respondsToSelector:@selector(showFromRect: inView: animated:)])
+    // Temporarily reposition window and elements
+    // to cover up the application switcher drawer
+    [window setFrame:CGRectMake(0,0,320,480)];
+    [alertListViewBackground    setFrame:CGRectMake(15,20,290,322)];
+    [alertListView              setFrame:CGRectMake(16,20,287,322)];
+    [clearAllButton             setAlpha:0];
+    [statusBarTextLabel         setAlpha:0];
+
+  //Show the sheet
+	if([clearActionSheet respondsToSelector:@selector(showInView:)])
 	{
-		[clearActionSheet showFromRect:CGRectMake(80,420,160,60) inView:window animated:YES];
 		[clearActionSheet removeFromSuperview];
+		[clearActionSheet showInView:window];
+		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
 		[window addSubview:clearActionSheet];
 	}
-	
 	else
 	{
 		//If they're on an older device, do some fancy footwork to get the UIActionSheet to show up
-		[clearActionSheet setFrame:CGRectMake(80,420,160,60)];
 		[clearActionSheet showInView:window];
+		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
 	}
-	
-    
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -278,6 +301,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
         //Don't do anything!
     }
+
+    // Restore window and elements to original positions
+    [window                     setFrame:CGRectMake(0,-92,320,480)];
+    [alertListViewBackground    setFrame:CGRectMake(15,112,290,322)];
+    [alertListView              setFrame:CGRectMake(16,112,287,322)];
+    [clearAllButton             setAlpha:1.0];
+    [statusBarTextLabel         setAlpha:1.0];
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
