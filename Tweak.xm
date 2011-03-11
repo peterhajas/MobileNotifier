@@ -420,11 +420,21 @@ PHACInterface *phacinterface;
 
 -(void)populateWithMissedSMS:(id)missedSMS
 {
-	
+	NSNumber *lockscreenEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+	bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
+	if(shouldShow)
+	{
+        %orig;
+	}
 }
 -(void)populateWithMissedEnhancedVoiceMails:(id)missedEnhancedVoiceMails
 {
-	
+	NSNumber *lockscreenEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+	bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
+	if(shouldShow)
+	{
+        %orig;
+	}
 }
 
 %end

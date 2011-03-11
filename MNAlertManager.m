@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize alertWindow, pendingAlertViewController;
 @synthesize whistleBlower;
 @synthesize dashboard;
+@synthesize preferenceManager;
 
 -(id)init
 {	
