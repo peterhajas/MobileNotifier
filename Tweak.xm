@@ -355,6 +355,7 @@ PHACInterface *phacinterface;
 
 -(void)noteSyncStateChanged
 {
+    %orig;
     if(![self isSyncing])
     {
         //Hide our lockscreen view
