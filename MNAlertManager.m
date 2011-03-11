@@ -120,7 +120,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[whistleBlower alertArrived];
 		
 		//Start the timer
-		alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+		alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
 		
 	}
 	//Not a foreground alert, but a background alert
