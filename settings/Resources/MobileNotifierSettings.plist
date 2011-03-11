@@ -70,6 +70,22 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>label</key>
+			<string>Auto-Later Alerts</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>autoLaterAlertsEnabled</string>
+			<key>defaults</key> 
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>label</key>
 			<string>Antique Lock Alerts</string>
 			<key>default</key>
 			<true/>

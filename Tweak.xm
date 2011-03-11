@@ -421,8 +421,8 @@ PHACInterface *phacinterface;
 
 -(void)populateWithMissedSMS:(id)missedSMS
 {
-	NSNumber *lockscreenEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
-	bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
+	NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+	bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
 	if(shouldShow)
 	{
         %orig;
@@ -430,8 +430,8 @@ PHACInterface *phacinterface;
 }
 -(void)populateWithMissedEnhancedVoiceMails:(id)missedEnhancedVoiceMails
 {
-	NSNumber *lockscreenEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
-	bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
+	NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+	bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
 	if(shouldShow)
 	{
         %orig;
