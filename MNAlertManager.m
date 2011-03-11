@@ -257,10 +257,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Create the data object
 	MNAlertData *data;
 	data = [pendingAlerts objectAtIndex:index];
-	//Take action on it
-	[self takeActionOnAlertWithData:data];
+
 	//Hide the dashboard
 	[dashboard hideDashboard];
+
+	//Take action on it
+	[self takeActionOnAlertWithData:data];
 }
 
 -(void)dismissedAlertAtIndex:(int)index
