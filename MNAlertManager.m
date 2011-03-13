@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize alertWindow, pendingAlertViewController;
 @synthesize whistleBlower;
 @synthesize dashboard;
+@synthesize preferenceManager;
 
 -(id)init
 {	
@@ -119,8 +120,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//Make noise
 		[whistleBlower alertArrived];
 		
-		//Start the timer
-		alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+		//Start the timer, if the user prefers it
+		NSNumber *autoLaterEnabled = [preferenceManager.preferences valueForKey:@"autoLaterAlertsEnabled"];
+    	bool shouldAutoLater = autoLaterEnabled ? [autoLaterEnabled boolValue] : YES;
+    	
+    	if(shouldAutoLater)
+    	{
+		    alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+	    }
 		
 	}
 	//Not a foreground alert, but a background alert
