@@ -94,6 +94,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, retain) MNAlertViewController *pendingAlertViewController;
 @property (nonatomic, retain) MNWhistleBlowerController *whistleBlower;
 
+@property (nonatomic, retain) MNPreferenceManager *preferenceManager;
+
 @property (nonatomic, assign) id<MNAlertManagerDelegate> delegate;
 
 @end

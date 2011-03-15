@@ -355,6 +355,7 @@ PHACInterface *phacinterface;
 
 -(void)noteSyncStateChanged
 {
+    %orig;
     if(![self isSyncing])
     {
         //Hide our lockscreen view
@@ -420,11 +421,21 @@ PHACInterface *phacinterface;
 
 -(void)populateWithMissedSMS:(id)missedSMS
 {
-	
+	NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+	bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
+	if(shouldShow)
+	{
+        %orig;
+	}
 }
 -(void)populateWithMissedEnhancedVoiceMails:(id)missedEnhancedVoiceMails
 {
-	
+	NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+	bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
+	if(shouldShow)
+	{
+        %orig;
+	}
 }
 
 %end
