@@ -57,11 +57,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	UIButton *clearAllButton;
 	
 	UITableView *alertListView;
-    UILabel *statusBarTextLabel;
-    
-    //UIStatusBar *statusBar;
-    //SBIconBadge *badge;
-	
+    	
     UIImageView *alertListViewBackground;
 	
 	bool dashboardShowing;

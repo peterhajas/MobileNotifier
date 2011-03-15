@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		window.hidden = YES;
 		
 		//button to return to the application
-		returnToApplicationButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		returnToApplicationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 388.0);
     	[returnToApplicationButton setAlpha:0.0];
     	
@@ -76,7 +76,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[dashboardBackground setAlpha:0.0];
 		
 		//ClearAllButton
-        clearAllButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        clearAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
         clearAllButton.frame = CGRectMake(80,335,160,60);
         [clearAllButton setTitle:@"Clear pending" forState: UIControlStateNormal];
         clearAllButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
@@ -89,19 +89,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         //Wire up clearAllButton
         [clearAllButton addTarget:self action:@selector(clearDashboardPushed:)
     			 forControlEvents:UIControlEventTouchUpInside];
-        
-        //Statusbar label
-        statusBarTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        statusBarTextLabel.backgroundColor = [UIColor clearColor];
-        [statusBarTextLabel setAlpha:0.0];
-        
-        /*statusBar = [[UIStatusBar alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        [statusBar requestStyle:1];
-        [statusBar setAlpha:0.0];*/
-		
-		//Badge for alerts
-        //badge = [[SBIconBadge alloc] init];
-		
+        		
 		_delegate = __delegate;
 	    
 		//Add everything to the view
@@ -110,9 +98,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[window addSubview:returnToApplicationButton];
         [window addSubview:alertListViewBackground];
 		[window addSubview:alertListView];
-        [window addSubview:statusBarTextLabel];
         [window addSubview:clearAllButton];
-        //[window addSubview:statusBar];
+        
+        //Release stuff we don't need to hang on to
+        
+        [alertListView release];
+        [alertListViewBackground release];
+        [dashboardBackground release];
 		
 		[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
 	}
@@ -142,7 +134,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	MNTableViewCell *cell = [[MNTableViewCell alloc] init];
+    MNTableViewCell *cell = [[[MNTableViewCell alloc] init] autorelease];
 	
 	MNAlertData *dataObj = [[_delegate getPendingAlerts] objectAtIndex:indexPath.row];
 	
@@ -207,8 +199,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [alertListView              setAlpha:0.0];
     [clearAllButton             setAlpha:0.0];
     [alertListViewBackground    setAlpha:0.0];
-    [statusBarTextLabel         setAlpha:0.0];
-    //[statusBar                  setAlpha:0.0];
 	
     [clearActionSheet dismissWithClickedButtonIndex:1 animated:YES];
 	
@@ -230,8 +220,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [alertListView              setAlpha:1.0];
     [clearAllButton             setAlpha:1.0];
     [alertListViewBackground    setAlpha:1.0];
-    [statusBarTextLabel         setAlpha:1.0];
-    //[statusBar                  setAlpha:1.0];
 
 	[UIView commitAnimations];
 }
@@ -260,8 +248,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[clearActionSheet setFrame:CGRectMake(80,420,160,60)];
 		[clearActionSheet showInView:window];
 	}
-	
-    
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
