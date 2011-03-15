@@ -105,6 +105,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//TODO: switch to URL for this
     SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
     SBApplicationController *appcontroller = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
+    if([[appcontroller applicationsWithBundleIdentifier:bundleID] count] == 0)
+    {
+        //We can't do anything!
+        //Inform the user, then return out
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't find application"
+                                                  message:[NSString stringWithFormat:@"MobileNotifier can't find the application with bundle ID of %@. Has it been uninstalled or removed?", bundleID]
+                                                  delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        
+        return;
+    }
 	if([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
 	{
 		//Do the awesome, animated switch to the new app
@@ -135,7 +149,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
 	//Let's grab the application's icon using some awesome NSBundle stuff!
-	//First, grab the app's bundle:
+	
+	//If we can't grab the app from the SBApplicationController, then bummer. We can't launch.
+    if([[sbac applicationsWithBundleIdentifier:bundleID] count] < 1)
+    {
+        //Just return nothing. It's better than something!
+        return nil;
+    }
+	
+	//Next, grab the app's bundle:
 	NSBundle *appBundle = (NSBundle*)[[[sbac applicationsWithBundleIdentifier:bundleID] objectAtIndex:0] bundle];
 	//Next, ask the dictionary for the IconFile name
 	NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
