@@ -37,6 +37,8 @@
     	iconImageView.layer.cornerRadius = 5.5;
     	iconImageView.layer.masksToBounds = YES;
 
+        //Add everything to our view
+
 		[self addSubview:backgroundImageView];
 		[self addSubview:iconImageView];
 		[self addSubview:alertTextLabel];
@@ -44,6 +46,15 @@
         [self addSubview:backgroundShadowImageView];
 		
         self.clipsToBounds = YES;
+        
+        //Release the things we don't need to hang on to copies of
+        
+        [backgroundImageView            release];
+        [backgroundShadowImageView      release]; 
+        [iconImageView                  release]; 
+        [headerLabel                    release]; 
+        [alertTextLabel                 release]; 
+        
 	}
 	return self;
 }

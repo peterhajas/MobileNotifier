@@ -92,14 +92,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	iconImageView.layer.cornerRadius = 5.5;
 	iconImageView.layer.masksToBounds = YES;
 
-	chevronButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	chevronButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	chevronButton.contentMode = UIViewContentModeCenter;
 	chevronButton.frame = CGRectMake(285.0, 22, 10.0, 15.0);
 	[chevronButton setImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_chevron.png"] 
 				   forState:UIControlStateNormal];
 	[chevronButton setAlpha:0.0];
 	
-	alertExpandButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	alertExpandButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 60.0);
 	[alertExpandButton setAlpha:0.0];
 
@@ -140,7 +140,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertActionBackgroundImageViewShadow.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/popup_bg_shadow.png"];
 	alertActionBackgroundImageViewShadow.opaque = NO;
 	
-	openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	openButton.frame = CGRectMake(163.0, 76.0, 139.0, 47.0);
 	[openButton setAlpha:0.0];
 
@@ -156,7 +156,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							  forState:UIControlStateNormal];
 	}
 	
-	laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	laterButton.frame = CGRectMake(16.0, 76.0, 139.0, 47.0);
 	[laterButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/close_btn.png"] 
 						   forState:UIControlStateNormal];
@@ -176,14 +176,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[alertExpandButton addTarget:self action:@selector(chevronPushed:)
 				forControlEvents:UIControlEventTouchUpInside];
 
+    //Add everything to our view
+    
 	[self.view addSubview:alertBackgroundImageView];
 	[self.view addSubview:iconImageView];
 	[self.view addSubview:alertHeaderLabel];
 	[self.view addSubview:alertTextLabel];
 	[self.view addSubview:chevronButton];
 	[self.view addSubview:alertBackgroundShadow];
-	
 	[self.view addSubview:alertExpandButton];
+	
+	//Release the stuff we don't want to hang on to
+	
+    [alertBackgroundImageView               release];
+    [alertBackgroundShadow                  release];
+    [alertHeaderLabel                       release];
+    [alertTextLabel                         release];    
 	
 	alertIsShowingPopOver = NO;
 	
