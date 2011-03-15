@@ -78,7 +78,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//ClearAllButton
         clearAllButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         clearAllButton.frame = CGRectMake(80,335,160,60);
-        clearAllButton.titleLabel.text = @"Clear all";
         [clearAllButton setTitle:@"Clear pending" forState: UIControlStateNormal];
         clearAllButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         clearAllButton.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -243,7 +242,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     clearActionSheet = [[UIActionSheet alloc] initWithTitle:@""
                                                              delegate:self 
                                                     cancelButtonTitle:@"Cancel" 
-                                               destructiveButtonTitle:@"Clear all notifications?" 
+                                               destructiveButtonTitle:@"Clear pending?" 
                                                     otherButtonTitles:nil];
     
     //Show the sheet
