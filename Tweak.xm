@@ -372,7 +372,7 @@ PHACInterface *phacinterface;
 {
 	%orig;
 	//Hide our lockscreen view
-    [manager hideLockscreen];
+	[manager hideLockscreen];
 }
 
 -(void)noteSyncStateChanged
@@ -448,7 +448,7 @@ PHACInterface *phacinterface;
 	if(shouldShow)
 	{
         %orig;
-	}
+    }
 }
 -(void)populateWithMissedEnhancedVoiceMails:(id)missedEnhancedVoiceMails
 {
