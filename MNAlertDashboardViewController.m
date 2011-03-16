@@ -51,7 +51,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//button to return to the application
 		returnToApplicationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 480.0);
-    	[returnToApplicationButton setAlpha:0.0];
+	[returnToApplicationButton setAlpha:1.0];
     	
     	//wire up the button!
     	[returnToApplicationButton addTarget:self action:@selector(dismissSwitcher:)
@@ -61,24 +61,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16.5,112,287,325) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
-		[alertListView setAlpha:0.0];
+		[alertListView setAlpha:1.0];
         alertListView.backgroundColor = [UIColor clearColor];
         alertListView.layer.cornerRadius = 10;
 		
 		//Background for the alertListView
         alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(16.5,112,287,325)];
         alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
-        [alertListViewBackground setAlpha:0.0];
+        [alertListViewBackground setAlpha:1.0];
 		
 		//Dashboard background image
 		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
-		[dashboardBackground setAlpha:0.0];
+		[dashboardBackground setAlpha:0.75];
 		
 		//ClearAllButton
         clearAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
         clearAllButton.frame = CGRectMake(80,427,160,60);
         [clearAllButton setTitle:@"Clear pending" forState: UIControlStateNormal];
+        [clearAllButton setAlpha:1.0];
         clearAllButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         clearAllButton.titleLabel.textAlignment = UITextAlignmentCenter;
     	clearAllButton.titleLabel.textColor = [UIColor whiteColor];
@@ -196,24 +197,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[UIView beginAnimations:@"fadeOut" context:NULL];
 	[UIView setAnimationDuration:0.3];
 
-    window.transform = CGAffineTransformMakeTranslation(0,0);
-
-    [dashboardBackground        setAlpha:0.0];
-    [returnToApplicationButton  setAlpha:0.0];
-    [alertListViewBackground    setAlpha:0.0];
-    [alertListView              setAlpha:0.0];
-    [clearAllButton             setAlpha:0.0];
+    [window setFrame:CGRectMake(0,0,320,480)];
+    [window setAlpha:0.0];
 	
     [clearActionSheet dismissWithClickedButtonIndex:1 animated:YES];
 	
   [UIView commitAnimations];
-
-  // Reset dashboard elements to their original
-  // positions after the animation is complete
-  [returnToApplicationButton  setFrame:CGRectMake(0,0,360,480)];
-  [alertListViewBackground    setFrame:CGRectMake(15,112,290,322)];
-  [alertListView              setFrame:CGRectMake(16,112,287,322)];
-  [clearAllButton             setFrame:CGRectMake(80,427,160,60)];
 }
 
 // -----------------------------------------------
@@ -230,13 +219,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[UIView beginAnimations:@"fadeIn" context:NULL];
 	[UIView setAnimationDuration:0.3];
 
-    window.transform = CGAffineTransformMakeTranslation(0,-92);
-
-	  [dashboardBackground        setAlpha:0.75];
-    [returnToApplicationButton  setAlpha:1.0];
-    [alertListViewBackground    setAlpha:0.9];
-    [alertListView              setAlpha:1.0];
-    [clearAllButton             setAlpha:1.0];
+    [window setFrame:CGRectMake(0,-92,320,480)];
+    [window setAlpha:1.0];
 
 	[UIView commitAnimations];
 }
