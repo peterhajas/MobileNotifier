@@ -346,6 +346,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //Libactivator methods
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
 {
+    [lockscreen hideLockscreen];
 	[dashboard toggleDashboard];
 }
 
