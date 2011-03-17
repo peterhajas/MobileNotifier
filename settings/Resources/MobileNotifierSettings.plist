@@ -6,6 +6,54 @@
 	<array>
 		<dict>
 			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>key</key>
+			<string>switcherViewEnabled</string>
+			<key>label</key>
+			<string>Dash on Switcher</string>
+			<key>postNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>key</key>
+			<string>autoLaterAlertsEnabled</string>
+			<key>label</key>
+			<string>Auto-Later Alerts</string>
+			<key>postNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>key</key>
+			<string>antiqueLockAlertsEnabled</string>
+			<key>label</key>
+			<string>Antique Lock Alerts</string>
+			<key>postNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>beta3r7, Copious Corn Flakes</string>
@@ -33,70 +81,6 @@
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>@iamkyleadams, kyleadams.org</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>label</key>
-			<string>Lockscreen View</string>
-			<key>default</key>
-			<true/>
-			<key>key</key>
-			<string>lockscreenEnabled</string>
-			<key>defaults</key> 
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>label</key>
-			<string>Dash on Switcher</string>
-			<key>default</key>
-			<true/>
-			<key>key</key>
-			<string>switcherViewEnabled</string>
-			<key>defaults</key> 
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>label</key>
-			<string>Auto-Later Alerts</string>
-			<key>default</key>
-			<true/>
-			<key>key</key>
-			<string>autoLaterAlertsEnabled</string>
-			<key>defaults</key> 
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>label</key>
-			<string>Antique Lock Alerts</string>
-			<key>default</key>
-			<true/>
-			<key>key</key>
-			<string>antiqueLockAlertsEnabled</string>
-			<key>defaults</key> 
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
 	</array>
 	<key>title</key>
