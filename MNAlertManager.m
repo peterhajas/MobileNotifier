@@ -166,9 +166,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[dashboard showDashboard];
 }
 
--(void)hideDashboard
+-(void)fadeDashboardDown
 {
-	[dashboard hideDashboard];
+	[dashboard fadeDashboardDown];
+}
+
+-(void)fadeDashboardAway
+{
+  [dashboard fadeDashboardAway];
 }
 
 -(void)showLockscreen
@@ -266,7 +271,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	data = [pendingAlerts objectAtIndex:index];
 
 	//Hide the dashboard
-	[dashboard hideDashboard];
+	[dashboard fadeDashboardAway];
 
 	//Take action on it
 	[self takeActionOnAlertWithData:data];
@@ -353,7 +358,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
-	[dashboard hideDashboard];
+	[dashboard fadeDashboardDown];
 	[self alertViewController:pendingAlertViewController hadActionTaken: kAlertSentAway];
 }
 

@@ -343,7 +343,7 @@ PHACInterface *phacinterface;
 	[manager hidePendingAlert];
 	//Show our lockscreen view
     [manager showLockscreen];
-	[manager hideDashboard];
+	[manager fadeDashboardDown];
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
@@ -387,7 +387,7 @@ PHACInterface *phacinterface;
 -(void)dismissSwitcher
 {
     %orig;
-    [manager hideDashboard];
+    [manager fadeDashboardDown];
 }
 
 -(BOOL)activateSwitcher
@@ -399,18 +399,18 @@ PHACInterface *phacinterface;
 -(void)activateApplicationAnimated:(id)animated
 {
     %orig;
-    [manager hideDashboard];
+    [manager fadeDashboardDown];
 }
 
 -(void)activateApplicationFromSwitcher:(id)switcher
 {
     %orig;
-    [manager hideDashboard];
+    [manager fadeDashboardDown];
 }
 
 -(BOOL)clickedMenuButton
 {
-    [manager hideDashboard];
+    [manager fadeDashboardDown];
     return %orig;
 }
 

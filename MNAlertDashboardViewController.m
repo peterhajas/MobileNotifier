@@ -177,7 +177,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {	
 	if(dashboardShowing)
 	{
-		[self hideDashboard];
+		[self fadeDashboardDown];
 	}
 	else
 	{
@@ -186,15 +186,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 // ----------------------------------------------------
-// Animate dashboard elements down for a "fade away"
+// Animate dashboard elements down for a "fade down"
 // effect similar to the multitasking drawer animation
 // ----------------------------------------------------
--(void)hideDashboard
+-(void)fadeDashboardDown
 {
 	window.userInteractionEnabled = NO;
 	dashboardShowing              = NO;
 
-	[UIView beginAnimations:@"fadeOut" context:NULL];
+	[UIView beginAnimations:@"fadeDashboardDown" context:NULL];
 	[UIView setAnimationDuration:0.3];
 
     [window setFrame:CGRectMake(0,0,320,480)];
@@ -203,6 +203,29 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [clearActionSheet dismissWithClickedButtonIndex:1 animated:YES];
 	
   [UIView commitAnimations];
+}
+
+// ----------------------------------------------------
+// Animate dashboard elements using a "fade away"
+// effect to better match the app switching effect
+// ----------------------------------------------------
+-(void)fadeDashboardAway
+{
+	window.userInteractionEnabled = NO;
+	dashboardShowing              = NO;
+
+	[UIView beginAnimations:@"fadeDashboardAway" context:NULL];
+	[UIView setAnimationDuration:0.3];
+
+   // Shrink the elements and fade out
+   // to create a zoom out effect
+   alertListViewBackground.transform = CGAffineTransformMakeScale(0.1,0.1);
+   alertListView.transform           = CGAffineTransformMakeScale(0.1,0.1);
+   clearAllButton.transform          = CGAffineTransformMakeScale(0.1,0.1);
+     
+   [window setAlpha:0.0];
+
+ [UIView commitAnimations];
 }
 
 // -----------------------------------------------
@@ -215,6 +238,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	window.hidden                 = NO;
 	window.userInteractionEnabled = YES;
   dashboardShowing              = YES;
+
+  // Restore previously transformed elements
+  alertListViewBackground.transform = CGAffineTransformIdentity;
+  alertListView.transform           = CGAffineTransformIdentity;
+  clearAllButton.transform          = CGAffineTransformIdentity;
 
 	[UIView beginAnimations:@"fadeIn" context:NULL];
 	[UIView setAnimationDuration:0.3];
@@ -284,7 +312,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		window.userInteractionEnabled = YES;
 	}
-	if([animationID isEqualToString:@"fadeOut"])
+	if([animationID isEqualToString:@"fadeDashboardDown"] || [animationID isEqualToString:@"fadeDashboardAway"])
 	{
 		window.userInteractionEnabled = NO;
 		window.hidden = YES;
