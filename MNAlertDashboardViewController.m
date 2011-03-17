@@ -42,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//window:
 		window = [[UIWindow alloc] 
-		initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height - 92)];
+		initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
 		
 		window.windowLevel = UIWindowLevelAlert+102.0f;
 		window.userInteractionEnabled = YES;
@@ -50,35 +50,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//button to return to the application
 		returnToApplicationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 388.0);
-    	[returnToApplicationButton setAlpha:0.0];
+    	returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 480.0);
+	[returnToApplicationButton setAlpha:1.0];
     	
     	//wire up the button!
     	[returnToApplicationButton addTarget:self action:@selector(dismissSwitcher:)
     			 forControlEvents:UIControlEventTouchUpInside];
 		
 		//Create the tableview
-		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16.5,20,287,325) style:UITableViewStylePlain];
+		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16.5,112,287,325) style:UITableViewStylePlain];
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
-		[alertListView setAlpha:0.0];
+		[alertListView setAlpha:1.0];
         alertListView.backgroundColor = [UIColor clearColor];
         alertListView.layer.cornerRadius = 10;
 		
 		//Background for the alertListView
-        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(16.5,20,287,325)];
+        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(16.5,112,287,325)];
         alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
-        [alertListViewBackground setAlpha:0.0];
+        [alertListViewBackground setAlpha:1.0];
 		
 		//Dashboard background image
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,386)];
+		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
 		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
-		[dashboardBackground setAlpha:0.0];
+		[dashboardBackground setAlpha:0.75];
 		
 		//ClearAllButton
         clearAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        clearAllButton.frame = CGRectMake(80,335,160,60);
+        clearAllButton.frame = CGRectMake(80,427,160,60);
         [clearAllButton setTitle:@"Clear pending" forState: UIControlStateNormal];
+        [clearAllButton setAlpha:1.0];
         clearAllButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         clearAllButton.titleLabel.textAlignment = UITextAlignmentCenter;
     	clearAllButton.titleLabel.textColor = [UIColor whiteColor];
@@ -176,7 +177,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {	
 	if(dashboardShowing)
 	{
-		[self hideDashboard];
+		[self fadeDashboardDown];
 	}
 	else
 	{
@@ -184,42 +185,70 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 }
 
--(void)hideDashboard
+// ----------------------------------------------------
+// Animate dashboard elements down for a "fade down"
+// effect similar to the multitasking drawer animation
+// ----------------------------------------------------
+-(void)fadeDashboardDown
 {
-	//Fade it all away
-	
-	dashboardShowing = NO;
-	
 	window.userInteractionEnabled = NO;
-	[UIView beginAnimations:@"fadeOut" context:NULL];
+	dashboardShowing              = NO;
+
+	[UIView beginAnimations:@"fadeDashboardDown" context:NULL];
 	[UIView setAnimationDuration:0.3];
-	
-    [dashboardBackground        setAlpha:0.0];
-    [returnToApplicationButton  setAlpha:0.0];
-    [alertListView              setAlpha:0.0];
-    [clearAllButton             setAlpha:0.0];
-    [alertListViewBackground    setAlpha:0.0];
+
+    [window setFrame:CGRectMake(0,0,320,480)];
+    [window setAlpha:0.0];
 	
     [clearActionSheet dismissWithClickedButtonIndex:1 animated:YES];
 	
-	[UIView commitAnimations];
+  [UIView commitAnimations];
 }
 
+// ----------------------------------------------------
+// Animate dashboard elements using a "fade away"
+// effect to better match the app switching effect
+// ----------------------------------------------------
+-(void)fadeDashboardAway
+{
+	window.userInteractionEnabled = NO;
+	dashboardShowing              = NO;
+
+	[UIView beginAnimations:@"fadeDashboardAway" context:NULL];
+	[UIView setAnimationDuration:0.3];
+
+   // Shrink the elements and fade out
+   // to create a zoom out effect
+   alertListViewBackground.transform = CGAffineTransformMakeScale(0.1,0.1);
+   alertListView.transform           = CGAffineTransformMakeScale(0.1,0.1);
+   clearAllButton.transform          = CGAffineTransformMakeScale(0.1,0.1);
+     
+   [window setAlpha:0.0];
+
+ [UIView commitAnimations];
+}
+
+// -----------------------------------------------
+// Animate the dashboard elements "up" similar to
+// the multitasking drawer animation to make room
+// for the application switcher
+// -----------------------------------------------
 -(void)showDashboard
 {
-	//Fade it all in
-    dashboardShowing = YES;
-	
-	window.hidden = NO;
+	window.hidden                 = NO;
 	window.userInteractionEnabled = YES;
+  dashboardShowing              = YES;
+
+  // Restore previously transformed elements
+  alertListViewBackground.transform = CGAffineTransformIdentity;
+  alertListView.transform           = CGAffineTransformIdentity;
+  clearAllButton.transform          = CGAffineTransformIdentity;
+
 	[UIView beginAnimations:@"fadeIn" context:NULL];
 	[UIView setAnimationDuration:0.3];
-	
-	[dashboardBackground        setAlpha:0.7];
-    [returnToApplicationButton  setAlpha:1.0];
-    [alertListView              setAlpha:1.0];
-    [clearAllButton             setAlpha:1.0];
-    [alertListViewBackground    setAlpha:1.0];
+
+    [window setFrame:CGRectMake(0,-92,320,480)];
+    [window setAlpha:1.0];
 
 	[UIView commitAnimations];
 }
@@ -232,21 +261,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                     cancelButtonTitle:@"Cancel" 
                                                destructiveButtonTitle:@"Clear pending?" 
                                                     otherButtonTitles:nil];
-    
-    //Show the sheet
 
-	if([clearActionSheet respondsToSelector:@selector(showFromRect: inView: animated:)])
+    // Temporarily reposition window and elements
+    // to cover up the application switcher drawer
+    [window setFrame:CGRectMake(0,0,320,480)];
+    [alertListViewBackground    setFrame:CGRectMake(15,20,290,322)];
+    [alertListView              setFrame:CGRectMake(16,20,287,322)];
+    [clearAllButton             setAlpha:0];
+
+  //Show the sheet
+	if([clearActionSheet respondsToSelector:@selector(showInView:)])
 	{
-		[clearActionSheet showFromRect:CGRectMake(80,420,160,60) inView:window animated:YES];
 		[clearActionSheet removeFromSuperview];
+		[clearActionSheet showInView:window];
+		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
 		[window addSubview:clearActionSheet];
 	}
-	
 	else
 	{
 		//If they're on an older device, do some fancy footwork to get the UIActionSheet to show up
-		[clearActionSheet setFrame:CGRectMake(80,420,160,60)];
 		[clearActionSheet showInView:window];
+		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
 	}
 }
 
@@ -263,6 +298,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
         //Don't do anything!
     }
+
+    // Restore window and elements to original positions
+    [window                     setFrame:CGRectMake(0,-92,320,480)];
+    [alertListViewBackground    setFrame:CGRectMake(15,112,290,322)];
+    [alertListView              setFrame:CGRectMake(16,112,287,322)];
+    [clearAllButton             setAlpha:1.0];
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
@@ -271,7 +312,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		window.userInteractionEnabled = YES;
 	}
-	if([animationID isEqualToString:@"fadeOut"])
+	if([animationID isEqualToString:@"fadeDashboardDown"] || [animationID isEqualToString:@"fadeDashboardAway"])
 	{
 		window.userInteractionEnabled = NO;
 		window.hidden = YES;
