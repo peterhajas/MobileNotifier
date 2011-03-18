@@ -281,6 +281,7 @@ PHACInterface *phacinterface;
 	{
         //It's an SMS/MMS!
         data = [[MNAlertData alloc] init];
+        data.senderAddress = [item address];
         data.type = kSMSAlert;
         data.time = [[NSDate date] retain];
     	data.status = kNewAlertForeground;

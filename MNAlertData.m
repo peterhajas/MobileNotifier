@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @implementation MNAlertData
 
-@synthesize header, text, bundleID, time;
+@synthesize header, senderAddress, text, bundleID, time;
 @synthesize type, status;
 
 -(id)init
@@ -39,12 +39,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	return self;
 }
 
--(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status
+-(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andSenderAddress:(NSString*)_senderAddress andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;
 {
 	if ((self = [self init]))
 	{
 		self.header = _header;
 		self.text = _title;
+		
+        self.senderAddress = _senderAddress;
+		
 		self.bundleID = _bundleID;
 		self.time = _time;
 
@@ -55,12 +58,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	return self;
 }
 
--(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID ofStatus:(int)_status
+-(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andSenderAddress:(NSString*)_senderAddress andType:(int)_type forBundleID:(NSString*)_bundleID ofStatus:(int)_status;
 {
 	if ((self = [self init]))
 	{
     	self.header = _header;
 		self.text = _title;
+		
+		self.senderAddress = _senderAddress;
+		
 		self.bundleID = _bundleID;
     	self.time = [NSDate date];
 	
@@ -77,6 +83,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	[encoder encodeObject:header forKey:@"header"];
 	[encoder encodeObject:text forKey:@"text"];
+    [encoder encodeObject:senderAddress forKey:@"senderAddress"];
 	[encoder encodeInt:type forKey:@"type"];
 	[encoder encodeObject:bundleID forKey:@"bundleID"];
 	[encoder encodeObject:time forKey:@"time"];
@@ -87,6 +94,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	header = [[decoder decodeObjectForKey:@"header"] retain];
 	text = [[decoder decodeObjectForKey:@"text"] retain];
+    senderAddress = [[decoder decodeObjectForKey:@"senderAddress"] retain];
 	type = [decoder decodeIntForKey:@"type"];
 	bundleID = [[decoder decodeObjectForKey:@"bundleID"] retain];
 	time = [[decoder decodeObjectForKey:@"time"] retain];

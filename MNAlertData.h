@@ -37,18 +37,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	NSString *header;
 	NSString *text;
+    NSString *senderAddress;
 	int type;
 	NSString *bundleID;
 	NSDate *time;
 	int status;
 }
 
--(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;
--(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID ofStatus:(int)_status;
+-(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andSenderAddress:(NSString*)_senderAddress andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;
+-(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andSenderAddress:(NSString*)_senderAddress andType:(int)_type forBundleID:(NSString*)_bundleID ofStatus:(int)_status;
 -(id)init;
 
 @property(nonatomic, retain) NSString *header;
 @property(nonatomic, retain) NSString *text;
+@property(nonatomic, retain) NSString *senderAddress;
 @property(nonatomic) int type;
 @property(nonatomic, retain) NSString *bundleID;
 @property(nonatomic, retain) NSDate *time;
