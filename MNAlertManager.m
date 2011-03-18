@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Let's hope the NSObject init doesn't fail!
 	if(self != nil)
 	{
-		alertWindow = [[MNAlertWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
+		alertWindow = [[MNAlertWindow alloc] initWithFrame:CGRectMake(0,0,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
 		alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 		alertWindow.userInteractionEnabled = YES;
 		alertWindow.hidden = NO;
@@ -99,13 +99,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			{
 			    MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
 			    viewController.delegate = self;
-			    [viewController.view setFrame:CGRectMake(0,0,320,60)];
 			    pendingAlertViewController = viewController;
 		    
 			    alertIsShowing = YES;
 		    
 			    //Change the window size
-			    [alertWindow setFrame:CGRectMake(0, 20, 320, 60)];
+			    [alertWindow setFrame:CGRectMake(0, 0, 320, 40)];
 			    //Add the subview
 			    [alertWindow addSubview:viewController.view];
 			    [alertWindow setNeedsDisplay];
@@ -200,7 +199,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hidePendingAlert
 {
     [pendingAlertViewController.view removeFromSuperview];
-    alertWindow.frame = CGRectMake(0,20,320,0);
+    alertWindow.frame = CGRectMake(0,0,320,0);
     alertIsShowing = YES;
     
 }
@@ -223,7 +222,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[dismissedAlerts addObject:data];
 		[pendingAlerts removeObject:data];
 	}
-	alertWindow.frame = CGRectMake(0,20,320,0);
+	alertWindow.frame = CGRectMake(0,0,320,0);
 	[self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
