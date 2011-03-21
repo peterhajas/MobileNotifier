@@ -108,6 +108,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			    //Add the subview
 			    [alertWindow addSubview:viewController.view];
 			    [alertWindow setNeedsDisplay];
+			    
+			    //Expand the status bar
+                [_delegate toggleDoubleHighStatusBar];
 			}
 		}
 		else
@@ -157,12 +160,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	[self hidePendingAlert];
 	[dashboard showDashboard];
+	[_delegate toggleDoubleHighStatusBar];
 }
 
 -(void)showDashboard
 {
     [self hidePendingAlert];
 	[dashboard showDashboard];
+	[_delegate toggleDoubleHighStatusBar];
 }
 
 -(void)fadeDashboardDown
@@ -172,7 +177,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)fadeDashboardAway
 {
-  [dashboard fadeDashboardAway];
+    [dashboard fadeDashboardAway];
 }
 
 -(void)showLockscreen
@@ -201,7 +206,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [pendingAlertViewController.view removeFromSuperview];
     alertWindow.frame = CGRectMake(0,0,320,0);
     alertIsShowing = YES;
-    
+    [_delegate toggleDoubleHighStatusBar];
 }
 
 //Delegate method for MNAlertViewController
@@ -226,6 +231,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
+    [_delegate toggleDoubleHighStatusBar];
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
