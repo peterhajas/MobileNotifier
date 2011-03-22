@@ -4,6 +4,7 @@
 <dict>
 	<key>items</key>
 	<array>
+	    
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
@@ -19,7 +20,25 @@
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 			<key>PostNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+		</dict>	
+			
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>label</key>
+			<string>Lockscreen View</string>
+			<key>default</key>
+			<true/>
+			<key>key</key>
+			<string>lockscreenEnabled</string>
+			<key>defaults</key> 
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
@@ -36,6 +55,7 @@
 			<key>PostNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
@@ -52,30 +72,35 @@
 			<key>PostNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>beta3r7, Copious Corn Flakes</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>by Peter Hajas, © 2010-2011</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>@peterhajas, peterhajas.com</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>UI Design © Kyle Adams 2011</string>
 		</dict>
+		
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
