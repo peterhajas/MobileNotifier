@@ -6,7 +6,7 @@
 
 -(id)init
 {
-	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"notificationTableCell"];
 	if(self != nil)
 	{
 		CGRect aframe = self.frame;

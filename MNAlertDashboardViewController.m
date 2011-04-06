@@ -135,7 +135,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MNTableViewCell *cell = [[[MNTableViewCell alloc] init] autorelease];
+  MNTableViewCell *cell = (MNTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"notificationTableCell"];
+
+  if (cell == nil)
+  {
+    cell = [[[MNTableViewCell alloc] init] autorelease];
+  }
 	
 	MNAlertData *dataObj = [[_delegate getPendingAlerts] objectAtIndex:indexPath.row];
 	
