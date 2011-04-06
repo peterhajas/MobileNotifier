@@ -274,14 +274,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		[clearActionSheet removeFromSuperview];
 		[clearActionSheet showInView:window];
-		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
+		[clearActionSheet setFrame:CGRectMake(0,300,320,185)];
 		[window addSubview:clearActionSheet];
 	}
 	else
 	{
 		//If they're on an older device, do some fancy footwork to get the UIActionSheet to show up
 		[clearActionSheet showInView:window];
-		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
+		[clearActionSheet setFrame:CGRectMake(0,300,320,185)];
 	}
 }
 
