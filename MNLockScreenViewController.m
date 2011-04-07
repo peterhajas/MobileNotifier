@@ -48,19 +48,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreenbg.png"];
         backgroundImageView.opaque = NO;
         
-        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,18,35,22)];
+        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,21,35,22)];
         numberOfPendingAlertsLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
         numberOfPendingAlertsLabel.textAlignment = UITextAlignmentCenter;
     	numberOfPendingAlertsLabel.textColor = [UIColor blackColor];
         numberOfPendingAlertsLabel.backgroundColor = [UIColor clearColor];
         numberOfPendingAlertsLabel.opaque = NO;
         
-        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,20,27,20)];
+        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,22,27,20)];
         numberOfPendingAlertsBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-count-bg.png"];
         numberOfPendingAlertsBackground.opaque = NO;
         
         mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60,20,180,22)];
-        mobileNotifierTextLabel.text = @"MobileNotifier";
+        mobileNotifierTextLabel.text = @"Missed Notifications";
         mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         mobileNotifierTextLabel.textAlignment = UITextAlignmentLeft;
     	mobileNotifierTextLabel.textColor = [UIColor whiteColor];
