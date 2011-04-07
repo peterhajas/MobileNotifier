@@ -9,13 +9,12 @@
 	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"notificationTableCell"];
 	if(self != nil)
 	{
-		CGRect aframe = self.frame;
-		self.frame = CGRectMake(aframe.origin.x,aframe.origin.y,290,60);
+    CGRect frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,290,60);
 
-		backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 287.5, 60.0)];
+		backgroundImageView = [[UIImageView alloc] initWithFrame:frame];
 		backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/row_bg.png"];
 		
-		backgroundShadowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 287.5, 60.0)];
+		backgroundShadowImageView = [[UIImageView alloc] initWithFrame:frame];
         backgroundShadowImageView.userInteractionEnabled = NO;
 		
 		iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(13.5, 13.5, 33.0, 33.0)];
@@ -37,13 +36,12 @@
     	iconImageView.layer.cornerRadius = 5.5;
     	iconImageView.layer.masksToBounds = YES;
 
-        //Add everything to our view
-
-		[self addSubview:backgroundImageView];
-		[self addSubview:iconImageView];
-		[self addSubview:alertTextLabel];
-		[self addSubview:headerLabel];
-        [self addSubview:backgroundShadowImageView];
+        //Add everything to the table view cell
+        [self.contentView addSubview:backgroundImageView];
+        [self.contentView addSubview:iconImageView];
+        [self.contentView addSubview:alertTextLabel];
+        [self.contentView addSubview:headerLabel];
+        [self.contentView addSubview:backgroundShadowImageView];
 		
         self.clipsToBounds = YES;
         
