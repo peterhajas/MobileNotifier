@@ -1,3 +1,4 @@
+MODULES=congruence
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = MobileNotifier

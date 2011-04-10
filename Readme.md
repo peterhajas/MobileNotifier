@@ -117,4 +117,4 @@ Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Cycript, Veency and count
 
 Kyle Adams - kyleadams.org - for his work on the user interface for the project and prerelease testing
 
-Tim Novinger - timnovinger.com
+Tim Novinger - timnovinger.com - for his work on modernizing animations, cleaning up the interface and tons of other improvements

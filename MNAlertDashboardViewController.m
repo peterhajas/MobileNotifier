@@ -256,11 +256,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)clearDashboardPushed:(id)sender
 {
     //Let's create a UIActionSheet to deal with this very destructive action
-    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@""
-                                                             delegate:self 
-                                                    cancelButtonTitle:@"Cancel" 
-                                               destructiveButtonTitle:@"Clear pending?" 
-                                                    otherButtonTitles:nil];
+    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@"Clear pending alerts?"
+                                                   delegate:self 
+                                          cancelButtonTitle:@"Cancel" 
+                                     destructiveButtonTitle:@"Clear pending" 
+                                          otherButtonTitles:nil];
 
     // Temporarily reposition window and elements
     // to cover up the application switcher drawer
