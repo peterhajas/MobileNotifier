@@ -77,14 +77,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[UIView setAnimationDelegate:self];
 
 	alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)];
-	alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg.png"];
+	alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg_small.png"];
 	[alertBackgroundImageView setAlpha:0.0];
 
 	alertBackgroundShadow = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 40.0, 320, 17)];
 	alertBackgroundShadow.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg_shadow.png"];
 	[alertBackgroundShadow setAlpha:0.0];
 
-	iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0, 10.0, 26.0, 26.0)];
+	iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(7.0, 7.0, 26.0, 26.0)];
 	iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
 	[iconImageView setAlpha:0.0];
 	iconImageView.layer.cornerRadius = 5.5;
@@ -92,7 +92,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	chevronButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	chevronButton.contentMode = UIViewContentModeCenter;
-	chevronButton.frame = CGRectMake(285.0, 16, 10.0, 15.0);
+	chevronButton.frame = CGRectMake(285.0, 11, 10.0, 15.0);
 	[chevronButton setImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_chevron.png"] 
 				   forState:UIControlStateNormal];
 	[chevronButton setAlpha:0.0];
@@ -101,25 +101,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
 	[alertExpandButton setAlpha:0.0];
 
-	alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(60.0, 11.0, 216.0, 22.0)];
+	alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(40.0, 2.0, 216.0, 22.0)];
 	alertHeaderLabel.adjustsFontSizeToFitWidth = NO;
-	alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:17.000];
+	alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.000];
 	alertHeaderLabel.text = dataObj.header;
 	alertHeaderLabel.textAlignment = UITextAlignmentLeft;
-	alertHeaderLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1.000];
+	alertHeaderLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.000];
 	alertHeaderLabel.backgroundColor = [UIColor clearColor];
-	alertHeaderLabel.shadowColor = [UIColor whiteColor];
+	alertHeaderLabel.shadowColor = [UIColor blackColor];
 	alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
 	[alertHeaderLabel setAlpha:0.0];
 
-	alertTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60.0, 27.0, 216.0, 22.0)];
+	alertTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(40.0, 19.0, 216.0, 22.0)];
 	alertTextLabel.adjustsFontSizeToFitWidth = NO;
-	alertTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:13.000];
+	alertTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.000];
 	alertTextLabel.text = dataObj.text;
 	alertTextLabel.textAlignment = UITextAlignmentLeft;
-	alertTextLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1.000];
+	alertTextLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.000];
 	alertTextLabel.backgroundColor = [UIColor clearColor];
-	alertTextLabel.shadowColor = [UIColor whiteColor];
+	alertTextLabel.shadowColor = [UIColor blackColor];
 	alertTextLabel.shadowOffset = CGSizeMake(0,1);
 	[alertTextLabel setAlpha:0.0];
 
