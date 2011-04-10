@@ -34,7 +34,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #import <SpringBoard/SpringBoard.h>
-#import <SpringBoard/SBStatusBarDataManager.h>
+//Commented out to avoid compilation warnings when linking against 3.1.3 private headers
+//#import <SpringBoard/SBStatusBarDataManager.h>
 #import <ChatKit/ChatKit.h>
 
 #import <objc/runtime.h>
@@ -238,7 +239,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)toggleDoubleHighStatusBar
 {
-    id statusBarDataManager = [%c(SBStatusBarDataManager) sharedDataManager];
+	NSLog(@".........................................................Toggling doublehigh statusbar");
+	id statusBarDataManager = [%c(SBStatusBarDataManager) sharedDataManager];
     [statusBarDataManager toggleSimulatesInCallStatusBar];
 }
 
