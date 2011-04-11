@@ -62,13 +62,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		alertListView.delegate = self;
 		alertListView.dataSource = self;
 		[alertListView setAlpha:1.0];
-        alertListView.backgroundColor = [UIColor clearColor];
+        alertListView.backgroundColor = [UIColor whiteColor];
         alertListView.layer.cornerRadius = 10;
-		
-		//Background for the alertListView
-        alertListViewBackground = [[UIImageView alloc] initWithFrame:CGRectMake(16.5,112,287,325)];
-        alertListViewBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/listViewBackground.png"];
-        [alertListViewBackground setAlpha:1.0];
 		
 		//Dashboard background image
 		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
@@ -97,14 +92,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		dashboardShowing = NO;
 		[window addSubview:dashboardBackground];
 		[window addSubview:returnToApplicationButton];
-        [window addSubview:alertListViewBackground];
 		[window addSubview:alertListView];
         [window addSubview:clearAllButton];
         
         //Release stuff we don't need to hang on to
         
         [alertListView release];
-        [alertListViewBackground release];
         [dashboardBackground release];
 		
 		[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
@@ -118,10 +111,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {
         //Dismiss the alert
         [_delegate dismissedAlertAtIndex:indexPath.row];
+
         //Delete row from tableview
         [alertListView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-        //Update ourselves
-        [alertListView reloadData];
     }
 }
 
@@ -129,13 +121,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     //Take action on the alert
     [_delegate actionOnAlertAtIndex:indexPath.row];
-    //Update ourselves
-    [alertListView reloadData];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MNTableViewCell *cell = [[[MNTableViewCell alloc] init] autorelease];
+  MNTableViewCell *cell = (MNTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"notificationTableCell"];
+
+  if (cell == nil)
+  {
+    cell = [[[MNTableViewCell alloc] init] autorelease];
+  }
 	
 	MNAlertData *dataObj = [[_delegate getPendingAlerts] objectAtIndex:indexPath.row];
 	
@@ -219,7 +214,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
    // Shrink the elements and fade out
    // to create a zoom out effect
-   alertListViewBackground.transform = CGAffineTransformMakeScale(0.1,0.1);
    alertListView.transform           = CGAffineTransformMakeScale(0.1,0.1);
    clearAllButton.transform          = CGAffineTransformMakeScale(0.1,0.1);
      
@@ -240,7 +234,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   dashboardShowing              = YES;
 
   // Restore previously transformed elements
-  alertListViewBackground.transform = CGAffineTransformIdentity;
   alertListView.transform           = CGAffineTransformIdentity;
   clearAllButton.transform          = CGAffineTransformIdentity;
 
@@ -256,16 +249,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)clearDashboardPushed:(id)sender
 {
     //Let's create a UIActionSheet to deal with this very destructive action
-    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@""
-                                                             delegate:self 
-                                                    cancelButtonTitle:@"Cancel" 
-                                               destructiveButtonTitle:@"Clear pending?" 
-                                                    otherButtonTitles:nil];
+    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@"Clear pending alerts?"
+                                                   delegate:self 
+                                          cancelButtonTitle:@"Cancel" 
+                                     destructiveButtonTitle:@"Clear pending" 
+                                          otherButtonTitles:nil];
 
     // Temporarily reposition window and elements
     // to cover up the application switcher drawer
     [window setFrame:CGRectMake(0,0,320,480)];
-    [alertListViewBackground    setFrame:CGRectMake(15,20,290,322)];
     [alertListView              setFrame:CGRectMake(16,20,287,322)];
     [clearAllButton             setAlpha:0];
 
@@ -274,14 +266,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		[clearActionSheet removeFromSuperview];
 		[clearActionSheet showInView:window];
-		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
+		[clearActionSheet setFrame:CGRectMake(0,300,320,185)];
 		[window addSubview:clearActionSheet];
 	}
 	else
 	{
 		//If they're on an older device, do some fancy footwork to get the UIActionSheet to show up
 		[clearActionSheet showInView:window];
-		[clearActionSheet setFrame:CGRectMake(0,320,320,165)];
+		[clearActionSheet setFrame:CGRectMake(0,300,320,185)];
 	}
 }
 
@@ -301,7 +293,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     // Restore window and elements to original positions
     [window                     setFrame:CGRectMake(0,-92,320,480)];
-    [alertListViewBackground    setFrame:CGRectMake(15,112,290,322)];
     [alertListView              setFrame:CGRectMake(16,112,287,322)];
     [clearAllButton             setAlpha:1.0];
 }

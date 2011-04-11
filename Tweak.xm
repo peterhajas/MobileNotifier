@@ -410,6 +410,20 @@ PHACInterface *phacinterface;
 	}
 }
 
+-(BOOL)toggleMediaControls
+{
+    BOOL returnValue = %orig;
+    if([self isShowingMediaControls])
+    {
+        [manager hideLockscreen];
+    }
+    else
+    {
+        [manager showLockscreen];
+    }
+    return returnValue;
+}
+
 %end
 
 %hook SBUIController
