@@ -203,8 +203,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[super viewDidLoad];
 	
 	//If the system understands UIGestureRecognizer, utilize it!
-	Class gestureRecognizer = NSClassFromString(@"UIGestureRecognizer");
-	if(gestureRecognizer != nil)
+	if([UISwipeGestureRecognizer respondsToSelector:@selector(setNumberOfTouches:)])
 	{
 		// Single finger, double tap
 	    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
