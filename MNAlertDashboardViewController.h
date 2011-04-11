@@ -51,7 +51,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                       UIActionSheetDelegate>
 {
 	UIWindow *window;
-	UIImageView *dashboardBackground;
+	//UIImageView *dashboardBackground;
 	
 	UIButton *returnToApplicationButton;
 	UIButton *clearAllButton;
