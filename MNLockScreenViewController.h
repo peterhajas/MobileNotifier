@@ -35,12 +35,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNLockScreenViewController : NSObject
 {
-    UIWindow *lockWindow;
-    UIImageView *logoImageView;
-    UIImageView *backgroundImageView;
-    UIImageView *numberOfPendingAlertsBackground;
-    UILabel *numberOfPendingAlertsLabel;
-    UILabel *mobileNotifierTextLabel;
+    UIWindow* lockWindow;
+    UIImageView* logoImageView;
+    UIImageView* backgroundImageView;
+    UIImageView* numberOfPendingAlertsBackground;
+    UILabel* numberOfPendingAlertsLabel;
+    UILabel* mobileNotifierTextLabel;
     
     id <MNLockScreenViewControllerDelegate> _delegate;
 }
