@@ -25,40 +25,54 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+//#import <UIKit/UIStatusBar.h>
 #import "MNAlertData.h"
 #import "MNTableViewCell.h"
 
-#define kPendingActive 0
-#define kSentActive 1
-#define kDismissActive 2
+//%class UIStatusBar;
 
 @class MNAlertDashboardViewController;
 @protocol MNAlertDashboardViewControllerProtocol
 -(void)actionOnAlertAtIndex:(int)index;
 -(void)dismissedAlertAtIndex:(int)index;
+
+-(void)clearPending;
+
 -(NSMutableArray *)getPendingAlerts;
 -(NSMutableArray *)getDismissedAlerts;
+
+-(void)dismissSwitcher;
+
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertDashboardViewController : NSObject <UITableViewDataSource, UITableViewDelegate>
+@interface MNAlertDashboardViewController : NSObject <UITableViewDataSource, 
+                                                      UITableViewDelegate,
+                                                      UIActionSheetDelegate>
 {
 	UIWindow *window;
 	UIImageView *dashboardBackground;
 	
 	UIButton *returnToApplicationButton;
+	UIButton *clearAllButton;
+	
 	UITableView *alertListView;
-	UILabel *mobileNotifierTextLabel;
 	
 	bool dashboardShowing;
-		
+	
+    UIActionSheet* clearActionSheet;
+	
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
 }
 
 -(id)initWithDelegate:(id)__delegate;
 -(void)toggleDashboard;
--(void)hideDashboard;
+-(void)fadeDashboardDown;
+-(void)fadeDashboardAway;
 -(void)showDashboard;
+-(void)clearDashboardPushed:(id)sender;
+-(void)refresh;
+-(bool)isShowing;
 
 @property (nonatomic, retain) UIWindow *window;
 

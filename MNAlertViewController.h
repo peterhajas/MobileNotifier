@@ -71,6 +71,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(id)initWithMNData:(MNAlertData*) data;
 
+-(void)didSwipeRight;
+
 -(void)chevronPushed:(id)sender;
 
 -(void)fadeBottomAway:(bool)fadeBottom;

@@ -25,30 +25,34 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "MNWhistleBlowerController.h"
+@class MNLockScreenViewController;
 
-@implementation MNWhistleBlowerController
+@protocol MNLockScreenViewControllerDelegate
 
-@synthesize delegate = _delegate;
+-(NSMutableArray *)getPendingAlerts;
 
--(id)initWithDelegate:(id)__delegate
+@end
+
+@interface MNLockScreenViewController : NSObject
 {
-    self = [super init];
-    if(self)
-    {
-        _delegate = __delegate;
-    }
-    return self;
+    UIWindow *lockWindow;
+    UIImageView *logoImageView;
+    UIImageView *backgroundImageView;
+    UIImageView *numberOfPendingAlertsBackground;
+    UILabel *numberOfPendingAlertsLabel;
+    UILabel *mobileNotifierTextLabel;
+    
+    id <MNLockScreenViewControllerDelegate> _delegate;
 }
 
--(void)alertArrived
-{
-	//Have the device vibrate, if the ringer switch is flipped (and if the device supports it)
-	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-	//Play noise, if the ringer switch is not flipped (and if the device supports it)
-	AudioServicesPlaySystemSound(1007);
-	//Wake the device's screen
-    [_delegate wakeDeviceScreen];
-}
+-(id)initWithDelegate:(id)__delegate;
+
+-(void)refresh;
+-(void)hide;
+-(void)show;
+
+-(bool)isShowing;
+
+@property (nonatomic, retain) id <MNLockScreenViewControllerDelegate> delegate;
 
 @end

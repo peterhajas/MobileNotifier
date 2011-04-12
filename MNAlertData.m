@@ -41,14 +41,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status
 {
-	self.header = [[NSString alloc] initWithString:_header];
-	self.text = [[NSString alloc] initWithString:_title];
-	self.bundleID = [[NSString alloc] initWithString:_bundleID];
-	self.time = _time;
+	if ((self = [self init]))
+	{
+		self.header = _header;
+		self.text = _title;
+		self.bundleID = _bundleID;
+		self.time = _time;
 
-	self.type = _type;
-	self.status = _status;
+		self.type = _type;
+		self.status = _status;
+	}
+	
+	return self;
+}
 
+-(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID ofStatus:(int)_status
+{
+	if ((self = [self init]))
+	{
+    	self.header = _header;
+		self.text = _title;
+		self.bundleID = _bundleID;
+    	self.time = [NSDate date];
+	
+		self.type = _type;
+		self.status = _status;
+	}
+	
 	return self;
 }
 

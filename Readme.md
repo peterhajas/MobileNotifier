@@ -9,9 +9,13 @@ web: peterhajas.com
 
 email: peterhajas (at) gmail (dot) com
 
+twitter: @peterhajas
+
 UI Design and User Experience by Kyle Adams
 
-twitter: http://twitter.com/#!/iamkyleadams
+web: kyleadams.org
+
+twitter: @iamkyleadams
 
 Intro
 -----
@@ -22,22 +26,58 @@ Due to the way the software functions, MobileNotifier requires a jailbroken iOS 
 
 MobileNotifier now includes a pretty awesome new companion app: MobileNukifier! MobileNukifier does what it sounds like - it deletes your MobileNotifier directory (/var/mobile/Library/MobileNotifier/) containing your notifications, and resprings the phone. This clears things out, and allows for easier testing once new versions are released.
 
+Environment Setup
+-----------------
+
+MobileNotifier has only been built on Mac OS X. Theos can be installed on Mac OS X, Linux and iOS.
+
+1. Install Xcode. A free developer account is required in order to download it.
+
+    [http://developer.apple.com/technologies/xcode.html](http://developer.apple.com/technologies/xcode.html)
+
+2. Install MacPorts
+
+    [http://www.macports.org/install.php](http://www.macports.org/install.php)
+
+3. Install Theos *(the iOS makefile system by Dustin Howett)* using this guide:
+
+    - [Mac Instructions](http://iphonedevwiki.net/index.php/Theos/Getting_Started#For_Mac_OS_X). Pay close attention to how your `SDKVERSION` environment variable is set.
+    - [iPhone Instructions](http://iphonedevwiki.net/index.php/Theos/Getting_Started#On_iOS)
+
+4. Download the decompiled 3.x headers from rpetrich's fork of Kennytm in `$THEOS/include/`. Be sure place the frameworks at top level *(i.e. $THEOS/include/Springboard)*.
+
+    [https://github.com/rpetrich/iphoneheaders/archives/master](https://github.com/rpetrich/iphoneheaders/archives/master)
+
+5. After copying the headers into ``$THEOS/include``, you'll need to run the following command to copy some required system files not included by default.
+
+    `cp /System/Library/Frameworks/IOSurface.framework/Headers/IOSurfaceAPI.h $THEOS/include/IOSurface/.`
+
+6. Copy libactivator.dylib to ``$THEOS/lib/`` *(you can get this off your iOS device with Activator installed)*
+
+7. Install dpkg via MacPorts *(if not already installed)*
+
+    `sudo port install dpkg`
+
+8. Install gnutar via MacPorts *(if not already installed)*
+
+    `sudo port install gnutar`
+
+9. Symlink tar to gnutar by running the following command:
+
+    `ln -sf /usr/bin/gnutar /usr/bin/tar`
+
 Building
 --------
 
-To build MobileNotifier, you'll need Theos (the iOS makefile system by Dustin Howett) installable from:
+1. Run `make`
 
-http://iphonedevwiki.net/index.php/Theos/Getting_Started
+2. Run `make package` to generate a .deb.
 
-Theos can be installed on Mac OS X, Linux and iOS. MobileNotifier has only been built on Mac OS X.
+Installation methods
+--------------------
 
-Then, you'll need the decompiled 3.x headers from rpetrich's fork of Kennytm in $THEOS/include/ with frameworks at top level (i.e. $THEOS/include/Springboard). You can find those here:
-
-https://github.com/rpetrich/iphoneheaders
-
-You'll then need a copy of libactivator.dylib (you can get this off your iOS device with Activator installed) at $THEOS/lib/
-
-Once you have all that set up, run make and then make package to generate a .deb. scp this .deb to your device, and run dpkg -i thedeb.deb as root to install. Alternatively, you can run make package install with the "THEOS_DEVICE_IP" environment variable set (for example, iPhone.local).
+ - **Manual:** `scp` the resulting .deb file to your device, and run `dpkg -i thedeb.deb` as root to install.
+ - **Automated:** run `make package install` with the **THEOS_DEVICE_IP** environment variable set (example: `export THEOS_DEVICE_IP=iPhone.local`).
 
 Helping
 -------
@@ -74,3 +114,9 @@ Aaron Ash - multifl0w.com - for his help on IRC and invaluable advice
 KennyTM - github.com/kennytm - for his decompiled headers
 
 Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Cycript, Veency and countless other gifts to the community
+
+Kyle Adams - kyleadams.org - for his work on the user interface for the project and prerelease testing
+
+Tim Novinger - timnovinger.com - for his work on modernizing animations, cleaning up the interface and tons of other improvements
+
+Tim Horton - hortont.com - for his help with debugging and testing

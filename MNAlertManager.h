@@ -31,23 +31,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <libactivator/libactivator.h>
 
 #import "MNAlertDashboardViewController.h"
+#import "MNLockScreenViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
 #import "MNAlertWindow.h"
 #import "MNWhistleBlowerController.h"
+#import "MNPreferenceManager.h"
 
 @class MNAlertManager;
 @protocol MNAlertManagerDelegate
 -(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
+-(void)dismissSwitcher;
+-(void)wakeDeviceScreen;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
 									  MNAlertDashboardViewControllerProtocol,
+									  MNLockScreenViewControllerDelegate,
+									  MNWhistleBlowerControllerProtocol,
 									  LAListener>
 {
 	NSMutableArray *pendingAlerts;
-	NSMutableArray *sentAwayAlerts;
 	NSMutableArray *dismissedAlerts;
 	
 	bool alertIsShowing;
@@ -56,8 +61,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	MNAlertViewController *pendingAlertViewController;
 	
 	MNAlertDashboardViewController *dashboard;
+    MNLockScreenViewController *lockscreen;
 	
 	MNWhistleBlowerController *whistleBlower;
+	
+	MNPreferenceManager *preferenceManager;
+	
+	NSTimer* alertDismissTimer;
 	
 	id<MNAlertManagerDelegate> _delegate;
 }
@@ -65,17 +75,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
 -(void)showDashboard;
--(void)hideDashboard;
+-(void)showDashboardFromSwitcher;
+-(void)fadeDashboardDown;
+-(void)fadeDashboardAway;
+-(void)showLockscreen;
+-(void)hideLockscreen;
+-(void)hidePendingAlert;
+-(void)reloadPreferences;
+
+-(void)clearPending;
+-(void)alertShouldGoLaterTimerFired:(id)sender;
 
 @property (nonatomic, retain) MNAlertWindow *alertWindow;
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
-@property (nonatomic, retain) NSMutableArray *sentAwayAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
 
 @property (nonatomic, retain) MNAlertDashboardViewController *dashboard;
 @property (nonatomic, retain) MNAlertViewController *pendingAlertViewController;
 @property (nonatomic, retain) MNWhistleBlowerController *whistleBlower;
+
+@property (nonatomic, retain) MNPreferenceManager *preferenceManager;
 
 @property (nonatomic, assign) id<MNAlertManagerDelegate> delegate;
 

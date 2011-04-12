@@ -92,14 +92,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	iconImageView.layer.cornerRadius = 5.5;
 	iconImageView.layer.masksToBounds = YES;
 
-	chevronButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	chevronButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	chevronButton.contentMode = UIViewContentModeCenter;
 	chevronButton.frame = CGRectMake(285.0, 22, 10.0, 15.0);
 	[chevronButton setImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/alert_chevron.png"] 
 				   forState:UIControlStateNormal];
 	[chevronButton setAlpha:0.0];
 	
-	alertExpandButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	alertExpandButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 60.0);
 	[alertExpandButton setAlpha:0.0];
 
@@ -140,7 +140,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	alertActionBackgroundImageViewShadow.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/popup_bg_shadow.png"];
 	alertActionBackgroundImageViewShadow.opaque = NO;
 	
-	openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	openButton.frame = CGRectMake(163.0, 76.0, 139.0, 47.0);
 	[openButton setAlpha:0.0];
 
@@ -156,7 +156,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 							  forState:UIControlStateNormal];
 	}
 	
-	laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	laterButton.frame = CGRectMake(16.0, 76.0, 139.0, 47.0);
 	[laterButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/close_btn.png"] 
 						   forState:UIControlStateNormal];
@@ -176,41 +176,62 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[alertExpandButton addTarget:self action:@selector(chevronPushed:)
 				forControlEvents:UIControlEventTouchUpInside];
 
+    //Add everything to our view
+    
 	[self.view addSubview:alertBackgroundImageView];
 	[self.view addSubview:iconImageView];
 	[self.view addSubview:alertHeaderLabel];
 	[self.view addSubview:alertTextLabel];
 	[self.view addSubview:chevronButton];
 	[self.view addSubview:alertBackgroundShadow];
-	
 	[self.view addSubview:alertExpandButton];
+	
+	//Release the stuff we don't want to hang on to
+	
+    [alertBackgroundImageView               release];
+    [alertBackgroundShadow                  release];
+    [alertHeaderLabel                       release];
+    [alertTextLabel                         release];    
 	
 	alertIsShowingPopOver = NO;
 	
 	[self fadeInView];
-	
-	/*
-	
-	alertHeader = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 250 , 40)];
-	alertHeader.text = dataObj.header;
-	alertHeader.font = [UIFont fontWithName:@"Helvetica" size:12];
-	alertHeader.backgroundColor = [UIColor clearColor];
+}
 
-	sendAway = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	sendAway.frame = CGRectMake(265, 18, 34, 20);
-	[sendAway setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/sendAwayButton.png"] forState:UIControlStateNormal];
-	takeAction = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	[takeAction setTitle:dataObj.text forState:UIControlStateNormal];
-	[takeAction setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-	[takeAction setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	takeAction.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:10];
-
-	takeAction.frame = CGRectMake(20, 20, 230, 40);
+-(void)viewDidLoad 
+{ 
+	[super viewDidLoad];
 	
-	alertBackground = [[UIImageView alloc] init];
-	[alertBackground setFrame:CGRectMake(0,0,320,62)];
-	alertBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alertBackground.png"];		
-	*/
+	//If the system understands UIGestureRecognizer, utilize it!
+	if([UISwipeGestureRecognizer respondsToSelector:@selector(setNumberOfTouches:)])
+	{
+		// Single finger, double tap
+	    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc]
+	        initWithTarget:self action:@selector(didSwipeRight)];
+
+	    swipeRight.numberOfTouchesRequired = 1;
+	    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+	    [self.view addGestureRecognizer:swipeRight];
+	    [swipeRight release];
+	}
+}
+
+-(void)didSwipeRight
+{
+    if(alertIsShowingPopOver)
+    {
+        //Do nothing
+        return;
+    }
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.2];
+    CGRect frame = self.view.frame;
+    frame.origin.x += 320;
+    self.view.frame = frame;
+    [UIView commitAnimations];
+    
+    //Notify the delegate
+	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
 }
 
 -(void)chevronPushed:(id)sender
@@ -275,7 +296,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[UIView beginAnimations:@"showLower" context:NULL];
 		
 		[UIView setAnimationDuration:0.3];
-		[alertActionBackgroundImageView setAlpha:0.7];
+		[alertActionBackgroundImageView setAlpha:0.9];
 		[alertActionBackgroundImageViewShadow setAlpha:1.0];
 		[openButton setAlpha:1.0];
 		[laterButton setAlpha:1.0];
@@ -350,8 +371,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	//Notify the delegate
 	[_delegate alertViewController:self hadActionTaken:kAlertSentAway];
-
-	//And that's it! The delegate will take care of everything else.
 }
 
 @end
