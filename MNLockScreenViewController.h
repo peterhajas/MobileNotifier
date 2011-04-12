@@ -42,6 +42,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UILabel* numberOfPendingAlertsLabel;
     UILabel* mobileNotifierTextLabel;
     
+	UIButton* showPendingAlertsListButton;
+	UITableView* pendingAlertsList;
+
     id <MNLockScreenViewControllerDelegate> _delegate;
 }
 
