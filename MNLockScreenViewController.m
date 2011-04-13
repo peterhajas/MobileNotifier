@@ -41,25 +41,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         lockWindow.windowLevel = UIWindowLevelAlert+102.0f;
         lockWindow.hidden = YES;
         
-    	logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 32, 32)];
+        logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 32, 32)];
         logoImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-logo.png"];
 
-        backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,60)];
+        backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,54)];
         backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreenbg.png"];
         backgroundImageView.opaque = NO;
         
-        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,21,35,22)];
+        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,16,35,22)];
         numberOfPendingAlertsLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
         numberOfPendingAlertsLabel.textAlignment = UITextAlignmentCenter;
     	numberOfPendingAlertsLabel.textColor = [UIColor blackColor];
         numberOfPendingAlertsLabel.backgroundColor = [UIColor clearColor];
         numberOfPendingAlertsLabel.opaque = NO;
         
-        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,22,27,20)];
+        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,17,27,20)];
         numberOfPendingAlertsBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-count-bg.png"];
         numberOfPendingAlertsBackground.opaque = NO;
         
-        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60,20,180,22)];
+        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60,16,180,22)];
         mobileNotifierTextLabel.text = @"Missed Notifications";
         mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         mobileNotifierTextLabel.textAlignment = UITextAlignmentLeft;
