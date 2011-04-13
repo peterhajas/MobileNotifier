@@ -34,7 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNLockScreenViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
-#import "MNAlertWindow.h"
 #import "MNWhistleBlowerController.h"
 #import "MNPreferenceManager.h"
 
@@ -57,7 +56,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	bool alertIsShowing;
 	
-	MNAlertWindow *alertWindow;	
+	UIWindow *alertWindow;	
 	MNAlertViewController *pendingAlertViewController;
 	
 	MNAlertDashboardViewController *dashboard;
@@ -86,7 +85,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)clearPending;
 -(void)alertShouldGoLaterTimerFired:(id)sender;
 
-@property (nonatomic, retain) MNAlertWindow *alertWindow;
+@property (nonatomic, retain) UIWindow *alertWindow;
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
