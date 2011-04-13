@@ -65,10 +65,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertListView.backgroundColor = [UIColor whiteColor];
         alertListView.layer.cornerRadius = 10;
 		
-		//Dashboard background image
-		/*
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
-		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
+        /*
+		dashboardBackground = [[UIView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
+		[dashboardBackground setBackgroundColor:[UIColor blackColor]];
 		[dashboardBackground setAlpha:0.75];
 		*/
 		
@@ -192,7 +191,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	dashboardShowing              = NO;
 
 	[UIView beginAnimations:@"fadeDashboardDown" context:NULL];
-	[UIView setAnimationDuration:0.3];
+	[UIView setAnimationDuration:0.25];
 
     [window setFrame:CGRectMake(0,0,320,480)];
     [window setAlpha:0.0];
@@ -241,7 +240,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   	clearAllButton.transform          = CGAffineTransformIdentity;
 
 	[UIView beginAnimations:@"fadeIn" context:NULL];
-	[UIView setAnimationDuration:0.3];
+	[UIView setAnimationDuration:0.25];
 
     [window setFrame:CGRectMake(0,-92,320,480)];
     [window setAlpha:1.0];
