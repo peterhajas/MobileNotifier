@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //#import <UIKit/UIStatusBar.h>
 #import "MNAlertData.h"
-#import "MNTableViewCell.h"
+#import "MNAlertTableViewDataSource.h"
 
 //%class UIStatusBar;
 
@@ -46,9 +46,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertDashboardViewController : NSObject <UITableViewDataSource, 
-                                                      UITableViewDelegate,
-                                                      UIActionSheetDelegate>
+@interface MNAlertDashboardViewController : NSObject  <UITableViewDelegate,
+                                                       UIActionSheetDelegate>
 {
 	UIWindow *window;
 	//UIImageView *dashboardBackground;
@@ -63,6 +62,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UIActionSheet* clearActionSheet;
 	
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
+	
+    MNAlertTableViewDataSource *tableViewDataSource;
 }
 
 -(id)initWithDelegate:(id)__delegate;

@@ -40,6 +40,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{	
 		CGRect screenBounds = [[UIScreen mainScreen] bounds];
 		
+		_delegate = __delegate;
+		
 		//window:
 		window = [[UIWindow alloc] 
 		initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
@@ -57,20 +59,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     	[returnToApplicationButton addTarget:self action:@selector(dismissSwitcher:)
     			 forControlEvents:UIControlEventTouchUpInside];
 		
+		//Table View Data Source
+        tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
+                                                               andDelegate:_delegate];
+		
 		//Create the tableview
 		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16.5,112,287,325) style:UITableViewStylePlain];
 		alertListView.delegate = self;
-		alertListView.dataSource = self;
+		alertListView.dataSource = tableViewDataSource;
 		[alertListView setAlpha:1.0];
         alertListView.backgroundColor = [UIColor whiteColor];
         alertListView.layer.cornerRadius = 10;
-		
-		//Dashboard background image
-		/*
-		dashboardBackground = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
-		dashboardBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/dashboardBackground.png"];
-		[dashboardBackground setAlpha:0.75];
-		*/
 		
 		//ClearAllButton
         clearAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -87,8 +86,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         //Wire up clearAllButton
         [clearAllButton addTarget:self action:@selector(clearDashboardPushed:)
     			 forControlEvents:UIControlEventTouchUpInside];
-        		
-		_delegate = __delegate;
 	    
 		//Add everything to the view
 		dashboardShowing = NO;
@@ -107,57 +104,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	return self;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        //Dismiss the alert
-        [_delegate dismissedAlertAtIndex:indexPath.row];
-
-        //Delete row from tableview
-        [alertListView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-    }
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //Take action on the alert
     [_delegate actionOnAlertAtIndex:indexPath.row];
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	MNTableViewCell *cell = (MNTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"notificationTableCell"];
-	
-	if (cell == nil)
-	{
-		cell = [[[MNTableViewCell alloc] init] autorelease];
-	}
-	
-	MNAlertData *dataObj = [[_delegate getPendingAlerts] objectAtIndex:indexPath.row];
-	
-	cell.iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
-	cell.headerLabel.text = dataObj.header;
-	cell.alertTextLabel.text = dataObj.text;
-	
-	//If this is the last item, then let's set the shadow of it
-    if(indexPath.row == ([[_delegate getPendingAlerts] count] - 1))
-    {
-        //Don't do this yet - we want to show this BELOW the last alert
-        //cell.backgroundShadowImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/last-element-shadow.png"];
-    }
-	
-	return cell;
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	return [[_delegate getPendingAlerts] count];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return 60.0;
 }
 
 -(void)refresh

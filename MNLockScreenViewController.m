@@ -67,14 +67,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     	mobileNotifierTextLabel.shadowColor = [UIColor blackColor];
     	mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
         mobileNotifierTextLabel.backgroundColor = [UIColor clearColor];
-        		
+        
+        //Table View Data Source
+        tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
+                                                               andDelegate:_delegate];
+        	
 		//Create the tableview
 		pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(16.5,175,287,200) style:UITableViewStylePlain];
 		pendingAlertsList.delegate = self;
-		pendingAlertsList.dataSource = self;
+		pendingAlertsList.dataSource = tableViewDataSource;
 		[pendingAlertsList setAlpha:1.0];
         pendingAlertsList.backgroundColor = [UIColor whiteColor];
         pendingAlertsList.layer.cornerRadius = 10;
+
+        //Create and wire up the button for showing and hiding the pendingAlertsList
+        
 
         [lockWindow addSubview:backgroundImageView];
         [lockWindow addSubview:logoImageView];
