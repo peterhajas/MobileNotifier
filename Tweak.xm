@@ -227,7 +227,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)dismissSwitcher
 {
     SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
-    [uicontroller dismissSwitcher];
+    if([%c(SBUIController) respondsToSelector:@selector(dismissSwitcher)])
+    {
+        [uicontroller dismissSwitcher];
+    }
 }
 
 -(void)wakeDeviceScreen
