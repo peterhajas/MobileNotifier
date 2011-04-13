@@ -36,8 +36,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     self = [super init];
     if(self)
     {
-        lockWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,115,320,60)];
-        lockWindow.userInteractionEnabled = NO;
+        _delegate = __delegate;
+        
+        lockWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,115,320,54)];
+        lockWindow.userInteractionEnabled = YES;
         lockWindow.windowLevel = UIWindowLevelAlert+102.0f;
         lockWindow.hidden = YES;
         
@@ -73,24 +75,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                                andDelegate:_delegate];
         	
 		//Create the tableview
-		pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(16.5,175,287,200) style:UITableViewStylePlain];
+		pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(16.5,60,287,200) style:UITableViewStylePlain];
 		pendingAlertsList.delegate = self;
 		pendingAlertsList.dataSource = tableViewDataSource;
 		[pendingAlertsList setAlpha:1.0];
         pendingAlertsList.backgroundColor = [UIColor whiteColor];
         pendingAlertsList.layer.cornerRadius = 10;
+        pendingAlertsList.hidden = YES;
 
         //Create and wire up the button for showing and hiding the pendingAlertsList
-        
+        showPendingAlertsListButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        showPendingAlertsListButton.frame = CGRectMake(0,0,320,54);
+        [showPendingAlertsListButton addTarget:self action:@selector(togglePendingAlertsList:)
+    			 forControlEvents:UIControlEventTouchUpInside];
 
         [lockWindow addSubview:backgroundImageView];
         [lockWindow addSubview:logoImageView];
         [lockWindow addSubview:numberOfPendingAlertsBackground];
         [lockWindow addSubview:numberOfPendingAlertsLabel];
         [lockWindow addSubview:mobileNotifierTextLabel];
+        [lockWindow addSubview:pendingAlertsList];
+        [lockWindow addSubview:showPendingAlertsListButton];
         
-        _delegate = __delegate;
-        
+        isExpanded = NO;
+                
         [self refresh];
     }
     return self;
@@ -113,6 +121,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[lockWindow setFrame:CGRectMake(0,115,320,60)];
 	lockWindow.hidden = NO;
     [self refresh];
+}
+
+-(void)togglePendingAlertsList:(id)sender
+{
+    if(isExpanded)
+    {
+        [lockWindow setFrame:CGRectMake(0,115,320,266)];
+        pendingAlertsList.hidden = NO;
+    }
+    else
+    {
+        
+    }
+    isExpanded = !isExpanded;
 }
 
 -(bool)isShowing

@@ -49,6 +49,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     id <MNLockScreenViewControllerDelegate> _delegate;
     
+    bool isExpanded;
+    
     MNAlertTableViewDataSource *tableViewDataSource;
 }
 
@@ -57,6 +59,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)refresh;
 -(void)hide;
 -(void)show;
+
+-(void)togglePendingAlertsList:(id)sender;
 
 -(bool)isShowing;
 
