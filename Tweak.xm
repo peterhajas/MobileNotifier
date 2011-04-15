@@ -240,11 +240,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [awayController restartDimTimer:5.0];
 }
 
--(void)toggleDoubleHighStatusBar
+-(void)setDoubleHighStatusBar:(BOOL)value
 {
-	NSLog(@".........................................................Toggling doublehigh statusbar");
-	id statusBarDataManager = [%c(SBStatusBarDataManager) sharedDataManager];
-    [statusBarDataManager toggleSimulatesInCallStatusBar];
+    id statusBarDataManager = [%c(SBStatusBarDataManager) sharedDataManager];
+    bool &current(MSHookIvar<bool>(statusBarDataManager, "_simulateInCallStatusBar"));
+    if(current != value)
+    {
+        //If the current value is different than the value of the status bar now, let's change that
+        [statusBarDataManager toggleSimulatesInCallStatusBar];
+    }
+    //If not, don't do anything!
 }
 
 @end

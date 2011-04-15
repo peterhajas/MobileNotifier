@@ -110,7 +110,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			    [alertWindow setNeedsDisplay];
 			    
 			    //Expand the status bar
-                [_delegate toggleDoubleHighStatusBar];
+                [_delegate setDoubleHighStatusBar:YES];
 			}
 		}
 		else
@@ -204,13 +204,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [pendingAlertViewController.view removeFromSuperview];
     alertWindow.frame = CGRectMake(0,0,320,0);
     alertIsShowing = YES;
-    [_delegate toggleDoubleHighStatusBar];
+    [_delegate setDoubleHighStatusBar:NO];
 }
 
 //Delegate method for MNAlertViewController
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action
 {
-	[_delegate toggleDoubleHighStatusBar];
+	[_delegate setDoubleHighStatusBar:NO];
 	if(action == kAlertSentAway)
 	{
 		alertIsShowing = NO;
@@ -227,6 +227,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[pendingAlerts removeObject:data];
 	}
 	[self hidePendingAlert];
+	[_delegate setDoubleHighStatusBar:NO];
 	alertWindow.frame = CGRectMake(0,0,320,0);
 	[self saveOut];
     [dashboard refresh];

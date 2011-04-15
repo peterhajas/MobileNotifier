@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 -(void)dismissSwitcher;
 -(void)wakeDeviceScreen;
--(void)toggleDoubleHighStatusBar;
+-(void)setDoubleHighStatusBar:(BOOL)value;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
