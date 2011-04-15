@@ -128,11 +128,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     if(isExpanded)
     {
         [lockWindow setFrame:CGRectMake(0,115,320,266)];
-        pendingAlertsList.hidden = NO;
+        pendingAlertsList.hidden = YES;
+        pendingAlertsList.userInteractionEnabled = NO;
     }
     else
     {
-        
+        [lockWindow setFrame:CGRectMake(0,115,320,54)];
+        pendingAlertsList.hidden = NO;
+        pendingAlertsList.userInteractionEnabled = YES;
     }
     isExpanded = !isExpanded;
 }
