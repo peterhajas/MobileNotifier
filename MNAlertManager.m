@@ -160,14 +160,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	[self hidePendingAlert];
 	[dashboard showDashboard];
-	[_delegate toggleDoubleHighStatusBar];
 }
 
 -(void)showDashboard
 {
     [self hidePendingAlert];
 	[dashboard showDashboard];
-	[_delegate toggleDoubleHighStatusBar];
 }
 
 -(void)fadeDashboardDown
@@ -227,11 +225,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[dismissedAlerts addObject:data];
 		[pendingAlerts removeObject:data];
 	}
+	[self hidePendingAlert];
 	alertWindow.frame = CGRectMake(0,0,320,0);
 	[self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
-    [_delegate toggleDoubleHighStatusBar];
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
