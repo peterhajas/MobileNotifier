@@ -240,7 +240,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     
     for(MNAlertData* dataObj in pendingAlerts)
     {
-        if(dataObj.header == sender)
+        if([dataObj.header isEqualToString:sender])
         {
             [dismissedAlerts addObject:dataObj];
             [toRemove addObject:dataObj];
