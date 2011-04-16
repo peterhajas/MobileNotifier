@@ -217,16 +217,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		alertIsShowing = NO;
 		MNAlertData *data = viewController.dataObj;
 		
-		//Launch the bundle
-		[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
-		//Move alert into dismissedAlerts from pendingAlerts
-		[dismissedAlerts addObject:data];
-		[pendingAlerts removeObject:data];
+		[self takeActionOnAlertWithData:data];
 	}
 	alertWindow.frame = CGRectMake(0,20,320,0);
-	[self saveOut];
-    [dashboard refresh];
-    [lockscreen refresh];
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
@@ -234,12 +227,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Launch the bundle
 	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
 	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
-	[dismissedAlerts addObject:data];
-	[pendingAlerts removeObject:data];
+    [self removeAllPendingAlertsWithSender:data.header];
+    
+	//Cool! All done!
+}
+
+-(void)removeAllPendingAlertsWithSender:(NSString *)sender
+{
+    //Loop through all pending alerts, and remove all the ones that are from the same sender
+    
+    NSMutableArray *toRemove = [NSMutableArray array];
+    
+    for(MNAlertData* dataObj in pendingAlerts)
+    {
+        if(dataObj.header == sender)
+        {
+            [dismissedAlerts addObject:dataObj];
+            [toRemove addObject:dataObj];
+        }
+    }
+    
+    [pendingAlerts removeObjectsInArray:toRemove];
+    
     [self saveOut];
+    [self refreshAll];
+}
+
+-(void)refreshAll
+{
     [dashboard refresh];
     [lockscreen refresh];
-	//Cool! All done!
 }
 
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
@@ -303,8 +320,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [pendingAlerts removeObject:dataObj];
     }
     [self saveOut];
-    [dashboard refresh];
-    [lockscreen refresh];
+    [self refreshAll];
 }
 
 -(void)alertShouldGoLaterTimerFired:(id)sender
@@ -346,7 +362,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)wakeDeviceScreen
 {
-    [lockscreen refresh];
+    [self refreshAll];
     [_delegate wakeDeviceScreen];
 }
 
