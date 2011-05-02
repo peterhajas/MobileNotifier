@@ -273,4 +273,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     return dashboardShowing;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return [tableViewDataSource tableView:tableView heightForRowAtIndexPath:indexPath];
+}
+
 @end
