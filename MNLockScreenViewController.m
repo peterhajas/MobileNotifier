@@ -76,7 +76,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         	
 		//Create the tableview
 		pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(16.5,60,287,200) style:UITableViewStylePlain];
-		pendingAlertsList.delegate = self;
+		pendingAlertsList.delegate = tableViewDataSource;
 		pendingAlertsList.dataSource = tableViewDataSource;
 		[pendingAlertsList setAlpha:1.0];
         pendingAlertsList.backgroundColor = [UIColor whiteColor];
@@ -100,6 +100,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         isExpanded = NO;
                 
         [self refresh];
+		
+		[UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
     }
     return self;
 }
@@ -128,19 +130,38 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)togglePendingAlertsList:(id)sender
 {
-    if(isExpanded)
+	NSLog(@"Toggling!");
+
+	if(isExpanded)
     {
-        [lockWindow setFrame:CGRectMake(0,115,320,266)];
-        pendingAlertsList.hidden = YES;
-        pendingAlertsList.userInteractionEnabled = NO;
+		[UIView beginAnimations:@"lockscreenAppear" context:NULL];
+		[UIView setAnimationDuration:0.1];
+		[lockWindow setFrame:CGRectMake(0,115,320,266)];
+		[UIView commitAnimations];
+		pendingAlertsList.hidden = NO;
     }
     else
     {
-        [lockWindow setFrame:CGRectMake(0,115,320,54)];
-        pendingAlertsList.hidden = NO;
-        pendingAlertsList.userInteractionEnabled = YES;
+		[UIView beginAnimations:@"lockscreenDisappear" context:NULL];
+		[UIView setAnimationDuration:0.1];
+		[lockWindow setFrame:CGRectMake(0,115,320,54)];
+		[UIView commitAnimations];
+		pendingAlertsList.hidden = YES;
     }
     isExpanded = !isExpanded;
+}
+
+-(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
+{
+	NSLog(@"Animation ended!");
+	if([animationID isEqualToString:@"lockscreenAppear"])
+	{
+		pendingAlertsList.hidden = NO;
+	}
+	if([animationID isEqualToString:@"lockscreenDisappear"] || [animationID isEqualToString:@"fadeDashboardAway"])
+	{
+		pendingAlertsList.hidden = YES;
+	}
 }
 
 -(bool)isShowing
