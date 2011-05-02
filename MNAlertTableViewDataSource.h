@@ -40,7 +40,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)dismissedAlertAtIndex:(int)index;
 @end
 
-@interface MNAlertTableViewDataSource : NSObject <UITableViewDataSource>
+@interface MNAlertTableViewDataSource : NSObject <UITableViewDataSource,
+												  UITableViewDelegate>
 {
     int type;
     
