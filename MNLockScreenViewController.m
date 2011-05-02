@@ -109,6 +109,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     NSNumber *pendingCount = [NSNumber numberWithInt:[[_delegate getPendingAlerts] count]];
     //Use the NSNumber's string value
     numberOfPendingAlertsLabel.text = [pendingCount stringValue];
+
+	//Reload the tableview
+	[pendingAlertsList reloadData];
 }
 
 -(void)hide
