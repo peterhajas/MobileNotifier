@@ -97,7 +97,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//[window addSubview:dashboardBackground];
 		[window addSubview:returnToApplicationButton];
 		[window addSubview:alertListView];
-        [window addSubview:clearAllButton];
+        [window addSubview:clearAllButton]; 
         
         //Release stuff we don't need to hang on to
         
@@ -122,7 +122,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)dismissSwitcher:(id)sender
 {
-    [_delegate dismissSwitcher];
+	[_delegate dismissSwitcher];
 }
 
 -(void)toggleDashboard
