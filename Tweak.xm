@@ -249,6 +249,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     //If not, don't do anything!
 }
 
+-(BOOL)deviceIsLocked
+{
+	SBAwayController* awayController = (SBAwayController *)[%c(SBAwayController) sharedAwayController];
+	if(!awayController)
+	{
+		return NO;
+	}             
+	return [awayController isLocked];
+}
+
 @end
 
 //Mail class declaration for fetched messages

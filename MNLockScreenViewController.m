@@ -130,30 +130,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)togglePendingAlertsList:(id)sender
 {
-	NSLog(@"Toggling!");
-
 	if(isExpanded)
     {
-		[UIView beginAnimations:@"lockscreenAppear" context:NULL];
+		[UIView beginAnimations:@"lockscreenDisappear" context:NULL];
 		[UIView setAnimationDuration:0.1];
 		[lockWindow setFrame:CGRectMake(0,115,320,266)];
 		[UIView commitAnimations];
 		pendingAlertsList.hidden = NO;
+		isExpanded = !isExpanded;
     }
     else
     {
-		[UIView beginAnimations:@"lockscreenDisappear" context:NULL];
-		[UIView setAnimationDuration:0.1];
-		[lockWindow setFrame:CGRectMake(0,115,320,54)];
-		[UIView commitAnimations];
-		pendingAlertsList.hidden = YES;
+		[self expandPendingAlertsList];
     }
-    isExpanded = !isExpanded;
+}
+
+-(void)expandPendingAlertsList
+{
+	[UIView beginAnimations:@"lockscreenAppear" context:NULL];
+	[UIView setAnimationDuration:0.1];
+	[lockWindow setFrame:CGRectMake(0,115,320,54)];
+	[UIView commitAnimations];
+	pendingAlertsList.hidden = YES;
+	isExpanded = !isExpanded;
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
 {
-	NSLog(@"Animation ended!");
 	if([animationID isEqualToString:@"lockscreenAppear"])
 	{
 		pendingAlertsList.hidden = NO;

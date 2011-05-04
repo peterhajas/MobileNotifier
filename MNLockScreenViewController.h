@@ -61,6 +61,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)show;
 
 -(void)togglePendingAlertsList:(id)sender;
+-(void)expandPendingAlertsList;                            
 
 -(bool)isShowing;
 

@@ -44,6 +44,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)dismissSwitcher;
 -(void)wakeDeviceScreen;
 -(void)setDoubleHighStatusBar:(BOOL)value;
+-(BOOL)deviceIsLocked;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 

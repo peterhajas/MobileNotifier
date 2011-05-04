@@ -122,6 +122,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		//Make noise
 		[whistleBlower alertArrived];
 		
+		if([_delegate deviceIsLocked])
+		{
+			[lockscreen expandPendingAlertsList];
+		}
+		
 		//Start the timer, if the user prefers it
 		NSNumber *autoLaterEnabled = [preferenceManager.preferences valueForKey:@"autoLaterAlertsEnabled"];
     	bool shouldAutoLater = autoLaterEnabled ? [autoLaterEnabled boolValue] : YES;
@@ -139,7 +144,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 	[self saveOut];
     [lockscreen refresh];
-    [dashboard refresh];
+	[dashboard refresh];
 }
 
 -(void)saveOut
