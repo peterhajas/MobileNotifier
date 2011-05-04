@@ -94,7 +94,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	    
 		//Add everything to the view
 		dashboardShowing = NO;
-		//[window addSubview:dashboardBackground];
+		[window addSubview:dashboardBackground];
 		[window addSubview:returnToApplicationButton];
 		[window addSubview:alertListView];
         [window addSubview:clearAllButton]; 
