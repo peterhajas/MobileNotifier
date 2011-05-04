@@ -212,19 +212,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [_delegate setDoubleHighStatusBar:NO];
 }
 
--(void)takeActionOnAlertWithData:(MNAlertData *)data
-{
-	//Launch the bundle
-	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
-	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
-	[dismissedAlerts addObject:data];
-	[pendingAlerts removeObject:data];
-    [self saveOut];
-    [dashboard refresh];
-    [lockscreen refresh];
-	//Cool! All done!
-}
-
 -(void)alertShouldGoLaterTimerFired:(id)sender
 {
 	if(!pendingAlertViewController)
@@ -259,16 +246,48 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		alertIsShowing = NO;
 		MNAlertData *data = viewController.dataObj;
 		
-		//Launch the bundle
-		[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
-		//Move alert into dismissedAlerts from pendingAlerts
-		[dismissedAlerts addObject:data];
-		[pendingAlerts removeObject:data];
+		[self takeActionOnAlertWithData:data];
 	}
 	[self hidePendingAlert];
 	[_delegate setDoubleHighStatusBar:NO];
 	alertWindow.frame = CGRectMake(0,0,320,0);
 	[self saveOut];
+    [dashboard refresh];
+    [lockscreen refresh];
+}
+
+-(void)takeActionOnAlertWithData:(MNAlertData *)data
+{
+	//Launch the bundle
+	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
+	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
+	[self removeAllPendingAlertsWithSender:data.header];
+	//Cool! All done!
+}
+
+-(void)removeAllPendingAlertsWithSender:(NSString *)sender
+{
+    //Loop through all pending alerts, and remove all the ones that are from the same sender
+    
+    NSMutableArray *toRemove = [NSMutableArray array];
+    
+    for(MNAlertData* dataObj in pendingAlerts)
+    {
+        if([dataObj.header isEqualToString:sender])
+        {
+            [dismissedAlerts addObject:dataObj];
+            [toRemove addObject:dataObj];
+        }
+    }
+    
+    [pendingAlerts removeObjectsInArray:toRemove];
+    
+    [self saveOut];
+    [self refreshAll];
+}
+
+-(void)refreshAll
+{
     [dashboard refresh];
     [lockscreen refresh];
 }
@@ -334,8 +353,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [pendingAlerts removeObject:dataObj];
     }
     [self saveOut];
-    [dashboard refresh];
-    [lockscreen refresh];
+    [self refreshAll];
 }
 - (NSMutableArray *)getPendingAlerts
 {
@@ -356,7 +374,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)wakeDeviceScreen
 {
-    [lockscreen refresh];
+    [self refreshAll];
     [_delegate wakeDeviceScreen];
 }
 

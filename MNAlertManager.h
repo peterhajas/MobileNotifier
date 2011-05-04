@@ -83,7 +83,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)showLockscreen;
 -(void)hideLockscreen;
 -(void)hidePendingAlert;
+-(void)reloadPreferences;
+-(void)refreshAll;
+-(void)removeAllPendingAlertsWithSender:(NSString *)sender;
 -(void)takeActionOnAlertWithData:(MNAlertData *)data;
+-(void)clearPending;
 -(void)alertShouldGoLaterTimerFired:(id)sender;
 -(void)reloadPreferences;
 
