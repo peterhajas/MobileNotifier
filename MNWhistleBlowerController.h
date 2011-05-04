@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     id <MNWhistleBlowerControllerProtocol> _delegate;
 }
 
--(void)alertArrivedWithData:(MNAlertData* data);
+-(void)alertArrivedWithData:(MNAlertData*) data;
 
 @property (nonatomic, retain) id <MNWhistleBlowerControllerProtocol> delegate;
 
