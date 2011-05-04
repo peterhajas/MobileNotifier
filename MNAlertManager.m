@@ -117,7 +117,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			//Let's send this to pending, and let them
 			//continue with what they're doing
 		}
-		//Make noise
+		//Alert the user
 		[whistleBlower alertArrived];
 		
 		//Start the timer, if the user prefers it

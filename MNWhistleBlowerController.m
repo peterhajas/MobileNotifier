@@ -45,8 +45,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	//Have the device vibrate, if the ringer switch is flipped (and if the device supports it)
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-	//Play noise, if the ringer switch is not flipped (and if the device supports it)
-	AudioServicesPlaySystemSound(1007);
 	//Wake the device's screen
     [_delegate wakeDeviceScreen];
 }
