@@ -41,10 +41,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     return self;
 }
 
--(void)alertArrived
+-(void)alertArrivedWithData:(MNAlertData* data)
 {
 	//Have the device vibrate, if the ringer switch is flipped (and if the device supports it)
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+   	if(data.type == kSMSAlert)
+	{
+		//Make a noise if it's an SMS alert
+		
+	}
 	//Wake the device's screen
     [_delegate wakeDeviceScreen];
 }

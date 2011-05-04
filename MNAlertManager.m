@@ -120,7 +120,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			//continue with what they're doing
 		}
 		//Alert the user
-		[whistleBlower alertArrived];
+		[whistleBlower alertArrivedWithData:data];
 		
 		if([_delegate deviceIsLocked])
 		{
