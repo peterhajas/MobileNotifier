@@ -25,46 +25,31 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "MNAlertTableViewDataSource.h"
+#define kMNAlertTableViewDataSourceTypePending 0
+#define kMNAlertTableViewDataSourceTypeArchived 1
 
-@class MNLockScreenViewController;
+#import <UIKit/UIKit.h>
+#import "MNAlertData.h"
+#import "MNTableViewCell.h"
 
-@protocol MNLockScreenViewControllerDelegate
-
+@class MNAlertTableViewDataSource;
+@protocol MNAlertTableViewDataSourceDelegate
 -(NSMutableArray *)getPendingAlerts;
-
+-(NSMutableArray *)getDismissedAlerts;
+-(UIImage*)iconForBundleID:(NSString *)bundleID;
+-(void)dismissedAlertAtIndex:(int)index;
 @end
 
-@interface MNLockScreenViewController : NSObject <UITableViewDelegate>
+@interface MNAlertTableViewDataSource : NSObject <UITableViewDataSource,
+												  UITableViewDelegate>
 {
-    UIWindow* lockWindow;
-    UIImageView* logoImageView;
-    UIImageView* backgroundImageView;
-    UIImageView* numberOfPendingAlertsBackground;
-    UILabel* numberOfPendingAlertsLabel;
-    UILabel* mobileNotifierTextLabel;
+    int type;
     
-	UIButton* showPendingAlertsListButton;
-	UITableView* pendingAlertsList;
-
-    id <MNLockScreenViewControllerDelegate> _delegate;
-    
-    bool isExpanded;
-    
-    MNAlertTableViewDataSource *tableViewDataSource;
+    id <MNAlertTableViewDataSourceDelegate> _delegate;
 }
 
--(id)initWithDelegate:(id)__delegate;
+-(id)initWithStyle:(int)style andDelegate:(id)__delegate;
 
--(void)refresh;
--(void)hide;
--(void)show;
-
--(void)togglePendingAlertsList:(id)sender;
--(void)expandPendingAlertsList;                            
-
--(bool)isShowing;
-
-@property (nonatomic, retain) id <MNLockScreenViewControllerDelegate> delegate;
+@property (nonatomic, retain) id <MNAlertTableViewDataSourceDelegate> delegate;
 
 @end

@@ -9,12 +9,14 @@
 	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"notificationTableCell"];
 	if(self != nil)
 	{
-    CGRect frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,290,60);
+    	CGRect _frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,290,60);
+        
+		[self setFrame:_frame];
 
-		backgroundImageView = [[UIImageView alloc] initWithFrame:frame];
+		backgroundImageView = [[UIImageView alloc] initWithFrame:_frame];
 		backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/row_bg.png"];
 		
-		backgroundShadowImageView = [[UIImageView alloc] initWithFrame:frame];
+		backgroundShadowImageView = [[UIImageView alloc] initWithFrame:_frame];
         backgroundShadowImageView.userInteractionEnabled = NO;
 		
 		iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(13.5, 13.5, 33.0, 33.0)];

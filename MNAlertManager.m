@@ -43,8 +43,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Let's hope the NSObject init doesn't fail!
 	if(self != nil)
 	{
-		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,20,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
-		alertWindow.windowLevel = 990; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
+		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
+		alertWindow.windowLevel = UIWindowLevelAlert+500.0f; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
 		alertWindow.userInteractionEnabled = YES;
 		alertWindow.hidden = NO;
 		alertWindow.clipsToBounds = NO;
@@ -99,16 +99,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			{
 			    MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
 			    viewController.delegate = self;
-			    [viewController.view setFrame:CGRectMake(0,0,320,60)];
 			    pendingAlertViewController = viewController;
 		    
 			    alertIsShowing = YES;
 		    
 			    //Change the window size
-			    [alertWindow setFrame:CGRectMake(0, 20, 320, 60)];
+			    [alertWindow setFrame:CGRectMake(0, 0, 320, 40)];
 			    //Add the subview
 			    [alertWindow addSubview:viewController.view];
 			    [alertWindow setNeedsDisplay];
+			    
+			    //Expand the status bar
+                [_delegate setDoubleHighStatusBar:YES];
 			}
 		}
 		else
@@ -119,6 +121,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		}
 		//Alert the user
 		[whistleBlower alertArrived];
+		
+		if([_delegate deviceIsLocked])
+		{
+			[lockscreen expandPendingAlertsList];
+		}
 		
 		//Start the timer, if the user prefers it
 		NSNumber *autoLaterEnabled = [preferenceManager.preferences valueForKey:@"autoLaterAlertsEnabled"];
@@ -137,7 +144,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 	[self saveOut];
     [lockscreen refresh];
-    [dashboard refresh];
+	[dashboard refresh];
 }
 
 -(void)saveOut
@@ -173,7 +180,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)fadeDashboardAway
 {
-  [dashboard fadeDashboardAway];
+    [dashboard fadeDashboardAway];
 }
 
 -(void)showLockscreen
@@ -200,14 +207,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hidePendingAlert
 {
     [pendingAlertViewController.view removeFromSuperview];
-    alertWindow.frame = CGRectMake(0,20,320,0);
+    alertWindow.frame = CGRectMake(0,0,320,0);
     alertIsShowing = YES;
-    
+    [_delegate setDoubleHighStatusBar:NO];
 }
+
+-(void)alertShouldGoLaterTimerFired:(id)sender
+{
+	if(!pendingAlertViewController)
+    {
+		return;
+    }
+	//If the alert is expanded, then let's not have the alert go to "later"
+	if(pendingAlertViewController.alertIsShowingPopOver)
+	{
+		return;
+	}
+		
+	[pendingAlertViewController laterPushed:nil];
+}
+
+-(void)reloadPreferences
+{
+	[preferenceManager reloadPreferences];
+}
+
 
 //Delegate method for MNAlertViewController
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action
 {
+	[_delegate setDoubleHighStatusBar:NO];
 	if(action == kAlertSentAway)
 	{
 		alertIsShowing = NO;
@@ -219,7 +248,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		[self takeActionOnAlertWithData:data];
 	}
-	alertWindow.frame = CGRectMake(0,20,320,0);
+	[self hidePendingAlert];
+	[_delegate setDoubleHighStatusBar:NO];
+	alertWindow.frame = CGRectMake(0,0,320,0);
+	[self saveOut];
+    [dashboard refresh];
+    [lockscreen refresh];
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
@@ -227,8 +261,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	//Launch the bundle
 	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
 	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
-    [self removeAllPendingAlertsWithSender:data.header];
-    
+	[self removeAllPendingAlertsWithSender:data.header];
 	//Cool! All done!
 }
 
@@ -322,27 +355,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self saveOut];
     [self refreshAll];
 }
-
--(void)alertShouldGoLaterTimerFired:(id)sender
-{
-	if(!pendingAlertViewController)
-    {
-		return;
-    }
-	//If the alert is expanded, then let's not have the alert go to "later"
-	if(pendingAlertViewController.alertIsShowingPopOver)
-	{
-		return;
-	}
-		
-	[pendingAlertViewController laterPushed:nil];
-}
-
--(void)reloadPreferences
-{
-	[preferenceManager reloadPreferences];
-}
-
 - (NSMutableArray *)getPendingAlerts
 {
 	return pendingAlerts;
@@ -355,7 +367,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)dismissSwitcher
 {
-    [_delegate dismissSwitcher];
+	[_delegate dismissSwitcher];
 }
 
 //MNWhistleBlowerController delegate methods

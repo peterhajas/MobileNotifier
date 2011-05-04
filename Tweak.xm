@@ -34,6 +34,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #import <SpringBoard/SpringBoard.h>
+//Commented out to avoid compilation warnings when linking against 3.1.3 private headers
+//#import <SpringBoard/SBStatusBarDataManager.h>
 #import <ChatKit/ChatKit.h>
 
 #import <objc/runtime.h>
@@ -47,6 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %class SBIcon;
 %class SBAppSwitcherController;
 %class SBAwayController;
+%class SBStatusBarDataManager;
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
@@ -223,11 +226,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)dismissSwitcher
 {
-    SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
-    if([%c(SBUIController) respondsToSelector:@selector(dismissSwitcher)])
-    {
-        [uicontroller dismissSwitcher];
-    }
+	SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
+	[uicontroller dismissSwitcher];
 }
 
 -(void)wakeDeviceScreen
@@ -235,6 +235,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     SBAwayController* awayController = (SBAwayController *)[%c(SBAwayController) sharedAwayController];
     [awayController undimScreen];
     [awayController restartDimTimer:5.0];
+}
+
+-(void)setDoubleHighStatusBar:(BOOL)value
+{
+    id statusBarDataManager = [%c(SBStatusBarDataManager) sharedDataManager];
+    bool &current(MSHookIvar<bool>(statusBarDataManager, "_simulateInCallStatusBar"));
+    if(current != value)
+    {
+        //If the current value is different than the value of the status bar now, let's change that
+        [statusBarDataManager toggleSimulatesInCallStatusBar];
+    }
+    //If not, don't do anything!
+}
+
+-(BOOL)deviceIsLocked
+{
+	SBAwayController* awayController = (SBAwayController *)[%c(SBAwayController) sharedAwayController];
+	if(!awayController)
+	{
+		return NO;
+	}             
+	return [awayController isLocked];
 }
 
 @end

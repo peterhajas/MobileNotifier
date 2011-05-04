@@ -77,7 +77,7 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>beta3r7, Copious Corn Flakes</string>
+			<string>beta4, Decadent DinoBites</string>
 		</dict>
 		
 		<dict>
@@ -107,6 +107,21 @@
 			<key>label</key>
 			<string>@iamkyleadams, kyleadams.org</string>
 		</dict>
+		
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>with contributions from Tim Novinger</string>
+		</dict>
+		
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>@timnovinger, timnovinger.com</string>
+		</dict>
+		
 	</array>
 	<key>title</key>
 	<string>MobileNotifier</string>

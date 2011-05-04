@@ -43,12 +43,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 -(void)dismissSwitcher;
 -(void)wakeDeviceScreen;
+-(void)setDoubleHighStatusBar:(BOOL)value;
+-(BOOL)deviceIsLocked;
 @end
 
 @interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
 									  MNAlertDashboardViewControllerProtocol,
 									  MNLockScreenViewControllerDelegate,
 									  MNWhistleBlowerControllerProtocol,
+									  MNAlertTableViewDataSourceDelegate,
 									  LAListener>
 {
 	NSMutableArray *pendingAlerts;
@@ -73,21 +76,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
--(void)showDashboard;
 -(void)showDashboardFromSwitcher;
+-(void)showDashboard;
 -(void)fadeDashboardDown;
 -(void)fadeDashboardAway;
 -(void)showLockscreen;
 -(void)hideLockscreen;
 -(void)hidePendingAlert;
 -(void)reloadPreferences;
-
 -(void)refreshAll;
 -(void)removeAllPendingAlertsWithSender:(NSString *)sender;
 -(void)takeActionOnAlertWithData:(MNAlertData *)data;
-
 -(void)clearPending;
 -(void)alertShouldGoLaterTimerFired:(id)sender;
+-(void)reloadPreferences;
 
 @property (nonatomic, retain) UIWindow *alertWindow;
 
