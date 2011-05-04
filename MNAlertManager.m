@@ -212,6 +212,40 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [_delegate setDoubleHighStatusBar:NO];
 }
 
+-(void)takeActionOnAlertWithData:(MNAlertData *)data
+{
+	//Launch the bundle
+	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
+	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
+	[dismissedAlerts addObject:data];
+	[pendingAlerts removeObject:data];
+    [self saveOut];
+    [dashboard refresh];
+    [lockscreen refresh];
+	//Cool! All done!
+}
+
+-(void)alertShouldGoLaterTimerFired:(id)sender
+{
+	if(!pendingAlertViewController)
+    {
+		return;
+    }
+	//If the alert is expanded, then let's not have the alert go to "later"
+	if(pendingAlertViewController.alertIsShowingPopOver)
+	{
+		return;
+	}
+		
+	[pendingAlertViewController laterPushed:nil];
+}
+
+-(void)reloadPreferences
+{
+	[preferenceManager reloadPreferences];
+}
+
+
 //Delegate method for MNAlertViewController
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action
 {
@@ -237,19 +271,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
-}
-
--(void)takeActionOnAlertWithData:(MNAlertData *)data
-{
-	//Launch the bundle
-	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
-	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
-	[dismissedAlerts addObject:data];
-	[pendingAlerts removeObject:data];
-    [self saveOut];
-    [dashboard refresh];
-    [lockscreen refresh];
-	//Cool! All done!
 }
 
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
@@ -316,27 +337,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [dashboard refresh];
     [lockscreen refresh];
 }
-
--(void)alertShouldGoLaterTimerFired:(id)sender
-{
-	if(!pendingAlertViewController)
-    {
-		return;
-    }
-	//If the alert is expanded, then let's not have the alert go to "later"
-	if(pendingAlertViewController.alertIsShowingPopOver)
-	{
-		return;
-	}
-		
-	[pendingAlertViewController laterPushed:nil];
-}
-
--(void)reloadPreferences
-{
-	[preferenceManager reloadPreferences];
-}
-
 - (NSMutableArray *)getPendingAlerts
 {
 	return pendingAlerts;

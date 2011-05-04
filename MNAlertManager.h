@@ -76,17 +76,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
--(void)showDashboard;
 -(void)showDashboardFromSwitcher;
+-(void)showDashboard;
 -(void)fadeDashboardDown;
 -(void)fadeDashboardAway;
 -(void)showLockscreen;
 -(void)hideLockscreen;
 -(void)hidePendingAlert;
--(void)reloadPreferences;
-
--(void)clearPending;
+-(void)takeActionOnAlertWithData:(MNAlertData *)data;
 -(void)alertShouldGoLaterTimerFired:(id)sender;
+-(void)reloadPreferences;
 
 @property (nonatomic, retain) UIWindow *alertWindow;
 
