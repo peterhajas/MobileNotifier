@@ -152,7 +152,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[lockWindow setFrame:CGRectMake(0,115,320,54)];
 	[UIView commitAnimations];
 	pendingAlertsList.hidden = YES;
-	isExpanded = !isExpanded;
+	isExpanded = YES;
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
