@@ -61,7 +61,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		
 		//Table View Data Source
         tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
-                                                               andDelegate:_delegate];
+																	   editable:YES
+                                                                    andDelegate:_delegate];
 		
 		//Create the tableview
 		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16.5,112,287,325) style:UITableViewStylePlain];

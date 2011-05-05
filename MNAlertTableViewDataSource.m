@@ -31,12 +31,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @synthesize delegate = _delegate;
 
--(id)initWithStyle:(int)style andDelegate:(id)__delegate
+-(id)initWithStyle:(int)style editable:(bool)canEdit andDelegate:(id)__delegate
 {
     self = [super init];
     if(self)
     {
         type = style;
+		canBeEdited = canEdit;
         _delegate = __delegate;
         NSLog(@"my delegate is %@", _delegate);
     }
@@ -110,17 +111,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        if(type == kMNAlertTableViewDataSourceTypePending)
-        {
-            //Dismiss the alert
-            [_delegate dismissedAlertAtIndex:indexPath.row];
-        }
+    if(canBeEdited)
+	{
+		if(editingStyle == UITableViewCellEditingStyleDelete)
+	    {
+	        if(type == kMNAlertTableViewDataSourceTypePending)
+	        {
+	            //Dismiss the alert
+	            [_delegate dismissedAlertAtIndex:indexPath.row];
+	        }
 
-        //Delete row from tableview
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-    }
+	        //Delete row from tableview
+	        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+	    }
+	}
 }
 
 @end
