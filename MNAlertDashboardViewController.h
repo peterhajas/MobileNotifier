@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //#import <UIKit/UIStatusBar.h>
 #import "MNAlertData.h"
-#import "MNAlertTableViewDataSource.h"
+#import "MNAlertTableViewDataSourceEditable.h"
 
 //%class UIStatusBar;
 
@@ -63,7 +63,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	id <MNAlertDashboardViewControllerProtocol> _delegate;
 	
-    MNAlertTableViewDataSource *tableViewDataSource;
+    MNAlertTableViewDataSourceEditable *tableViewDataSourceEditable;
 }
 
 -(id)initWithDelegate:(id)__delegate;

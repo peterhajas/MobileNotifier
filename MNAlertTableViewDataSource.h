@@ -44,13 +44,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 												  UITableViewDelegate>
 {
     int type;
-    
-	bool canBeEdited;
-
     id <MNAlertTableViewDataSourceDelegate> _delegate;
 }
 
--(id)initWithStyle:(int)style editable:(bool)canEdit andDelegate:(id)__delegate;
+-(id)initWithStyle:(int)style andDelegate:(id)__delegate;
 
 @property (nonatomic, retain) id <MNAlertTableViewDataSourceDelegate> delegate;
 

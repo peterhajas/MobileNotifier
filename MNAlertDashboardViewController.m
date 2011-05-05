@@ -60,14 +60,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     			 forControlEvents:UIControlEventTouchUpInside];
 		
 		//Table View Data Source
-        tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
-																	   editable:YES
-                                                                    andDelegate:_delegate];
+        tableViewDataSourceEditable = [[MNAlertTableViewDataSourceEditable alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
+                                                                    				andDelegate:_delegate];
 		
 		//Create the tableview
 		alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16.5,112,287,325) style:UITableViewStylePlain];
 		alertListView.delegate = self;
-		alertListView.dataSource = tableViewDataSource;
+		alertListView.dataSource = tableViewDataSourceEditable;
 		[alertListView setAlpha:1.0];
         alertListView.backgroundColor = [UIColor whiteColor];
         alertListView.layer.cornerRadius = 10;
@@ -276,7 +275,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return [tableViewDataSource tableView:tableView heightForRowAtIndexPath:indexPath];
+	return [tableViewDataSourceEditable tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 @end

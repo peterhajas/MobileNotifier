@@ -72,7 +72,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         
         //Table View Data Source
         tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
-																	   editable:NO
                                                                		andDelegate:_delegate];
         	
 		//Create the tableview
