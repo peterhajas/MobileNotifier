@@ -128,6 +128,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self refresh];
 }
 
+-(void)hidePendingAlertsList
+{
+  pendingAlertsList.hidden = YES;
+}
+
 -(void)togglePendingAlertsList:(id)sender
 {
 	if(isExpanded)

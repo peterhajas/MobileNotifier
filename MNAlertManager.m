@@ -204,6 +204,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [lockscreen hide];
 }
 
+-(void)hideLockscreenPendingAlertsList
+{
+    [lockscreen hidePendingAlertsList];
+}
+
 -(void)hidePendingAlert
 {
     [pendingAlertViewController.view removeFromSuperview];
