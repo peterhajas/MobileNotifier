@@ -74,14 +74,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
                                                                		andDelegate:_delegate];
         	
-		//Create the tableview
-		pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(16.5,60,287,200) style:UITableViewStylePlain];
-		pendingAlertsList.delegate = tableViewDataSource;
-		pendingAlertsList.dataSource = tableViewDataSource;
-		[pendingAlertsList setAlpha:1.0];
-        pendingAlertsList.backgroundColor = [UIColor whiteColor];
-        pendingAlertsList.layer.cornerRadius = 10;
-        pendingAlertsList.hidden = YES;
+        //Create the tableview
+        pendingAlertsList                 = [[UITableView alloc] initWithFrame:CGRectMake(0,54,320,215) style:UITableViewStylePlain];
+        pendingAlertsList.delegate        = tableViewDataSource;
+        pendingAlertsList.dataSource      = tableViewDataSource;
+        pendingAlertsList.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
+        pendingAlertsList.separatorColor  = [[UIColor blackColor] colorWithAlphaComponent:0.35];
+        pendingAlertsList.hidden          = YES;
+        pendingAlertsList.allowsSelection = NO;
 
         //Create and wire up the button for showing and hiding the pendingAlertsList
         showPendingAlertsListButton = [UIButton buttonWithType:UIButtonTypeCustom];
