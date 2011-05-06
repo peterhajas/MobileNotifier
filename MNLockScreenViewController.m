@@ -130,7 +130,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)hidePendingAlertsList
 {
-  pendingAlertsList.hidden = YES;
+    [UIView beginAnimations:@"hidePendingAlertsList" context:NULL];
+    [UIView setAnimationDuration:0.1];
+    [lockWindow setFrame:CGRectMake(0,115,320,54)];
+    [UIView commitAnimations];
+    pendingAlertsList.hidden = YES;
 }
 
 -(void)togglePendingAlertsList:(id)sender
