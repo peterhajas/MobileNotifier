@@ -400,6 +400,27 @@ PHACInterface *phacinterface;
 	[manager hideLockscreen];
 }
 
+-(BOOL)lockBarStoppedTracking:(id)tracking
+{
+    BOOL returnValue = %orig;
+
+    [manager hideLockscreenPendingAlertsList];
+
+    return returnValue;
+}
+
+-(void)emergencyCallWasDisplayed
+{
+    %orig;
+    [manager hideLockscreen];
+}
+
+-(void)emergencyCallWasRemoved
+{
+    %orig;
+    [manager showLockscreen];
+}
+
 -(void)noteSyncStateChanged
 {
     %orig;
