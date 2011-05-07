@@ -44,3 +44,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, retain) id <MNWhistleBlowerControllerProtocol> delegate;
 
 @end
+

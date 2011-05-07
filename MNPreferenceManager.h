@@ -1,6 +1,6 @@
 @interface MNPreferenceManager : NSObject
 {
-	NSDictionary* preferences;
+    NSDictionary* preferences;
 }
 
 -(void)reloadPreferences;
@@ -8,3 +8,4 @@
 @property (readonly) NSDictionary* preferences;
 
 @end
+

@@ -41,7 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @end
 
 @interface MNAlertTableViewDataSource : NSObject <UITableViewDataSource,
-												  UITableViewDelegate>
+                                                  UITableViewDelegate>
 {
     int type;
     id <MNAlertTableViewDataSourceDelegate> _delegate;
@@ -52,3 +52,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, retain) id <MNAlertTableViewDataSourceDelegate> delegate;
 
 @end
+

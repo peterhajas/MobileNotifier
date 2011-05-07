@@ -45,28 +45,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNAlertViewController : UIViewController
 {
-	UIImageView* alertBackgroundImageView;
-	UIImageView* alertBackgroundShadow;
-	UIImageView* iconImageView;
+    UIImageView* alertBackgroundImageView;
+    UIImageView* alertBackgroundShadow;
+    UIImageView* iconImageView;
 
-	UIButton* chevronButton;
-	UIButton* alertExpandButton;
+    UIButton* chevronButton;
+    UIButton* alertExpandButton;
 
-	UILabel* alertHeaderLabel;
-	UILabel* alertTextLabel;
-	
-	UIView *actionView;
-	
-	UIImageView* alertActionBackgroundImageView;
-	UIImageView* alertActionBackgroundImageViewShadow;
-	UIButton* openButton;
-	UIButton* laterButton;
+    UILabel* alertHeaderLabel;
+    UILabel* alertTextLabel;
 
-	bool alertIsShowingPopOver;
+    UIView *actionView;
 
-	MNAlertData* dataObj;
+    UIImageView* alertActionBackgroundImageView;
+    UIImageView* alertActionBackgroundImageViewShadow;
+    UIButton* openButton;
+    UIButton* laterButton;
 
-	id<MNAlertViewControllerDelegate> _delegate;
+    bool alertIsShowingPopOver;
+
+    MNAlertData* dataObj;
+
+    id<MNAlertViewControllerDelegate> _delegate;
 }
 
 -(id)initWithMNData:(MNAlertData*) data;
@@ -102,3 +102,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(nonatomic, retain) UIButton* laterButton;
 
 @end
+

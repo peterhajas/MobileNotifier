@@ -4,17 +4,18 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if(editingStyle == UITableViewCellEditingStyleDelete)
+    if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        if(type == kMNAlertTableViewDataSourceTypePending)
+        if (type == kMNAlertTableViewDataSourceTypePending)
         {
-            //Dismiss the alert
+            // Dismiss the alert
             [_delegate dismissedAlertAtIndex:indexPath.row];
         }
 
-        //Delete row from tableview
+        // Delete row from tableview
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
     }
 }
 
 @end
+

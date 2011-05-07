@@ -47,31 +47,31 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(BOOL)deviceIsLocked;
 @end
 
-@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
-									  MNAlertDashboardViewControllerProtocol,
-									  MNLockScreenViewControllerDelegate,
-									  MNWhistleBlowerControllerProtocol,
-									  MNAlertTableViewDataSourceDelegate,
-									  LAListener>
+@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate,
+                                      MNAlertDashboardViewControllerProtocol,
+                                      MNLockScreenViewControllerDelegate,
+                                      MNWhistleBlowerControllerProtocol,
+                                      MNAlertTableViewDataSourceDelegate,
+                                      LAListener>
 {
-	NSMutableArray *pendingAlerts;
-	NSMutableArray *dismissedAlerts;
-	
-	bool alertIsShowing;
-	
-	UIWindow *alertWindow;	
-	MNAlertViewController *pendingAlertViewController;
-	
-	MNAlertDashboardViewController *dashboard;
+    NSMutableArray *pendingAlerts;
+    NSMutableArray *dismissedAlerts;
+
+    bool alertIsShowing;
+
+    UIWindow *alertWindow;
+    MNAlertViewController *pendingAlertViewController;
+
+    MNAlertDashboardViewController *dashboard;
     MNLockScreenViewController *lockscreen;
-	
-	MNWhistleBlowerController *whistleBlower;
-	
-	MNPreferenceManager *preferenceManager;
-	
-	NSTimer* alertDismissTimer;
-	
-	id<MNAlertManagerDelegate> _delegate;
+
+    MNWhistleBlowerController *whistleBlower;
+
+    MNPreferenceManager *preferenceManager;
+
+    NSTimer* alertDismissTimer;
+
+    id<MNAlertManagerDelegate> _delegate;
 }
 
 -(void)newAlertWithData:(MNAlertData *)data;
@@ -106,3 +106,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, assign) id<MNAlertManagerDelegate> delegate;
 
 @end
+

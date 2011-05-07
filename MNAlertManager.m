@@ -37,145 +37,147 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize preferenceManager;
 
 -(id)init
-{	
-	self = [super init];
-	
-	//Let's hope the NSObject init doesn't fail!
-	if(self != nil)
-	{
-		alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,0)]; //Measured to be zero, we don't want to mess up interaction with views below! Also, we live below the status bar
-		alertWindow.windowLevel = UIWindowLevelAlert+500.0f; //Don't mess around with WindowPlaner or SBSettings if the user has it installed :)
-		alertWindow.userInteractionEnabled = YES;
-		alertWindow.hidden = NO;
-		alertWindow.clipsToBounds = NO;
-		alertWindow.backgroundColor = [UIColor clearColor];
-		
-		//If the directory doesn't exist, create it!
-		if(![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/MobileNotifier/"])
-		{
-			[[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Library/MobileNotifier" withIntermediateDirectories:NO attributes:nil error:NULL];
-		}
+{
+    self = [super init];
 
-		//Load data from files
-		pendingAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/pending.plist"] retain] ?: [[NSMutableArray alloc] init];
-		dismissedAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"] retain] ?: [[NSMutableArray alloc] init];
-		
-		alertIsShowing = NO;
-		
-		//Allocate and init the whistle blower
-		whistleBlower = [[MNWhistleBlowerController alloc] initWithDelegate:self];
-		
-		//Alloc and init the dashboard
-		dashboard = [[MNAlertDashboardViewController alloc] initWithDelegate:self];
-		
-		//Alloc and init the lockscreen view controller
+    // Let's hope the NSObject init doesn't fail!
+    if (self != nil)
+    {
+        // Measured to be zero, we don't want to mess up interaction
+        // with views below! Also, we live below the status bar
+        alertWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,0,320,0)];
+
+        // Don't mess around with WindowPlaner or
+        // SBSettings if the user has it installed
+        alertWindow.windowLevel            = UIWindowLevelAlert+500.0f;
+        alertWindow.userInteractionEnabled = YES;
+        alertWindow.hidden                 = NO;
+        alertWindow.clipsToBounds          = NO;
+        alertWindow.backgroundColor        = [UIColor clearColor];
+
+        // If the directory doesn't exist, create it!
+        if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/MobileNotifier/"])
+        {
+            [[NSFileManager defaultManager] createDirectoryAtPath:@"/var/mobile/Library/MobileNotifier" withIntermediateDirectories:NO attributes:nil error:NULL];
+        }
+
+        // Load data from files
+        pendingAlerts   = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/pending.plist"] retain] ?: [[NSMutableArray alloc] init];
+        dismissedAlerts = [[NSKeyedUnarchiver unarchiveObjectWithFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"] retain] ?: [[NSMutableArray alloc] init];
+        alertIsShowing  = NO;
+
+        // Allocate and init the whistle blower
+        whistleBlower = [[MNWhistleBlowerController alloc] initWithDelegate:self];
+
+        // Alloc and init the dashboard
+        dashboard = [[MNAlertDashboardViewController alloc] initWithDelegate:self];
+
+        // Alloc and init the lockscreen view controller
         lockscreen = [[MNLockScreenViewController alloc] initWithDelegate:self];
 
-		//Alloc and init the preferences manager
-		preferenceManager = [[MNPreferenceManager alloc] init];
-		
-		//Register for libactivator events
-		[[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
-	}
-	return self;
+        // Alloc and init the preferences manager
+        preferenceManager = [[MNPreferenceManager alloc] init];
+
+        // Register for libactivator events
+        [[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
+    }
+
+    return self;
 }
 
 -(void)newAlertWithData:(MNAlertData *)data
 {
-	//Add to pending alerts
+    // Add to pending alerts
     [pendingAlerts insertObject:data atIndex:0];
-	
-	//New foreground alert!
-	if(data.status == kNewAlertForeground)
-	{
-		if(!pendingAlertViewController.alertIsShowingPopOver)
-		{
-			//Build a new MNAlertViewController
-			if(alertIsShowing)
-			{
-				[pendingAlertViewController.view removeFromSuperview];
-			}
-            if(![dashboard isShowing] && ![lockscreen isShowing])
-			{
-			    MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
-			    viewController.delegate = self;
-			    pendingAlertViewController = viewController;
-		    
-			    alertIsShowing = YES;
-		    
-			    //Change the window size
-			    [alertWindow setFrame:CGRectMake(0, 0, 320, 40)];
-			    //Add the subview
-			    [alertWindow addSubview:viewController.view];
-			    [alertWindow setNeedsDisplay];
-			    
-			    //Expand the status bar
+
+    // New foreground alert!
+    if (data.status == kNewAlertForeground)
+    {
+        if (!pendingAlertViewController.alertIsShowingPopOver)
+        {
+            // Build a new MNAlertViewController
+            if (alertIsShowing)
+            {
+                [pendingAlertViewController.view removeFromSuperview];
+            }
+            if (![dashboard isShowing] && ![lockscreen isShowing])
+            {
+                MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+                viewController.delegate    = self;
+                pendingAlertViewController = viewController;
+                alertIsShowing             = YES;
+
+                // Change the window size
+                [alertWindow setFrame:CGRectMake(0, 0, 320, 40)];
+
+                // Add the subview
+                [alertWindow addSubview:viewController.view];
+                [alertWindow setNeedsDisplay];
+
+                //Expand the status bar
                 [_delegate setDoubleHighStatusBar:YES];
-			}
-		}
-		else
-		{
-			//The user is interacting with an alert!
-			//Let's send this to pending, and let them
-			//continue with what they're doing
-		}
-		//Make noise
-		[whistleBlower alertArrived];
-		
-		if([_delegate deviceIsLocked])
-		{
-			[lockscreen expandPendingAlertsList];
-		}
-		
-		//Start the timer, if the user prefers it
-		NSNumber *autoLaterEnabled = [preferenceManager.preferences valueForKey:@"autoLaterAlertsEnabled"];
-    	bool shouldAutoLater = autoLaterEnabled ? [autoLaterEnabled boolValue] : YES;
-    	
-    	if(shouldAutoLater)
-    	{
-		    alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
-	    }
-		
-	}
-	//Not a foreground alert, but a background alert
-	else if(data.status == kNewAlertBackground)
-	{
-        //We do nothing currently (already in pending)
-	}
-	[self saveOut];
+            }
+        }
+        else
+        {
+            // The user is interacting with an alert!
+            // Let's send this to pending, and let them
+            // continue with what they're doing
+        }
+        // Make noise
+        [whistleBlower alertArrived];
+
+        if ([_delegate deviceIsLocked])
+        {
+            [lockscreen expandPendingAlertsList];
+        }
+
+        // Start the timer, if the user prefers it
+        NSNumber *autoLaterEnabled = [preferenceManager.preferences valueForKey:@"autoLaterAlertsEnabled"];
+        bool shouldAutoLater       = autoLaterEnabled ? [autoLaterEnabled boolValue] : YES;
+
+        if (shouldAutoLater)
+        {
+            alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+        }
+
+    }
+    // Not a foreground alert, but a background alert
+    else if (data.status == kNewAlertBackground)
+    {
+        // We do nothing currently (already in pending)
+    }
+    [self saveOut];
     [lockscreen refresh];
-	[dashboard refresh];
+    [dashboard refresh];
 }
 
 -(void)saveOut
 {
-	[NSKeyedArchiver archiveRootObject:pendingAlerts toFile:@"/var/mobile/Library/MobileNotifier/pending.plist"];
-	[NSKeyedArchiver archiveRootObject:dismissedAlerts toFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"];
+    [NSKeyedArchiver archiveRootObject:pendingAlerts toFile:@"/var/mobile/Library/MobileNotifier/pending.plist"];
+    [NSKeyedArchiver archiveRootObject:dismissedAlerts toFile:@"/var/mobile/Library/MobileNotifier/dismissed.plist"];
 }
 
 -(void)showDashboardFromSwitcher
 {
     NSNumber *switcherViewEnabled = [preferenceManager.preferences valueForKey:@"switcherViewEnabled"];
-	bool shouldShow = switcherViewEnabled ? [switcherViewEnabled boolValue] : YES;
+    bool shouldShow = switcherViewEnabled ? [switcherViewEnabled boolValue] : YES;
 
-	if(!shouldShow)
-	{
-		return;
-	}
+    if (!shouldShow) { return; }
 
-	[self hidePendingAlert];
-	[dashboard showDashboard];
+    [self hidePendingAlert];
+    [dashboard showDashboard];
 }
 
 -(void)showDashboard
 {
     [self hidePendingAlert];
-	[dashboard showDashboard];
+    [dashboard showDashboard];
 }
 
 -(void)fadeDashboardDown
 {
-	[dashboard fadeDashboardDown];
+    [dashboard fadeDashboardDown];
 }
 
 -(void)fadeDashboardAway
@@ -185,20 +187,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showLockscreen
 {
-	NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
-	bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
-	
-	if(!shouldShow)
-	{
-		return;
-	}
-		
-	[self hidePendingAlert];
-    if([pendingAlerts count] != 0)
-    {
-        [lockscreen show];
-    }
+    NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
+    bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
+
+    if (!shouldShow) { return; }
+
+    [self hidePendingAlert];
+
+    if ([pendingAlerts count] != 0) { [lockscreen show]; }
 }
+
 -(void)hideLockscreen
 {
     [lockscreen hide];
@@ -219,74 +217,73 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)alertShouldGoLaterTimerFired:(id)sender
 {
-	if(!pendingAlertViewController)
-    {
-		return;
-    }
-	//If the alert is expanded, then let's not have the alert go to "later"
-	if(pendingAlertViewController.alertIsShowingPopOver)
-	{
-		return;
-	}
-		
-	[pendingAlertViewController laterPushed:nil];
+    if (!pendingAlertViewController) { return; }
+
+    // If the alert is expanded, then let's not have the alert go to "later"
+    if (pendingAlertViewController.alertIsShowingPopOver) { return; }
+
+    [pendingAlertViewController laterPushed:nil];
 }
 
 -(void)reloadPreferences
 {
-	[preferenceManager reloadPreferences];
+    [preferenceManager reloadPreferences];
 }
 
-
-//Delegate method for MNAlertViewController
+// -----------------------------------------
+// Delegate method for MNAlertViewController
+// -----------------------------------------
 -(void)alertViewController:(MNAlertViewController *)viewController hadActionTaken:(int)action
 {
-	[_delegate setDoubleHighStatusBar:NO];
-	if(action == kAlertSentAway)
-	{
-		alertIsShowing = NO;
-	}
-	else if(action == kAlertTakeAction)
-	{
-		alertIsShowing = NO;
-		MNAlertData *data = viewController.dataObj;
-		
-		[self takeActionOnAlertWithData:data];
-	}
-	[self hidePendingAlert];
-	[_delegate setDoubleHighStatusBar:NO];
-	alertWindow.frame = CGRectMake(0,0,320,0);
-	[self saveOut];
+    [_delegate setDoubleHighStatusBar:NO];
+
+    if (action == kAlertSentAway)
+    {
+        alertIsShowing = NO;
+    }
+    else if (action == kAlertTakeAction)
+    {
+        alertIsShowing = NO;
+        MNAlertData *data = viewController.dataObj;
+
+        [self takeActionOnAlertWithData:data];
+    }
+
+    [self hidePendingAlert];
+    [_delegate setDoubleHighStatusBar:NO];
+    alertWindow.frame = CGRectMake(0,0,320,0);
+    [self saveOut];
     [dashboard refresh];
     [lockscreen refresh];
 }
 
 -(void)takeActionOnAlertWithData:(MNAlertData *)data
 {
-	//Launch the bundle
-	[_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
-	//Move alert into dismissed alerts from either pendingAlerts or sentAwayAlerts
-	[self removeAllPendingAlertsWithSender:data.header];
-	//Cool! All done!
+    // Launch the bundle
+    [_delegate launchAppInSpringBoardWithBundleID:data.bundleID];
+
+    // Move alert into dismissed alerts from
+    // either pendingAlerts or sentAwayAlerts
+    [self removeAllPendingAlertsWithSender:data.header];
 }
 
 -(void)removeAllPendingAlertsWithSender:(NSString *)sender
 {
-    //Loop through all pending alerts, and remove all the ones that are from the same sender
-    
+    // Loop through all pending alerts, and remove
+    // all the ones that are from the same sender
     NSMutableArray *toRemove = [NSMutableArray array];
-    
-    for(MNAlertData* dataObj in pendingAlerts)
+
+    for (MNAlertData* dataObj in pendingAlerts)
     {
-        if([dataObj.header isEqualToString:sender])
+        if ([dataObj.header isEqualToString:sender])
         {
             [dismissedAlerts addObject:dataObj];
             [toRemove addObject:dataObj];
         }
     }
-    
+
     [pendingAlerts removeObjectsInArray:toRemove];
-    
+
     [self saveOut];
     [self refreshAll];
 }
@@ -299,101 +296,107 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 {
-	return [_delegate iconForBundleID:bundleID];
+    return [_delegate iconForBundleID:bundleID];
 }
 
 -(void)alertShowingPopOver:(bool)isShowingPopOver;
 {
-	if(isShowingPopOver)
-	{
-		CGRect frame = alertWindow.frame;
-		frame.size.height += 93;
-		alertWindow.frame = frame;
-	}
-	else
-	{
-		CGRect frame = alertWindow.frame;
-		frame.size.height -= 93;
-		alertWindow.frame = frame;
-	}
+    if (isShowingPopOver)
+    {
+        CGRect frame = alertWindow.frame;
+        frame.size.height += 93;
+        alertWindow.frame = frame;
+    }
+    else
+    {
+        CGRect frame = alertWindow.frame;
+        frame.size.height -= 93;
+        alertWindow.frame = frame;
+    }
 }
 
-//MNAlertDashboardViewControllerProtocol Methods:
+// ----------------------------------------------
+// MNAlertDashboardViewControllerProtocol Methods
+// ----------------------------------------------
 - (void)actionOnAlertAtIndex:(int)index
 {
-	//Create the data object
-	MNAlertData *data;
-	data = [pendingAlerts objectAtIndex:index];
+    // Create the data object
+    MNAlertData *data;
+    data = [pendingAlerts objectAtIndex:index];
 
-	//Hide the dashboard
-	[dashboard fadeDashboardAway];
+    // Hide the dashboard
+    [dashboard fadeDashboardAway];
 
-	//Take action on it
-	[self takeActionOnAlertWithData:data];
+    // Take action on it
+    [self takeActionOnAlertWithData:data];
 }
 
 -(void)dismissedAlertAtIndex:(int)index
 {
     MNAlertData *data = [pendingAlerts objectAtIndex:index];
-	[dismissedAlerts addObject:data];
-	[pendingAlerts removeObject:data];
+    [dismissedAlerts addObject:data];
+    [pendingAlerts removeObject:data];
 }
 
 -(void)clearPending
 {
-	if([pendingAlerts count] == 0)
-    {
-        return;
-    }
+    if ([pendingAlerts count] == 0) { return; }
+
     NSUInteger size = [pendingAlerts count];
     NSUInteger i;
-    for(i = 0; i < size; i++)
+
+    for (i = 0; i < size; i++)
     {
         MNAlertData* dataObj = [pendingAlerts lastObject];
-        if(!dataObj)
-        {
-            break;
-        }
+
+        if (!dataObj) { break; }
+
         [dismissedAlerts addObject:dataObj];
         [pendingAlerts removeObject:dataObj];
     }
+
     [self saveOut];
     [self refreshAll];
 }
+
 - (NSMutableArray *)getPendingAlerts
 {
-	return pendingAlerts;
+    return pendingAlerts;
 }
 
 - (NSMutableArray *)getDismissedAlerts
 {
-	return dismissedAlerts;
+    return dismissedAlerts;
 }
 
 -(void)dismissSwitcher
 {
-	[_delegate dismissSwitcher];
+    [_delegate dismissSwitcher];
 }
 
-//MNWhistleBlowerController delegate methods
-
+// ------------------------------------------
+// MNWhistleBlowerController delegate methods
+// ------------------------------------------
 -(void)wakeDeviceScreen
 {
     [self refreshAll];
     [_delegate wakeDeviceScreen];
 }
 
-//Libactivator methods
+// --------------------
+// Libactivator methods
+// --------------------
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
 {
     [self hideLockscreen];
-	[dashboard toggleDashboard];
+    [dashboard toggleDashboard];
 }
 
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
-	[dashboard fadeDashboardDown];
-	[self alertViewController:pendingAlertViewController hadActionTaken: kAlertSentAway];
+    [dashboard fadeDashboardDown];
+    [self alertViewController:pendingAlertViewController hadActionTaken: kAlertSentAway];
 }
 
 @end
+

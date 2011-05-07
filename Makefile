@@ -11,3 +11,4 @@ MobileNotifier_LDFLAGS = -lactivator
 
 SUBPROJECTS = settings
 include $(FW_MAKEDIR)/aggregate.mk
+

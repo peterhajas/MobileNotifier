@@ -3,11 +3,11 @@
 
 @interface MNTableViewCell : UITableViewCell
 {
-	UIImageView *iconImageView;
-	UILabel *headerLabel;
-	UILabel *alertTextLabel;
-	
-	UIImageView *backgroundImageView;
+    UIImageView *iconImageView;
+    UILabel *headerLabel;
+    UILabel *alertTextLabel;
+
+    UIImageView *backgroundImageView;
     UIImageView *backgroundShadowImageView;
 }
 
@@ -18,3 +18,4 @@
 @property(nonatomic,retain) UILabel *alertTextLabel;
 
 @end
+
