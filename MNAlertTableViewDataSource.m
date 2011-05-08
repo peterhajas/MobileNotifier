@@ -105,7 +105,3 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 @end
-<<<<<<< HEAD
-=======
-
->>>>>>> master
