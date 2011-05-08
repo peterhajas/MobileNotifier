@@ -1,9 +1,6 @@
 #import "MNAlertTableViewDataSource.h"
 #import "MNTableViewCell.h"
 
-@interface MNAlertTableViewDataSourceEditable : MNAlertTableViewDataSource
-{
-
-}
+@interface MNAlertTableViewDataSourceEditable : MNAlertTableViewDataSource {}
 
 @end

@@ -34,13 +34,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)initWithStyle:(int)style andDelegate:(id)__delegate
 {
     self = [super init];
-    if(self)
+
+    if (self)
     {
         type = style;
         _delegate = __delegate;
         NSLog(@"my delegate is %@", _delegate);
     }
-    
+
     return self;
 }
 
@@ -55,25 +56,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		cell = [[[MNTableViewCellClear alloc] init] autorelease];
 	}
-	
+
     MNAlertData *dataObj;
-	
-	if(type == kMNAlertTableViewDataSourceTypePending)
-	{
-	    dataObj = [[_delegate getPendingAlerts] objectAtIndex:indexPath.row];
-	}
-	
-	else if(type == kMNAlertTableViewDataSourceTypeArchived)
-	{
-	    dataObj = [[_delegate getDismissedAlerts] objectAtIndex:indexPath.row];
-	}
-	
-	else
-	{
-        dataObj = [[[MNAlertData alloc] initWithHeader:@"Null" 
-                                             withText:@"Null" 
-                                              andType:kPushAlert 
-                                          forBundleID:@"com.apple.calculator" 
+
+    if (type == kMNAlertTableViewDataSourceTypePending)
+    {
+        dataObj = [[_delegate getPendingAlerts] objectAtIndex:indexPath.row];
+    }
+    else if (type == kMNAlertTableViewDataSourceTypeArchived)
+    {
+        dataObj = [[_delegate getDismissedAlerts] objectAtIndex:indexPath.row];
+    }
+    else
+    {
+        dataObj = [[[MNAlertData alloc] initWithHeader:@"Null"
+                                             withText:@"Null"
+                                              andType:kPushAlert
+                                          forBundleID:@"com.apple.calculator"
                                              ofStatus:kNewAlertForeground]
                                           autorelease];
 	}
@@ -86,16 +85,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if(type == kMNAlertTableViewDataSourceTypePending)
-	{
-	    return [[_delegate getPendingAlerts] count];
-	}
-	
-	else if(type == kMNAlertTableViewDataSourceTypeArchived)
-	{
-	    return [[_delegate getDismissedAlerts] count];
-	}
-	
+    if (type == kMNAlertTableViewDataSourceTypePending)
+    {
+        return [[_delegate getPendingAlerts] count];
+    }
+    else if (type == kMNAlertTableViewDataSourceTypeArchived)
+    {
+        return [[_delegate getDismissedAlerts] count];
+    }
     else
     {
         return 0;
@@ -104,7 +101,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 60.0;
+    return 60.0;
 }
 
 @end
+<<<<<<< HEAD
+=======
+
+>>>>>>> master

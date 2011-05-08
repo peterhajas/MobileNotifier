@@ -46,23 +46,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 @end
 
-@interface MNAlertDashboardViewController : NSObject  <UITableViewDelegate,
-                                                       UIActionSheetDelegate>
+@interface MNAlertDashboardViewController : NSObject <UITableViewDelegate,
+                                                      UIActionSheetDelegate>
 {
-	UIWindow *window;
-	UIImageView *dashboardBackground;
-	
-	UIButton *returnToApplicationButton;
-	UIButton *clearAllButton;
-	
-	UITableView *alertListView;
-	
-	bool dashboardShowing;
-	
+    UIWindow *window;
+    UIImageView *dashboardBackground;
+
+    UIButton *returnToApplicationButton;
+    UIButton *clearAllButton;
+
+    UITableView *alertListView;
+
+    bool dashboardShowing;
+
     UIActionSheet* clearActionSheet;
-	
-	id <MNAlertDashboardViewControllerProtocol> _delegate;
-	
+
+    id <MNAlertDashboardViewControllerProtocol> _delegate;
+
     MNAlertTableViewDataSourceEditable *tableViewDataSourceEditable;
 }
 
@@ -80,3 +80,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, retain) id <MNAlertDashboardViewControllerProtocol> delegate;
 
 @end
+

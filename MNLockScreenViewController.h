@@ -43,14 +43,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UIImageView* numberOfPendingAlertsBackground;
     UILabel* numberOfPendingAlertsLabel;
     UILabel* mobileNotifierTextLabel;
-    
-	UIButton* showPendingAlertsListButton;
-	UITableView* pendingAlertsList;
+    UIButton* showPendingAlertsListButton;
+    UITableView* pendingAlertsList;
 
     id <MNLockScreenViewControllerDelegate> _delegate;
-    
+
     bool isExpanded;
-    
+
     MNAlertTableViewDataSource *tableViewDataSource;
 }
 
@@ -62,10 +61,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)hidePendingAlertsList;
 -(void)togglePendingAlertsList:(id)sender;
--(void)expandPendingAlertsList;                            
+-(void)expandPendingAlertsList;
 
 -(bool)isShowing;
 
 @property (nonatomic, retain) id <MNLockScreenViewControllerDelegate> delegate;
 
 @end
+

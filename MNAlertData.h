@@ -35,12 +35,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNAlertData : NSObject <NSCoding>
 {
-	NSString *header;
-	NSString *text;
-	int type;
-	NSString *bundleID;
-	NSDate *time;
-	int status;
+    NSString *header;
+    NSString *text;
+    NSString *bundleID;
+    NSDate *time;
+    int type;
+    int status;
 }
 
 -(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;

@@ -120,3 +120,4 @@ Kyle Adams - kyleadams.org - for his work on the user interface for the project 
 Tim Novinger - timnovinger.com - for his work on modernizing animations, cleaning up the interface and tons of other improvements
 
 Tim Horton - hortont.com - for his help with debugging and testing
+
