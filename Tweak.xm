@@ -516,12 +516,6 @@ PHACInterface *phacinterface;
     [manager fadeDashboardDown];
 }
 
--(BOOL)clickedMenuButton
-{
-    [manager fadeDashboardDown];
-    return %orig;
-}
-
 %end
 
 // ---------------------------
