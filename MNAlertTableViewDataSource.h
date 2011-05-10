@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <UIKit/UIKit.h>
 #import "MNAlertData.h"
-#import "MNTableViewCell.h"
+#import "MNTableViewCellClear.h"
 
 @class MNAlertTableViewDataSource;
 @protocol MNAlertTableViewDataSourceDelegate

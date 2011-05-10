@@ -50,11 +50,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MNTableViewCell *cell = (MNTableViewCell *) [tableView dequeueReusableCellWithIdentifier:@"notificationTableCell"];
+    MNTableViewCellClear *cell = (MNTableViewCellClear *) [tableView dequeueReusableCellWithIdentifier:@"notificationTableCell"];
 
     if (cell == nil)
     {
-        cell = [[[MNTableViewCell alloc] init] autorelease];
+        cell = [[[MNTableViewCellClear alloc] init] autorelease];
     }
 
     MNAlertData *dataObj;
