@@ -554,11 +554,13 @@ PHACInterface *phacinterface;
 -(void)launch
 {
     [manager removeAllPendingAlertsForBundleIdentifier:[self bundleIdentifier]];
+    %orig;
 }
 
 -(void)activate
 {
     [manager removeAllPendingAlertsForBundleIdentifier:[self bundleIdentifier]];
+    %orig;
 }
 
 %end
