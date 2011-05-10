@@ -544,7 +544,25 @@ PHACInterface *phacinterface;
 
 %end
 
-// ----------------------------
+// ------------------------------
+// Hook SBApplication to dismiss
+// alerts automatically on launch
+// ------------------------------
+
+%hook SBApplication
+
+-(void)launch
+{
+    [manager removeAllPendingAlertsForBundleIdentifier:[self bundleIdentifier]];
+}
+
+-(void)activate
+{
+    [manager removeAllPendingAlertsForBundleIdentifier:[self bundleIdentifier]];
+}
+
+%end
+
 // Hook AutoFetchRequestPrivate
 // for getting new mail
 // ----------------------------

@@ -288,6 +288,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self refreshAll];
 }
 
+-(void)removeAllPendingAlertsForBundleIdentifier:(NSString *)bundleID
+{
+    // Loop through all pending alerts, and remove
+    // all the ones that are from the bundle identifier
+    NSMutableArray *toRemove = [NSMutableArray array];
+
+    for (MNAlertData* dataObj in pendingAlerts)
+    {
+        if ([dataObj.bundleID isEqualToString:bundleID])
+        {
+            [dismissedAlerts addObject:dataObj];
+            [toRemove addObject:dataObj];
+        }
+    }
+
+    [pendingAlerts removeObjectsInArray:toRemove];
+
+    [self saveOut];
+    [self refreshAll];
+}
+
 -(void)refreshAll
 {
     [dashboard refresh];
