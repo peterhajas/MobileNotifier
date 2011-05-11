@@ -138,18 +138,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     }
 }
 
--(void)immediatelyHideDashboard
-{
-    window.userInteractionEnabled = NO;
-    dashboardShowing = NO;
-    window.hidden = YES;
-    // [UIView beginAnimations:@"immediatelyHideDashboard" context:NULL];
-    //   [UIView setAnimationDuration:0.0];
-    //   [window setFrame:CGRectMake(0,0,320,480)];
-    //   [window setAlpha:0.0];
-    // [UIView commitAnimations];
-}
-
 // ---------------------------------------------------
 // Animate dashboard elements down for a "fade down"
 // effect similar to the multitasking drawer animation
