@@ -68,6 +68,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(id)initWithDelegate:(id)__delegate;
 -(void)toggleDashboard;
+-(void)immediatelyHideDashboard;
 -(void)fadeDashboardDown;
 -(void)fadeDashboardAway;
 -(void)showDashboard;

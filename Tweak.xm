@@ -518,6 +518,25 @@ PHACInterface *phacinterface;
 
 %end
 
+// ---------------------------------
+// Hook into SBAppSwitcherController
+// ---------------------------------
+%hook SBAppSwitcherController
+
+-(void)appSwitcherBarRemovedFromSuperview:(id)superview
+{
+  [manager fadeDashboardAway];
+  %orig;
+}
+
+-(void)iconTapped:(id)tapped
+{
+  [manager fadeDashboardAway];
+  %orig;
+}
+
+%end
+
 // ---------------------------
 // Don't do anything for
 // alerts we already intercept
