@@ -426,6 +426,12 @@ PHACInterface *phacinterface;
     [manager hideLockscreen];
 }
 
+-(void)applicationRequestedDeviceUnlock
+{
+    %orig;
+    [manager hideLockscreen];
+}
+
 -(BOOL)lockBarStoppedTracking:(id)tracking
 {
     BOOL returnValue = %orig;
