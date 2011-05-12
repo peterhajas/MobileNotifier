@@ -69,6 +69,8 @@ MobileNotifier has only been built on Mac OS X. Theos can be installed on Mac OS
 Building
 --------
 
+Currently, MobileNotifier does not build without warnings. Please set the shell variable `GO_EASY_ON_ME` to `1` in your environment.
+
 1. Run `make`
 
 2. Run `make package` to generate a .deb.
