@@ -42,7 +42,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     return self;
 }
 
--(void)alertArrived
+-(void)alertArrivedWithData:(MNAlertData*)data;
 {
     // Have the device vibrate, if the ringer switch
     // is flipped (and if the device supports it)
@@ -50,7 +50,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     // Play noise, if the ringer switch is not
     // flipped (and if the device supports it)
-    AudioServicesPlaySystemSound(1007);
+    // Don't do this for push notifications
+    
+    if(data.type != kPushAlert)
+    {
+        AudioServicesPlaySystemSound(1007);
+    }
 
     // Wake the device's screen
     [_delegate wakeDeviceScreen];

@@ -125,7 +125,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             // continue with what they're doing
         }
         // Make noise
-        [whistleBlower alertArrived];
+        [whistleBlower alertArrivedWithData:data];
 
         if ([_delegate deviceIsLocked])
         {

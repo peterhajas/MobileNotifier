@@ -26,6 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #import <AudioToolbox/AudioToolbox.h>
+#import "MNAlertData.h"
 
 @class MNWhistleBlowerController;
 @protocol MNWhistleBlowerControllerProtocol
@@ -39,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     id <MNWhistleBlowerControllerProtocol> _delegate;
 }
 
--(void)alertArrived;
+-(void)alertArrivedWithData:(MNAlertData*)data;
 
 @property (nonatomic, retain) id <MNWhistleBlowerControllerProtocol> delegate;
 
