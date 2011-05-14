@@ -268,7 +268,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         return NO;
     }
     
-    NSLog(@"device locked");
     return [awayController isLocked];
 }
 
