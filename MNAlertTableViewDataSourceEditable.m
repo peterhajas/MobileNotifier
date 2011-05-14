@@ -51,11 +51,10 @@
 
         // Delete row from tableview
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        
+        // Reload data
+        [tableView reloadData];
     }
-
-    // Delete row from tableview
-    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
 }
 
 @end
-

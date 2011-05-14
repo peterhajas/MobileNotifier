@@ -263,8 +263,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     SBAwayController* awayController = (SBAwayController *)[%c(SBAwayController) sharedAwayController];
 
-    if (!awayController) { return NO; }
-
+    if(!awayController)
+    {
+        return NO;
+    }
+    
+    NSLog(@"device locked");
     return [awayController isLocked];
 }
 
