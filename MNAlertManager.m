@@ -167,7 +167,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     if (!shouldShow) { return; }
 
     [self hidePendingAlert];
-    [dashboard showDashboard];
+    if([pendingAlerts count] > 0)
+    {
+        [dashboard showDashboard];
+    }
 }
 
 -(void)showDashboard
