@@ -233,22 +233,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    bool didClear = NO;
     if (buttonIndex == 0)
     {
         // Clear notifications!
         [actionSheet dismissWithClickedButtonIndex:0 animated:YES];
         [_delegate clearPending];
+        // Hide the dashboard view
+        didClear = YES;
     }
     else if (buttonIndex == 1)
     {
         // Don't do anything!
         [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
     }
-
+    
+    if(didClear)
+    {
+        [self fadeDashboardAway];
+    }
+    else
+    {
+        [clearAllButton setAlpha:1.0];
+    }
+    
     // Restore window and elements to original positions
     [window setFrame:CGRectMake(0,-92,320,480)];
     [alertListView setFrame:CGRectMake(16,112,287,322)];
-    [clearAllButton setAlpha:1.0];
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
