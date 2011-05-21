@@ -387,6 +387,22 @@ PHACInterface *phacinterface;
         data.text = [item bodyText];
         [manager newAlertWithData:data];
     }
+    // It's a calandar invite
+    else if ([item isKindOfClass:%c(SBInvitationAlertItem)])
+    {
+    	NSString *_title = MSHookIvar<NSString*>(item, "_title");
+    	NSString *_organizer = MSHookIvar<NSString*>(item, "_organizer");
+    	
+    	data = [[MNAlertData alloc] init];
+        data.time = [[NSDate date] retain];
+        data.status = kNewAlertForeground;
+        data.type = kCalendarInviteAlert;
+        data.bundleID = @"com.apple.mobilecal";
+        data.header = _title;
+        data.text = [NSString stringWithFormat:@"%@ - %@", _title, _organizer];
+        [manager newAlertWithData:data];
+    }
+
     // It's a different alert (power/app store, for example)
     else
     {
