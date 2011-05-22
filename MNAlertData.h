@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define kSMSAlert 0
 #define kPushAlert 1
 #define kPhoneAlert 2
-#define kCalendarInviteAlert 2
+#define kCalendarInviteAlert 3
 
 @interface MNAlertData : NSObject <NSCoding>
 {
