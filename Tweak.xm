@@ -399,8 +399,9 @@ PHACInterface *phacinterface;
         data.type = kCalendarInviteAlert;
         data.bundleID = @"com.apple.mobilecal";
         data.header = _title;
-        data.text = [NSString stringWithFormat:@"%@ - %@", _title, _organizer];
+        data.text = _organizer;
         [manager newAlertWithData:data];
+		[%c(SBInvitationAlertItem) _removeActiveItem:item];
     }
 
     // It's a different alert (power/app store, for example)
