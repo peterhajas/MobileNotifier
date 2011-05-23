@@ -267,7 +267,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {
         return NO;
     }
-    
+
     return [awayController isLocked];
 }
 
@@ -392,11 +392,11 @@ PHACInterface *phacinterface;
     {
     	NSString *_title = MSHookIvar<NSString*>(item, "_title");
     	NSString *_organizer = MSHookIvar<NSString*>(item, "_organizer");
-    	
+
     	data = [[MNAlertData alloc] init];
         data.time = [[NSDate date] retain];
         data.status = kNewAlertForeground;
-        data.type = kCalendarInviteAlert;
+        data.type = kCalendarAlert;
         data.bundleID = @"com.apple.mobilecal";
         data.header = _title;
         data.text = _organizer;
