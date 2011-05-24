@@ -26,6 +26,23 @@ Due to the way the software functions, MobileNotifier requires a jailbroken iOS 
 
 MobileNotifier now includes a pretty awesome new companion app: MobileNukifier! MobileNukifier does what it sounds like - it deletes your MobileNotifier directory (/var/mobile/Library/MobileNotifier/) containing your notifications, and resprings the phone. This clears things out, and allows for easier testing once new versions are released.
 
+Project Setup
+-------------
+
+1. Install Git from [http://git-scm.com/](http://git-scm.com/).
+
+2. Clone the repository into a folder on your local machine. This example is written using your home folder.
+
+    `mkdir ~/code`
+    `cd ~/code`
+    `git clone git://github.com/peterhajas/MobileNotifier.git`
+
+3. Initialize and pull in the necessary Git sub-modules.
+
+    `cd ~/code/MobileNotifier`
+    `git submodule init`
+    `git submodule update`
+
 Environment Setup
 -----------------
 
