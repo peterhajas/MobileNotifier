@@ -34,21 +34,32 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)initWithDelegate:(id)__delegate
 {
     self = [super init];
-    if(self)
+
+    if (self)
     {
         _delegate = __delegate;
     }
     return self;
 }
 
--(void)alertArrived
+-(void)alertArrivedWithData:(MNAlertData*)data;
 {
-	//Have the device vibrate, if the ringer switch is flipped (and if the device supports it)
-	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-	//Play noise, if the ringer switch is not flipped (and if the device supports it)
-	AudioServicesPlaySystemSound(1007);
-	//Wake the device's screen
+    // Have the device vibrate, if the ringer switch
+    // is flipped (and if the device supports it)
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+
+    // Play noise, if the ringer switch is not
+    // flipped (and if the device supports it)
+    // Don't do this for push notifications
+    
+    if(data.type != kPushAlert)
+    {
+        AudioServicesPlaySystemSound(1007);
+    }
+
+    // Wake the device's screen
     [_delegate wakeDeviceScreen];
 }
 
 @end
+

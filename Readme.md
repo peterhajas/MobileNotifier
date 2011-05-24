@@ -26,6 +26,23 @@ Due to the way the software functions, MobileNotifier requires a jailbroken iOS 
 
 MobileNotifier now includes a pretty awesome new companion app: MobileNukifier! MobileNukifier does what it sounds like - it deletes your MobileNotifier directory (/var/mobile/Library/MobileNotifier/) containing your notifications, and resprings the phone. This clears things out, and allows for easier testing once new versions are released.
 
+Project Setup
+-------------
+
+1. Install Git from [http://git-scm.com/](http://git-scm.com/).
+
+2. Clone the repository into a folder on your local machine. This example is written using your home folder.
+
+    - `mkdir ~/code`
+    - `cd ~/code`
+    - `git clone git://github.com/peterhajas/MobileNotifier.git`
+
+3. Initialize and pull in the necessary Git sub-modules.
+
+    - `cd ~/code/MobileNotifier`
+    - `git submodule init`
+    - `git submodule update`
+
 Environment Setup
 -----------------
 
@@ -68,6 +85,8 @@ MobileNotifier has only been built on Mac OS X. Theos can be installed on Mac OS
 
 Building
 --------
+
+Currently, MobileNotifier does not build without warnings. Please set the shell variable `GO_EASY_ON_ME` to `1` in your environment.
 
 1. Run `make`
 
@@ -117,4 +136,9 @@ Jay Freeman - saurik.com - for MobileSubstrate, Cydia, Cycript, Veency and count
 
 Kyle Adams - kyleadams.org - for his work on the user interface for the project and prerelease testing
 
-Tim Novinger - timnovinger.com
+Tim Novinger - timnovinger.com - for his work on modernizing animations, cleaning up the interface and tons of other improvements
+
+Marc Easen - easen.co.uk - for implementing calendar invitation alerts
+
+Tim Horton - hortont.com - for his help with debugging and testing
+

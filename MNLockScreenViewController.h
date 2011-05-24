@@ -25,6 +25,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#import "MNAlertTableViewDataSource.h"
+
 @class MNLockScreenViewController;
 
 @protocol MNLockScreenViewControllerDelegate
@@ -33,16 +35,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @end
 
-@interface MNLockScreenViewController : NSObject
+@interface MNLockScreenViewController : NSObject <UITableViewDelegate>
 {
-    UIWindow *lockWindow;
-    UIImageView *logoImageView;
-    UIImageView *backgroundImageView;
-    UIImageView *numberOfPendingAlertsBackground;
-    UILabel *numberOfPendingAlertsLabel;
-    UILabel *mobileNotifierTextLabel;
-    
+    UIWindow* lockWindow;
+    UIImageView* logoImageView;
+    UIImageView* backgroundImageView;
+    UIImageView* numberOfPendingAlertsBackground;
+    UILabel* numberOfPendingAlertsLabel;
+    UILabel* mobileNotifierTextLabel;
+    UIButton* showPendingAlertsListButton;
+    UITableView* pendingAlertsList;
+
     id <MNLockScreenViewControllerDelegate> _delegate;
+
+    bool isExpanded;
+
+    MNAlertTableViewDataSource *tableViewDataSource;
 }
 
 -(id)initWithDelegate:(id)__delegate;
@@ -51,8 +59,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)hide;
 -(void)show;
 
+-(void)hidePendingAlertsList;
+-(void)togglePendingAlertsList:(id)sender;
+-(void)expandPendingAlertsList;
+
 -(bool)isShowing;
 
 @property (nonatomic, retain) id <MNLockScreenViewControllerDelegate> delegate;
 
 @end
+

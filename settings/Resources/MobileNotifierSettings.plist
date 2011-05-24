@@ -2,113 +2,127 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>items</key>
-	<array>
-	    
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>key</key>
-			<string>switcherViewEnabled</string>
-			<key>label</key>
-			<string>Dash on Switcher</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-		</dict>	
-			
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>label</key>
-			<string>Lockscreen View</string>
-			<key>default</key>
-			<true/>
-			<key>key</key>
-			<string>lockscreenEnabled</string>
-			<key>defaults</key> 
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-		</dict>
-		
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>key</key>
-			<string>autoLaterAlertsEnabled</string>
-			<key>label</key>
-			<string>Auto-Later Alerts</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-		</dict>
-		
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>key</key>
-			<string>antiqueLockAlertsEnabled</string>
-			<key>label</key>
-			<string>Antique Lock Alerts</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-			<key>PostNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-		</dict>
-		
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>beta3r7, Copious Corn Flakes</string>
-		</dict>
-		
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>by Peter Hajas, © 2010-2011</string>
-		</dict>
-		
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>@peterhajas, peterhajas.com</string>
-		</dict>
-		
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>UI Design © Kyle Adams 2011</string>
-		</dict>
-		
-		<dict>
-			<key>cell</key>
-			<string>PSStaticTextCell</string>
-			<key>label</key>
-			<string>@iamkyleadams, kyleadams.org</string>
-		</dict>
-	</array>
-	<key>title</key>
-	<string>MobileNotifier</string>
+  <key>items</key>
+  <array>
+    <dict>
+      <key>cell</key>
+      <string>PSSwitchCell</string>
+      <key>default</key>
+      <true/>
+      <key>defaults</key>
+      <string>com.peterhajassoftware.mobilenotifier</string>
+      <key>key</key>
+      <string>switcherViewEnabled</string>
+      <key>label</key>
+      <string>Dash on Switcher</string>
+      <key>postNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+      <key>PostNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSSwitchCell</string>
+      <key>label</key>
+      <string>Lockscreen View</string>
+      <key>default</key>
+      <true/>
+      <key>key</key>
+      <string>lockscreenEnabled</string>
+      <key>defaults</key>
+      <string>com.peterhajassoftware.mobilenotifier</string>
+      <key>PostNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+      <key>postNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSSwitchCell</string>
+      <key>default</key>
+      <true/>
+      <key>defaults</key>
+      <string>com.peterhajassoftware.mobilenotifier</string>
+      <key>key</key>
+      <string>autoLaterAlertsEnabled</string>
+      <key>label</key>
+      <string>Auto-Later Alerts</string>
+      <key>postNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+      <key>PostNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSSwitchCell</string>
+      <key>default</key>
+      <true/>
+      <key>defaults</key>
+      <string>com.peterhajassoftware.mobilenotifier</string>
+      <key>key</key>
+      <string>antiqueLockAlertsEnabled</string>
+      <key>label</key>
+      <string>Antique Lock Alerts</string>
+      <key>postNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+      <key>PostNotification</key>
+      <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSStaticTextCell</string>
+      <key>label</key>
+      <string>beta4r1, Decadent DinoBites</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSStaticTextCell</string>
+      <key>label</key>
+      <string>by Peter Hajas, © 2010-2011</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSStaticTextCell</string>
+      <key>label</key>
+      <string>@peterhajas, peterhajas.com</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSStaticTextCell</string>
+      <key>label</key>
+      <string>UI Design © Kyle Adams 2011</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSStaticTextCell</string>
+      <key>label</key>
+      <string>@iamkyleadams, kyleadams.org</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSStaticTextCell</string>
+      <key>label</key>
+      <string>with contributions from Tim Novinger</string>
+    </dict>
+
+    <dict>
+      <key>cell</key>
+      <string>PSStaticTextCell</string>
+      <key>label</key>
+      <string>@timnovinger, timnovinger.com</string>
+    </dict>
+  </array>
+  <key>title</key>
+  <string>MobileNotifier</string>
 </dict>
 </plist>
+

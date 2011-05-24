@@ -32,9 +32,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define kSMSAlert 0
 #define kPushAlert 1
 #define kPhoneAlert 2
+#define kCalendarAlert 3
 
 @interface MNAlertData : NSObject <NSCoding>
 {
+<<<<<<< HEAD
 	NSString *header;
 	NSString *text;
     NSString *senderAddress;
@@ -42,6 +44,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	NSString *bundleID;
 	NSDate *time;
 	int status;
+=======
+    NSString *header;
+    NSString *text;
+    NSString *bundleID;
+    NSDate *time;
+    int type;
+    int status;
+>>>>>>> master
 }
 
 -(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andSenderAddress:(NSString*)_senderAddress andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;

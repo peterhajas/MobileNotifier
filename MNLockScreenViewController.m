@@ -34,58 +34,87 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)initWithDelegate:(id)__delegate;
 {
     self = [super init];
-    if(self)
+
+    if (self)
     {
-        lockWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,115,320,60)];
-        lockWindow.userInteractionEnabled = NO;
+        _delegate = __delegate;
+
+        lockWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,115,320,54)];
+        lockWindow.userInteractionEnabled = YES;
         lockWindow.windowLevel = UIWindowLevelAlert+102.0f;
         lockWindow.hidden = YES;
-        
-    	logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 15, 32, 32)];
+
+        logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 32, 32)];
         logoImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-logo.png"];
 
-        backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,60)];
+        backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,54)];
         backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreenbg.png"];
         backgroundImageView.opaque = NO;
-        
-        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,18,35,22)];
+
+        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,16,35,22)];
         numberOfPendingAlertsLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
         numberOfPendingAlertsLabel.textAlignment = UITextAlignmentCenter;
-    	numberOfPendingAlertsLabel.textColor = [UIColor blackColor];
+        numberOfPendingAlertsLabel.textColor = [UIColor blackColor];
         numberOfPendingAlertsLabel.backgroundColor = [UIColor clearColor];
         numberOfPendingAlertsLabel.opaque = NO;
-        
-        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,20,27,20)];
+
+        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,17,27,20)];
         numberOfPendingAlertsBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-count-bg.png"];
         numberOfPendingAlertsBackground.opaque = NO;
-        
-        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60,20,180,22)];
-        mobileNotifierTextLabel.text = @"MobileNotifier";
+
+        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60,16,180,22)];
+        mobileNotifierTextLabel.text = @"Missed Notifications";
         mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
         mobileNotifierTextLabel.textAlignment = UITextAlignmentLeft;
-    	mobileNotifierTextLabel.textColor = [UIColor whiteColor];
-    	mobileNotifierTextLabel.shadowColor = [UIColor blackColor];
-    	mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
+        mobileNotifierTextLabel.textColor = [UIColor whiteColor];
+        mobileNotifierTextLabel.shadowColor = [UIColor blackColor];
+        mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
         mobileNotifierTextLabel.backgroundColor = [UIColor clearColor];
-        
+
+        // Table View Data Source
+        tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
+                                                                       andDelegate:_delegate];
+
+        // Create the tableview
+        pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(0,54,320,215) style:UITableViewStylePlain];
+        pendingAlertsList.delegate = tableViewDataSource;
+        pendingAlertsList.dataSource = tableViewDataSource;
+        pendingAlertsList.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
+        pendingAlertsList.separatorColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
+        pendingAlertsList.hidden = YES;
+        pendingAlertsList.allowsSelection = NO;
+
+        // Create and wire up the button for showing and hiding the pendingAlertsList
+        showPendingAlertsListButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        showPendingAlertsListButton.frame = CGRectMake(0,0,320,54);
+        [showPendingAlertsListButton addTarget:self action:@selector(togglePendingAlertsList:)
+                 forControlEvents:UIControlEventTouchUpInside];
+
         [lockWindow addSubview:backgroundImageView];
         [lockWindow addSubview:logoImageView];
         [lockWindow addSubview:numberOfPendingAlertsBackground];
         [lockWindow addSubview:numberOfPendingAlertsLabel];
         [lockWindow addSubview:mobileNotifierTextLabel];
-        
-        _delegate = __delegate;
-        
+        [lockWindow addSubview:pendingAlertsList];
+        [lockWindow addSubview:showPendingAlertsListButton];
+
+        isExpanded = NO;
+
         [self refresh];
+
+        [UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
     }
+
     return self;
 }
 
 -(void)refresh
 {
     NSNumber *pendingCount = [NSNumber numberWithInt:[[_delegate getPendingAlerts] count]];
-    //Use the NSNumber's string value
+
     numberOfPendingAlertsLabel.text = [pendingCount stringValue];
+
+    [pendingAlertsList reloadData];
 }
 
 -(void)hide
@@ -95,9 +124,61 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)show
 {
-	[lockWindow setFrame:CGRectMake(0,115,320,60)];
-	lockWindow.hidden = NO;
+    [lockWindow setFrame:CGRectMake(0,115,320,60)];
+    lockWindow.hidden = NO;
     [self refresh];
+}
+
+-(void)hidePendingAlertsList
+{
+    [UIView beginAnimations:@"hidePendingAlertsList" context:NULL];
+        [UIView setAnimationDuration:0.1];
+        [lockWindow setFrame:CGRectMake(0,115,320,54)];
+    [UIView commitAnimations];
+
+    pendingAlertsList.hidden = YES;
+}
+
+-(void)togglePendingAlertsList:(id)sender
+{
+    if (isExpanded)
+    {
+        [UIView beginAnimations:@"lockscreenDisappear" context:NULL];
+            [UIView setAnimationDuration:0.1];
+            [lockWindow setFrame:CGRectMake(0,115,320,266)];
+        [UIView commitAnimations];
+
+        pendingAlertsList.hidden = NO;
+        isExpanded = !isExpanded;
+    }
+    else
+    {
+        [self expandPendingAlertsList];
+    }
+}
+
+-(void)expandPendingAlertsList
+{
+    [UIView beginAnimations:@"lockscreenAppear" context:NULL];
+        [UIView setAnimationDuration:0.1];
+        [lockWindow setFrame:CGRectMake(0,115,320,54)];
+    [UIView commitAnimations];
+
+    pendingAlertsList.hidden = YES;
+    isExpanded = YES;
+}
+
+-(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
+{
+    if ([animationID isEqualToString:@"lockscreenAppear"])
+    {
+        pendingAlertsList.hidden = NO;
+    }
+
+    if ([animationID isEqualToString:@"lockscreenDisappear"] || [animationID isEqualToString:@"fadeDashboardAway"])
+    {
+        pendingAlertsList.hidden = YES;
+    }
 }
 
 -(bool)isShowing
@@ -106,3 +187,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 @end
+

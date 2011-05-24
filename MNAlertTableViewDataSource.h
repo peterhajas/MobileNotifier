@@ -25,59 +25,31 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-//#import <UIKit/UIStatusBar.h>
+#define kMNAlertTableViewDataSourceTypePending 0
+#define kMNAlertTableViewDataSourceTypeArchived 1
+
+#import <UIKit/UIKit.h>
 #import "MNAlertData.h"
-#import "MNAlertTableViewDataSourceEditable.h"
+#import "MNTableViewCellClear.h"
 
-//%class UIStatusBar;
-
-@class MNAlertDashboardViewController;
-@protocol MNAlertDashboardViewControllerProtocol
--(void)actionOnAlertAtIndex:(int)index;
--(void)dismissedAlertAtIndex:(int)index;
-
--(void)clearPending;
-
+@class MNAlertTableViewDataSource;
+@protocol MNAlertTableViewDataSourceDelegate
 -(NSMutableArray *)getPendingAlerts;
 -(NSMutableArray *)getDismissedAlerts;
-
--(void)dismissSwitcher;
-
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
+-(void)dismissedAlertAtIndex:(int)index;
 @end
 
-@interface MNAlertDashboardViewController : NSObject <UITableViewDelegate,
-                                                      UIActionSheetDelegate>
+@interface MNAlertTableViewDataSource : NSObject <UITableViewDataSource,
+                                                  UITableViewDelegate>
 {
-    UIWindow *window;
-    UIImageView *dashboardBackground;
-
-    UIButton *returnToApplicationButton;
-    UIButton *clearAllButton;
-
-    UITableView *alertListView;
-
-    bool dashboardShowing;
-
-    UIActionSheet* clearActionSheet;
-
-    id <MNAlertDashboardViewControllerProtocol> _delegate;
-
-    MNAlertTableViewDataSourceEditable *tableViewDataSourceEditable;
+    int type;
+    id <MNAlertTableViewDataSourceDelegate> _delegate;
 }
 
--(id)initWithDelegate:(id)__delegate;
--(void)toggleDashboard;
--(void)fadeDashboardDown;
--(void)fadeDashboardAway;
--(void)showDashboard;
--(void)clearDashboardPushed:(id)sender;
--(void)refresh;
--(bool)isShowing;
+-(id)initWithStyle:(int)style andDelegate:(id)__delegate;
 
-@property (nonatomic, retain) UIWindow *window;
-
-@property (nonatomic, retain) id <MNAlertDashboardViewControllerProtocol> delegate;
+@property (nonatomic, retain) id <MNAlertTableViewDataSourceDelegate> delegate;
 
 @end
 

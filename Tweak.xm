@@ -34,10 +34,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #import <SpringBoard/SpringBoard.h>
+
+// Commented out to avoid compilation warnings when linking against 3.1.3 private headers
+// #import <SpringBoard/SBStatusBarDataManager.h>
+
 #import <ChatKit/ChatKit.h>
-
 #import <objc/runtime.h>
-
 #import "MNAlertData.h"
 #import "MNAlertManager.h"
 #import "MNAlertViewController.h"
@@ -47,6 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %class SBIcon;
 %class SBAppSwitcherController;
 %class SBAwayController;
+%class SBStatusBarDataManager;
 
 @interface SBUIController (peterhajas)
 -(void)activateApplicationFromSwitcher:(SBApplication *) app;
@@ -69,7 +72,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface PHACInterface : NSObject <MNAlertManagerDelegate>
 {
-	NSArray* ignoredApplications;	
+    NSArray* ignoredApplications;
 }
 
 -(BOOL)isApplicationIgnored:(NSString*)bundleID;
@@ -80,35 +83,38 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(BOOL)isApplicationIgnored:(NSString*)bundleID
 {
-	if([ignoredApplications indexOfObject:bundleID] != NSNotFound)
-	{
-		return YES;
-	}
-	else
-	{
-		return NO;
-	}
+    if ([ignoredApplications indexOfObject:bundleID] != NSNotFound)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 -(id)init
 {
-	self = [super init];
-	if(self)
-	{
-		ignoredApplications = [[NSArray alloc] initWithContentsOfFile:@"/Library/Application Support/MobileNotifier/ignoredApplications.plist"];
-	}
-	return self;
+    self = [super init];
+
+    if (self)
+    {
+        ignoredApplications = [[NSArray alloc] initWithContentsOfFile:@"/Library/Application Support/MobileNotifier/ignoredApplications.plist"];
+    }
+
+    return self;
 }
 
 -(void)launchBundleID:(NSString *)bundleID
 {
-	//TODO: switch to URL for this
+    // TODO: switch to URL for this
     SBUIController *uicontroller = (SBUIController *)[%c(SBUIController) sharedInstance];
     SBApplicationController *appcontroller = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
-    if([[appcontroller applicationsWithBundleIdentifier:bundleID] count] == 0)
+
+    if ([[appcontroller applicationsWithBundleIdentifier:bundleID] count] == 0)
     {
-        //We can't do anything!
-        //Inform the user, then return out
+        // We can't do anything!
+        // Inform the user, then return out
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't find application"
                                                   message:[NSString stringWithFormat:@"MobileNotifier can't find the application with bundle ID of %@. Has it been uninstalled or removed?", bundleID]
                                                   delegate:nil
@@ -116,19 +122,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                   otherButtonTitles:nil];
         [alert show];
         [alert release];
-        
+
         return;
     }
-	if([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
-	{
-		//Do the awesome, animated switch to the new app
-		[uicontroller activateApplicationFromSwitcher:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
-	}
-	else
-	{
-		//Boring old way (which still doesn't work outside of Springboard)
-		[uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
-	}
+
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
+    {
+        // Do the awesome, animated switch to the new app
+        [uicontroller activateApplicationFromSwitcher:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
+    }
+    else
+    {
+        // Boring old way (which still doesn't work outside of Springboard)
+        [uicontroller activateApplicationAnimated:[[appcontroller applicationsWithBundleIdentifier:bundleID] objectAtIndex:0]];
+    }
 }
 
 -(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID
@@ -138,87 +145,92 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 {
-	if([bundleID isEqualToString:@"com.apple.MobileSMS"])
-	{
-		return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon.png"] retain];
-	}
-	if([bundleID isEqualToString:@"com.apple.mobilephone"])
-	{
-		return [[UIImage imageWithContentsOfFile:@"/Applications/MobilePhone.app/icon.png"] retain];
-	}
-	
-	SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
-	//Let's grab the application's icon using some awesome NSBundle stuff!
-	
-	//If we can't grab the app from the SBApplicationController, then bummer. We can't launch.
+    if ([bundleID isEqualToString:@"com.apple.MobileSMS"])
+    {
+        return [[UIImage imageWithContentsOfFile:@"/Applications/MobileSMS.app/icon.png"] retain];
+    }
+
+    if ([bundleID isEqualToString:@"com.apple.mobilephone"])
+    {
+        return [[UIImage imageWithContentsOfFile:@"/Applications/MobilePhone.app/icon.png"] retain];
+    }
+
+    // Let's grab the application's icon
+    // using some awesome NSBundle stuff!
+    SBApplicationController* sbac = (SBApplicationController *)[%c(SBApplicationController) sharedInstance];
+
+    // If we can't grab the app from the
+    // SBApplicationController, then we can't launch.
     if([[sbac applicationsWithBundleIdentifier:bundleID] count] < 1)
     {
-        //Just return nothing. It's better than something!
+        // Just return nothing. It's better than something!
         return nil;
     }
-	
-	//Next, grab the app's bundle:
-	NSBundle *appBundle = (NSBundle*)[[[sbac applicationsWithBundleIdentifier:bundleID] objectAtIndex:0] bundle];
-	//Next, ask the dictionary for the IconFile name
-	NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
-	NSString *iconPath = @"";
-	
-	if(iconName != nil)
-	{
-		//Finally, query the bundle for the path of the icon minus its path extension (usually .png)
-		iconPath = [appBundle pathForResource:[iconName stringByDeletingPathExtension] 
-												 ofType:[iconName pathExtension]];
-	}
-	else
-	{
-		//Some apps, like Boxcar, prefer an array of icons. We need to deal with that appropriately.
-		NSArray *iconArray = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFiles"];
-		//Interate through the array first
-		int count = [iconArray count];
-		if(count != 0)
-		{
-			int i;
-			for(i = 0; i < count; i++)
-			{
-				//With some preliminary testing, the highest-up item in the iconArray is the highest resolution image
-				iconPath = [appBundle pathForResource:[[iconArray objectAtIndex:i] stringByDeletingPathExtension] 
-														 ofType:[[iconArray objectAtIndex:i] pathExtension]];
-			}
-		}
-	}
-	
-	//Prefer retina images over non retina images
-	
-	if([UIImage imageWithContentsOfFile:iconPath] == nil)
-	{
-		iconPath = [appBundle pathForResource:@"Icon@2x" ofType:@"png"];
-	}
-	
-	if([UIImage imageWithContentsOfFile:iconPath] == nil)
-	{
-		iconPath = [appBundle pathForResource:@"icon@2x" ofType:@"png"];
-	}
-	
-	if([UIImage imageWithContentsOfFile:iconPath] == nil)
-	{
-		iconPath = [appBundle pathForResource:@"Icon" ofType:@"png"];
-	}
-	
-	if([UIImage imageWithContentsOfFile:iconPath] == nil)
-	{
-		iconPath = [appBundle pathForResource:@"icon" ofType:@"png"];
-	}
-	
-	//Return our UIImage!
-	if(iconPath != nil)
-	{
-		return [[UIImage imageWithContentsOfFile:iconPath] retain];
-	}
-	else
-	{
-		//We don't have an image. Let's return one with the MobileNotifier logo.
-		return [[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-logo.png"] retain];
-	}
+
+    // Next, grab the app's bundle:
+    NSBundle *appBundle = (NSBundle*)[[[sbac applicationsWithBundleIdentifier:bundleID] objectAtIndex:0] bundle];
+
+    // Next, ask the dictionary for the IconFile name
+    NSString *iconName = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFile"];
+    NSString *iconPath = @"";
+
+    if (iconName != nil)
+    {
+        // Finally, query the bundle for the path of the
+        // icon minus its path extension (usually .png)
+        iconPath = [appBundle pathForResource:[iconName stringByDeletingPathExtension]
+                                                 ofType:[iconName pathExtension]];
+    }
+    else
+    {
+        // Some apps, like Boxcar, prefer an array of icons.
+        // We need to deal with that appropriately.
+        NSArray *iconArray = [[appBundle infoDictionary] objectForKey:@"CFBundleIconFiles"];
+
+        // Interate through the array first
+        int count = [iconArray count];
+        if (count != 0)
+        {
+            int i;
+            for (i = 0; i < count; i++)
+            {
+                // With some preliminary testing, the highest-up item
+                // in the iconArray is the highest resolution image
+                iconPath = [appBundle pathForResource:[[iconArray objectAtIndex:i] stringByDeletingPathExtension]
+                                                         ofType:[[iconArray objectAtIndex:i] pathExtension]];
+            }
+        }
+    }
+
+    // Prefer retina images over non retina images
+    if ([UIImage imageWithContentsOfFile:iconPath] == nil)
+    {
+        iconPath = [appBundle pathForResource:@"Icon@2x" ofType:@"png"];
+    }
+
+    if ([UIImage imageWithContentsOfFile:iconPath] == nil)
+    {
+        iconPath = [appBundle pathForResource:@"icon@2x" ofType:@"png"];
+    }
+
+    if ([UIImage imageWithContentsOfFile:iconPath] == nil)
+    {
+        iconPath = [appBundle pathForResource:@"Icon" ofType:@"png"];
+    }
+
+    if ([UIImage imageWithContentsOfFile:iconPath] == nil)
+    {
+        iconPath = [appBundle pathForResource:@"icon" ofType:@"png"];
+    }
+
+    // Short-circuit if we still can't find an image,
+    // in that case, return the MobileNotifier logo instead
+    if (iconPath == nil)
+    {
+        return [[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-logo.png"] retain];
+    }
+
+    return [[UIImage imageWithContentsOfFile:iconPath] retain];
 }
 
 -(void)dismissSwitcher
@@ -234,10 +246,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [awayController restartDimTimer:5.0];
 }
 
+-(void)setDoubleHighStatusBar:(BOOL)value
+{
+    id statusBarDataManager = [%c(SBStatusBarDataManager) sharedDataManager];
+    bool &current(MSHookIvar<bool>(statusBarDataManager, "_simulateInCallStatusBar"));
+
+    if (current != value)
+    {
+        // If the current value is different than the
+        // value of the status bar now, let's change that
+        [statusBarDataManager toggleSimulatesInCallStatusBar];
+    }
+}
+
+-(BOOL)deviceIsLocked
+{
+    SBAwayController* awayController = (SBAwayController *)[%c(SBAwayController) sharedAwayController];
+
+    if(!awayController)
+    {
+        return NO;
+    }
+
+    return [awayController isLocked];
+}
+
 @end
 
-//Mail class declaration for fetched messages
-
+// -------------------------------------------
+// Mail class declaration for fetched messages
+// -------------------------------------------
 @interface AutoFetchRequestPrivate
 
 -(BOOL)gotNewMessages;
@@ -245,105 +283,134 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @end
 
-//Alert Controller:
+// ----------------
+// Alert Controller
+// ----------------
 MNAlertManager *manager;
 
-//SB Interface
+// ---------------------
+// SpringBoard Interface
+// ---------------------
 PHACInterface *phacinterface;
 
-//Hook into Springboard init method to initialize our window
-
+// ---------------------------------
+// Hook into Springboard init method
+// to initialize our window
+// ---------------------------------
 %hook SpringBoard
 
 -(void)applicationDidFinishLaunching:(id)application
-{    
+{
     %orig;
-   
 
     phacinterface = [[PHACInterface alloc] init];
 
-	manager = [[MNAlertManager alloc] init];
+    manager = [[MNAlertManager alloc] init];
     manager.delegate = phacinterface;
 }
 
 %end;
 
-//Experimental: Hook SBAlertItemsController for skipping the alert grabbing and going right for the built-in manager
-
+// ----------------------------------------
+// Experimental
+// ----------------------------------------
+// Hook SBAlertItemsController for skipping
+// the alert grabbing and going right for
+// the built-in manager
+// ----------------------------------------
 %hook SBAlertItemsController
 
 -(void)activateAlertItem:(id)item
 {
-    //Build the alert data part of the way
-    MNAlertData* data;    
+    // Build the alert data part of the way
+    MNAlertData* data;
 
-	if([item isKindOfClass:%c(SBSMSAlertItem)])
-	{
-        //It's an SMS/MMS!
+    // It's an SMS/MMS!
+    if ([item isKindOfClass:%c(SBSMSAlertItem)])
+    {
         data = [[MNAlertData alloc] init];
         data.senderAddress = [item address];
         data.type = kSMSAlert;
         data.time = [[NSDate date] retain];
-    	data.status = kNewAlertForeground;
-		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
-		if([item alertImageData] == NULL)
-		{
-			data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
-			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
-		}
-	    else
-	    {
-			data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
-			data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
-	    }
-		[manager newAlertWithData:data];
-	}
-    else if(([item isKindOfClass:%c(SBRemoteNotificationAlert)]) || 
-			([item isKindOfClass:%c(SBRemoteLocalNotificationAlert)]))
-    {
-        //It's a push notification!
-        
-		//Get the SBApplication object, we need its bundle identifier
-		SBApplication *app(MSHookIvar<SBApplication *>(item, "_app"));
-		//Filter out clock alerts
-		if(![phacinterface isApplicationIgnored:[app bundleIdentifier]])
-		{
-			NSString* _body = MSHookIvar<NSString*>(item, "_body");
-			data = [[MNAlertData alloc] init];
-			data.time = [[NSDate date] retain];
-        	data.status = kNewAlertForeground;
-			data.type = kPushAlert;
-			data.bundleID = [app bundleIdentifier];
-			data.header = [app displayName];
-			data.text = _body;
-			[manager newAlertWithData:data];
-		}
-		else
-		{
-			//We do not want to intercept ignored application events.
-			%orig;
-		}
+        data.status = kNewAlertForeground;
+        data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileSMS"];
+
+        if ([item alertImageData] == NULL)
+        {
+            data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
+            data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
+        }
+        else
+        {
+            data.header = [[NSString alloc] initWithFormat:@"%@", [item name]];
+            data.text = [[NSString alloc] initWithFormat:@"%@", [item messageText]];
+        }
+
+        [manager newAlertWithData:data];
     }
-    
+    // It's a push notification!
+    else if (([item isKindOfClass:%c(SBRemoteNotificationAlert)]) ||
+             ([item isKindOfClass:%c(SBRemoteLocalNotificationAlert)]))
+    {
+        // Get the SBApplication object,
+        // we need its bundle identifier
+        SBApplication *app(MSHookIvar<SBApplication *>(item, "_app"));
+
+        // Filter out clock alerts
+        if (![phacinterface isApplicationIgnored:[app bundleIdentifier]])
+        {
+            NSString* _body = MSHookIvar<NSString*>(item, "_body");
+            data = [[MNAlertData alloc] init];
+            data.time = [[NSDate date] retain];
+            data.status = kNewAlertForeground;
+            data.type = kPushAlert;
+            data.bundleID = [app bundleIdentifier];
+            data.header = [app displayName];
+            data.text = _body;
+            [manager newAlertWithData:data];
+        }
+        else
+        {
+            // We do not want to intercept
+            // ignored application events.
+            %orig;
+        }
+    }
+    // It's a voicemail alert!
     else if([item isKindOfClass:%c(SBVoiceMailAlertItem)])
     {
-        //It's a voicemail alert!
         data = [[MNAlertData alloc] init];
         data.time = [[NSDate date] retain];
-    	data.status = kNewAlertForeground;
+        data.status = kNewAlertForeground;
         data.type = kPhoneAlert;
         data.bundleID = @"com.apple.mobilephone";
         data.header = [item title];
         data.text = [item bodyText];
-		[manager newAlertWithData:data];
+        [manager newAlertWithData:data];
     }
-    
+    // It's a calandar invite
+    else if ([item isKindOfClass:%c(SBInvitationAlertItem)])
+    {
+    	NSString *_title = MSHookIvar<NSString*>(item, "_title");
+    	NSString *_organizer = MSHookIvar<NSString*>(item, "_organizer");
+
+    	data = [[MNAlertData alloc] init];
+        data.time = [[NSDate date] retain];
+        data.status = kNewAlertForeground;
+        data.type = kCalendarAlert;
+        data.bundleID = @"com.apple.mobilecal";
+        data.header = _title;
+        data.text = _organizer;
+        [manager newAlertWithData:data];
+		[%c(SBInvitationAlertItem) _removeActiveItem:item];
+    }
+
+    // It's a different alert (power/app store, for example)
     else
     {
-        //It's a different alert (power/app store, for example)
-		
-		//Let's run the original function for now
-		%orig;
+        // Let's run the original
+        // function for now
+        %orig;
     }
 }
 
@@ -355,52 +422,97 @@ PHACInterface *phacinterface;
 
 %end
 
-//Hook SBAwayController for showing our lockscreen view.
-
+// ---------------------------
+// Hook SBAwayController for
+// showing our lockscreen view
+// ---------------------------
 %hook SBAwayController
 
 -(void)lock
 {
-	%orig;
-	//Hide the pending alert if the manager is showing one
-	[manager hidePendingAlert];
-	//Show our lockscreen view
+    %orig;
+
+    // Hide the pending alert if
+    // the manager is showing one
+    [manager hidePendingAlert];
+
+    // Show our lockscreen view
     [manager showLockscreen];
-	[manager fadeDashboardDown];
+    [manager fadeDashboardDown];
 }
 
 -(void)_finishedUnlockAttemptWithStatus:(BOOL)status
 {
-	%orig;
-	//Hide our lockscreen view
-	[manager hideLockscreen];
+    %orig;
+    [manager hideLockscreen];
+}
+
+-(void)applicationRequestedDeviceUnlock
+{
+    %orig;
+    [manager hideLockscreen];
+}
+
+-(BOOL)lockBarStoppedTracking:(id)tracking
+{
+    BOOL returnValue = %orig;
+
+    [manager hideLockscreenPendingAlertsList];
+
+    return returnValue;
+}
+
+-(void)emergencyCallWasDisplayed
+{
+    %orig;
+    [manager hideLockscreen];
+}
+
+-(void)emergencyCallWasRemoved
+{
+    %orig;
+    [manager showLockscreen];
 }
 
 -(void)noteSyncStateChanged
 {
     %orig;
-    if(![self isSyncing])
-    {
-        //Hide our lockscreen view
-        [manager hideLockscreen];
-    }
+    if (![self isSyncing]) { [manager hideLockscreen]; }
 }
 
 -(void)undimScreen
 {
-	%orig;
-	SBTelephonyManager *telephonyManager = (SBTelephonyManager *)[%c(SBTelephonyManager) sharedTelephonyManager];
-	//If someone's calling us, let's hide the lockscreen view and any pending alerts
-	if([telephonyManager incomingCallExists])
-	{
-		[manager hideLockscreen];
-		[manager hidePendingAlert];
-	}
-	
-	if([self isLocked])
-	{
-		[manager hidePendingAlert];
-	}
+    %orig;
+    SBTelephonyManager *telephonyManager = (SBTelephonyManager *)[%c(SBTelephonyManager) sharedTelephonyManager];
+
+    // If someone's calling us, let's hide the
+    // lockscreen view and any pending alerts
+    if ([telephonyManager incomingCallExists])
+    {
+        [manager hideLockscreen];
+        [manager hidePendingAlert];
+    }
+
+    if ([self isLocked])
+    {
+        [manager hidePendingAlert];
+    }
+}
+
+-(BOOL)toggleMediaControls
+{
+    BOOL returnValue = %orig;
+
+    if ([self isShowingMediaControls])
+    {
+        [manager hideLockscreen];
+    }
+    else
+    {
+        [manager showLockscreen];
+    }
+
+    return returnValue;
 }
 
 %end
@@ -431,82 +543,127 @@ PHACInterface *phacinterface;
     [manager fadeDashboardDown];
 }
 
--(BOOL)clickedMenuButton
+%end
+
+// ---------------------------------
+// Hook into SBAppSwitcherController
+// ---------------------------------
+%hook SBAppSwitcherController
+
+-(void)appSwitcherBarRemovedFromSuperview:(id)superview
 {
-    [manager fadeDashboardDown];
-    return %orig;
+  [manager fadeDashboardAway];
+  %orig;
+}
+
+-(void)iconTapped:(id)tapped
+{
+  [manager fadeDashboardAway];
+  %orig;
 }
 
 %end
 
-//Don't do anything for alerts we already intercept
+// ---------------------------
+// Don't do anything for
+// alerts we already intercept
+// ---------------------------
 %hook SBAwayModel
 
 -(void)populateWithMissedSMS:(id)missedSMS
 {
-	NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
-	bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
-	if(shouldShow)
-	{
-        %orig;
-    }
+    NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+
+    bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
+
+    if (shouldShow) { %orig; }
 }
+
 -(void)populateWithMissedEnhancedVoiceMails:(id)missedEnhancedVoiceMails
 {
-	NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
-	bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
-	if(shouldShow)
-	{
-        %orig;
-	}
+    NSNumber *antiqueEnabled = [manager.preferenceManager.preferences valueForKey:@"antiqueLockAlertsEnabled"];
+
+    bool shouldShow = antiqueEnabled ? [antiqueEnabled boolValue] : YES;
+
+    if (shouldShow) { %orig; }
 }
 
 %end
 
-//Hook AutoFetchRequestPrivate for getting new mail
+// ------------------------------
+// Hook SBApplication to dismiss
+// alerts automatically on launch
+// ------------------------------
+
+%hook SBApplication
+
+-(void)launch
+{
+    [manager removeAllPendingAlertsForBundleIdentifier:[self bundleIdentifier]];
+    %orig;
+}
+
+-(void)activate
+{
+    [manager removeAllPendingAlertsForBundleIdentifier:[self bundleIdentifier]];
+    %orig;
+}
+
+%end
+
+// Hook AutoFetchRequestPrivate
+// for getting new mail
+// ----------------------------
 /*
 %hook AutoFetchRequestPrivate
 
--(void)run //This works! This is an appropriate way for us to display a new mail notification to the user
+// This works! This is an appropriate way for
+// us to display a new mail notification to the user
+-(void)run
 {
-	%orig;
+    %orig;
     %log;
-	if([self gotNewMessages])
-	{
-		//Build the alert data part of the way
-		MNAlertData* data = [[MNAlertData alloc] init];
-		//Current date + time
-        data.time = [[NSDate date] retain];
-		data.status = kNewAlertForeground;
+    if ([self gotNewMessages])
+    {
+        // Build the alert data part of the way
+        MNAlertData* data = [[MNAlertData alloc] init];
 
-	    data.type = kSMSAlert;
-		data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileMail"];
-		
-		data.header = [[NSString alloc] initWithFormat:@"Mail"];
-		data.text = [[NSString alloc] initWithFormat:@"%d new messages", [self messageCount]];
-		
-		[manager newAlertWithData:data];
-	}
+        // Current date + time
+        data.time   = [[NSDate date] retain];
+        data.status = kNewAlertForeground;
+
+        data.type     = kSMSAlert;
+        data.bundleID = [[NSString alloc] initWithString:@"com.apple.MobileMail"];
+
+        data.header = [[NSString alloc] initWithFormat:@"Mail"];
+        data.text   = [[NSString alloc] initWithFormat:@"%d new messages", [self messageCount]];
+
+        [manager newAlertWithData:data];
+    }
 }
 
 %end
 */
+
 static void reloadPrefsNotification(CFNotificationCenterRef center,
-									void *observer,
-									CFStringRef name,
-									const void *object,
-									CFDictionaryRef userInfo) {
-	[manager reloadPreferences];
+                                    void *observer,
+                                    CFStringRef name,
+                                    const void *object,
+                                    CFDictionaryRef userInfo) {
+    [manager reloadPreferences];
 }
 
 %ctor
 {
-	//Register for the preferences-did-change notification
-	CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
-	CFNotificationCenterAddObserver(r, NULL, &reloadPrefsNotification, CFSTR("com.peterhajassoftware.mobilenotifier/reloadPrefs"), NULL, 0);
+    // Register for the preferences-did-change notification
+    CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
+    CFNotificationCenterAddObserver(r, NULL, &reloadPrefsNotification, CFSTR("com.peterhajassoftware.mobilenotifier/reloadPrefs"), NULL, 0);
 }
 
-//Information about Logos for future reference:
+// -----------------------
+// Information about Logos
+// for future reference
+// -----------------------
 
 /* How to Hook with Logos
 Hooks are written with syntax similar to that of an Objective-C @implementation.
@@ -515,37 +672,49 @@ the generation of a class list and an automatic constructor.
 
 %hook ClassName
 
+// ----------------------
 // Hooking a class method
+// ----------------------
 + (id)sharedInstance {
-	return %orig;
+    return %orig;
 }
 
-// Hooking an instance method with an argument.
+// -------------------------------------------
+// Hooking an instance method with an argument
+// -------------------------------------------
 - (void)messageName:(int)argument {
-	%log; // Write a message about this call, including its class, name and arguments, to the system log.
+    // Write a message about this call, including its class, name and arguments, to the system log.
+    %log;
 
-	%orig; // Call through to the original function with its original arguments.
-	%orig(nil); // Call through to the original function with a custom argument.
+    // Call through to the original function with its original arguments.
+    %orig;
 
-	// If you use %orig(), you MUST supply all arguments (except for self and _cmd, the automatically generated ones.)
+    // Call through to the original function with a custom argument.
+    %orig(nil);
+
+    // If you use %orig(), you MUST supply all arguments (except for self and _cmd, the automatically generated ones.)
 }
 
-// Hooking an instance method with no arguments.
+// --------------------------------------------
+// Hooking an instance method with no arguments
+// --------------------------------------------
 - (id)noArguments {
-	%log;
-	id awesome = %orig;
-	[awesome doSomethingElse];
+    %log;
+    id awesome = %orig;
+    [awesome doSomethingElse];
 
-	return awesome;
+    return awesome;
 }
 
-// Always make sure you clean up after yourself; Not doing so could have grave conseqeuences!
+// --------------------------------------------
+// Always make sure you clean up after yourself
+// Not doing so could have grave conseqeuences!
+// --------------------------------------------
 %end
 */
 
-	//How to hook ivars!
-	//MSHookIvar<ObjectType *>(self, "OBJECTNAME");
-
-
+// How to hook ivars!
+// MSHookIvar<ObjectType *>(self, "OBJECTNAME");
 
 // vim:ft=objc
+

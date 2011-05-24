@@ -34,7 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNLockScreenViewController.h"
 #import "MNAlertData.h"
 #import "MNAlertViewController.h"
-#import "MNAlertWindow.h"
 #import "MNWhistleBlowerController.h"
 #import "MNPreferenceManager.h"
 
@@ -44,49 +43,57 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
 -(void)dismissSwitcher;
 -(void)wakeDeviceScreen;
+-(void)setDoubleHighStatusBar:(BOOL)value;
+-(BOOL)deviceIsLocked;
 @end
 
-@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate, 
-									  MNAlertDashboardViewControllerProtocol,
-									  MNLockScreenViewControllerDelegate,
-									  MNWhistleBlowerControllerProtocol,
-									  LAListener>
+@interface MNAlertManager : NSObject <MNAlertViewControllerDelegate,
+                                      MNAlertDashboardViewControllerProtocol,
+                                      MNLockScreenViewControllerDelegate,
+                                      MNWhistleBlowerControllerProtocol,
+                                      MNAlertTableViewDataSourceDelegate,
+                                      LAListener>
 {
-	NSMutableArray *pendingAlerts;
-	NSMutableArray *dismissedAlerts;
-	
-	bool alertIsShowing;
-	
-	MNAlertWindow *alertWindow;	
-	MNAlertViewController *pendingAlertViewController;
-	
-	MNAlertDashboardViewController *dashboard;
+    NSMutableArray *pendingAlerts;
+    NSMutableArray *dismissedAlerts;
+
+    bool alertIsShowing;
+
+    UIWindow *alertWindow;
+    MNAlertViewController *pendingAlertViewController;
+
+    MNAlertDashboardViewController *dashboard;
     MNLockScreenViewController *lockscreen;
-	
-	MNWhistleBlowerController *whistleBlower;
-	
-	MNPreferenceManager *preferenceManager;
-	
-	NSTimer* alertDismissTimer;
-	
-	id<MNAlertManagerDelegate> _delegate;
+
+    MNWhistleBlowerController *whistleBlower;
+
+    MNPreferenceManager *preferenceManager;
+
+    NSTimer* alertDismissTimer;
+
+    id<MNAlertManagerDelegate> _delegate;
 }
 
 -(void)newAlertWithData:(MNAlertData *)data;
 -(void)saveOut;
--(void)showDashboard;
 -(void)showDashboardFromSwitcher;
+-(void)showDashboard;
 -(void)fadeDashboardDown;
 -(void)fadeDashboardAway;
 -(void)showLockscreen;
 -(void)hideLockscreen;
+-(void)hideLockscreenPendingAlertsList;
 -(void)hidePendingAlert;
 -(void)reloadPreferences;
-
+-(void)refreshAll;
+-(void)removeAllPendingAlertsWithSender:(NSString *)sender;
+-(void)removeAllPendingAlertsForBundleIdentifier:(NSString *)bundleID;
+-(void)takeActionOnAlertWithData:(MNAlertData *)data;
 -(void)clearPending;
 -(void)alertShouldGoLaterTimerFired:(id)sender;
+-(void)reloadPreferences;
 
-@property (nonatomic, retain) MNAlertWindow *alertWindow;
+@property (nonatomic, retain) UIWindow *alertWindow;
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
@@ -100,3 +107,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property (nonatomic, assign) id<MNAlertManagerDelegate> delegate;
 
 @end
+
