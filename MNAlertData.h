@@ -36,22 +36,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNAlertData : NSObject <NSCoding>
 {
-<<<<<<< HEAD
 	NSString *header;
 	NSString *text;
     NSString *senderAddress;
-	int type;
 	NSString *bundleID;
-	NSDate *time;
-	int status;
-=======
-    NSString *header;
-    NSString *text;
-    NSString *bundleID;
     NSDate *time;
     int type;
-    int status;
->>>>>>> master
+	int status;
 }
 
 -(id)initWithHeader:(NSString*)_header withText:(NSString*)_title andSenderAddress:(NSString*)_senderAddress andType:(int)_type forBundleID:(NSString*)_bundleID atTime:(NSDate*)_time ofStatus:(int)_status;
@@ -61,9 +52,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(nonatomic, retain) NSString *header;
 @property(nonatomic, retain) NSString *text;
 @property(nonatomic, retain) NSString *senderAddress;
-@property(nonatomic) int type;
 @property(nonatomic, retain) NSString *bundleID;
 @property(nonatomic, retain) NSDate *time;
+@property(nonatomic) int type;
 @property(nonatomic) int status;
 
 @end
