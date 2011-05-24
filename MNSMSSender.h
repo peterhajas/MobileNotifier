@@ -33,3 +33,5 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 +(void)sendMessage:(NSString*)message toNumber:(NSString*)number;
+
+@end

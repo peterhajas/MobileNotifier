@@ -25,7 +25,11 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+@implementation MNSMSSender
+
 +(void)sendMessage:(NSString*)message toNumber:(NSString*)number
 {
-    
+    return;
 }
+
+@end
