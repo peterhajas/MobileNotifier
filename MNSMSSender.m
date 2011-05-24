@@ -25,11 +25,35 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#import "MNSMSSender.h"
+
 @implementation MNSMSSender
 
 +(void)sendMessage:(NSString*)message toNumber:(NSString*)number
 {
-    return;
+    /* This uses ChatKit to send an SMS.
+    
+    ChatKit is not documented. ChatKit is not even half documented. Short of
+    sitting and intercepting ChatKit message calls, I would not have been able
+    to determine how the framework works. I was only able to thanks to some
+    awesome detective work by myself and Dustin Howett. Spelunking is fun!
+    
+    */
+    
+    // First, we need to grab the shared CKSMSService.
+    CKSMSService* service = [objc_getClass("CKSMSService") sharedSMSService];
+    
+    // Now, grab the conversation list for this service
+    CKConversationList* conversationList = service.conversationList;
+    
+    // We need the conversation for the number
+    CKConversation* conversation = [conversationList existingConversationForAddresses:[NSArray arrayWithObjects:number, nil]];
+    
+    // Create the SMS message
+    CKSMSMessage* smsMessage = [service _newSMSMessageWithText:message forConversation:conversation];
+    
+    // Send the message
+    [service sendMessage:smsMessage];
 }
 
 @end

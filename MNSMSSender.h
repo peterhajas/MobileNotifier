@@ -28,9 +28,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <ChatKit/ChatKit.h>
 
 @interface MNSMSSender : NSObject
-{
-    
-}
 
 +(void)sendMessage:(NSString*)message toNumber:(NSString*)number;
 
