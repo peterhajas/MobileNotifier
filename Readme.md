@@ -33,15 +33,15 @@ Project Setup
 
 2. Clone the repository into a folder on your local machine. This example is written using your home folder.
 
-    `mkdir ~/code`
-    `cd ~/code`
-    `git clone git://github.com/peterhajas/MobileNotifier.git`
+    - `mkdir ~/code`
+    - `cd ~/code`
+    - `git clone git://github.com/peterhajas/MobileNotifier.git`
 
 3. Initialize and pull in the necessary Git sub-modules.
 
-    `cd ~/code/MobileNotifier`
-    `git submodule init`
-    `git submodule update`
+    - `cd ~/code/MobileNotifier`
+    - `git submodule init`
+    - `git submodule update`
 
 Environment Setup
 -----------------
