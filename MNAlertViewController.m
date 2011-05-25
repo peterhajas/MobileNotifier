@@ -141,17 +141,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     openButton.frame = CGRectMake(163.0, 56.0, 139.0, 47.0);
     [openButton setAlpha:0.0];
 
-    if (dataObj.type == kSMSAlert)
-    {
-        // Change this to quick reply once that feature is functional
-        [openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/open_btn.png"]
-                              forState:UIControlStateNormal];
-    }
-    else
-    {
-        [openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/open_btn.png"]
-                              forState:UIControlStateNormal];
-    }
+    [openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/open_btn.png"]
+                          forState:UIControlStateNormal];
 
     laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     laterButton.frame = CGRectMake(16.0, 56.0, 139.0, 47.0);
@@ -162,7 +153,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     // Wire up buttons
     [chevronButton addTarget:self action:@selector(chevronPushed:)
             forControlEvents:UIControlEventTouchUpInside];
-
+             
     [openButton addTarget:self action:@selector(openPushed:)
              forControlEvents:UIControlEventTouchUpInside];
 
@@ -344,11 +335,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 -(void)openPushed:(id)sender
-{
-    [self fadeOutWholeView];
-
-    // Notify the delegate
-    [_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
+{   
+    NSLog(@"open pushed");
+    // If it's an SMS alert, create the quick reply interface
+    if (dataObj.type == kSMSAlert)
+    {
+        NSLog(@"it's an sms!");
+        MNQuickReplyViewController* quickReply = [[MNQuickReplyViewController alloc] initWithAddress:dataObj.senderAddress];
+        NSLog(@"created quickreply");
+        [self.view addSubview:quickReply.view];
+        NSLog(@"added to self!");
+    }
+    else
+    {
+        [self fadeOutWholeView];
+        // Notify the delegate
+        [_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
+    }
 }
 
 -(void)laterPushed:(id)sender

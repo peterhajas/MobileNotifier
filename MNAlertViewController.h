@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import <CoreGraphics/CoreGraphics.h>
 #import <SpringBoard/SpringBoard.h>
 #import "MNAlertData.h"
+#import "MNQuickReplyViewController.h"
 
 @class MNAlertViewController;
 

@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         // Don't mess around with WindowPlaner or
         // SBSettings if the user has it installed
-        alertWindow.windowLevel            = UIWindowLevelAlert+500.0f;
+        alertWindow.windowLevel            = UIWindowLevelAlert - 10.0f/*+500.0f*/;
         alertWindow.userInteractionEnabled = YES;
         alertWindow.hidden                 = NO;
         alertWindow.clipsToBounds          = NO;

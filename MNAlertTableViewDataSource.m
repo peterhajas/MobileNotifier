@@ -71,6 +71,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {
         dataObj = [[[MNAlertData alloc] initWithHeader:@"Null"
                                              withText:@"Null"
+                                     andSenderAddress:nil
                                               andType:kPushAlert
                                           forBundleID:@"com.apple.calculator"
                                              ofStatus:kNewAlertForeground]
