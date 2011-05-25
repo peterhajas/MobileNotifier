@@ -247,19 +247,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         // Don't do anything!
         [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
     }
-    
+
     if(didClear)
     {
-        [self fadeDashboardAway];
+        [self fadeDashboardDown];
     }
-    else
-    {
-        [clearAllButton setAlpha:1.0];
-    }
-    
+
     // Restore window and elements to original positions
     [window setFrame:CGRectMake(0,-92,320,480)];
     [alertListView setFrame:CGRectMake(16,112,287,322)];
+    [clearAllButton setAlpha:1.0];
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
