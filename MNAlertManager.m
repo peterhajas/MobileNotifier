@@ -337,12 +337,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         CGRect frame = alertWindow.frame;
         frame.size.height += 229;
         alertWindow.frame = frame;
+		[alertWindow makeKeyWindow];
     }
     else
     {
         CGRect frame = alertWindow.frame;
         frame.size.height -= 229;
         alertWindow.frame = frame;
+		[alertWindow resignKeyWindow];
     }
 }
 

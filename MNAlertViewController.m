@@ -222,7 +222,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)chevronPushed:(id)sender
 {
-    if (alertIsShowingPopOver)
+    [_delegate alertShowingPopOver:!alertIsShowingPopOver];
+	if (alertIsShowingPopOver)
     {
         CGRect frame = self.view.frame;
         frame.size.height -= 229;
@@ -253,9 +254,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[[UIKeyboard activeKeyboard] activate];
 		}
     }
-
     alertIsShowingPopOver = !alertIsShowingPopOver;
-    [_delegate alertShowingPopOver:alertIsShowingPopOver];
 }
 
 -(void)fadeBottomAway:(bool)fadeBottom
@@ -398,7 +397,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)sendPushed:(id)sender
 {
+	// Take the text in the textbox, and send it!
 	
+	
+	// Dismiss this alert entirely (as if it were deleted)
+	[self closePushed:nil];
 }
 
 // UITextFieldDelegate methods
