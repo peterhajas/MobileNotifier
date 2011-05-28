@@ -165,6 +165,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[sendButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_send.png"]
 	                          forState:UIControlStateNormal];
 		[sendButton setAlpha:0.0];
+		sendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.00];
+		sendButton.titleLabel.text = @"Send";
+		sendButton.titleLabel.textAlignment = UITextAlignmentCenter; 
+		sendButton.titleLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
+		sendButton.titleLabel.backgroundColor = [UIColor clearColor];
+		sendButton.titleLabel.shadowColor = [UIColor blackColor];
+	    sendButton.titleLabel.shadowOffset = CGSizeMake(0,-1);
 		
 		[sendButton addTarget:self action:@selector(sendPushed:)
 		   	 forControlEvents:UIControlEventTouchUpInside];
@@ -180,12 +187,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		textBox = [[UITextField alloc] initWithFrame:CGRectMake(17.0, 155.0, 282.5, 36.0)];
 		[textBox setDelegate:self];
 		textBox.keyboardType = UIKeyboardTypeDefault;
-		textBox.returnKeyType = UIReturnKeySend;
+		textBox.returnKeyType = UIReturnKeyDefault;
 		textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
 		textBox.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
 		textBox.clearButtonMode = UITextFieldViewModeWhileEditing;
-		textBox.placeholder = @"insert text";
-		textBox.text = @"Hi!";
 		[textBox setAlpha:0.0];
 		textBox.disabledBackground = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/btn_open.png"];
 	}
@@ -250,8 +255,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[self.view addSubview:sendButton];
 			[self.view addSubview:charactersTyped];
 			[self.view addSubview:textBox];
+			UIKeyboardEnableAutomaticAppearance();
 			[textBox becomeFirstResponder];
-			[[UIKeyboard activeKeyboard] activate];
 		}
     }
     alertIsShowingPopOver = !alertIsShowingPopOver;
@@ -336,6 +341,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [UIView commitAnimations];
 
     alertIsShowingPopOver = NO;
+
+	UIKeyboardDisableAutomaticAppearance();
 }
 
 -(void)fadeInView
@@ -398,7 +405,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)sendPushed:(id)sender
 {
 	// Take the text in the textbox, and send it!
-	
+	[MNSMSSender sendMessage:textBox.text toNumber:dataObj.senderAddress];
 	
 	// Dismiss this alert entirely (as if it were deleted)
 	[self closePushed:nil];
@@ -406,14 +413,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // UITextFieldDelegate methods
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-	
-}
-
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-	
+	charactersTyped.text = [NSString stringWithFormat:@"%d/160", [textField.text length] + [string length] - range.length];
+	return YES;
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
