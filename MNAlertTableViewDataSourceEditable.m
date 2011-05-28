@@ -27,6 +27,7 @@
   {
      dataObj = [[[MNAlertData alloc] initWithHeader:@"Null"
                                            withText:@"Null"
+	                               andSenderAddress:nil
                                             andType:kPushAlert
                                         forBundleID:@"com.apple.calculator"
                                            ofStatus:kNewAlertForeground]

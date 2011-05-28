@@ -27,12 +27,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define kAlertSentAway 0
 #define kAlertTakeAction 1
+#define kAlertClosed 2
 
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <SpringBoard/SpringBoard.h>
 #import "MNAlertData.h"
-#import "MNQuickReplyViewController.h"
 
 @class MNAlertViewController;
 
@@ -47,21 +47,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @interface MNAlertViewController : UIViewController
 {
     UIImageView* alertBackgroundImageView;
-    UIImageView* alertBackgroundShadow;
     UIImageView* iconImageView;
 
-    UIButton* chevronButton;
     UIButton* alertExpandButton;
 
     UILabel* alertHeaderLabel;
-    UILabel* alertTextLabel;
-
-    UIView *actionView;
 
     UIImageView* alertActionBackgroundImageView;
     UIImageView* alertActionBackgroundImageViewShadow;
+
     UIButton* openButton;
     UIButton* laterButton;
+	UIButton* closeButton;
+	
+	UITextView* detailText;
+	UILabel* dateText;
+	
+	// UI Elements for QuickReply:
+	UIButton* sendButton;
+	UILabel* charactersTyped;
+	UITextField* textBox;
 
     bool alertIsShowingPopOver;
 
@@ -72,8 +77,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(id)initWithMNData:(MNAlertData*) data;
 
--(void)didSwipeRight;
-
 -(void)chevronPushed:(id)sender;
 
 -(void)fadeBottomAway:(bool)fadeBottom;
@@ -83,21 +86,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)openPushed:(id)sender;
 -(void)laterPushed:(id)sender;
+-(void)closePushed:(id)sender;
+-(void)sendPushed:(id)sender;
 
 @property(nonatomic, retain) MNAlertData *dataObj;
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
 
 @property(nonatomic, retain) UIImageView* alertBackgroundImageView;
-@property(nonatomic, retain) UIImageView* alertBackgroundShadow;
 @property(nonatomic, retain) UIImageView* alertActionBackgroundImageView;
 @property(nonatomic, retain) UIImageView* iconImageView;
-
-@property(nonatomic, retain) UIButton* chevronButton;
 
 @property(readwrite) bool alertIsShowingPopOver;
 
 @property(nonatomic, retain) UILabel* alertHeaderLabel;
-@property(nonatomic, retain) UILabel* alertTextLabel;
 
 @property(nonatomic, retain) UIButton* openButton;
 @property(nonatomic, retain) UIButton* laterButton;

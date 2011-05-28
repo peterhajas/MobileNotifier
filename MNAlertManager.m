@@ -253,6 +253,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [self takeActionOnAlertWithData:data];
     }
 
+	else if (action == kAlertClosed)
+	{
+		alertIsShowing = NO;
+		// Dismiss the alert!
+	}
+
     [self hidePendingAlert];
     [_delegate setDoubleHighStatusBar:NO];
     alertWindow.frame = CGRectMake(0,0,320,0);
@@ -329,13 +335,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     if (isShowingPopOver)
     {
         CGRect frame = alertWindow.frame;
-        frame.size.height += 93;
+        frame.size.height += 229;
         alertWindow.frame = frame;
     }
     else
     {
         CGRect frame = alertWindow.frame;
-        frame.size.height -= 93;
+        frame.size.height -= 229;
         alertWindow.frame = frame;
     }
 }
