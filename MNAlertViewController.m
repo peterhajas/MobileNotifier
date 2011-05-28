@@ -90,30 +90,31 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
     [alertExpandButton setAlpha:0.0];
 
-    alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 2.0, 216.0, 36.0)];
+    alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 1.0, 216.0, 36.0)];
     alertHeaderLabel.adjustsFontSizeToFitWidth = NO;
     alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.000];
     alertHeaderLabel.text = dataObj.header;
     alertHeaderLabel.textAlignment = UITextAlignmentLeft;
-    alertHeaderLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.7];
+    alertHeaderLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
     alertHeaderLabel.backgroundColor = [UIColor clearColor];
     alertHeaderLabel.shadowColor = [UIColor whiteColor];
-    alertHeaderLabel.shadowOffset = CGSizeMake(0,-2);
+    alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
     [alertHeaderLabel setAlpha:0.0];
 
-	detailText = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 50.0, 295.0, 80.0)];
+	detailText = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 55.0, 272.5, 72.0)];
 	detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:18.000];
 	detailText.text = dataObj.text;
 	detailText.textAlignment = UITextAlignmentLeft;
 	detailText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
 	detailText.backgroundColor = [UIColor clearColor];
+	detailText.editable = NO;
 	[detailText setAlpha:0.0];
 	
-	dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 45.0, 15.0)];
-	dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.000];
-	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
+	dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
+	dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
+	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M %z" timeZone: nil locale: nil];
 	dateText.textAlignment = UITextAlignmentLeft;
-	dateText.textColor = [UIColor whiteColor];
+	dateText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
 	dateText.backgroundColor = [UIColor clearColor];
 	[dateText setAlpha:0.0];
 	
@@ -169,17 +170,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		   	 forControlEvents:UIControlEventTouchUpInside];
 		
 		charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 130.0, 45.0, 15.0)];
-		charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.000];
+		charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
 		charactersTyped.text = @"0/160";
 		charactersTyped.textAlignment = UITextAlignmentRight;
-		charactersTyped.textColor = [UIColor whiteColor];
+		charactersTyped.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
 		charactersTyped.backgroundColor = [UIColor clearColor];
 		[charactersTyped setAlpha:0.0];
 		
-		textBox = [[UITextField alloc] initWithFrame:CGRectMake(17.0, 155.0, 282.5, 60.0)];
-		textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.000];
-		textBox.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.6];
+		textBox = [[UITextField alloc] initWithFrame:CGRectMake(17.0, 155.0, 282.5, 36.0)];
+		[textBox setDelegate:self];
+		textBox.keyboardType = UIKeyboardTypeDefault;
+		textBox.returnKeyType = UIReturnKeySend;
+		textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
+		textBox.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
+		textBox.clearButtonMode = UITextFieldViewModeWhileEditing;
+		textBox.placeholder = @"insert text";
+		textBox.text = @"Hi!";
 		[textBox setAlpha:0.0];
+		textBox.disabledBackground = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/btn_open.png"];
 	}
 
     // Add everything to our view
@@ -241,6 +249,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[self.view addSubview:sendButton];
 			[self.view addSubview:charactersTyped];
 			[self.view addSubview:textBox];
+			[textBox becomeFirstResponder];
+			[[UIKeyboard activeKeyboard] activate];
 		}
     }
 
@@ -261,6 +271,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[detailText setAlpha:0.0];
 			[dateText setAlpha:0.0];
 			[closeButton setHidden:YES];
+			
+			[textBox resignFirstResponder];
 			
 			if(dataObj.type == kSMSAlert)
 			{
@@ -283,6 +295,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[detailText setAlpha:1.0];
 			[dateText setAlpha:1.0];
 			[closeButton setHidden:NO];
+			
+			[textBox becomeFirstResponder];
 			
 			if(dataObj.type == kSMSAlert)
 			{
@@ -316,6 +330,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[sendButton setAlpha:0.0];
 			[charactersTyped setAlpha:0.0];
 			[textBox setAlpha:0.0];
+			
+			[textBox resignFirstResponder];
 		}
 		
     [UIView commitAnimations];
@@ -383,6 +399,38 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)sendPushed:(id)sender
 {
 	
+}
+
+// UITextFieldDelegate methods
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+	
+}
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+	return YES;
+}
+
+-(BOOL)textFieldShouldClear:(UITextField *)textField
+{
+	return YES;
+}
+
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+	return YES;
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	return YES;
 }
 
 @end

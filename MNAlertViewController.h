@@ -44,7 +44,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @end
 
-@interface MNAlertViewController : UIViewController
+@interface MNAlertViewController : UIViewController <UITextFieldDelegate>
 {
     UIImageView* alertBackgroundImageView;
     UIImageView* iconImageView;
