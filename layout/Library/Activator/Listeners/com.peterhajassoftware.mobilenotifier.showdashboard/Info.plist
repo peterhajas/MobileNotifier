@@ -1,0 +1,3 @@
+title = "MobileNotifier";
+description = "Show dashboard";
+"compatible-modes" = ("springboard", "application");

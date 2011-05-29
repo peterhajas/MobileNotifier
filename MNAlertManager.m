@@ -30,6 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @implementation MNAlertManager
 
 @synthesize pendingAlerts, dismissedAlerts;
+@synthesize alertIsShowing;
 @synthesize delegate = _delegate;
 @synthesize alertWindow, pendingAlertViewController;
 @synthesize whistleBlower;
@@ -79,7 +80,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         preferenceManager = [[MNPreferenceManager alloc] init];
 
         // Register for libactivator events
-        [[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier"];
+        [[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier.showdashboard"];
+
+		// Set up recentShower
+		NSLog(@"setting up recentshower");
+		recentShower = [[MNMostRecentAlertShowerController alloc] initWithManager:self];
+		NSLog(@"set up recentshower: %@", recentShower);
     }
 
     return self;
@@ -148,6 +154,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     {
         // We do nothing currently (already in pending)
     }
+    [self saveOut];
+    [lockscreen refresh];
+    [dashboard refresh];
+}
+
+-(void)presentMostRecentPendingAlert
+{
+    if (!pendingAlertViewController.alertIsShowingPopOver)
+    {
+        // Build a new MNAlertViewController
+        if (alertIsShowing)
+        {
+            [pendingAlertViewController.view removeFromSuperview];
+        }
+        if (![dashboard isShowing] && [pendingAlerts count] > 0)
+        {
+            MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
+            viewController.delegate    = self;
+            pendingAlertViewController = viewController;
+            alertIsShowing             = YES;
+    
+            // Change the window size
+            [alertWindow setFrame:CGRectMake(0, 0, 320, 40)];
+    
+            // Add the subview
+            [alertWindow addSubview:viewController.view];
+            [alertWindow setNeedsDisplay];
+    
+            //Expand the status bar
+            [_delegate setDoubleHighStatusBar:YES];
+        }
+    }
+    
+    // Start the timer, if the user prefers it
+    NSNumber *autoLaterEnabled = [preferenceManager.preferences valueForKey:@"autoLaterAlertsEnabled"];
+    bool shouldAutoLater       = autoLaterEnabled ? [autoLaterEnabled boolValue] : YES;
+    
+    if (shouldAutoLater)
+    {
+        alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+    }
+
+    
     [self saveOut];
     [lockscreen refresh];
     [dashboard refresh];

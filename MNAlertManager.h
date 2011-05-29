@@ -36,8 +36,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNAlertViewController.h"
 #import "MNWhistleBlowerController.h"
 #import "MNPreferenceManager.h"
+#import "MNMostRecentAlertShowerController.h"
 
 @class MNAlertManager;
+@class MNMostRecentAlertShowerController;
 @protocol MNAlertManagerDelegate
 -(void)launchAppInSpringBoardWithBundleID:(NSString *)bundleID;
 -(UIImage*)iconForBundleID:(NSString *)bundleID;
@@ -69,12 +71,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     MNPreferenceManager *preferenceManager;
 
+	MNMostRecentAlertShowerController *recentShower;
+
     NSTimer* alertDismissTimer;
 
     id<MNAlertManagerDelegate> _delegate;
 }
 
 -(void)newAlertWithData:(MNAlertData *)data;
+-(void)presentMostRecentPendingAlert;
 -(void)saveOut;
 -(void)showDashboardFromSwitcher;
 -(void)showDashboard;
@@ -97,6 +102,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @property (nonatomic, retain) NSMutableArray *pendingAlerts;
 @property (nonatomic, retain) NSMutableArray *dismissedAlerts;
+
+@property (readwrite, assign) bool alertIsShowing;
 
 @property (nonatomic, retain) MNAlertDashboardViewController *dashboard;
 @property (nonatomic, retain) MNAlertViewController *pendingAlertViewController;
