@@ -184,7 +184,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		charactersTyped.backgroundColor = [UIColor clearColor];
 		[charactersTyped setAlpha:0.0];
 		
-		textBox = [[UITextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
+		textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
 		[textBox setDelegate:self];
 		textBox.keyboardType = UIKeyboardTypeDefault;
 		textBox.returnKeyType = UIReturnKeyDefault;
