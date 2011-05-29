@@ -45,7 +45,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @end
 
-@interface MNAlertViewController : UIViewController <UITextFieldDelegate>
+@interface MNAlertViewController : UIViewController <UITextViewDelegate>
 {
     UIImageView* alertBackgroundImageView;
     UIImageView* iconImageView;
@@ -67,7 +67,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	// UI Elements for QuickReply:
 	UIButton* sendButton;
 	UILabel* charactersTyped;
-	UITextField* textBox;
+	UITextView* textBox;
 
     bool alertIsShowingPopOver;
 

@@ -184,15 +184,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		charactersTyped.backgroundColor = [UIColor clearColor];
 		[charactersTyped setAlpha:0.0];
 		
-		textBox = [[UITextField alloc] initWithFrame:CGRectMake(17.0, 155.0, 282.5, 36.0)];
+		textBox = [[UITextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 282.5, 36.0)];
 		[textBox setDelegate:self];
 		textBox.keyboardType = UIKeyboardTypeDefault;
 		textBox.returnKeyType = UIReturnKeyDefault;
 		textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
-		textBox.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
-		textBox.clearButtonMode = UITextFieldViewModeWhileEditing;
+		textBox.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.8];
 		[textBox setAlpha:0.0];
-		textBox.disabledBackground = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/btn_open.png"];
 	}
 
     // Add everything to our view
@@ -411,7 +409,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	[self closePushed:nil];
 }
 
-// UITextFieldDelegate methods
+// UITextViewDelegate methods
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
