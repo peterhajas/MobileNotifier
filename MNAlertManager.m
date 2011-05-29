@@ -106,7 +106,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             {
                 [pendingAlertViewController.view removeFromSuperview];
             }
-            if (![dashboard isShowing] && ![lockscreen isShowing])
+            if (!dashboard.dashboardShowing && ![lockscreen isShowing])
             {
                 MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
                 viewController.delegate    = self;
@@ -161,16 +161,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)presentMostRecentPendingAlert
 {
-    if (!pendingAlertViewController.alertIsShowingPopOver)
+	if (!pendingAlertViewController.alertIsShowingPopOver)
     {
-        // Build a new MNAlertViewController
+		// Build a new MNAlertViewController
         if (alertIsShowing)
         {
-            [pendingAlertViewController.view removeFromSuperview];
+			[pendingAlertViewController.view removeFromSuperview];
         }
-        if (![dashboard isShowing] && [pendingAlerts count] > 0)
+        if (!dashboard.dashboardShowing && [pendingAlerts count] > 0)
         {
-            MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
+			MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
             viewController.delegate    = self;
             pendingAlertViewController = viewController;
             alertIsShowing             = YES;

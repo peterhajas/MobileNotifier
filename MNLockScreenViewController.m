@@ -50,6 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,54)];
         backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreenbg.png"];
         backgroundImageView.opaque = NO;
+		[backgroundImageView setAlpha:0.6];
 
         numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,16,35,22)];
         numberOfPendingAlertsLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
@@ -80,7 +81,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         pendingAlertsList.delegate = tableViewDataSource;
         pendingAlertsList.dataSource = tableViewDataSource;
         pendingAlertsList.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
-        pendingAlertsList.separatorColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
+		pendingAlertsList.separatorStyle = UITableViewCellSeparatorStyleNone;
         pendingAlertsList.hidden = YES;
         pendingAlertsList.allowsSelection = NO;
 

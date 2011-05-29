@@ -50,7 +50,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                       UIActionSheetDelegate>
 {
     UIWindow *window;
-    UIImageView *dashboardBackground;
 
     UIButton *returnToApplicationButton;
     UIButton *clearAllButton;
@@ -64,6 +63,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     id <MNAlertDashboardViewControllerProtocol> _delegate;
 
     MNAlertTableViewDataSourceEditable *tableViewDataSourceEditable;
+
+    UIImageView* logoImageView;
+    UIImageView* backgroundImageView;
+    UIImageView* numberOfPendingAlertsBackground;
+    UILabel* numberOfPendingAlertsLabel;
+    UILabel* mobileNotifierTextLabel;
+    UIButton* showAlertsListViewButton;
+
+    bool isExpanded;
 }
 
 -(id)initWithDelegate:(id)__delegate;
@@ -76,7 +84,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(bool)isShowing;
 
 @property (nonatomic, retain) UIWindow *window;
-
+@property (readwrite) bool dashboardShowing;
 @property (nonatomic, retain) id <MNAlertDashboardViewControllerProtocol> delegate;
 
 @end

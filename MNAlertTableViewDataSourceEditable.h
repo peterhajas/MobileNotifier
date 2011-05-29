@@ -1,5 +1,5 @@
 #import "MNAlertTableViewDataSource.h"
-#import "MNTableViewCell.h"
+#import "MNTableViewCellClear.h"
 
 @interface MNAlertTableViewDataSourceEditable : MNAlertTableViewDataSource {}
 

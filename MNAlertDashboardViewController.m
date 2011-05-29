@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @implementation MNAlertDashboardViewController
 
 @synthesize window;
+@synthesize dashboardShowing;
 @synthesize delegate = _delegate;
 
 -(id)initWithDelegate:(id)__delegate;
@@ -39,86 +40,131 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     if (self)
     {
-        CGRect screenBounds = [[UIScreen mainScreen] bounds];
-
         _delegate = __delegate;
+
+		CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
         // window:
         window = [[UIWindow alloc]
-        initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
+        initWithFrame:CGRectMake(0,0,screenBounds.size.width,385)];
 
         window.windowLevel = UIWindowLevelAlert+102.0f;
         window.userInteractionEnabled = YES;
         window.hidden = YES;
 
-        // button to return to the application
-        returnToApplicationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        returnToApplicationButton.frame = CGRectMake(0.0, 0.0, 320.0, 480.0);
-        [returnToApplicationButton setAlpha:1.0];
+		// ClearAllButton
+        clearAllButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        clearAllButton.frame = CGRectMake(245,10.5,72,33);
+        [clearAllButton setAlpha:1.0];
+        clearAllButton.backgroundColor = [UIColor clearColor];
+		[clearAllButton setBackgroundImage:[UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/clear_btn.png"] forState:UIControlStateNormal];
 
-        // wire up the button!
-        [returnToApplicationButton addTarget:self action:@selector(dismissSwitcher:)
+        // Wire up clearAllButton
+        [clearAllButton addTarget:self action:@selector(clearDashboardPushed:)
                  forControlEvents:UIControlEventTouchUpInside];
+        
+
+
+        logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 32, 32)];
+        logoImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-logo.png"];
+
+        backgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,320,54)];
+        backgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreenbg.png"];
+        backgroundImageView.opaque = NO;
+		[backgroundImageView setAlpha:0.9];
+
+        numberOfPendingAlertsLabel = [[UILabel alloc] initWithFrame:CGRectMake(265,16,35,22)];
+        numberOfPendingAlertsLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
+        numberOfPendingAlertsLabel.textAlignment = UITextAlignmentCenter;
+        numberOfPendingAlertsLabel.textColor = [UIColor blackColor];
+        numberOfPendingAlertsLabel.backgroundColor = [UIColor clearColor];
+        numberOfPendingAlertsLabel.opaque = NO;
+
+        numberOfPendingAlertsBackground = [[UIImageView alloc] initWithFrame:CGRectMake(270,17,27,20)];
+        numberOfPendingAlertsBackground.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/lockscreen-count-bg.png"];
+        numberOfPendingAlertsBackground.opaque = NO;
+
+        mobileNotifierTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60,16,180,22)];
+        mobileNotifierTextLabel.text = @"Missed Notifications";
+        mobileNotifierTextLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
+        mobileNotifierTextLabel.textAlignment = UITextAlignmentLeft;
+        mobileNotifierTextLabel.textColor = [UIColor whiteColor];
+        mobileNotifierTextLabel.shadowColor = [UIColor blackColor];
+        mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
+        mobileNotifierTextLabel.backgroundColor = [UIColor clearColor];
 
         // Table View Data Source
         tableViewDataSourceEditable = [[MNAlertTableViewDataSourceEditable alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
                                                                                     andDelegate:_delegate];
 
         // Create the tableview
-        alertListView = [[UITableView alloc] initWithFrame:CGRectMake(16.5,112,287,325) style:UITableViewStylePlain];
+        alertListView = [[UITableView alloc] initWithFrame:CGRectMake(0,54,320,332) style:UITableViewStylePlain];
         alertListView.delegate = self;
         alertListView.dataSource = tableViewDataSourceEditable;
-        [alertListView setAlpha:1.0];
-        alertListView.backgroundColor = [UIColor whiteColor];
-        alertListView.layer.cornerRadius = 10;
+        alertListView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
+		alertListView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        alertListView.hidden = NO;
+        alertListView.allowsSelection = YES;
 
-        // Dashboard background
-        dashboardBackground = [[UIView alloc] initWithFrame:CGRectMake(0,0,screenBounds.size.width,screenBounds.size.height)];
-        [dashboardBackground setBackgroundColor:[UIColor blackColor]];
-        [dashboardBackground setAlpha:0.75];
-
-        // ClearAllButton
-        clearAllButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        clearAllButton.frame = CGRectMake(80,427,160,60);
-        [clearAllButton setTitle:@"Clear pending" forState: UIControlStateNormal];
-        [clearAllButton setAlpha:1.0];
-        clearAllButton.titleLabel.font          = [UIFont fontWithName:@"Helvetica-Bold" size:18];
-        clearAllButton.titleLabel.textAlignment = UITextAlignmentCenter;
-        clearAllButton.titleLabel.textColor     = [UIColor whiteColor];
-        clearAllButton.titleLabel.shadowColor   = [UIColor blackColor];
-        clearAllButton.titleLabel.shadowOffset  = CGSizeMake(0,-1);
-        clearAllButton.backgroundColor          = [UIColor clearColor];
-
-        // Wire up clearAllButton
-        [clearAllButton addTarget:self action:@selector(clearDashboardPushed:)
+        // Create and wire up the button for showing and hiding the alertListView
+        showAlertsListViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        showAlertsListViewButton.frame = CGRectMake(0,0,320,54);
+        [showAlertsListViewButton addTarget:self action:@selector(togglealertListView:)
                  forControlEvents:UIControlEventTouchUpInside];
 
-        // Add everything to the view
-        dashboardShowing = NO;
-        [window addSubview:dashboardBackground];
-        [window addSubview:returnToApplicationButton];
+        [window addSubview:backgroundImageView];
+        [window addSubview:logoImageView];
+        [window addSubview:numberOfPendingAlertsBackground];
+        [window addSubview:numberOfPendingAlertsLabel];
+        [window addSubview:mobileNotifierTextLabel];
         [window addSubview:alertListView];
-        [window addSubview:clearAllButton];
+        [window addSubview:showAlertsListViewButton];
 
-        // Release stuff we don't need to hang on to
-        [alertListView release];
-        // [dashboardBackground release];
+        dashboardShowing = NO;
+		isExpanded = NO;
 
-        [UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
+        [self refresh];
     }
 
     return self;
+}
+
+-(void)addClearButton
+{
+    // Make the clear all button appear
+	[window addSubview:clearAllButton];
+}
+
+-(void)removeClearButton
+{
+    // Make the clear all button go away
+	[clearAllButton removeFromSuperview];
+}
+
+-(void)refresh
+{
+    NSNumber *pendingCount = [NSNumber numberWithInt:[[_delegate getPendingAlerts] count]];
+
+    numberOfPendingAlertsLabel.text = [pendingCount stringValue];
+
+    [alertListView reloadData];
+}
+
+-(bool)isShowing
+{
+    return !window.hidden;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [tableViewDataSourceEditable tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Take action on the alert
     [_delegate actionOnAlertAtIndex:indexPath.row];
-}
-
--(void)refresh
-{
-    [alertListView reloadData];
+	[self refresh];
 }
 
 -(void)dismissSwitcher:(id)sender
@@ -149,9 +195,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     [UIView beginAnimations:@"fadeDashboardDown" context:NULL];
       [UIView setAnimationDuration:0.25];
-      [window setFrame:CGRectMake(0,0,320,480)];
       [window setAlpha:0.0];
-      [clearActionSheet dismissWithClickedButtonIndex:1 animated:YES];
     [UIView commitAnimations];
 }
 
@@ -170,11 +214,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       // Shrink the elements and fade out
       // to create a zoom out effect
       alertListView.transform  = CGAffineTransformMakeScale(0.1,0.1);
-      clearAllButton.transform = CGAffineTransformMakeScale(0.1,0.1);
 
       [window setAlpha:0.0];
     [UIView commitAnimations];
-    [window setFrame:CGRectMake(0,0,320,480)];
 }
 
 // -----------------------------------------------
@@ -184,102 +226,85 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // -----------------------------------------------
 -(void)showDashboard
 {
-    window.userInteractionEnabled = YES;
+	window.userInteractionEnabled = YES;
     window.hidden                 = NO;
     dashboardShowing              = YES;
 
     // Restore previously transformed elements
     alertListView.transform  = CGAffineTransformIdentity;
-    clearAllButton.transform = CGAffineTransformIdentity;
 
     [UIView beginAnimations:@"fadeIn" context:NULL];
       [UIView setAnimationDuration:0.25];
-      [window setFrame:CGRectMake(0,-92,320,480)];
       [window setAlpha:1.0];
     [UIView commitAnimations];
 }
 
--(void)clearDashboardPushed:(id)sender
+-(void)togglealertListView:(id)sender
 {
-    //Let's create a UIActionSheet to deal with this very destructive action
-    clearActionSheet = [[UIActionSheet alloc] initWithTitle:@"Clear pending alerts?"
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                     destructiveButtonTitle:@"Clear pending"
-                                          otherButtonTitles:nil];
-
-    // Temporarily reposition window and elements
-    // to cover up the application switcher drawer
-    [window setFrame:CGRectMake(0,0,320,480)];
-    [alertListView setFrame:CGRectMake(16,20,287,322)];
-    [clearAllButton setAlpha:0];
-
-    // Show the sheet
-    if ([clearActionSheet respondsToSelector:@selector(showInView:)])
+	[self refresh];
+	if (isExpanded)
     {
-        [clearActionSheet removeFromSuperview];
-        [clearActionSheet showInView:window];
-        [clearActionSheet setFrame:CGRectMake(0,300,320,185)];
-        [window addSubview:clearActionSheet];
+        [UIView beginAnimations:@"listDisappear" context:NULL];
+            [UIView setAnimationDuration:0.1];
+			[window setFrame:CGRectMake(0,0,320,385)];
+			[self addClearButton];
+        [UIView commitAnimations];
+
+        alertListView.hidden = NO;
+        isExpanded = !isExpanded;
+		
+		NSLog(@"new frame:%f x %f", window.frame.size.width, window.frame.size.height);
     }
     else
     {
-        // If they're on an older device, do some fancy
-        // footwork to get the UIActionSheet to show up
-        [clearActionSheet showInView:window];
-        [clearActionSheet setFrame:CGRectMake(0,300,320,185)];
+        [self expandAlertListView];
     }
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+-(void)expandAlertListView
 {
-    bool didClear = NO;
-    if (buttonIndex == 0)
-    {
-        // Clear notifications!
-        [actionSheet dismissWithClickedButtonIndex:0 animated:YES];
-        [_delegate clearPending];
-        // Hide the dashboard view
-        didClear = YES;
-    }
-    else if (buttonIndex == 1)
-    {
-        // Don't do anything!
-        [actionSheet dismissWithClickedButtonIndex:1 animated:YES];
-    }
+	[self refresh];
+	[UIView beginAnimations:@"listAppear" context:NULL];
+        [UIView setAnimationDuration:0.1];
+        [window setFrame:CGRectMake(0,0,320,54)];
+		[self removeClearButton];
+    [UIView commitAnimations];
 
-    if(didClear)
-    {
-        [self fadeDashboardDown];
-    }
+    alertListView.hidden = YES;
+    isExpanded = YES;
 
-    // Restore window and elements to original positions
-    [window setFrame:CGRectMake(0,-92,320,480)];
-    [alertListView setFrame:CGRectMake(16,112,287,322)];
-    [clearAllButton setAlpha:1.0];
+	NSLog(@"new frame:%f x %f", window.frame.size.width, window.frame.size.height);
+}
+
+-(void)clearDashboardPushed:(id)sender
+{
+    // Clear notifications!
+    [_delegate clearPending];
+    // Hide the dashboard view
+    [self fadeDashboardDown];
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
 {
     if ([animationID isEqualToString:@"fadeIn"])
-    {
-        window.userInteractionEnabled = YES;
-    }
-    if ([animationID isEqualToString:@"fadeDashboardDown"] || [animationID isEqualToString:@"fadeDashboardAway"])
-    {
-        window.userInteractionEnabled = NO;
-        window.hidden = YES;
-    }
-}
+	{
+	    window.userInteractionEnabled = YES;
+	}
+	if ([animationID isEqualToString:@"fadeDashboardDown"] || [animationID isEqualToString:@"fadeDashboardAway"])
+	{
+	    window.userInteractionEnabled = NO;
+	    window.hidden = YES;
+	}
 
--(bool)isShowing
-{
-    return dashboardShowing;
-}
+ 	if ([animationID isEqualToString:@"listAppear"])
+    {
+        alertListView.hidden = NO;
+    }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [tableViewDataSourceEditable tableView:tableView heightForRowAtIndexPath:indexPath];
+    if ([animationID isEqualToString:@"listDisappear"] || [animationID isEqualToString:@"fadeDashboardAway"])
+    {
+        alertListView.hidden = YES;
+    }
 }
 
 @end

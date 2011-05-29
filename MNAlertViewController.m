@@ -103,7 +103,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 55.0, 301.0, 72.0)];
 	detailText.delegate = self;
-	detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:18.000];
+	detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:16.000];
 	detailText.text = dataObj.text;
 	detailText.textAlignment = UITextAlignmentLeft;
 	detailText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
@@ -140,7 +140,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [laterButton setAlpha:0.0];
 
 	closeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	closeButton.frame = CGRectMake(279, 12.0, 15.0, 16.0);
+	closeButton.frame = CGRectMake(274, 7.0, 25.0, 26.0);
 	[closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
 						   forState:UIControlStateNormal];
 

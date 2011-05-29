@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         [self setFrame:_frame];
         [self setBackgroundColor:[UIColor clearColor]];
-        [self setAlpha:0.7];
+        [self setAlpha:0.825];
         [self setClipsToBounds:YES];
 
         iconImageView  = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13.5, 33.0, 33.0)];
