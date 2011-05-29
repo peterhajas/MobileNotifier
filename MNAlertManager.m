@@ -136,7 +136,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         if ([_delegate deviceIsLocked])
         {
             [lockscreen expandPendingAlertsList];
-            [lockscreen show];
+			[self showLockscreen];
         }
 
         // Start the timer, if the user prefers it
