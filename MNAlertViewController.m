@@ -411,9 +411,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // UITextViewDelegate methods
 
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-	charactersTyped.text = [NSString stringWithFormat:@"%d/160", [textField.text length] + [string length] - range.length];
+	charactersTyped.text = [NSString stringWithFormat:@"%d/160", [textView.text length] + [text length] - range.length];
 	return YES;
 }
 
