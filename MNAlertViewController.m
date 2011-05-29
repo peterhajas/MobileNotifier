@@ -161,7 +161,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		// Set up the SMS elements
 		sendButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	    sendButton.frame = CGRectMake(225.5, 205.0, 76.0, 40.0);
+	    sendButton.frame = CGRectMake(226.0, 205.0, 76.0, 40.0);
 		[sendButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_send.png"]
 	                          forState:UIControlStateNormal];
 		[sendButton setAlpha:0.0];
@@ -184,7 +184,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		charactersTyped.backgroundColor = [UIColor clearColor];
 		[charactersTyped setAlpha:0.0];
 		
-		textBox = [[UITextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 282.5, 36.0)];
+		textBox = [[UITextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
 		[textBox setDelegate:self];
 		textBox.keyboardType = UIKeyboardTypeDefault;
 		textBox.returnKeyType = UIReturnKeyDefault;
