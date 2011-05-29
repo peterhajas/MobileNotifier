@@ -191,7 +191,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showLockscreen
 {
-    NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
+	// Disable the keyboard automatically appearing
+	UIKeyboardDisableAutomaticAppearance();
+
+	NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
     bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
 
     if (!shouldShow) { return; }
@@ -257,6 +260,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		alertIsShowing = NO;
 		// Dismiss the alert!
+		MNAlertData *data = viewController.dataObj;
+		[dismissedAlerts addObject:data];
+		[pendingAlerts removeObject:data];
+		[self refreshAll];
 	}
 
     [self hidePendingAlert];

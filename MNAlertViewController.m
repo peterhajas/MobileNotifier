@@ -113,7 +113,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
 	dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
-	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M %z" timeZone: nil locale: nil];
+	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
 	dateText.textAlignment = UITextAlignmentLeft;
 	dateText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
 	dateText.backgroundColor = [UIColor clearColor];
@@ -166,8 +166,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[sendButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_send.png"]
 	                          forState:UIControlStateNormal];
 		[sendButton setAlpha:0.0];
-		sendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.00];
 		[sendButton setTitle:@"Send" forState:UIControlStateNormal];
+		sendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.00];
 		sendButton.titleLabel.textAlignment = UITextAlignmentCenter; 
 		sendButton.titleLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
 		sendButton.titleLabel.backgroundColor = [UIColor clearColor];
