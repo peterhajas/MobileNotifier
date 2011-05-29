@@ -165,8 +165,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[sendButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_send.png"]
 	                          forState:UIControlStateNormal];
 		[sendButton setAlpha:0.0];
+		[sendButton setTitle:@"Send" forState:UIControlStateNormal];
 		sendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.00];
-		sendButton.titleLabel.text = @"Send";
 		sendButton.titleLabel.textAlignment = UITextAlignmentCenter; 
 		sendButton.titleLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
 		sendButton.titleLabel.backgroundColor = [UIColor clearColor];
