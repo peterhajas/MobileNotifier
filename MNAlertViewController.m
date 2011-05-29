@@ -101,7 +101,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
     [alertHeaderLabel setAlpha:0.0];
 
-	detailText = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 55.0, 272.5, 72.0)];
+	detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 55.0, 301.0, 72.0)];
+	detailText.delegate = self;
 	detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:18.000];
 	detailText.text = dataObj.text;
 	detailText.textAlignment = UITextAlignmentLeft;
@@ -435,6 +436,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	return YES;
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.x != 0.0) 
+	{
+        [scrollView setContentOffset: CGPointMake(0.0, scrollView.contentOffset.y)];
+    }
 }
 
 @end
