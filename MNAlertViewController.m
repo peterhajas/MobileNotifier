@@ -167,7 +167,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	                          forState:UIControlStateNormal];
 		[sendButton setAlpha:0.0];
 		sendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.00];
-		sendButton.titleLabel.text = @"Send";
+		[sendButton setTitle:@"Send" forState:UIControlStateNormal];
 		sendButton.titleLabel.textAlignment = UITextAlignmentCenter; 
 		sendButton.titleLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
 		sendButton.titleLabel.backgroundColor = [UIColor clearColor];
