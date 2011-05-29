@@ -112,7 +112,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	
 	dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
 	dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
-	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M %z" timeZone: nil locale: nil];
+	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
 	dateText.textAlignment = UITextAlignmentLeft;
 	dateText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
 	dateText.backgroundColor = [UIColor clearColor];
