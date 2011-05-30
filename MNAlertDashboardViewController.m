@@ -106,6 +106,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertListView.hidden = NO;
         alertListView.allowsSelection = YES;
 
+        //Dismiss the dashboard with a press on the tableView background. (Untested)
+        [alertListView addTarget:self action@selector(fadeDashboardAway:) forControlEvents:UIControlEventTouchUpInside];
+
+
         // Create and wire up the button for showing and hiding the alertListView
         showAlertsListViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
         showAlertsListViewButton.frame = CGRectMake(0,0,320,54);
