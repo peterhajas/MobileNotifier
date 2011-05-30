@@ -47,6 +47,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @synthesize delegate = _delegate;
 
+@synthesize preferenceManager;
+
+
 -(id)init
 {
     self = [super init];
@@ -54,6 +57,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     if (self != nil)
     {
         self.view.clipsToBounds = YES;
+
+        // Alloc and init the preferences manager
+        preferenceManager = [[MNPreferenceManager alloc] init];
     }
     return self;
 }
@@ -76,20 +82,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
     [UIView setAnimationDelegate:self];
 
+    // Check if the user prefers old or new notification style
+    NSNumber *useBetaStyle = [preferenceManager.preferences valueForKey:@"useBetaFourStyle"];
+    bool showOldStyle       = useBetaStyle ? [useBetaStyle boolValue] : YES;
+    
+    if (showOldStyle)
+    {
+        alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)];
+        alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg_small.png"];
+        [alertBackgroundImageView setAlpha:0.0];
+        
+        alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 1.0, 216.0, 36.0)];
+        alertHeaderLabel.adjustsFontSizeToFitWidth = NO;
+        alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.000];
+        alertHeaderLabel.text = dataObj.header;
+        alertHeaderLabel.textAlignment = UITextAlignmentLeft;
+        detailText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
+        alertHeaderLabel.backgroundColor = [UIColor clearColor];
+        alertHeaderLabel.shadowColor = [UIColor whiteColor];
+        alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
+        [alertHeaderLabel setAlpha:0.0];
+    
+    } else {
+    
     alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)];
     alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/statusbar_alert_bg.png"];
     [alertBackgroundImageView setAlpha:0.0];
-
-    iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(17.0, 9.0, 22.5, 22.5)];
-    iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
-    [iconImageView setAlpha:0.0];
-    iconImageView.layer.cornerRadius = 5.5;
-    iconImageView.layer.masksToBounds = YES;
-
-    alertExpandButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
-    [alertExpandButton setAlpha:0.0];
-
+        
     alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 1.0, 216.0, 36.0)];
     alertHeaderLabel.adjustsFontSizeToFitWidth = NO;
     alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.000];
@@ -100,6 +119,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     alertHeaderLabel.shadowColor = [UIColor whiteColor];
     alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
     [alertHeaderLabel setAlpha:0.0];
+
+    }
+
+    iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(17.0, 9.0, 22.5, 22.5)];
+    iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
+    [iconImageView setAlpha:0.0];
+    iconImageView.layer.cornerRadius = 5.5;
+    iconImageView.layer.masksToBounds = YES;
+
+    alertExpandButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
+    [alertExpandButton setAlpha:0.0];
 
 	detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 55.0, 301.0, 72.0)];
 	detailText.delegate = self;
@@ -444,6 +475,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
         [scrollView setContentOffset: CGPointMake(0.0, scrollView.contentOffset.y)];
     }
+}
+
+-(void)reloadPreferences
+{
+    [preferenceManager reloadPreferences];
 }
 
 @end
