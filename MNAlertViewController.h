@@ -35,6 +35,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNAlertData.h"
 #import "MNSMSSender.h"
 #import "BCZeroEdgeTextView.h"
+#import "MNPreferenceManager.h"
+
 
 @class MNAlertViewController;
 
@@ -75,6 +77,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     MNAlertData* dataObj;
 
     id<MNAlertViewControllerDelegate> _delegate;
+
+    MNPreferenceManager *preferenceManager;
+
 }
 
 -(id)initWithMNData:(MNAlertData*) data;
@@ -90,6 +95,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)laterPushed:(id)sender;
 -(void)closePushed:(id)sender;
 -(void)sendPushed:(id)sender;
+-(void)reloadPreferences;
+
+@property (nonatomic, retain) MNPreferenceManager *preferenceManager;
 
 @property(nonatomic, retain) MNAlertData *dataObj;
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
