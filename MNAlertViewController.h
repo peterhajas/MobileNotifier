@@ -24,7 +24,6 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-
 #define kAlertSentAway 0
 #define kAlertTakeAction 1
 #define kAlertClosed 2
@@ -35,8 +34,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #import "MNAlertData.h"
 #import "MNSMSSender.h"
 #import "BCZeroEdgeTextView.h"
-#import "MNPreferenceManager.h"
-
 
 @class MNAlertViewController;
 
@@ -63,10 +60,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UIButton* openButton;
     UIButton* laterButton;
 	UIButton* closeButton;
-	
+
 	UITextView* detailText;
 	UILabel* dateText;
-	
+
 	// UI Elements for QuickReply:
 	UIButton* sendButton;
 	UILabel* charactersTyped;
@@ -77,9 +74,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     MNAlertData* dataObj;
 
     id<MNAlertViewControllerDelegate> _delegate;
-
-    MNPreferenceManager *preferenceManager;
-
 }
 
 -(id)initWithMNData:(MNAlertData*) data;
@@ -95,9 +89,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)laterPushed:(id)sender;
 -(void)closePushed:(id)sender;
 -(void)sendPushed:(id)sender;
--(void)reloadPreferences;
-
-@property (nonatomic, retain) MNPreferenceManager *preferenceManager;
 
 @property(nonatomic, retain) MNAlertData *dataObj;
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
@@ -114,4 +105,3 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(nonatomic, retain) UIButton* laterButton;
 
 @end
-
