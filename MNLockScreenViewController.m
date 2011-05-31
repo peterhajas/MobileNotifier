@@ -72,18 +72,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         mobileNotifierTextLabel.shadowOffset = CGSizeMake(0,-1);
         mobileNotifierTextLabel.backgroundColor = [UIColor clearColor];
 
-        // Table View Data Source
-        tableViewDataSource = [[MNAlertTableViewDataSource alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
+        // Table View Data Source. Now works with Editable.
+        tableViewDataSourceEditable = [[MNAlertTableViewDataSourceEditable alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
                                                                        andDelegate:_delegate];
 
         // Create the tableview
         pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(0,54,320,215) style:UITableViewStylePlain];
-        pendingAlertsList.delegate = tableViewDataSource;
-        pendingAlertsList.dataSource = tableViewDataSource;
+        pendingAlertsList.delegate = self;
+        pendingAlertsList.dataSource = tableViewDataSourceEditable;
         pendingAlertsList.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
 		pendingAlertsList.separatorStyle = UITableViewCellSeparatorStyleNone;
-        pendingAlertsList.hidden = YES;
-        pendingAlertsList.allowsSelection = NO;
+        pendingAlertsList.hidden = NO;
+        pendingAlertsList.allowsSelection = YES;
 
         // Create and wire up the button for showing and hiding the pendingAlertsList
         showPendingAlertsListButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -185,6 +185,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(bool)isShowing
 {
     return !lockWindow.hidden;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [tableViewDataSourceEditable tableView:tableView heightForRowAtIndexPath:indexPath];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Take action on the alert
+    [_delegate actionOnAlertAtIndex:indexPath.row];
+	[self refresh];
+    
+    [self hide];
+    
 }
 
 @end
