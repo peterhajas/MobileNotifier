@@ -72,23 +72,6 @@
       <string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
     </dict>
 
-<dict>
-	<key>cell</key>
-	<string>PSSwitchCell</string>
-	<key>default</key>
-	<true/>
-	<key>defaults</key>
-	<string>com.peterhajassoftware.mobilenotifier</string>
-	<key>key</key>
-	<string>useBetaFourStyle</string>
-	<key>label</key>
-	<string>Use Beta 4 Style Alert</string>
-	<key>postNotification</key>
-	<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-	<key>PostNotification</key>
-	<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
-</dict>
-
     <dict>
       <key>cell</key>
       <string>PSStaticTextCell</string>
