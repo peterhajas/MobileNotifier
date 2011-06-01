@@ -82,10 +82,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         // Register for libactivator events
         [[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier.showdashboard"];
 
-		// Set up recentShower
-		NSLog(@"setting up recentshower");
-		recentShower = [[MNMostRecentAlertShowerController alloc] initWithManager:self];
-		NSLog(@"set up recentshower: %@", recentShower);
+        // Set up recentShower
+        NSLog(@"setting up recentshower");
+        recentShower = [[MNMostRecentAlertShowerController alloc] initWithManager:self];
+        NSLog(@"set up recentshower: %@", recentShower);
     }
 
     return self;
@@ -136,7 +136,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         if ([_delegate deviceIsLocked])
         {
             [lockscreen expandPendingAlertsList];
-			[self showLockscreen];
+            [self showLockscreen];
         }
 
         // Start the timer, if the user prefers it
@@ -161,42 +161,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)presentMostRecentPendingAlert
 {
-	if (!pendingAlertViewController.alertIsShowingPopOver)
+    if (!pendingAlertViewController.alertIsShowingPopOver)
     {
-		// Build a new MNAlertViewController
+        // Build a new MNAlertViewController
         if (alertIsShowing)
         {
-			[pendingAlertViewController.view removeFromSuperview];
+            [pendingAlertViewController.view removeFromSuperview];
         }
         if (!dashboard.dashboardShowing && [pendingAlerts count] > 0)
         {
-			MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
+            MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
             viewController.delegate    = self;
             pendingAlertViewController = viewController;
             alertIsShowing             = YES;
-    
+
             // Change the window size
             [alertWindow setFrame:CGRectMake(0, 0, 320, 40)];
-    
+
             // Add the subview
             [alertWindow addSubview:viewController.view];
             [alertWindow setNeedsDisplay];
-    
+
             //Expand the status bar
             [_delegate setDoubleHighStatusBar:YES];
         }
     }
-    
+
     // Start the timer, if the user prefers it
     NSNumber *autoLaterEnabled = [preferenceManager.preferences valueForKey:@"autoLaterAlertsEnabled"];
     bool shouldAutoLater       = autoLaterEnabled ? [autoLaterEnabled boolValue] : YES;
-    
+
     if (shouldAutoLater)
     {
         alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
     }
 
-    
+
     [self saveOut];
     [lockscreen refresh];
     [dashboard refresh];
@@ -240,10 +240,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)showLockscreen
 {
-	// Disable the keyboard automatically appearing
-	UIKeyboardDisableAutomaticAppearance();
+    // Disable the keyboard automatically appearing
+    UIKeyboardDisableAutomaticAppearance();
 
-	NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
+    NSNumber *lockscreenEnabled = [preferenceManager.preferences valueForKey:@"lockscreenEnabled"];
     bool shouldShow = lockscreenEnabled ? [lockscreenEnabled boolValue] : YES;
 
     if (!shouldShow) { return; }
@@ -304,16 +304,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         [self takeActionOnAlertWithData:data];
     }
-
-	else if (action == kAlertClosed)
-	{
-		alertIsShowing = NO;
-		// Dismiss the alert!
-		MNAlertData *data = viewController.dataObj;
-		[dismissedAlerts addObject:data];
-		[pendingAlerts removeObject:data];
-		[self refreshAll];
-	}
+    else if (action == kAlertClosed)
+    {
+        alertIsShowing = NO;
+        // Dismiss the alert!
+        MNAlertData *data = viewController.dataObj;
+        [dismissedAlerts addObject:data];
+        [pendingAlerts removeObject:data];
+        [self refreshAll];
+    }
 
     [self hidePendingAlert];
     [_delegate setDoubleHighStatusBar:NO];
@@ -393,14 +392,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         CGRect frame = alertWindow.frame;
         frame.size.height += 229;
         alertWindow.frame = frame;
-		[alertWindow makeKeyWindow];
+        [alertWindow makeKeyWindow];
     }
     else
     {
         CGRect frame = alertWindow.frame;
         frame.size.height -= 229;
         alertWindow.frame = frame;
-		[alertWindow resignKeyWindow];
+        [alertWindow resignKeyWindow];
     }
 }
 

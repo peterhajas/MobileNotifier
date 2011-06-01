@@ -34,7 +34,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(id)init
 {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"notificationTableCell"];
-    if(self != nil)
+
+    if (self != nil)
     {
         CGRect _frame = CGRectMake(self.frame.origin.x,self.frame.origin.y,320,60);
 

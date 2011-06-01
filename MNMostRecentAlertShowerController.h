@@ -36,7 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNMostRecentAlertShowerController : NSObject <LAListener>
 {
-	MNAlertManager* alertManager;
+    MNAlertManager* alertManager;
 }
 
 -(id)initWithManager:(MNAlertManager*)manager;

@@ -73,13 +73,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)encodeWithCoder:(NSCoder*)encoder
 {
-	[encoder encodeObject:header forKey:@"header"];
-	[encoder encodeObject:text forKey:@"text"];
+    [encoder encodeObject:header forKey:@"header"];
+    [encoder encodeObject:text forKey:@"text"];
     [encoder encodeObject:senderAddress forKey:@"senderAddress"];
-	[encoder encodeInt:type forKey:@"type"];
-	[encoder encodeObject:bundleID forKey:@"bundleID"];
-	[encoder encodeObject:time forKey:@"time"];
-	[encoder encodeInt:status forKey:@"status"];
+    [encoder encodeInt:type forKey:@"type"];
+    [encoder encodeObject:bundleID forKey:@"bundleID"];
+    [encoder encodeObject:time forKey:@"time"];
+    [encoder encodeInt:status forKey:@"status"];
 }
 
 -(id)initWithCoder:(NSCoder*)decoder

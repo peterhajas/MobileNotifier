@@ -101,24 +101,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
     [alertHeaderLabel setAlpha:0.0];
 
-	detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 55.0, 301.0, 72.0)];
-	detailText.delegate = self;
-	detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:16.000];
-	detailText.text = dataObj.text;
-	detailText.textAlignment = UITextAlignmentLeft;
-	detailText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
-	detailText.backgroundColor = [UIColor clearColor];
-	detailText.editable = NO;
-	[detailText setAlpha:0.0];
-	
-	dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
-	dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
-	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
-	dateText.textAlignment = UITextAlignmentLeft;
-	dateText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
-	dateText.backgroundColor = [UIColor clearColor];
-	[dateText setAlpha:0.0];
-	
+    detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 55.0, 301.0, 72.0)];
+    detailText.delegate = self;
+    detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:16.000];
+    detailText.text = dataObj.text;
+    detailText.textAlignment = UITextAlignmentLeft;
+    detailText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.8];
+    detailText.backgroundColor = [UIColor clearColor];
+    detailText.editable = NO;
+    [detailText setAlpha:0.0];
+
+    dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
+    dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
+    dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
+    dateText.textAlignment = UITextAlignmentLeft;
+    dateText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
+    dateText.backgroundColor = [UIColor clearColor];
+    [dateText setAlpha:0.0];
 
     // Popdown alert actions
     alertActionBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(3.5, 30.0, 313.0, 229.0)];
@@ -129,9 +128,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     openButton.frame = CGRectMake(72.0, 205.0, 46.0, 40.0);
-	[openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_open.png"]
+    [openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_open.png"]
                           forState:UIControlStateNormal];
-	[openButton setAlpha:0.0];
+    [openButton setAlpha:0.0];
 
     laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     laterButton.frame = CGRectMake(16.0, 205.0, 46.0, 40.0);
@@ -139,10 +138,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                            forState:UIControlStateNormal];
     [laterButton setAlpha:0.0];
 
-	closeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	closeButton.frame = CGRectMake(274, 7.0, 25.0, 26.0);
-	[closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
-						   forState:UIControlStateNormal];
+    closeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+    closeButton.frame = CGRectMake(274, 7.0, 25.0, 26.0);
+    [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
+                           forState:UIControlStateNormal];
 
     // Wire up buttons
     [openButton addTarget:self action:@selector(openPushed:)
@@ -151,48 +150,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [laterButton addTarget:self action:@selector(laterPushed:)
           forControlEvents:UIControlEventTouchUpInside];
 
-	[closeButton addTarget:self action:@selector(closePushed:)
-   		  forControlEvents:UIControlEventTouchUpInside];
+    [closeButton addTarget:self action:@selector(closePushed:)
+             forControlEvents:UIControlEventTouchUpInside];
 
     [alertExpandButton addTarget:self action:@selector(chevronPushed:)
                 forControlEvents:UIControlEventTouchUpInside];
-	
-	// If we're an SMS alert, we have some more setup to do!
-	if(dataObj.type == kSMSAlert)
-	{
-		// Set up the SMS elements
-		sendButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	    sendButton.frame = CGRectMake(226.0, 205.0, 76.0, 40.0);
-		[sendButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_send.png"]
-	                          forState:UIControlStateNormal];
-		[sendButton setAlpha:0.0];
-		[sendButton setTitle:@"Send" forState:UIControlStateNormal];
-		sendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.00];
-		sendButton.titleLabel.textAlignment = UITextAlignmentCenter; 
-		sendButton.titleLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
-		sendButton.titleLabel.backgroundColor = [UIColor clearColor];
-		sendButton.titleLabel.shadowColor = [UIColor blackColor];
-	    sendButton.titleLabel.shadowOffset = CGSizeMake(0,-1);
-		
-		[sendButton addTarget:self action:@selector(sendPushed:)
-		   	 forControlEvents:UIControlEventTouchUpInside];
-		
-		charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 130.0, 45.0, 15.0)];
-		charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
-		charactersTyped.text = @"0/160";
-		charactersTyped.textAlignment = UITextAlignmentRight;
-		charactersTyped.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
-		charactersTyped.backgroundColor = [UIColor clearColor];
-		[charactersTyped setAlpha:0.0];
-		
-		textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
-		[textBox setDelegate:self];
-		textBox.keyboardType = UIKeyboardTypeDefault;
-		textBox.returnKeyType = UIReturnKeyDefault;
-		textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
-		textBox.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.8];
-		[textBox setAlpha:0.0];
-	}
+
+    // If we're an SMS alert, we have some more setup to do!
+    if(dataObj.type == kSMSAlert)
+    {
+        // Set up the SMS elements
+        sendButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        sendButton.frame = CGRectMake(226.0, 205.0, 76.0, 40.0);
+        [sendButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_send.png"]
+                              forState:UIControlStateNormal];
+        [sendButton setAlpha:0.0];
+        [sendButton setTitle:@"Send" forState:UIControlStateNormal];
+        sendButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.00];
+        sendButton.titleLabel.textAlignment = UITextAlignmentCenter;
+        sendButton.titleLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
+        sendButton.titleLabel.backgroundColor = [UIColor clearColor];
+        sendButton.titleLabel.shadowColor = [UIColor blackColor];
+        sendButton.titleLabel.shadowOffset = CGSizeMake(0,-1);
+
+        [sendButton addTarget:self action:@selector(sendPushed:)
+                forControlEvents:UIControlEventTouchUpInside];
+
+        charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 130.0, 45.0, 15.0)];
+        charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
+        charactersTyped.text = @"0/160";
+        charactersTyped.textAlignment = UITextAlignmentRight;
+        charactersTyped.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
+        charactersTyped.backgroundColor = [UIColor clearColor];
+        [charactersTyped setAlpha:0.0];
+
+        textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
+        [textBox setDelegate:self];
+        textBox.keyboardAppearance = UIKeyboardAppearanceAlert;
+        textBox.keyboardType = UIKeyboardTypeDefault;
+        textBox.returnKeyType = UIReturnKeyDefault;
+        textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
+        textBox.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.8];
+        [textBox setAlpha:0.0];
+    }
 
     // Add everything to our view
     [self.view addSubview:alertBackgroundImageView];
@@ -216,10 +216,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     // Detect single finger, double tap
     /*UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc]
         initWithTarget:self action:@selector(laterPushed:)];
-    
-	doubleTap.numberOfTapsRequired = 2;
+
+    doubleTap.numberOfTapsRequired = 2;
     doubleTap.numberOfTouchesRequired = 1;
-	
+
     [self.view addGestureRecognizer:doubleTap];
     [doubleTap release];*/
 }
@@ -227,7 +227,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)chevronPushed:(id)sender
 {
     [_delegate alertShowingPopOver:!alertIsShowingPopOver];
-	if (alertIsShowingPopOver)
+    if (alertIsShowingPopOver)
     {
         CGRect frame = self.view.frame;
         frame.size.height -= 229;
@@ -245,18 +245,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         [self.view addSubview:openButton];
         [self.view addSubview:laterButton];
-		[self.view addSubview:closeButton];
-		[self.view addSubview:detailText];
-		[self.view addSubview:dateText];
-		
-		if(dataObj.type == kSMSAlert)
-		{
-			[self.view addSubview:sendButton];
-			[self.view addSubview:charactersTyped];
-			[self.view addSubview:textBox];
-			UIKeyboardEnableAutomaticAppearance();
-			[textBox becomeFirstResponder];
-		}
+        [self.view addSubview:closeButton];
+        [self.view addSubview:detailText];
+        [self.view addSubview:dateText];
+
+        if (dataObj.type == kSMSAlert)
+        {
+            [self.view addSubview:sendButton];
+            [self.view addSubview:charactersTyped];
+            [self.view addSubview:textBox];
+            UIKeyboardEnableAutomaticAppearance();
+            [textBox becomeFirstResponder];
+        }
     }
     alertIsShowingPopOver = !alertIsShowingPopOver;
 }
@@ -271,19 +271,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             [alertActionBackgroundImageViewShadow setAlpha:0.0];
             [openButton setAlpha:0.0];
             [laterButton setAlpha:0.0];
-			[detailText setAlpha:0.0];
-			[dateText setAlpha:0.0];
-			[closeButton setHidden:YES];
-			
-			[textBox resignFirstResponder];
-			
-			if(dataObj.type == kSMSAlert)
-			{
-				[sendButton setAlpha:0.0];
-				[charactersTyped setAlpha:0.0];
-				[textBox setAlpha:0.0];
-			}
-			
+            [detailText setAlpha:0.0];
+            [dateText setAlpha:0.0];
+            [closeButton setHidden:YES];
+
+            [textBox resignFirstResponder];
+
+            if (dataObj.type == kSMSAlert)
+            {
+                [sendButton setAlpha:0.0];
+                [charactersTyped setAlpha:0.0];
+                [textBox setAlpha:0.0];
+            }
+
         [UIView commitAnimations];
     }
     else
@@ -295,19 +295,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             [alertActionBackgroundImageView setAlpha:1.0];
             [openButton setAlpha:1.0];
             [laterButton setAlpha:1.0];
-			[detailText setAlpha:1.0];
-			[dateText setAlpha:1.0];
-			[closeButton setHidden:NO];
-			
-			[textBox becomeFirstResponder];
-			
-			if(dataObj.type == kSMSAlert)
-			{
-				[sendButton setAlpha:1.0];
-				[charactersTyped setAlpha:1.0];
-				[textBox setAlpha:1.0];
-			}
-			
+            [detailText setAlpha:1.0];
+            [dateText setAlpha:1.0];
+            [closeButton setHidden:NO];
+
+            [textBox becomeFirstResponder];
+
+            if (dataObj.type == kSMSAlert)
+            {
+                [sendButton setAlpha:1.0];
+                [charactersTyped setAlpha:1.0];
+                [textBox setAlpha:1.0];
+            }
+
         [UIView commitAnimations];
     }
 }
@@ -324,24 +324,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [alertActionBackgroundImageViewShadow setAlpha:0.0];
         [openButton                           setAlpha:0.0];
         [laterButton                          setAlpha:0.0];
-		[detailText                           setAlpha:0.0];
-		[dateText                             setAlpha:0.0];
-		[closeButton						  setAlpha:0.0];
-		
-		if(dataObj.type == kSMSAlert)
-		{
-			[sendButton setAlpha:0.0];
-			[charactersTyped setAlpha:0.0];
-			[textBox setAlpha:0.0];
-			
-			[textBox resignFirstResponder];
-		}
-		
+        [detailText                           setAlpha:0.0];
+        [dateText                             setAlpha:0.0];
+        [closeButton                          setAlpha:0.0];
+
+        if (dataObj.type == kSMSAlert)
+        {
+            [sendButton setAlpha:0.0];
+            [charactersTyped setAlpha:0.0];
+            [textBox setAlpha:0.0];
+
+            [textBox resignFirstResponder];
+        }
+
     [UIView commitAnimations];
 
     alertIsShowingPopOver = NO;
 
-	UIKeyboardDisableAutomaticAppearance();
+    UIKeyboardDisableAutomaticAppearance();
 }
 
 -(void)fadeInView
@@ -363,15 +363,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [alertActionBackgroundImageViewShadow removeFromSuperview];
         [openButton removeFromSuperview];
         [laterButton removeFromSuperview];
-		[detailText removeFromSuperview];
-		[dateText removeFromSuperview];
-		
-		if(dataObj.type == kSMSAlert)
-		{
-			[sendButton removeFromSuperview];
-			[charactersTyped removeFromSuperview];
-			[textBox removeFromSuperview];
-		}
+        [detailText removeFromSuperview];
+        [dateText removeFromSuperview];
+
+        if (dataObj.type == kSMSAlert)
+        {
+            [sendButton removeFromSuperview];
+            [charactersTyped removeFromSuperview];
+            [textBox removeFromSuperview];
+        }
     }
 
     if ([animationID isEqualToString:@"fadeOutWholeView"])
@@ -381,7 +381,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 -(void)openPushed:(id)sender
-{   
+{
     [self fadeOutWholeView];
     // Notify the delegate
     [_delegate alertViewController:self hadActionTaken:kAlertTakeAction];
@@ -396,52 +396,52 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)closePushed:(id)sender
 {
-	[self fadeOutWholeView];
+    [self fadeOutWholeView];
     // Notify the delegate
     [_delegate alertViewController:self hadActionTaken:kAlertClosed];
 }
 
 -(void)sendPushed:(id)sender
 {
-	// Take the text in the textbox, and send it!
-	[MNSMSSender sendMessage:textBox.text toNumber:dataObj.senderAddress];
-	
-	// Dismiss this alert entirely (as if it were deleted)
-	[self closePushed:nil];
+    // Take the text in the textbox, and send it!
+    [MNSMSSender sendMessage:textBox.text toNumber:dataObj.senderAddress];
+
+    // Dismiss this alert entirely (as if it were deleted)
+    [self closePushed:nil];
 }
 
 // UITextViewDelegate methods
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-	charactersTyped.text = [NSString stringWithFormat:@"%d/160", [textView.text length] + [text length] - range.length];
-	return YES;
+    charactersTyped.text = [NSString stringWithFormat:@"%d/160", [textView.text length] + [text length] - range.length];
+    return YES;
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-	return YES;
+    return YES;
 }
 
 -(BOOL)textFieldShouldClear:(UITextField *)textField
 {
-	return YES;
+    return YES;
 }
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-	return YES;
+    return YES;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	return YES;
+    return YES;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.x != 0.0) 
-	{
+    if (scrollView.contentOffset.x != 0.0)
+    {
         [scrollView setContentOffset: CGPointMake(0.0, scrollView.contentOffset.y)];
     }
 }
