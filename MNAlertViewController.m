@@ -186,6 +186,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
         [textBox setDelegate:self];
+        textBox.keyboardAppearance = UIKeyboardAppearanceAlert;
         textBox.keyboardType = UIKeyboardTypeDefault;
         textBox.returnKeyType = UIReturnKeyDefault;
         textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
