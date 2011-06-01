@@ -51,8 +51,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     // Play noise, if the ringer switch is not
     // flipped (and if the device supports it)
     // Don't do this for push notifications
-    
-    if(data.type != kPushAlert)
+
+    if (data.type != kPushAlert)
     {
         AudioServicesPlaySystemSound(1007);
     }

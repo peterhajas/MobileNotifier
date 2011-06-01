@@ -60,15 +60,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     UIButton* openButton;
     UIButton* laterButton;
-	UIButton* closeButton;
-	
-	UITextView* detailText;
-	UILabel* dateText;
-	
-	// UI Elements for QuickReply:
-	UIButton* sendButton;
-	UILabel* charactersTyped;
-	BCZeroEdgeTextView* textBox;
+    UIButton* closeButton;
+
+    UITextView* detailText;
+    UILabel* dateText;
+
+    // UI Elements for QuickReply:
+    UIButton* sendButton;
+    UILabel* charactersTyped;
+    BCZeroEdgeTextView* textBox;
 
     bool alertIsShowingPopOver;
 

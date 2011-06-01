@@ -31,17 +31,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(id)initWithManager:(MNAlertManager*)manager
 {
-	NSLog(@"initializing with manager: %@", manager);
-	self = [super init];
-	if(self)
-	{
-		alertManager = manager;
+    NSLog(@"initializing with manager: %@", manager);
+    self = [super init];
 
-		// Register for libactivator events
+    if (self)
+    {
+        alertManager = manager;
+
+        // Register for libactivator events
         [[LAActivator sharedInstance] registerListener:self forName:@"com.peterhajassoftware.mobilenotifier.mostrecentpending"];
-	}
-	
-	return self;
+    }
+
+    return self;
 }
 
 // --------------------
@@ -49,17 +50,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------
 - (void)activator:(LAActivator *)activator receiveEvent:(LAEvent *)event
 {
-	[alertManager presentMostRecentPendingAlert];
+    [alertManager presentMostRecentPendingAlert];
 }
 
 - (void)activator:(LAActivator *)activator abortEvent:(LAEvent *)event
 {
- 	// Hide the most recent alert (if there is one)
-	if(alertManager.pendingAlertViewController)
-	{
-		[alertManager.dashboard fadeDashboardDown];
-	    [alertManager alertViewController:alertManager.pendingAlertViewController hadActionTaken: kAlertSentAway];
-	}
+     // Hide the most recent alert (if there is one)
+    if (alertManager.pendingAlertViewController)
+    {
+        [alertManager.dashboard fadeDashboardDown];
+        [alertManager alertViewController:alertManager.pendingAlertViewController hadActionTaken: kAlertSentAway];
+    }
 }
 
 @end
