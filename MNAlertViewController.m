@@ -110,7 +110,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	detailText.backgroundColor = [UIColor clearColor];
 	detailText.editable = NO;
 	[detailText setAlpha:0.0];
-	
+
 	dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
 	dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
 	dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
@@ -118,7 +118,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	dateText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
 	dateText.backgroundColor = [UIColor clearColor];
 	[dateText setAlpha:0.0];
-	
+
 
     // Popdown alert actions
     alertActionBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(3.5, 30.0, 313.0, 229.0)];
@@ -156,7 +156,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     [alertExpandButton addTarget:self action:@selector(chevronPushed:)
                 forControlEvents:UIControlEventTouchUpInside];
-	
+
 	// If we're an SMS alert, we have some more setup to do!
 	if(dataObj.type == kSMSAlert)
 	{
@@ -173,10 +173,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		sendButton.titleLabel.backgroundColor = [UIColor clearColor];
 		sendButton.titleLabel.shadowColor = [UIColor blackColor];
 	    sendButton.titleLabel.shadowOffset = CGSizeMake(0,-1);
-		
+
 		[sendButton addTarget:self action:@selector(sendPushed:)
 		   	 forControlEvents:UIControlEventTouchUpInside];
-		
+
 		charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 130.0, 45.0, 15.0)];
 		charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
 		charactersTyped.text = @"0/160";
@@ -184,9 +184,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		charactersTyped.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
 		charactersTyped.backgroundColor = [UIColor clearColor];
 		[charactersTyped setAlpha:0.0];
-		
+
 		textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
 		[textBox setDelegate:self];
+//tested and works. Ready to be implemented.
+                textBox.keyboardAppearance = UIKeyboardAppearanceAlert; 
 		textBox.keyboardType = UIKeyboardTypeDefault;
 		textBox.returnKeyType = UIReturnKeyDefault;
 		textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
@@ -248,7 +250,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[self.view addSubview:closeButton];
 		[self.view addSubview:detailText];
 		[self.view addSubview:dateText];
-		
+
 		if(dataObj.type == kSMSAlert)
 		{
 			[self.view addSubview:sendButton];
@@ -274,16 +276,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[detailText setAlpha:0.0];
 			[dateText setAlpha:0.0];
 			[closeButton setHidden:YES];
-			
+
 			[textBox resignFirstResponder];
-			
+
 			if(dataObj.type == kSMSAlert)
 			{
 				[sendButton setAlpha:0.0];
 				[charactersTyped setAlpha:0.0];
 				[textBox setAlpha:0.0];
 			}
-			
+
         [UIView commitAnimations];
     }
     else
@@ -298,16 +300,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			[detailText setAlpha:1.0];
 			[dateText setAlpha:1.0];
 			[closeButton setHidden:NO];
-			
+
 			[textBox becomeFirstResponder];
-			
+
 			if(dataObj.type == kSMSAlert)
 			{
 				[sendButton setAlpha:1.0];
 				[charactersTyped setAlpha:1.0];
 				[textBox setAlpha:1.0];
 			}
-			
+
         [UIView commitAnimations];
     }
 }
@@ -327,16 +329,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 		[detailText                           setAlpha:0.0];
 		[dateText                             setAlpha:0.0];
 		[closeButton						  setAlpha:0.0];
-		
+
 		if(dataObj.type == kSMSAlert)
 		{
 			[sendButton setAlpha:0.0];
 			[charactersTyped setAlpha:0.0];
 			[textBox setAlpha:0.0];
-			
+
 			[textBox resignFirstResponder];
 		}
-		
+
     [UIView commitAnimations];
 
     alertIsShowingPopOver = NO;
@@ -365,7 +367,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [laterButton removeFromSuperview];
 		[detailText removeFromSuperview];
 		[dateText removeFromSuperview];
-		
+
 		if(dataObj.type == kSMSAlert)
 		{
 			[sendButton removeFromSuperview];
@@ -405,7 +407,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
 	// Take the text in the textbox, and send it!
 	[MNSMSSender sendMessage:textBox.text toNumber:dataObj.senderAddress];
-	
+
 	// Dismiss this alert entirely (as if it were deleted)
 	[self closePushed:nil];
 }
@@ -447,4 +449,3 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 @end
-

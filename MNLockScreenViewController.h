@@ -25,17 +25,20 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#import "MNAlertData.h"
 #import "MNAlertTableViewDataSource.h"
+#import "MNAlertTableViewDataSourceEditable.h"
 
 @class MNLockScreenViewController;
 
 @protocol MNLockScreenViewControllerDelegate
 
 -(NSMutableArray *)getPendingAlerts;
+-(NSMutableArray *)getDismissedAlerts;
 
 @end
 
-@interface MNLockScreenViewController : NSObject <UITableViewDelegate>
+@interface MNLockScreenViewController : NSObject <UITableViewDelegate, UIActionSheetDelegate>
 {
     UIWindow* lockWindow;
     UIImageView* logoImageView;
@@ -51,6 +54,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     bool isExpanded;
 
     MNAlertTableViewDataSource *tableViewDataSource;
+    MNAlertTableViewDataSourceEditable *tableViewDataSourceEditable;
+
 }
 
 -(id)initWithDelegate:(id)__delegate;
