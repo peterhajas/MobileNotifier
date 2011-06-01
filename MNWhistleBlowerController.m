@@ -44,18 +44,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)alertArrivedWithData:(MNAlertData*)data;
 {
-    // Have the device vibrate, if the ringer switch
-    // is flipped (and if the device supports it)
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-
-    // Play noise, if the ringer switch is not
-    // flipped (and if the device supports it)
-    // Don't do this for push notifications
-
-    if (data.type != kPushAlert)
-    {
-        AudioServicesPlaySystemSound(1007);
-    }
+    // Play sound as an alert so the phone vibrates as the user has set
+    // This needs the sound pulled from the system settings to play the
+    // Actual set ringtone. It will still play tritone.
+    // The setting is in com.apple.springboard.plist sms-sound-identifier
+    AudioServicesPlayAlertSound(1007);
 
     // Wake the device's screen
     [_delegate wakeDeviceScreen];
