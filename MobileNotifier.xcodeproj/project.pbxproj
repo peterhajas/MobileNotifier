@@ -1,0 +1,392 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		A06DB6E5139427D300B460EC /* BCZeroEdgeTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BCZeroEdgeTextView.h; path = ./BCZeroEdgeTextView.h; sourceTree = "<group>"; };
+		A06DB6E6139427D300B460EC /* MNAlertDashboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNAlertDashboardViewController.h; path = ./MNAlertDashboardViewController.h; sourceTree = "<group>"; };
+		A06DB6E7139427D300B460EC /* MNAlertData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNAlertData.h; path = ./MNAlertData.h; sourceTree = "<group>"; };
+		A06DB6E8139427D300B460EC /* MNAlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNAlertManager.h; path = ./MNAlertManager.h; sourceTree = "<group>"; };
+		A06DB6E9139427D300B460EC /* MNAlertTableViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNAlertTableViewDataSource.h; path = ./MNAlertTableViewDataSource.h; sourceTree = "<group>"; };
+		A06DB6EA139427D300B460EC /* MNAlertTableViewDataSourceEditable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNAlertTableViewDataSourceEditable.h; path = ./MNAlertTableViewDataSourceEditable.h; sourceTree = "<group>"; };
+		A06DB6EB139427D300B460EC /* MNAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNAlertViewController.h; path = ./MNAlertViewController.h; sourceTree = "<group>"; };
+		A06DB6EC139427D300B460EC /* MNLockScreenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNLockScreenViewController.h; path = ./MNLockScreenViewController.h; sourceTree = "<group>"; };
+		A06DB6ED139427D300B460EC /* MNMostRecentAlertShowerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNMostRecentAlertShowerController.h; path = ./MNMostRecentAlertShowerController.h; sourceTree = "<group>"; };
+		A06DB6EE139427D300B460EC /* MNPreferenceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNPreferenceManager.h; path = ./MNPreferenceManager.h; sourceTree = "<group>"; };
+		A06DB6EF139427D300B460EC /* MNSMSSender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNSMSSender.h; path = ./MNSMSSender.h; sourceTree = "<group>"; };
+		A06DB6F0139427D300B460EC /* MNTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNTableViewCell.h; path = ./MNTableViewCell.h; sourceTree = "<group>"; };
+		A06DB6F1139427D300B460EC /* MNTableViewCellClear.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNTableViewCellClear.h; path = ./MNTableViewCellClear.h; sourceTree = "<group>"; };
+		A06DB6F2139427D300B460EC /* MNWhistleBlowerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MNWhistleBlowerController.h; path = ./MNWhistleBlowerController.h; sourceTree = "<group>"; };
+		A06DB6F3139427E200B460EC /* BCZeroEdgeTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BCZeroEdgeTextView.m; path = ./BCZeroEdgeTextView.m; sourceTree = "<group>"; };
+		A06DB6F4139427E200B460EC /* MNAlertDashboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNAlertDashboardViewController.m; path = ./MNAlertDashboardViewController.m; sourceTree = "<group>"; };
+		A06DB6F5139427E200B460EC /* MNAlertData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNAlertData.m; path = ./MNAlertData.m; sourceTree = "<group>"; };
+		A06DB6F6139427E200B460EC /* MNAlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNAlertManager.m; path = ./MNAlertManager.m; sourceTree = "<group>"; };
+		A06DB6F7139427E200B460EC /* MNAlertTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNAlertTableViewDataSource.m; path = ./MNAlertTableViewDataSource.m; sourceTree = "<group>"; };
+		A06DB6F8139427E200B460EC /* MNAlertTableViewDataSourceEditable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNAlertTableViewDataSourceEditable.m; path = ./MNAlertTableViewDataSourceEditable.m; sourceTree = "<group>"; };
+		A06DB6F9139427E200B460EC /* MNAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNAlertViewController.m; path = ./MNAlertViewController.m; sourceTree = "<group>"; };
+		A06DB6FA139427E200B460EC /* MNLockScreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNLockScreenViewController.m; path = ./MNLockScreenViewController.m; sourceTree = "<group>"; };
+		A06DB6FB139427E200B460EC /* MNMostRecentAlertShowerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNMostRecentAlertShowerController.m; path = ./MNMostRecentAlertShowerController.m; sourceTree = "<group>"; };
+		A06DB6FC139427E200B460EC /* MNPreferenceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNPreferenceManager.m; path = ./MNPreferenceManager.m; sourceTree = "<group>"; };
+		A06DB6FD139427E200B460EC /* MNSMSSender.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNSMSSender.m; path = ./MNSMSSender.m; sourceTree = "<group>"; };
+		A06DB6FE139427E200B460EC /* MNTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNTableViewCell.m; path = ./MNTableViewCell.m; sourceTree = "<group>"; };
+		A06DB6FF139427E200B460EC /* MNTableViewCellClear.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNTableViewCellClear.m; path = ./MNTableViewCellClear.m; sourceTree = "<group>"; };
+		A06DB700139427E200B460EC /* MNWhistleBlowerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MNWhistleBlowerController.m; path = ./MNWhistleBlowerController.m; sourceTree = "<group>"; };
+		A06DB701139427E800B460EC /* Tweak.xm */ = {isa = PBXFileReference; lastKnownFileType = text; name = Tweak.xm; path = ./Tweak.xm; sourceTree = "<group>"; };
+		A06DB7041394280700B460EC /* MobileNotifier.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = MobileNotifier.plist; path = "/Users/marceasen/My-Programs/MobileNotifier/MobileNotifier.plist"; sourceTree = "<absolute>"; };
+		A06DB7141394281F00B460EC /* settings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = settings.xcodeproj; path = ./settings/settings.xcodeproj; sourceTree = "<group>"; };
+		A06DB7191394283200B460EC /* MobileNotifier.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MobileNotifier.xcodeproj; sourceTree = "<group>"; };
+		A06DB72F1394283B00B460EC /* mobilenukifier.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mobilenukifier.xcodeproj; path = ./mobilenukifier/mobilenukifier.xcodeproj; sourceTree = "<group>"; };
+		A06DB7351394284300B460EC /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
+		A06DB73A1394284300B460EC /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		A06DB73B1394284300B460EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A06DB73D1394284300B460EC /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		A06DB73E1394284300B460EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A06DB7411394284300B460EC /* alert_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alert_bg.png; sourceTree = "<group>"; };
+		A06DB7421394284300B460EC /* alert_bg_shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alert_bg_shadow.png; sourceTree = "<group>"; };
+		A06DB7431394284300B460EC /* alert_bg_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alert_bg_small.png; sourceTree = "<group>"; };
+		A06DB7441394284300B460EC /* btn_archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_archive.png; sourceTree = "<group>"; };
+		A06DB7451394284300B460EC /* btn_open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_open.png; sourceTree = "<group>"; };
+		A06DB7461394284300B460EC /* btn_send.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_send.png; sourceTree = "<group>"; };
+		A06DB7471394284300B460EC /* clear_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear_btn.png; sourceTree = "<group>"; };
+		A06DB7481394284300B460EC /* ignoredApplications.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ignoredApplications.plist; sourceTree = "<group>"; };
+		A06DB7491394284300B460EC /* last-element-shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "last-element-shadow.png"; sourceTree = "<group>"; };
+		A06DB74A1394284300B460EC /* lockscreen-count-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockscreen-count-bg.png"; sourceTree = "<group>"; };
+		A06DB74B1394284300B460EC /* lockscreen-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lockscreen-logo.png"; sourceTree = "<group>"; };
+		A06DB74C1394284300B460EC /* lockscreenbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lockscreenbg.png; sourceTree = "<group>"; };
+		A06DB74D1394284300B460EC /* lockscreenbg_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lockscreenbg_.png; sourceTree = "<group>"; };
+		A06DB74E1394284300B460EC /* mn_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mn_icon.png; sourceTree = "<group>"; };
+		A06DB74F1394284300B460EC /* popout_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popout_bg.png; sourceTree = "<group>"; };
+		A06DB7501394284300B460EC /* returnToApplication.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = returnToApplication.png; sourceTree = "<group>"; };
+		A06DB7511394284300B460EC /* row_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row_bg.png; sourceTree = "<group>"; };
+		A06DB7521394284300B460EC /* row_bg_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row_bg_down.png; sourceTree = "<group>"; };
+		A06DB7531394284300B460EC /* row_icon_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = row_icon_lock.png; sourceTree = "<group>"; };
+		A06DB7541394284300B460EC /* statusbar_alert_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = statusbar_alert_bg.png; sourceTree = "<group>"; };
+		A06DB7551394284300B460EC /* statusbar_alert_dismiss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = statusbar_alert_dismiss.png; sourceTree = "<group>"; };
+		A06DB7561394284300B460EC /* statusbar_alert_dismiss_.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = statusbar_alert_dismiss_.png; sourceTree = "<group>"; };
+		A06DB7571394284300B460EC /* table_list_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table_list_bg.png; sourceTree = "<group>"; };
+		A06DB7581394285300B460EC /* Authors.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = Authors.md; path = ./Authors.md; sourceTree = "<group>"; };
+		A06DB7591394285300B460EC /* ContentLicense.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = ContentLicense.md; path = ./ContentLicense.md; sourceTree = "<group>"; };
+		A06DB75A1394285300B460EC /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = Readme.md; path = ./Readme.md; sourceTree = "<group>"; };
+		A06DB75B1394285900B460EC /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; name = Makefile; path = ./Makefile; sourceTree = "<group>"; };
+		A06DB75C1394286200B460EC /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ./LICENSE; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		A06DB6DC139427A000B460EC = {
+			isa = PBXGroup;
+			children = (
+				A06DB75C1394286200B460EC /* LICENSE */,
+				A06DB75B1394285900B460EC /* Makefile */,
+				A06DB75D1394286900B460EC /* Docs */,
+				A06DB7331394284300B460EC /* layout */,
+				A06DB75E1394287200B460EC /* External Projects */,
+				A06DB7181394283200B460EC /* MobileNotifier */,
+				A06DB7041394280700B460EC /* MobileNotifier.plist */,
+				A06DB702139427EF00B460EC /* Classes */,
+				A06DB703139427F600B460EC /* Tweak */,
+			);
+			sourceTree = "<group>";
+		};
+		A06DB702139427EF00B460EC /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB6E5139427D300B460EC /* BCZeroEdgeTextView.h */,
+				A06DB6E6139427D300B460EC /* MNAlertDashboardViewController.h */,
+				A06DB6E7139427D300B460EC /* MNAlertData.h */,
+				A06DB6E8139427D300B460EC /* MNAlertManager.h */,
+				A06DB6E9139427D300B460EC /* MNAlertTableViewDataSource.h */,
+				A06DB6EA139427D300B460EC /* MNAlertTableViewDataSourceEditable.h */,
+				A06DB6EB139427D300B460EC /* MNAlertViewController.h */,
+				A06DB6EC139427D300B460EC /* MNLockScreenViewController.h */,
+				A06DB6ED139427D300B460EC /* MNMostRecentAlertShowerController.h */,
+				A06DB6EE139427D300B460EC /* MNPreferenceManager.h */,
+				A06DB6EF139427D300B460EC /* MNSMSSender.h */,
+				A06DB6F0139427D300B460EC /* MNTableViewCell.h */,
+				A06DB6F1139427D300B460EC /* MNTableViewCellClear.h */,
+				A06DB6F2139427D300B460EC /* MNWhistleBlowerController.h */,
+				A06DB6F3139427E200B460EC /* BCZeroEdgeTextView.m */,
+				A06DB6F4139427E200B460EC /* MNAlertDashboardViewController.m */,
+				A06DB6F5139427E200B460EC /* MNAlertData.m */,
+				A06DB6F6139427E200B460EC /* MNAlertManager.m */,
+				A06DB6F7139427E200B460EC /* MNAlertTableViewDataSource.m */,
+				A06DB6F8139427E200B460EC /* MNAlertTableViewDataSourceEditable.m */,
+				A06DB6F9139427E200B460EC /* MNAlertViewController.m */,
+				A06DB6FA139427E200B460EC /* MNLockScreenViewController.m */,
+				A06DB6FB139427E200B460EC /* MNMostRecentAlertShowerController.m */,
+				A06DB6FC139427E200B460EC /* MNPreferenceManager.m */,
+				A06DB6FD139427E200B460EC /* MNSMSSender.m */,
+				A06DB6FE139427E200B460EC /* MNTableViewCell.m */,
+				A06DB6FF139427E200B460EC /* MNTableViewCellClear.m */,
+				A06DB700139427E200B460EC /* MNWhistleBlowerController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		A06DB703139427F600B460EC /* Tweak */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB701139427E800B460EC /* Tweak.xm */,
+			);
+			name = Tweak;
+			sourceTree = "<group>";
+		};
+		A06DB7151394281F00B460EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A06DB7181394283200B460EC /* MobileNotifier */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7191394283200B460EC /* MobileNotifier.xcodeproj */,
+			);
+			name = MobileNotifier;
+			sourceTree = "<group>";
+		};
+		A06DB71A1394283200B460EC /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A06DB7301394283B00B460EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A06DB7331394284300B460EC /* layout */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7341394284300B460EC /* DEBIAN */,
+				A06DB7361394284300B460EC /* Library */,
+			);
+			name = layout;
+			path = ./layout;
+			sourceTree = "<group>";
+		};
+		A06DB7341394284300B460EC /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7351394284300B460EC /* control */,
+			);
+			path = DEBIAN;
+			sourceTree = "<group>";
+		};
+		A06DB7361394284300B460EC /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7371394284300B460EC /* Activator */,
+				A06DB73F1394284300B460EC /* Application Support */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		A06DB7371394284300B460EC /* Activator */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7381394284300B460EC /* Listeners */,
+			);
+			path = Activator;
+			sourceTree = "<group>";
+		};
+		A06DB7381394284300B460EC /* Listeners */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7391394284300B460EC /* com.peterhajassoftware.mobilenotifier.mostrecentpending */,
+				A06DB73C1394284300B460EC /* com.peterhajassoftware.mobilenotifier.showdashboard */,
+			);
+			path = Listeners;
+			sourceTree = "<group>";
+		};
+		A06DB7391394284300B460EC /* com.peterhajassoftware.mobilenotifier.mostrecentpending */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB73A1394284300B460EC /* icon.png */,
+				A06DB73B1394284300B460EC /* Info.plist */,
+			);
+			path = com.peterhajassoftware.mobilenotifier.mostrecentpending;
+			sourceTree = "<group>";
+		};
+		A06DB73C1394284300B460EC /* com.peterhajassoftware.mobilenotifier.showdashboard */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB73D1394284300B460EC /* icon.png */,
+				A06DB73E1394284300B460EC /* Info.plist */,
+			);
+			path = com.peterhajassoftware.mobilenotifier.showdashboard;
+			sourceTree = "<group>";
+		};
+		A06DB73F1394284300B460EC /* Application Support */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7401394284300B460EC /* MobileNotifier */,
+			);
+			path = "Application Support";
+			sourceTree = "<group>";
+		};
+		A06DB7401394284300B460EC /* MobileNotifier */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7411394284300B460EC /* alert_bg.png */,
+				A06DB7421394284300B460EC /* alert_bg_shadow.png */,
+				A06DB7431394284300B460EC /* alert_bg_small.png */,
+				A06DB7441394284300B460EC /* btn_archive.png */,
+				A06DB7451394284300B460EC /* btn_open.png */,
+				A06DB7461394284300B460EC /* btn_send.png */,
+				A06DB7471394284300B460EC /* clear_btn.png */,
+				A06DB7481394284300B460EC /* ignoredApplications.plist */,
+				A06DB7491394284300B460EC /* last-element-shadow.png */,
+				A06DB74A1394284300B460EC /* lockscreen-count-bg.png */,
+				A06DB74B1394284300B460EC /* lockscreen-logo.png */,
+				A06DB74C1394284300B460EC /* lockscreenbg.png */,
+				A06DB74D1394284300B460EC /* lockscreenbg_.png */,
+				A06DB74E1394284300B460EC /* mn_icon.png */,
+				A06DB74F1394284300B460EC /* popout_bg.png */,
+				A06DB7501394284300B460EC /* returnToApplication.png */,
+				A06DB7511394284300B460EC /* row_bg.png */,
+				A06DB7521394284300B460EC /* row_bg_down.png */,
+				A06DB7531394284300B460EC /* row_icon_lock.png */,
+				A06DB7541394284300B460EC /* statusbar_alert_bg.png */,
+				A06DB7551394284300B460EC /* statusbar_alert_dismiss.png */,
+				A06DB7561394284300B460EC /* statusbar_alert_dismiss_.png */,
+				A06DB7571394284300B460EC /* table_list_bg.png */,
+			);
+			path = MobileNotifier;
+			sourceTree = "<group>";
+		};
+		A06DB75D1394286900B460EC /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB7581394285300B460EC /* Authors.md */,
+				A06DB7591394285300B460EC /* ContentLicense.md */,
+				A06DB75A1394285300B460EC /* Readme.md */,
+			);
+			name = Docs;
+			sourceTree = "<group>";
+		};
+		A06DB75E1394287200B460EC /* External Projects */ = {
+			isa = PBXGroup;
+			children = (
+				A06DB72F1394283B00B460EC /* mobilenukifier.xcodeproj */,
+				A06DB7141394281F00B460EC /* settings.xcodeproj */,
+			);
+			name = "External Projects";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		A06DB762139428CF00B460EC /* MobileNotifier */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = A06DB763139428CF00B460EC /* Build configuration list for PBXLegacyTarget "MobileNotifier" */;
+			buildPhases = (
+			);
+			buildToolPath = "./make-wrapper.sh";
+			buildWorkingDirectory = "/Users/marceasen/My-Programs/MobileNotifier";
+			dependencies = (
+			);
+			name = MobileNotifier;
+			passBuildSettingsInEnvironment = 0;
+			productName = MobileNotifier;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		A06DB6DE139427A000B460EC /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = A06DB6E1139427A100B460EC /* Build configuration list for PBXProject "MobileNotifier" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A06DB6DC139427A000B460EC;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A06DB71A1394283200B460EC /* Products */;
+					ProjectRef = A06DB7191394283200B460EC /* MobileNotifier.xcodeproj */;
+				},
+				{
+					ProductGroup = A06DB7301394283B00B460EC /* Products */;
+					ProjectRef = A06DB72F1394283B00B460EC /* mobilenukifier.xcodeproj */;
+				},
+				{
+					ProductGroup = A06DB7151394281F00B460EC /* Products */;
+					ProjectRef = A06DB7141394281F00B460EC /* settings.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				A06DB762139428CF00B460EC /* MobileNotifier */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		A06DB6E3139427A100B460EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		A06DB6E4139427A100B460EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		A06DB764139428CF00B460EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GO_EASY_ON_ME = 1;
+				SDKROOT = macosx;
+				SDKVERSION = 4.2;
+				THEOS = /opt/theos;
+			};
+			name = Debug;
+		};
+		A06DB765139428CF00B460EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GO_EASY_ON_ME = 1;
+				SDKROOT = macosx;
+				SDKVERSION = 4.2;
+				THEOS = /opt/theos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A06DB6E1139427A100B460EC /* Build configuration list for PBXProject "MobileNotifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A06DB6E3139427A100B460EC /* Debug */,
+				A06DB6E4139427A100B460EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A06DB763139428CF00B460EC /* Build configuration list for PBXLegacyTarget "MobileNotifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A06DB764139428CF00B460EC /* Debug */,
+				A06DB765139428CF00B460EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A06DB6DE139427A000B460EC /* Project object */;
+}
