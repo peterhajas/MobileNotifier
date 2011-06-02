@@ -108,7 +108,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             }
             if (!dashboard.dashboardShowing && ![lockscreen isShowing])
             {
+                NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
+                bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
+
                 MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+                viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
                 viewController.delegate    = self;
                 pendingAlertViewController = viewController;
                 alertIsShowing             = YES;

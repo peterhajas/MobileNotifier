@@ -71,6 +71,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     BCZeroEdgeTextView* textBox;
 
     bool alertIsShowingPopOver;
+    bool useBlackAlertStyle;
 
     MNAlertData* dataObj;
 
@@ -99,6 +100,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(nonatomic, retain) UIImageView* iconImageView;
 
 @property(readwrite) bool alertIsShowingPopOver;
+@property(readwrite) bool useBlackAlertStyle;
 
 @property(nonatomic, retain) UILabel* alertHeaderLabel;
 

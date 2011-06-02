@@ -44,6 +44,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @synthesize dataObj;
 @synthesize alertIsShowingPopOver;
+@synthesize useBlackAlertStyle;
 
 @synthesize delegate = _delegate;
 
@@ -77,8 +78,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [UIView setAnimationDelegate:self];
 
     alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)];
-    alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/statusbar_alert_bg.png"];
     [alertBackgroundImageView setAlpha:0.0];
+
+    if (useBlackAlertStyle)
+    {
+        // Black alert style
+        alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg_small.png"];
+    }
+    else
+    {
+        // Gray alert style
+        alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/statusbar_alert_bg.png"];
+    }
 
     iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(17.0, 9.0, 22.5, 22.5)];
     iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
@@ -95,9 +106,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.000];
     alertHeaderLabel.text = dataObj.header;
     alertHeaderLabel.textAlignment = UITextAlignmentLeft;
-    alertHeaderLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
     alertHeaderLabel.backgroundColor = [UIColor clearColor];
-    alertHeaderLabel.shadowColor = [UIColor whiteColor];
+
+    if (useBlackAlertStyle)
+    {
+        // Black alert style
+        alertHeaderLabel.textColor   = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
+        alertHeaderLabel.shadowColor = [UIColor grayColor];
+    }
+    else
+    {
+        // Gray alert style
+        alertHeaderLabel.textColor   = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
+        alertHeaderLabel.shadowColor = [UIColor whiteColor];
+    }
+
     alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
     [alertHeaderLabel setAlpha:0.0];
 

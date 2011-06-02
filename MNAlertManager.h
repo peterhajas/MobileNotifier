@@ -96,7 +96,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)takeActionOnAlertWithData:(MNAlertData *)data;
 -(void)clearPending;
 -(void)alertShouldGoLaterTimerFired:(id)sender;
--(void)reloadPreferences;
 
 @property (nonatomic, retain) UIWindow *alertWindow;
 
