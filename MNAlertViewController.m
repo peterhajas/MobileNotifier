@@ -186,8 +186,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     closeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     closeButton.frame = CGRectMake(274, 7.0, 25.0, 26.0);
-    [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
-                           forState:UIControlStateNormal];
+
+    if (useBlackAlertStyle)
+    {
+        // Black alert style
+        [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss_black.png"]
+                               forState:UIControlStateNormal];    }
+    else
+    {
+        // Gray alert style
+        [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
+                               forState:UIControlStateNormal];    }
 
     // Wire up buttons
     [openButton addTarget:self action:@selector(openPushed:)
