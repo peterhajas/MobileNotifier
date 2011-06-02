@@ -54,6 +54,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UIButton* alertExpandButton;
 
     UILabel* alertHeaderLabel;
+    UILabel* alertTextLabel;
 
     UIImageView* alertActionBackgroundImageView;
     UIImageView* alertActionBackgroundImageViewShadow;
@@ -103,6 +104,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(readwrite) bool useBlackAlertStyle;
 
 @property(nonatomic, retain) UILabel* alertHeaderLabel;
+@property(nonatomic, retain) UILabel* alertTextLabel;
 
 @property(nonatomic, retain) UIButton* openButton;
 @property(nonatomic, retain) UIButton* laterButton;
