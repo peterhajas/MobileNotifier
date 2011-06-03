@@ -86,6 +86,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)fadeDashboardDown;
 -(void)fadeDashboardAway;
 -(void)showLockscreen;
+-(void)animateLockscreenLeft;
 -(void)hideLockscreen;
 -(void)hideLockscreenPendingAlertsList;
 -(void)hidePendingAlert;

@@ -264,6 +264,11 @@ void UIKeyboardDisableAutomaticAppearance(void);
     if ([pendingAlerts count] != 0) { [lockscreen show]; }
 }
 
+-(void)animateLockscreenLeft
+{
+    [lockscreen animateLeft];
+}
+
 -(void)hideLockscreen
 {
     [lockscreen hide];

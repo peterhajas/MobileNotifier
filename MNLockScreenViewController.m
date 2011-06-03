@@ -130,6 +130,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self refresh];
 }
 
+-(void)animateLeft
+{
+    [UIView beginAnimations:@"hidePendingAlertsList" context:NULL];
+        [UIView setAnimationDuration:0.4];
+        [lockWindow setFrame:CGRectMake(-320,115,320,54)];
+    [UIView commitAnimations];
+
+    pendingAlertsList.hidden = YES;
+}
+
 -(void)hidePendingAlertsList
 {
     [UIView beginAnimations:@"hidePendingAlertsList" context:NULL];
