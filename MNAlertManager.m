@@ -112,7 +112,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
 
                 MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
-                    
+
                 viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
                 viewController.delegate    = self;
                 pendingAlertViewController = viewController;
@@ -177,10 +177,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         {
             NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
             bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
-            
+
             MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
             viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
-			viewController.delegate    = self; 
+            viewController.delegate    = self;
             pendingAlertViewController = viewController;
             alertIsShowing             = YES;
 
@@ -246,6 +246,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     [dashboard fadeDashboardAway];
 }
+
+void UIKeyboardDisableAutomaticAppearance(void);
 
 -(void)showLockscreen
 {
