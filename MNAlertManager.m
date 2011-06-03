@@ -180,7 +180,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             
             MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
             viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
-			viewController.delegate    = self;
+			viewController.delegate    = self; 
             pendingAlertViewController = viewController;
             alertIsShowing             = YES;
 
