@@ -77,7 +77,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                                        andDelegate:_delegate];
 
         // Create the tableview
-        pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(0,54,320,215) style:UITableViewStylePlain];
+        pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(0,53,320,215) style:UITableViewStylePlain];
         pendingAlertsList.delegate = tableViewDataSource;
         pendingAlertsList.dataSource = tableViewDataSource;
         pendingAlertsList.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
