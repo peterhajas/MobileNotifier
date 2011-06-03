@@ -112,6 +112,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
 
                 MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+                    
                 viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
                 viewController.delegate    = self;
                 pendingAlertViewController = viewController;
@@ -174,8 +175,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         }
         if (!dashboard.dashboardShowing && [pendingAlerts count] > 0)
         {
+            NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
+            bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
+            
             MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
-            viewController.delegate    = self;
+            viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
+			viewController.delegate    = self; 
             pendingAlertViewController = viewController;
             alertIsShowing             = YES;
 
