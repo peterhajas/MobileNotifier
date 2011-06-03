@@ -147,7 +147,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     alertTextLabel.shadowOffset = CGSizeMake(0,1);
     [alertTextLabel setAlpha:0.0];
 
-    detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 55.0, 301.0, 72.0)];
+    detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 50.0, 303.0, 75.0)];
     detailText.delegate = self;
     detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:16.000];
     detailText.text = dataObj.text;
@@ -157,7 +157,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     detailText.editable = NO;
     [detailText setAlpha:0.0];
 
-    dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
+    dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 127.0, 65.0, 15.0)];
     dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
     dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
     dateText.textAlignment = UITextAlignmentLeft;
@@ -231,7 +231,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [sendButton addTarget:self action:@selector(sendPushed:)
                 forControlEvents:UIControlEventTouchUpInside];
 
-        charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 130.0, 45.0, 15.0)];
+        charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 127.0, 45.0, 15.0)];
         charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
         charactersTyped.text = @"0/160";
         charactersTyped.textAlignment = UITextAlignmentRight;
@@ -239,7 +239,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         charactersTyped.backgroundColor = [UIColor clearColor];
         [charactersTyped setAlpha:0.0];
 
-        textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
+        textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 145.0, 285.0, 50.0)];
         [textBox setDelegate:self];
         textBox.keyboardAppearance = UIKeyboardAppearanceAlert;
         textBox.keyboardType = UIKeyboardTypeDefault;
