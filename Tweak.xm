@@ -462,10 +462,10 @@ PHACInterface *phacinterface;
     return returnValue;
 }
 
--(void)emergencyCallWasDisplayed
+-(void)makeEmergencyCall
 {
     %orig;
-    [manager hideLockscreen];
+    [manager animateLockscreenLeft];
 }
 
 -(void)emergencyCallWasRemoved

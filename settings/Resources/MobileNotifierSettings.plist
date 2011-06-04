@@ -11,24 +11,26 @@
 			<string>Springboard</string>
 		</dict>
 		<dict>
-			<key>label</key>
-			<string>Alert Dashboard</string>
+			<key>alternateColors</key>
+			<true/>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<true/>
-			<key>alternateColors</key>
 			<true/>
 			<key>defaults</key>
 			<string>com.peterhajassoftware.mobilenotifier</string>
 			<key>key</key>
 			<string>switcherViewEnabled</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>label</key>
+			<string>Alert Dashboard</string>
 			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
 		<dict>
+			<key>alternateColors</key>
+			<true/>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
@@ -37,28 +39,44 @@
 			<string>com.peterhajassoftware.mobilenotifier</string>
 			<key>key</key>
 			<string>autoLaterAlertsEnabled</string>
-			<key>alternateColors</key>
-			<true/>
 			<key>label</key>
 			<string>Auto-Later Alerts</string>
+			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 			<key>postNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+		</dict>
+		<dict>
+			<key>alternateColors</key>
+			<true/>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.peterhajassoftware.mobilenotifier</string>
+			<key>key</key>
+			<string>blackAlertStyleEnabled</string>
+			<key>label</key>
+			<string>Black Alert Style</string>
 			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Lockscreen</string>
 			<key>footerText</key>
 			<string>Double-tap home button to view Alert Dashboard. Alternatively, you may bring it back up using a gesture via Activator.</string>
+			<key>label</key>
+			<string>Lockscreen</string>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
 			<key>alternateColors</key>
 			<true/>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
 			<key>default</key>
 			<true/>
 			<key>defaults</key>
@@ -67,34 +85,34 @@
 			<string>lockscreenEnabled</string>
 			<key>label</key>
 			<string>Lockscreen View</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
 		<dict>
+			<key>alternateColors</key>
+			<true/>
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<true/>
+			<false/>
 			<key>defaults</key>
 			<string>com.peterhajassoftware.mobilenotifier</string>
-			<key>alternateColors</key>
-			<true/>
 			<key>key</key>
 			<string>antiqueLockAlertsEnabled</string>
 			<key>label</key>
 			<string>Apple Alerts</string>
-			<key>postNotification</key>
-			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 			<key>PostNotification</key>
+			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
+			<key>postNotification</key>
 			<string>com.peterhajassoftware.mobilenotifier/reloadPrefs</string>
 		</dict>
 		<dict>
-			<key>label</key>
-			<string>Credits</string>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Credits</string>
 		</dict>
 		<dict>
 			<key>cell</key>

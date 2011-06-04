@@ -39,11 +39,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @implementation MNAlertViewController
 
 @synthesize alertBackgroundImageView, alertActionBackgroundImageView, iconImageView;
-@synthesize alertHeaderLabel;
+@synthesize alertHeaderLabel, alertTextLabel;
 @synthesize laterButton, openButton;
 
 @synthesize dataObj;
 @synthesize alertIsShowingPopOver;
+@synthesize useBlackAlertStyle;
 
 @synthesize delegate = _delegate;
 
@@ -77,8 +78,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [UIView setAnimationDelegate:self];
 
     alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)];
-    alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/statusbar_alert_bg.png"];
     [alertBackgroundImageView setAlpha:0.0];
+
+    if (useBlackAlertStyle)
+    {
+        // Black alert style
+        alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/alert_bg_small.png"];
+    }
+    else
+    {
+        // Gray alert style
+        alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/statusbar_alert_bg.png"];
+    }
 
     iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(17.0, 9.0, 22.5, 22.5)];
     iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
@@ -90,18 +101,53 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
     [alertExpandButton setAlpha:0.0];
 
-    alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 1.0, 216.0, 36.0)];
+    alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 3.0, 216.0, 22.0)];
     alertHeaderLabel.adjustsFontSizeToFitWidth = NO;
-    alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:16.000];
+    alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.000];
     alertHeaderLabel.text = dataObj.header;
     alertHeaderLabel.textAlignment = UITextAlignmentLeft;
-    alertHeaderLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
     alertHeaderLabel.backgroundColor = [UIColor clearColor];
-    alertHeaderLabel.shadowColor = [UIColor whiteColor];
+
+    if (useBlackAlertStyle)
+    {
+        // Black alert style
+        alertHeaderLabel.textColor   = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.0];
+        alertHeaderLabel.shadowColor = [UIColor grayColor];
+    }
+    else
+    {
+        // Gray alert style
+        alertHeaderLabel.textColor   = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
+        alertHeaderLabel.shadowColor = [UIColor whiteColor];
+    }
+
     alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
     [alertHeaderLabel setAlpha:0.0];
 
-    detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 55.0, 301.0, 72.0)];
+    alertTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 17.0, 216.0, 22.0)];
+    alertTextLabel.adjustsFontSizeToFitWidth = NO;
+    alertTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.000];
+    alertTextLabel.text = dataObj.text;
+    alertTextLabel.textAlignment = UITextAlignmentLeft;
+    alertTextLabel.backgroundColor = [UIColor clearColor];
+
+    if (useBlackAlertStyle)
+    {
+        // Black alert style
+        alertTextLabel.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:1.000];
+        alertTextLabel.shadowColor = [UIColor blackColor];
+    }
+    else
+    {
+        // Gray alert style
+        alertTextLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
+        alertTextLabel.shadowColor = [UIColor whiteColor];
+    }
+
+    alertTextLabel.shadowOffset = CGSizeMake(0,1);
+    [alertTextLabel setAlpha:0.0];
+
+    detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 50.0, 303.0, 75.0)];
     detailText.delegate = self;
     detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:16.000];
     detailText.text = dataObj.text;
@@ -111,7 +157,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     detailText.editable = NO;
     [detailText setAlpha:0.0];
 
-    dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 130.0, 65.0, 15.0)];
+    dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 127.0, 65.0, 15.0)];
     dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
     dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
     dateText.textAlignment = UITextAlignmentLeft;
@@ -140,8 +186,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     closeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     closeButton.frame = CGRectMake(274, 7.0, 25.0, 26.0);
-    [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
-                           forState:UIControlStateNormal];
+
+    if (useBlackAlertStyle)
+    {
+        // Black alert style
+        [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss_black.png"]
+                               forState:UIControlStateNormal];    }
+    else
+    {
+        // Gray alert style
+        [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
+                               forState:UIControlStateNormal];    }
 
     // Wire up buttons
     [openButton addTarget:self action:@selector(openPushed:)
@@ -176,7 +231,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [sendButton addTarget:self action:@selector(sendPushed:)
                 forControlEvents:UIControlEventTouchUpInside];
 
-        charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 130.0, 45.0, 15.0)];
+        charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 127.0, 45.0, 15.0)];
         charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
         charactersTyped.text = @"0/160";
         charactersTyped.textAlignment = UITextAlignmentRight;
@@ -184,7 +239,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         charactersTyped.backgroundColor = [UIColor clearColor];
         [charactersTyped setAlpha:0.0];
 
-        textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 155.0, 285.0, 36.0)];
+        textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 145.0, 285.0, 50.0)];
         [textBox setDelegate:self];
         textBox.keyboardAppearance = UIKeyboardAppearanceAlert;
         textBox.keyboardType = UIKeyboardTypeDefault;
@@ -198,11 +253,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self.view addSubview:alertBackgroundImageView];
     [self.view addSubview:iconImageView];
     [self.view addSubview:alertHeaderLabel];
+    [self.view addSubview:alertTextLabel];
     [self.view addSubview:alertExpandButton];
 
     // Release the stuff we don't want to hang on to
     [alertBackgroundImageView release];
     [alertHeaderLabel         release];
+    [alertTextLabel           release];
 
     alertIsShowingPopOver = NO;
 
@@ -319,6 +376,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [alertBackgroundImageView             setAlpha:0.0];
         [iconImageView                        setAlpha:0.0];
         [alertHeaderLabel                     setAlpha:0.0];
+        [alertTextLabel                       setAlpha:0.0];
         [alertExpandButton                    setAlpha:0.0];
         [alertActionBackgroundImageView       setAlpha:0.0];
         [alertActionBackgroundImageViewShadow setAlpha:0.0];
@@ -351,6 +409,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [alertBackgroundImageView setAlpha:1.0];
         [iconImageView            setAlpha:1.0];
         [alertHeaderLabel         setAlpha:1.0];
+        [alertTextLabel           setAlpha:1.0];
         [alertExpandButton        setAlpha:1.0];
     [UIView commitAnimations];
 }

@@ -108,7 +108,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             }
             if (!dashboard.dashboardShowing && ![lockscreen isShowing])
             {
+                NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
+                bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
+
                 MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+
+                viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
                 viewController.delegate    = self;
                 pendingAlertViewController = viewController;
                 alertIsShowing             = YES;
@@ -170,7 +175,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         }
         if (!dashboard.dashboardShowing && [pendingAlerts count] > 0)
         {
+            NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
+            bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
+
             MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
+            viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
             viewController.delegate    = self;
             pendingAlertViewController = viewController;
             alertIsShowing             = YES;
@@ -238,6 +247,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [dashboard fadeDashboardAway];
 }
 
+void UIKeyboardDisableAutomaticAppearance(void);
+
 -(void)showLockscreen
 {
     // Disable the keyboard automatically appearing
@@ -251,6 +262,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self hidePendingAlert];
 
     if ([pendingAlerts count] != 0) { [lockscreen show]; }
+}
+
+-(void)animateLockscreenLeft
+{
+    [lockscreen animateLeft];
 }
 
 -(void)hideLockscreen

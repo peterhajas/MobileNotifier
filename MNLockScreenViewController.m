@@ -77,7 +77,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                                                        andDelegate:_delegate];
 
         // Create the tableview
-        pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(0,54,320,215) style:UITableViewStylePlain];
+        pendingAlertsList = [[UITableView alloc] initWithFrame:CGRectMake(0,53,320,215) style:UITableViewStylePlain];
         pendingAlertsList.delegate = tableViewDataSource;
         pendingAlertsList.dataSource = tableViewDataSource;
         pendingAlertsList.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
@@ -128,6 +128,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [lockWindow setFrame:CGRectMake(0,115,320,60)];
     lockWindow.hidden = NO;
     [self refresh];
+}
+
+-(void)animateLeft
+{
+    [UIView beginAnimations:@"hidePendingAlertsList" context:NULL];
+        [UIView setAnimationDuration:0.4];
+        [lockWindow setFrame:CGRectMake(-320,115,320,54)];
+    [UIView commitAnimations];
+
+    pendingAlertsList.hidden = YES;
 }
 
 -(void)hidePendingAlertsList
