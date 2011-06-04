@@ -44,18 +44,111 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)alertArrivedWithData:(MNAlertData*)data;
 {
-    // Have the device vibrate, if the ringer switch
-    // is flipped (and if the device supports it)
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+	// Get user setting for current notification tone on phone
+	NSString *filePath = @"/private/var/mobile/Library/Preferences/com.apple.springboard.plist";
+    NSMutableDictionary* plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
 
-    // Play noise, if the ringer switch is not
-    // flipped (and if the device supports it)
-    // Don't do this for push notifications
-
-    if (data.type != kPushAlert)
-    {
-        AudioServicesPlaySystemSound(1007);
-    }
+    NSString *smsTone;
+    smsTone = [plistDict objectForKey:@"sms-sound-identifier"];
+	
+	// Statements based on setting to play proper tone on phone
+	if ([smsTone isEqualToString:@"Tri-tone"])
+	{
+		AudioServicesPlayAlertSound(1007);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Chime"])
+	{
+		AudioServicesPlayAlertSound(1008);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Glass"])
+	{
+		AudioServicesPlayAlertSound(1009);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Horn"])
+	{
+		AudioServicesPlayAlertSound(1010);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Bell"])
+	{
+		AudioServicesPlayAlertSound(1013);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Electronic"])
+	{
+		AudioServicesPlayAlertSound(1014);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Anticipate"])
+	{
+		AudioServicesPlayAlertSound(1020);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Bloom"])
+	{
+		AudioServicesPlayAlertSound(1021);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Calypso"])
+	{
+		AudioServicesPlayAlertSound(1022);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Choo Choo"])
+	{
+		AudioServicesPlayAlertSound(1023);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Descent"])
+	{
+		AudioServicesPlayAlertSound(1024);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Fanfare"])
+	{
+		AudioServicesPlayAlertSound(1025);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Ladder"])
+	{
+		AudioServicesPlayAlertSound(1026);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Minuet"])
+	{
+		AudioServicesPlayAlertSound(1027);
+	}
+	else if ([smsTone isEqualToString:@"texttone:News Flash"])
+	{
+		AudioServicesPlayAlertSound(1028);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Noir"])
+	{
+		AudioServicesPlayAlertSound(1029);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Sherwood Forest"])
+	{
+		AudioServicesPlayAlertSound(1030);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Spell"])
+	{
+		AudioServicesPlayAlertSound(1031);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Suspense"])
+	{
+		AudioServicesPlayAlertSound(1032);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Telegraph"])
+	{
+		AudioServicesPlayAlertSound(1033);
+	}
+	else if ([smsTone isEqualToString:@"texttone:TipToes"])
+	{
+		AudioServicesPlayAlertSound(1034);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Typewriters"])
+	{
+		AudioServicesPlayAlertSound(1035);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Update"])
+	{
+		AudioServicesPlayAlertSound(1036);
+	}
+	else
+	{
+		// There be dragons here!
+    	AudioServicesPlayAlertSound(1007);
+	}
 
     // Wake the device's screen
     [_delegate wakeDeviceScreen];
