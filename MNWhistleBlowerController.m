@@ -76,6 +76,74 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	{
 		AudioServicesPlayAlertSound(1014);
 	}
+	else if ([smsTone isEqualToString:@"texttone:Anticipate"])
+	{
+		AudioServicesPlayAlertSound(1020);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Bloom"])
+	{
+		AudioServicesPlayAlertSound(1021);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Calypso"])
+	{
+		AudioServicesPlayAlertSound(1022);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Choo Choo"])
+	{
+		AudioServicesPlayAlertSound(1023);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Descent"])
+	{
+		AudioServicesPlayAlertSound(1024);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Fanfare"])
+	{
+		AudioServicesPlayAlertSound(1025);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Ladder"])
+	{
+		AudioServicesPlayAlertSound(1026);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Minuet"])
+	{
+		AudioServicesPlayAlertSound(1027);
+	}
+	else if ([smsTone isEqualToString:@"texttone:News Flash"])
+	{
+		AudioServicesPlayAlertSound(1028);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Noir"])
+	{
+		AudioServicesPlayAlertSound(1029);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Sherwood Forest"])
+	{
+		AudioServicesPlayAlertSound(1030);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Spell"])
+	{
+		AudioServicesPlayAlertSound(1031);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Suspense"])
+	{
+		AudioServicesPlayAlertSound(1032);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Telegraph"])
+	{
+		AudioServicesPlayAlertSound(1033);
+	}
+	else if ([smsTone isEqualToString:@"texttone:TipToes"])
+	{
+		AudioServicesPlayAlertSound(1034);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Typewriters"])
+	{
+		AudioServicesPlayAlertSound(1035);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Update"])
+	{
+		AudioServicesPlayAlertSound(1036);
+	}
 	else
 	{
 		// There be dragons here!
