@@ -44,11 +44,43 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)alertArrivedWithData:(MNAlertData*)data;
 {
-    // Play sound as an alert so the phone vibrates as the user has set
-    // This needs the sound pulled from the system settings to play the
-    // Actual set ringtone. It will still play tritone.
-    // The setting is in com.apple.springboard.plist sms-sound-identifier
-    AudioServicesPlayAlertSound(1007);
+	// Get user setting for current notification tone on phone
+	NSString *filePath = @"/private/var/mobile/Library/Preferences/com.apple.springboard.plist";
+    NSMutableDictionary* plistDict = [[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
+
+    NSString *smsTone;
+    smsTone = [plistDict objectForKey:@"sms-sound-identifier"];
+	
+	// Statements based on setting to play proper tone on phone
+	if ([smsTone isEqualToString:@"Tri-tone"])
+	{
+		AudioServicesPlayAlertSound(1007);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Chime"])
+	{
+		AudioServicesPlayAlertSound(1008);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Glass"])
+	{
+		AudioServicesPlayAlertSound(1009);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Horn"])
+	{
+		AudioServicesPlayAlertSound(1010);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Bell"])
+	{
+		AudioServicesPlayAlertSound(1013);
+	}
+	else if ([smsTone isEqualToString:@"texttone:Electronic"])
+	{
+		AudioServicesPlayAlertSound(1014);
+	}
+	else
+	{
+		// There be dragons here!
+    	AudioServicesPlayAlertSound(1007);
+	}
 
     // Wake the device's screen
     [_delegate wakeDeviceScreen];
