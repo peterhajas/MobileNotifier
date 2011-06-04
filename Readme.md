@@ -142,3 +142,6 @@ Marc Easen - easen.co.uk - for implementing calendar invitation alerts
 
 Tim Horton - hortont.com - for his help with debugging and testing
 
+Frederik Vanggaard - github.com/Drudoo - for his help with debugging and testing
+
+Sammargh - github.com/sammargh - for his help with fixing the SMS notification tones
