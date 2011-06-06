@@ -48,6 +48,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNAlertViewController : UIViewController <UITextViewDelegate>
 {
+    UIScrollView *notificationScrollView;
+    UIView* notificationView;
+    CGRect notificationViewRect;
+    
+    bool isAnimationInProgress;
+    
     UIImageView* alertBackgroundImageView;
     UIImageView* iconImageView;
 
@@ -73,13 +79,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     bool alertIsShowingPopOver;
     bool useBlackAlertStyle;
+    
+    NSMutableArray* pendingAlerts;
+    int index;
 
     MNAlertData* dataObj;
 
     id<MNAlertViewControllerDelegate> _delegate;
 }
 
--(id)initWithMNData:(MNAlertData*) data;
+-(id)initWithMNData:(MNAlertData*) data pendingAlerts:(NSMutableArray *)pendingAlerts;
+
+-(void)loadViewInfo;
+
+-(void)slideAwayRight;
+-(void)slideAwayLeft;
+-(void)slideIn;
 
 -(void)chevronPushed:(id)sender;
 
@@ -88,6 +103,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)fadeInView;
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context;
 
+-(void)loadData;
 -(void)openPushed:(id)sender;
 -(void)laterPushed:(id)sender;
 -(void)closePushed:(id)sender;
@@ -110,4 +126,3 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @property(nonatomic, retain) UIButton* laterButton;
 
 @end
-

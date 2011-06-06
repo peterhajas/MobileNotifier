@@ -111,7 +111,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
                 bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
 
-                MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+                MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data pendingAlerts:pendingAlerts];
 
                 viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
                 viewController.delegate    = self;
@@ -178,7 +178,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
             bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
 
-            MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
+            MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0] pendingAlerts:pendingAlerts];
             viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
             viewController.delegate    = self;
             pendingAlertViewController = viewController;
@@ -508,4 +508,3 @@ void UIKeyboardDisableAutomaticAppearance(void);
 }
 
 @end
-
