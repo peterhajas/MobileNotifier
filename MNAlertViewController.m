@@ -1,4 +1,3 @@
-
 /*
 Copyright (c) 2010-2011, Peter Hajas
 All rights reserved.
@@ -66,7 +65,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     dataObj = data;
     
-    // Might need to use a method for this and not an = operator?
     pendingAlerts = _pendingAlerts;
 
     return self;
@@ -275,7 +273,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         
         textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 145.0, 285.0, 50.0)];
         [textBox setDelegate:self];
-        // textBox.keyboardAppearance = UIKeyboardAppearanceAlert;      Semi-Transparent keyboard
+        textBox.keyboardAppearance = UIKeyboardAppearanceAlert;
         textBox.keyboardType = UIKeyboardTypeDefault;
         textBox.returnKeyType = UIReturnKeyDefault;
         textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
