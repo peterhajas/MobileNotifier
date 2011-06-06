@@ -80,6 +80,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)fadeDashboardAway;
 -(void)showDashboard;
 -(void)clearDashboardPushed:(id)sender;
+-(void)toggleAlertListView:(id)sender;
+-(void)expandAlertListview;
 -(void)refresh;
 -(bool)isShowing;
 

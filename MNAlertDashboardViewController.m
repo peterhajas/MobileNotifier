@@ -107,7 +107,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         // Create and wire up the button for showing and hiding the alertListView
         showAlertsListViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
         showAlertsListViewButton.frame = CGRectMake(0,0,320,54);
-        [showAlertsListViewButton addTarget:self action:@selector(togglealertListView:)
+        [showAlertsListViewButton addTarget:self action:@selector(toggleAlertListView:)
                  forControlEvents:UIControlEventTouchUpInside];
 
         [window addSubview:backgroundImageView];
@@ -237,7 +237,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [UIView commitAnimations];
 }
 
--(void)togglealertListView:(id)sender
+-(void)toggleAlertListView:(id)sender
 {
     [self refresh];
     if (isExpanded)
