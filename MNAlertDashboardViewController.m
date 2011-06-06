@@ -94,7 +94,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         // Table View Data Source
         tableViewDataSourceEditable = [[MNAlertTableViewDataSourceEditable alloc] initWithStyle:kMNAlertTableViewDataSourceTypePending
                                                                                     andDelegate:_delegate];
-
         // Create the tableview
         alertListView = [[UITableView alloc] initWithFrame:CGRectMake(0,54,320,332) style:UITableViewStylePlain];
         alertListView.delegate = self;
@@ -104,11 +103,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertListView.hidden = NO;
         alertListView.allowsSelection = YES;
 
-        // Create and wire up the button for showing and hiding the alertListView
+        // Create and wire up the button for showing and hiding the dashboard,
+        // and hiding the clear all button
         showAlertsListViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
         showAlertsListViewButton.frame = CGRectMake(0,0,320,54);
-        [showAlertsListViewButton addTarget:self action:@selector(toggleAlertListView:)
-                 forControlEvents:UIControlEventTouchUpInside];
+        [showAlertsListViewButton addTarget:self action:@selector(dismissSwitcherOrClearButton) forControlEvents:UIControlEventTouchUpInside];
+
+        // Wireup swiping to the right to display clear all button
+        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(addClearButton)];
+        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+        [window addGestureRecognizer:swipeRight];
+        [swipeRight release];
 
         [window addSubview:backgroundImageView];
         [window addSubview:logoImageView];
@@ -119,7 +124,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [window addSubview:showAlertsListViewButton];
 
         dashboardShowing = NO;
-        isExpanded = NO;
 
         [self refresh];
     }
@@ -131,12 +135,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     // Make the clear all button appear
     [window addSubview:clearAllButton];
+    isClearButtonVisible = YES;
 }
 
 -(void)removeClearButton
 {
     // Make the clear all button go away
     [clearAllButton removeFromSuperview];
+    isClearButtonVisible = NO;
 }
 
 -(void)refresh
@@ -165,9 +171,21 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [self refresh];
 }
 
--(void)dismissSwitcher:(id)sender
+-(void)dismissSwitcher
 {
     [_delegate dismissSwitcher];
+}
+
+-(void)dismissSwitcherOrClearButton
+{
+    if (isClearButtonVisible == NO)
+    {
+        [self dismissSwitcher];
+    }
+    else
+    {
+        [self removeClearButton];
+    }
 }
 
 -(void)toggleDashboard
@@ -228,6 +246,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     window.hidden                 = NO;
     dashboardShowing              = YES;
 
+    // Ensure that the clear all button
+    // never shows when we load the dashboard
+    if (isClearButtonVisible)
+    {
+      [self removeClearButton];
+    }
+
     // Restore previously transformed elements
     alertListView.transform  = CGAffineTransformIdentity;
 
@@ -237,49 +262,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [UIView commitAnimations];
 }
 
--(void)toggleAlertListView:(id)sender
-{
-    [self refresh];
-    if (isExpanded)
-    {
-        [UIView beginAnimations:@"listDisappear" context:NULL];
-            [UIView setAnimationDuration:0.1];
-            [window setFrame:CGRectMake(0,0,320,385)];
-            [self addClearButton];
-        [UIView commitAnimations];
-
-        alertListView.hidden = NO;
-        isExpanded = !isExpanded;
-
-        NSLog(@"new frame:%f x %f", window.frame.size.width, window.frame.size.height);
-    }
-    else
-    {
-        [self expandAlertListView];
-    }
-}
-
--(void)expandAlertListView
-{
-    [self refresh];
-    [UIView beginAnimations:@"listAppear" context:NULL];
-        [UIView setAnimationDuration:0.1];
-        [window setFrame:CGRectMake(0,0,320,54)];
-        [self removeClearButton];
-    [UIView commitAnimations];
-
-    alertListView.hidden = YES;
-    isExpanded = YES;
-
-    NSLog(@"new frame:%f x %f", window.frame.size.width, window.frame.size.height);
-}
-
 -(void)clearDashboardPushed:(id)sender
 {
-    // Clear notifications!
     [_delegate clearPending];
-    // Hide the dashboard view
-    [self fadeDashboardDown];
+    [self dismissSwitcher];
 }
 
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context

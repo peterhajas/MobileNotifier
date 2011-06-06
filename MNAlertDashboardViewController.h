@@ -57,6 +57,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UITableView *alertListView;
 
     bool dashboardShowing;
+    bool isClearButtonVisible;
 
     UIActionSheet* clearActionSheet;
 
@@ -70,8 +71,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UILabel* numberOfPendingAlertsLabel;
     UILabel* mobileNotifierTextLabel;
     UIButton* showAlertsListViewButton;
-
-    bool isExpanded;
 }
 
 -(id)initWithDelegate:(id)__delegate;
@@ -80,10 +79,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)fadeDashboardAway;
 -(void)showDashboard;
 -(void)clearDashboardPushed:(id)sender;
--(void)toggleAlertListView:(id)sender;
--(void)expandAlertListview;
 -(void)refresh;
 -(bool)isShowing;
+-(void)addClearButton;
+-(void)removeClearButton;
+-(void)dismissSwitcher;
+-(void)dismissSwitcherOrClearButton;
 
 @property (nonatomic, retain) UIWindow *window;
 @property (readwrite) bool dashboardShowing;
