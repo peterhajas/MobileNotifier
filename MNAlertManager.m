@@ -274,6 +274,11 @@ void UIKeyboardDisableAutomaticAppearance(void);
     [lockscreen hide];
 }
 
+-(void)toggleLockWindowUserInteraction
+{
+    [lockscreen toggleLockWindowUserInteraction];
+}
+
 -(void)hideLockscreenPendingAlertsList
 {
     [lockscreen hidePendingAlertsList];
@@ -293,6 +298,16 @@ void UIKeyboardDisableAutomaticAppearance(void);
 
     // If the alert is expanded, then let's not have the alert go to "later"
     if (pendingAlertViewController.alertIsShowingPopOver) { return; }
+
+    // If pop over is not up and there has been a swipe, then reset the timer
+    else if (pendingAlertViewController.hasSwiped) {
+        [alertDismissTimer invalidate];
+        alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+        
+        // Reset hasSwiped
+        [pendingAlertViewController setHasSwiped:NO];
+        return;
+    }
 
     [pendingAlertViewController laterPushed:nil];
 }
