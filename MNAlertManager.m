@@ -111,7 +111,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
                 bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
 
-                MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data];
+                MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:data pendingAlerts:pendingAlerts];
 
                 viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
                 viewController.delegate    = self;
@@ -178,7 +178,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             NSNumber *blackAlertStyleEnabled = [preferenceManager.preferences valueForKey:@"blackAlertStyleEnabled"];
             bool isBlackAlertStyleEnabled    = blackAlertStyleEnabled ? [blackAlertStyleEnabled boolValue] : YES;
 
-            MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0]];
+            MNAlertViewController *viewController = [[MNAlertViewController alloc] initWithMNData:[pendingAlerts objectAtIndex:0] pendingAlerts:pendingAlerts];
             viewController.useBlackAlertStyle = isBlackAlertStyleEnabled;
             viewController.delegate    = self;
             pendingAlertViewController = viewController;
@@ -298,6 +298,16 @@ void UIKeyboardDisableAutomaticAppearance(void);
 
     // If the alert is expanded, then let's not have the alert go to "later"
     if (pendingAlertViewController.alertIsShowingPopOver) { return; }
+
+    // If pop over is not up and there has been a swipe, then reset the timer
+    else if (pendingAlertViewController.hasSwiped) {
+        [alertDismissTimer invalidate];
+        alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
+        
+        // Reset hasSwiped
+        [pendingAlertViewController setHasSwiped:NO];
+        return;
+    }
 
     [pendingAlertViewController laterPushed:nil];
 }
@@ -508,4 +518,3 @@ void UIKeyboardDisableAutomaticAppearance(void);
 }
 
 @end
-
