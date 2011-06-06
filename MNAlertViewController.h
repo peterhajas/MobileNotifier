@@ -48,11 +48,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @interface MNAlertViewController : UIViewController <UITextViewDelegate>
 {
-    UIScrollView *notificationScrollView;
+    UIScrollView* notificationScrollView;
     UIView* notificationView;
     CGRect notificationViewRect;
     
     bool isAnimationInProgress;
+    bool hasSwiped;
     
     UIImageView* alertBackgroundImageView;
     UIImageView* iconImageView;
@@ -118,6 +119,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @property(readwrite) bool alertIsShowingPopOver;
 @property(readwrite) bool useBlackAlertStyle;
+@property(readwrite) bool hasSwiped;
 
 @property(nonatomic, retain) UILabel* alertHeaderLabel;
 @property(nonatomic, retain) UILabel* alertTextLabel;
