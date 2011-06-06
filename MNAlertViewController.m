@@ -46,6 +46,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize dataObj;
 @synthesize alertIsShowingPopOver;
 @synthesize useBlackAlertStyle;
+@synthesize hasSwiped;
 
 @synthesize delegate = _delegate;
 
@@ -66,7 +67,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     dataObj = data;
     
-    // Might need to use a method for this and not an = operator?
     pendingAlerts = _pendingAlerts;
 
     return self;
@@ -275,7 +275,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         
         textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 145.0, 285.0, 50.0)];
         [textBox setDelegate:self];
-        // textBox.keyboardAppearance = UIKeyboardAppearanceAlert;      Semi-Transparent keyboard
+        textBox.keyboardAppearance = UIKeyboardAppearanceAlert;
         textBox.keyboardType = UIKeyboardTypeDefault;
         textBox.returnKeyType = UIReturnKeyDefault;
         textBox.font = [UIFont fontWithName:@"HelveticaNeue" size:12.500];
@@ -603,6 +603,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (scrollView == notificationScrollView)
+    {
+        [self setHasSwiped:YES];
+    }
+    else if (scrollView.contentOffset.x != 0.0)
+    {
+        [scrollView setContentOffset: CGPointMake(0.0, scrollView.contentOffset.y)];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
     if (scrollView == notificationScrollView) {
         // If scroll was far enough to the left
         if ([notificationScrollView contentOffset].x > 60) {
@@ -612,10 +624,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         else if ([notificationScrollView contentOffset].x < -60) {
             [self slideAwayRight];
         }
-    }
-    else if (scrollView.contentOffset.x != 0.0)
-    {
-        [scrollView setContentOffset: CGPointMake(0.0, scrollView.contentOffset.y)];
     }
 }
 
