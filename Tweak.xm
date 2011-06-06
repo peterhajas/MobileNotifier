@@ -462,6 +462,16 @@ PHACInterface *phacinterface;
     return returnValue;
 }
 
+-(void)didAnimateLockKeypadIn
+{
+    [manager toggleLockWindowUserInteraction];
+}
+
+-(void)didAnimateLockKeypadOut
+{
+    [manager toggleLockWindowUserInteraction];
+}
+
 -(void)makeEmergencyCall
 {
     %orig;

@@ -88,6 +88,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)showLockscreen;
 -(void)animateLockscreenLeft;
 -(void)hideLockscreen;
+-(void)toggleLockWindowUserInteraction;
 -(void)hideLockscreenPendingAlertsList;
 -(void)hidePendingAlert;
 -(void)reloadPreferences;

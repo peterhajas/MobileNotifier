@@ -65,6 +65,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)expandPendingAlertsList;
 
 -(bool)isShowing;
+-(void)toggleLockWindowUserInteraction;
 
 @property (nonatomic, retain) id <MNLockScreenViewControllerDelegate> delegate;
 

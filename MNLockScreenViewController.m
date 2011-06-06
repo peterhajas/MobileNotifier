@@ -197,5 +197,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     return !lockWindow.hidden;
 }
 
+-(void)toggleLockWindowUserInteraction
+{
+    lockWindow.userInteractionEnabled = (lockWindow.userInteractionEnabled == NO) ? YES : NO;
+}
+
 @end
 

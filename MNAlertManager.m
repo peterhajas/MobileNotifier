@@ -274,6 +274,11 @@ void UIKeyboardDisableAutomaticAppearance(void);
     [lockscreen hide];
 }
 
+-(void)toggleLockWindowUserInteraction
+{
+    [lockscreen toggleLockWindowUserInteraction];
+}
+
 -(void)hideLockscreenPendingAlertsList
 {
     [lockscreen hidePendingAlertsList];
