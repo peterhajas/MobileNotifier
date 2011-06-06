@@ -45,6 +45,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @synthesize dataObj;
 @synthesize alertIsShowingPopOver;
 @synthesize useBlackAlertStyle;
+@synthesize hasSwiped;
 
 @synthesize delegate = _delegate;
 
@@ -602,6 +603,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == notificationScrollView) {
+        [self setHasSwiped:YES];
+        
         // If scroll was far enough to the left
         if ([notificationScrollView contentOffset].x > 60) {
             [self slideAwayLeft];
