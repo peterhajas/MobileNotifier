@@ -1,3 +1,4 @@
+
 /*
 Copyright (c) 2010-2011, Peter Hajas
 All rights reserved.
@@ -602,9 +603,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView == notificationScrollView) {
+    if (scrollView == notificationScrollView)
+    {
         [self setHasSwiped:YES];
-        
+    }
+    else if (scrollView.contentOffset.x != 0.0)
+    {
+        [scrollView setContentOffset: CGPointMake(0.0, scrollView.contentOffset.y)];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (scrollView == notificationScrollView) {
         // If scroll was far enough to the left
         if ([notificationScrollView contentOffset].x > 60) {
             [self slideAwayLeft];
@@ -613,10 +624,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         else if ([notificationScrollView contentOffset].x < -60) {
             [self slideAwayRight];
         }
-    }
-    else if (scrollView.contentOffset.x != 0.0)
-    {
-        [scrollView setContentOffset: CGPointMake(0.0, scrollView.contentOffset.y)];
     }
 }
 
