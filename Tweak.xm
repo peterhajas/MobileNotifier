@@ -464,11 +464,13 @@ PHACInterface *phacinterface;
 
 -(void)didAnimateLockKeypadIn
 {
+    %orig;
     [manager toggleLockWindowUserInteraction];
 }
 
 -(void)didAnimateLockKeypadOut
 {
+    %orig;
     [manager toggleLockWindowUserInteraction];
 }
 
