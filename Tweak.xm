@@ -161,7 +161,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     // If we can't grab the app from the
     // SBApplicationController, then we can't launch.
-    if([[sbac applicationsWithBundleIdentifier:bundleID] count] < 1)
+    if ([[sbac applicationsWithBundleIdentifier:bundleID] count] < 1)
     {
         // Just return nothing. It's better than something!
         return nil;
@@ -263,7 +263,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     SBAwayController* awayController = (SBAwayController *)[%c(SBAwayController) sharedAwayController];
 
-    if(!awayController)
+    if (!awayController)
     {
         return NO;
     }
@@ -377,7 +377,7 @@ PHACInterface *phacinterface;
         }
     }
     // It's a voicemail alert!
-    else if([item isKindOfClass:%c(SBVoiceMailAlertItem)])
+    else if ([item isKindOfClass:%c(SBVoiceMailAlertItem)])
     {
         data = [[MNAlertData alloc] init];
         data.time = [[NSDate date] retain];
@@ -391,20 +391,19 @@ PHACInterface *phacinterface;
     // It's a calandar invite
     else if ([item isKindOfClass:%c(SBInvitationAlertItem)])
     {
-    	NSString *_title = MSHookIvar<NSString*>(item, "_title");
-    	NSString *_organizer = MSHookIvar<NSString*>(item, "_organizer");
+        NSString *_title = MSHookIvar<NSString*>(item, "_title");
+        NSString *_organizer = MSHookIvar<NSString*>(item, "_organizer");
 
-    	data = [[MNAlertData alloc] init];
-        data.time = [[NSDate date] retain];
-        data.status = kNewAlertForeground;
-        data.type = kCalendarAlert;
-        data.bundleID = @"com.apple.mobilecal";
-        data.header = _title;
-        data.text = _organizer;
+        data = [[MNAlertData alloc] init];
+            data.time = [[NSDate date] retain];
+            data.status = kNewAlertForeground;
+            data.type = kCalendarAlert;
+            data.bundleID = @"com.apple.mobilecal";
+            data.header = _title;
+            data.text = _organizer;
         [manager newAlertWithData:data];
-		[%c(SBInvitationAlertItem) _removeActiveItem:item];
+        [%c(SBInvitationAlertItem) _removeActiveItem:item];
     }
-
     // It's a different alert (power/app store, for example)
     else
     {

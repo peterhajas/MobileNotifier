@@ -51,10 +51,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     UIScrollView* notificationScrollView;
     UIView* notificationView;
     CGRect notificationViewRect;
-    
+
     bool isAnimationInProgress;
     bool hasSwiped;
-    
+
     UIImageView* alertBackgroundImageView;
     UIImageView* iconImageView;
 
@@ -80,7 +80,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     bool alertIsShowingPopOver;
     bool useBlackAlertStyle;
-    
+
     NSMutableArray* pendingAlerts;
     int index;
 

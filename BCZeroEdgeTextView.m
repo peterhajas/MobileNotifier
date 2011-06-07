@@ -4,7 +4,7 @@
 
 -(UIEdgeInsets)contentInset
 {
-	return UIEdgeInsetsZero;
+    return UIEdgeInsetsZero;
 }
 
 @end

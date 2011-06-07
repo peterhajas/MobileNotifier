@@ -303,7 +303,7 @@ void UIKeyboardDisableAutomaticAppearance(void);
     else if (pendingAlertViewController.hasSwiped) {
         [alertDismissTimer invalidate];
         alertDismissTimer = [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(alertShouldGoLaterTimerFired:) userInfo:nil repeats:NO];
-        
+
         // Reset hasSwiped
         [pendingAlertViewController setHasSwiped:NO];
         return;

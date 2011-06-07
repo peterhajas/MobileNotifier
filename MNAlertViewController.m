@@ -66,7 +66,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     self = [super init];
 
     dataObj = data;
-    
+
     pendingAlerts = _pendingAlerts;
 
     return self;
@@ -75,10 +75,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)loadView
 {
     [super loadView];
-    
+
     // Set position of notificationView here
     notificationViewRect = CGRectMake(0, 0, 320, 40);
-    
+
     self.view.frame = CGRectMake(0,0,320,40);
 
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
@@ -97,33 +97,33 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         // Gray alert style
         alertBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/statusbar_alert_bg.png"];
     }
-    
+
     alertExpandButton = [UIButton buttonWithType:UIButtonTypeCustom];
     alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
     [alertExpandButton setAlpha:0.0];
-    
+
     // Popdown alert actions
     alertActionBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(3.5, 30.0, 313.0, 229.0)];
     alertActionBackgroundImageView.image = [UIImage imageWithContentsOfFile:@"/Library/Application Support/MobileNotifier/popout_bg.png"];
     alertActionBackgroundImageView.opaque = NO;
     alertActionBackgroundImageView.backgroundColor = [UIColor clearColor];
     alertActionBackgroundImageView.alpha = 0.0;
-    
+
     openButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     openButton.frame = CGRectMake(72.0, 205.0, 46.0, 40.0);
     [openButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_open.png"]
                           forState:UIControlStateNormal];
     [openButton setAlpha:0.0];
-    
+
     laterButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     laterButton.frame = CGRectMake(16.0, 205.0, 46.0, 40.0);
     [laterButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/btn_archive.png"]
                            forState:UIControlStateNormal];
     [laterButton setAlpha:0.0];
-    
+
     closeButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     closeButton.frame = CGRectMake(274, 7.0, 25.0, 26.0);
-    
+
     if (useBlackAlertStyle)
     {
         // Black alert style
@@ -134,17 +134,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         // Gray alert style
         [closeButton setBackgroundImage:[UIImage imageWithContentsOfFile: @"/Library/Application Support/MobileNotifier/statusbar_alert_dismiss.png"]
                                forState:UIControlStateNormal];    }
-    
+
     // Wire up buttons
     [openButton addTarget:self action:@selector(openPushed:)
          forControlEvents:UIControlEventTouchUpInside];
-    
+
     [laterButton addTarget:self action:@selector(laterPushed:)
           forControlEvents:UIControlEventTouchUpInside];
-    
+
     [closeButton addTarget:self action:@selector(closePushed:)
           forControlEvents:UIControlEventTouchUpInside];
-    
+
     [alertExpandButton addTarget:self action:@selector(chevronPushed:)
           forControlEvents:UIControlEventTouchUpInside];
 
@@ -167,27 +167,27 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [notificationScrollView setAlwaysBounceHorizontal:YES];
     [notificationScrollView setShowsHorizontalScrollIndicator:NO];
     [self.view addSubview:notificationScrollView];
-    
+
     // All notification data will go in this view. This way we can keep the
     // background image seperate from the notification data. Makes swiping a lot better.
     notificationView = [[UIView alloc] initWithFrame:notificationViewRect];
     [notificationScrollView addSubview:notificationView];
-    
+
     /* Draw the seperators */
-    
+
     iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(17.0, 9.0, 22.5, 22.5)];
     iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
     [iconImageView setAlpha:0.0];
     iconImageView.layer.cornerRadius = 5.5;
     iconImageView.layer.masksToBounds = YES;
-    
+
     alertHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 3.0, 216.0, 22.0)];
     alertHeaderLabel.adjustsFontSizeToFitWidth = NO;
     alertHeaderLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.000];
     alertHeaderLabel.text = dataObj.header;
     alertHeaderLabel.textAlignment = UITextAlignmentLeft;
     alertHeaderLabel.backgroundColor = [UIColor clearColor];
-    
+
     if (useBlackAlertStyle)
     {
         // Black alert style
@@ -200,17 +200,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertHeaderLabel.textColor   = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
         alertHeaderLabel.shadowColor = [UIColor whiteColor];
     }
-    
+
     alertHeaderLabel.shadowOffset = CGSizeMake(0,1);
     [alertHeaderLabel setAlpha:0.0];
-    
+
     alertTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(49.0, 17.0, 216.0, 22.0)];
     alertTextLabel.adjustsFontSizeToFitWidth = NO;
     alertTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:11.000];
     alertTextLabel.text = dataObj.text;
     alertTextLabel.textAlignment = UITextAlignmentLeft;
     alertTextLabel.backgroundColor = [UIColor clearColor];
-    
+
     if (useBlackAlertStyle)
     {
         // Black alert style
@@ -223,10 +223,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertTextLabel.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.9];
         alertTextLabel.shadowColor = [UIColor whiteColor];
     }
-    
+
     alertTextLabel.shadowOffset = CGSizeMake(0,1);
     [alertTextLabel setAlpha:0.0];
-    
+
     detailText = [[UITextView alloc] initWithFrame:CGRectMake(8.0, 50.0, 303.0, 75.0)];
     detailText.delegate = self;
     detailText.font = [UIFont fontWithName:@"HelveticaNeue" size:16.000];
@@ -236,7 +236,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     detailText.backgroundColor = [UIColor clearColor];
     detailText.editable = NO;
     [detailText setAlpha:0.0];
-    
+
     dateText = [[UILabel alloc] initWithFrame:CGRectMake(16.0, 127.0, 65.0, 15.0)];
     dateText.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
     dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
@@ -244,7 +244,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     dateText.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
     dateText.backgroundColor = [UIColor clearColor];
     [dateText setAlpha:0.0];
-    
+
     // If we're an SMS alert, we have some more setup to do!
     if(dataObj.type == kSMSAlert)
     {
@@ -261,10 +261,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         sendButton.titleLabel.backgroundColor = [UIColor clearColor];
         sendButton.titleLabel.shadowColor = [UIColor blackColor];
         sendButton.titleLabel.shadowOffset = CGSizeMake(0,-1);
-        
+
         [sendButton addTarget:self action:@selector(sendPushed:)
              forControlEvents:UIControlEventTouchUpInside];
-        
+
         charactersTyped = [[UILabel alloc] initWithFrame:CGRectMake(258.0, 127.0, 45.0, 15.0)];
         charactersTyped.font = [UIFont fontWithName:@"HelveticaNeue" size:10.500];
         charactersTyped.text = @"0/160";
@@ -272,7 +272,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         charactersTyped.textColor = [UIColor colorWithRed:1.000 green:1.000 blue:1.000 alpha:0.5];
         charactersTyped.backgroundColor = [UIColor clearColor];
         [charactersTyped setAlpha:0.0];
-        
+
         textBox = [[BCZeroEdgeTextView alloc] initWithFrame:CGRectMake(17.0, 145.0, 285.0, 50.0)];
         [textBox setDelegate:self];
         textBox.keyboardAppearance = UIKeyboardAppearanceAlert;
@@ -282,24 +282,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         textBox.textColor = [UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:0.8];
         [textBox setAlpha:0.0];
     }
-        
+
     // Add everything to our view
     [notificationView addSubview:iconImageView];
     [notificationView addSubview:alertHeaderLabel];
     [notificationView addSubview:alertTextLabel];
     [notificationView addSubview:alertExpandButton];
-    
+
     // Release the stuff we don't want to hang on to
     [alertHeaderLabel         release];
     [alertTextLabel           release];
-        
+
     [self fadeInView];
 }
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // Detect single finger, double tap
     /*UITapGestureRecognizer* doubleTap = [[UITapGestureRecognizer alloc]
         initWithTarget:self action:@selector(laterPushed:)];
@@ -362,7 +362,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     if (alertIsShowingPopOver)
     {
         [notificationScrollView setScrollEnabled:YES];
-        
+
         CGRect frame = self.view.frame;
         frame.size.height -= 229;
         self.view.frame = frame;
@@ -372,7 +372,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     else
     {
         [notificationScrollView setScrollEnabled:NO];
-        
+
         CGRect frame = self.view.frame;
         frame.size.height += 229;
         self.view.frame = frame;
@@ -512,7 +512,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [self loadData];
         [self slideIn];
     }
-    
+
     if ([animationID isEqualToString:@"fadeInView"])
     {
         [alertActionBackgroundImageView removeFromSuperview];
@@ -537,9 +537,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 }
 
 -(void)loadData
-{    
+{
     dataObj = [pendingAlerts objectAtIndex:index];
-    
+
     [self loadViewInfo];
 }
 
