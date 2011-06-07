@@ -54,6 +54,7 @@
 
         // Reload data
         [tableView reloadData];
+        [_delegate refreshAll];
     }
 }
 

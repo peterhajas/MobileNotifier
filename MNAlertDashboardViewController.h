@@ -35,7 +35,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @protocol MNAlertDashboardViewControllerProtocol
 -(void)actionOnAlertAtIndex:(int)index;
 -(void)dismissedAlertAtIndex:(int)index;
-
+-(void)refreshAll;
 -(void)clearPending;
 
 -(NSMutableArray *)getPendingAlerts;
