@@ -76,10 +76,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     [super loadView];
 
-    // Set position of notificationView here
-    notificationViewRect = CGRectMake(0, 0, 320, 40);
-
     self.view.frame = CGRectMake(0,0,320,40);
+
+    // Create and configure the scroll view
+    notificationScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    [notificationScrollView setDelegate:self];
+    [notificationScrollView setAlwaysBounceHorizontal:YES];
+    [notificationScrollView setShowsHorizontalScrollIndicator:NO];
+
+    // All notification data will go in this view. This way we can keep the
+    // background image seperate from the notification data. Makes swiping a lot better.
+    notificationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
 
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
     [UIView setAnimationDelegate:self];
@@ -147,33 +154,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     [alertExpandButton addTarget:self action:@selector(chevronPushed:)
           forControlEvents:UIControlEventTouchUpInside];
-
-    // Add everything to our view
-    [self.view addSubview:alertBackgroundImageView];
-
-    // Release the stuff we don't want to hang on to
-    [alertBackgroundImageView release];
-
-    alertIsShowingPopOver = NO;
-
-    [self loadViewInfo];
-}
-
--(void)loadViewInfo
-{
-    // Create and configure the scroll view
-    notificationScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-    [notificationScrollView setDelegate:self];
-    [notificationScrollView setAlwaysBounceHorizontal:YES];
-    [notificationScrollView setShowsHorizontalScrollIndicator:NO];
-    [self.view addSubview:notificationScrollView];
-
-    // All notification data will go in this view. This way we can keep the
-    // background image seperate from the notification data. Makes swiping a lot better.
-    notificationView = [[UIView alloc] initWithFrame:notificationViewRect];
-    [notificationScrollView addSubview:notificationView];
-
-    /* Draw the seperators */
 
     iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(17.0, 9.0, 22.5, 22.5)];
     iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
@@ -283,17 +263,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         [textBox setAlpha:0.0];
     }
 
-    // Add everything to our view
+    // Add everything to our self.view
+    [self.view addSubview:alertBackgroundImageView];
+    [self.view addSubview:notificationScrollView];
+
+    // Add everything to out scroll view
+    [notificationScrollView addSubview:notificationView];
+
+    // Add everything to our notification view
     [notificationView addSubview:iconImageView];
     [notificationView addSubview:alertHeaderLabel];
     [notificationView addSubview:alertTextLabel];
     [notificationView addSubview:alertExpandButton];
 
     // Release the stuff we don't want to hang on to
+    [alertBackgroundImageView release];
     [alertHeaderLabel         release];
     [alertTextLabel           release];
 
+    alertIsShowingPopOver = NO;
+
     [self fadeInView];
+}
+
+-(void)reloadViewInfo
+{
+    iconImageView.image = [_delegate iconForBundleID:dataObj.bundleID];
+    alertHeaderLabel.text = dataObj.header;
+    alertTextLabel.text = dataObj.text;
+    detailText.text = dataObj.text;
+    dateText.text = [dataObj.time descriptionWithCalendarFormat:@"%H:%M" timeZone: nil locale: nil];
 }
 
 -(void)viewDidLoad
@@ -498,14 +497,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)animationDidStop:(NSString*)animationID didFinish:(NSNumber*)finished inContext:(id)context
 {
     if ([animationID isEqualToString:@"slideAwayToRight"]) {
-        // Set the position back to the left side of the screen to be animated back in, going right
-        // loadViewInfo will do the moving for us
-        notificationViewRect = CGRectMake(-320,0,320,40);
+        // Move the notificationView back to the left side of the screen to be animated back in, going right
+        [notificationView setFrame:CGRectMake(-320,0,320,40)];
     }
     else if ([animationID isEqualToString:@"slideAwayToLeft"]) {
-        // Set the position back to the right side of the screen to be animated back in, going left
-        // loadViewInfo will do the moving for us
-        notificationViewRect = CGRectMake(320,0,320,40);
+        // Move the notificationView back to the right side of the screen to be animated back in, going left
+        [notificationView setFrame:CGRectMake(320,0,320,40)];
     }
     if ([animationID isEqualToString:@"slideAwayToRight"] || [animationID isEqualToString:@"slideAwayToLeft"]) {
         isAnimationInProgress = NO;
@@ -540,7 +537,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     dataObj = [pendingAlerts objectAtIndex:index];
 
-    [self loadViewInfo];
+    [self reloadViewInfo];
 }
 
 -(void)openPushed:(id)sender
