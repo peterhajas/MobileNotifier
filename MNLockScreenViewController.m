@@ -81,7 +81,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         pendingAlertsList.delegate = tableViewDataSource;
         pendingAlertsList.dataSource = tableViewDataSource;
         pendingAlertsList.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
-        pendingAlertsList.separatorStyle = UITableViewCellSeparatorStyleNone;
+        pendingAlertsList.separatorColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
         pendingAlertsList.hidden = YES;
         pendingAlertsList.allowsSelection = NO;
 

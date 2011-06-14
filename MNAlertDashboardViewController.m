@@ -99,7 +99,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         alertListView.delegate = self;
         alertListView.dataSource = tableViewDataSourceEditable;
         alertListView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
-        alertListView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        alertListView.separatorColor = [[UIColor blackColor] colorWithAlphaComponent:0.35];
         alertListView.hidden = NO;
         alertListView.allowsSelection = YES;
 
