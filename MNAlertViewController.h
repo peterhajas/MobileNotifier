@@ -50,7 +50,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     UIScrollView* notificationScrollView;
     UIView* notificationView;
-    CGRect notificationViewRect;
 
     bool isAnimationInProgress;
     bool hasSwiped;
@@ -91,7 +90,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -(id)initWithMNData:(MNAlertData*) data pendingAlerts:(NSMutableArray *)pendingAlerts;
 
--(void)loadViewInfo;
+-(void)reloadViewInfo;
 
 -(void)slideAwayRight;
 -(void)slideAwayLeft;
