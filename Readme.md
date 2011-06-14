@@ -48,7 +48,7 @@ Environment Setup
 
 MobileNotifier has only been built on Mac OS X. Theos can be installed on Mac OS X, Linux and iOS.
 
-1. Install Xcode. A free developer account is required in order to download it.
+1. Install Xcode. A free developer account is required in order to download it. *note: MobileNotifier only compiles using iOS 4 SDK*
 
     [http://developer.apple.com/technologies/xcode.html](http://developer.apple.com/technologies/xcode.html)
 
