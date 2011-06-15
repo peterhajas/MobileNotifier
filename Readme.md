@@ -147,3 +147,5 @@ Frederik Vanggaard - github.com/Drudoo - for his help with debugging and testing
 Sammargh - github.com/sammargh - for his help with fixing the SMS notification tones
 
 Kristian Pennacchia - github.com/kristianpennacchia - for his work on sliding notifications
+
+Derek Nicolas - github.com/derek-nicolas - for his help with fixing SMS notification bugs
