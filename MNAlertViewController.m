@@ -312,6 +312,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     [doubleTap release];*/
 }
 
+-(void)viewDidUnload
+{
+  [super viewDidUnload];
+  self.view = nil;
+}
+
 -(void)slideAwayRight
 {
     if (!alertIsShowingPopOver && isAnimationInProgress == NO) {
