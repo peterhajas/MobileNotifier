@@ -41,7 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         lockWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0,115,320,54)];
         lockWindow.userInteractionEnabled = YES;
-        lockWindow.windowLevel = UIWindowLevelAlert+102.0f;
+        lockWindow.windowLevel = UIWindowLevelStatusBar-10.0f;
         lockWindow.hidden = YES;
 
         logoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 10, 32, 32)];
