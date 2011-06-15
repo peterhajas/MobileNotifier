@@ -109,6 +109,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -(void)closePushed:(id)sender;
 -(void)sendPushed:(id)sender;
 
+void UIKeyboardEnableAutomaticAppearance(void);
+void UIKeyboardDisableAutomaticAppearance(void);
+
 @property(nonatomic, retain) MNAlertData *dataObj;
 @property(readwrite, retain) id<MNAlertViewControllerDelegate> delegate;
 
