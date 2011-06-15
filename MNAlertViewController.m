@@ -76,22 +76,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 {
     [super loadView];
 
-    self.view.frame = CGRectMake(0,0,320,40);
+    CGRect _frame = CGRectMake(0,0,320,40);
+
+    self.view.frame = _frame;
 
     // Create and configure the scroll view
-    notificationScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    notificationScrollView = [[UIScrollView alloc] initWithFrame:_frame];
     [notificationScrollView setDelegate:self];
     [notificationScrollView setAlwaysBounceHorizontal:YES];
     [notificationScrollView setShowsHorizontalScrollIndicator:NO];
 
     // All notification data will go in this view. This way we can keep the
     // background image seperate from the notification data. Makes swiping a lot better.
-    notificationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    notificationView = [[UIView alloc] initWithFrame:_frame];
 
     [UIView setAnimationDidStopSelector:@selector(animationDidStop:didFinish:inContext:)];
     [UIView setAnimationDelegate:self];
 
-    alertBackgroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 40.0)];
+    alertBackgroundImageView = [[UIImageView alloc] initWithFrame:_frame];
     [alertBackgroundImageView setAlpha:0.0];
 
     if (useBlackAlertStyle)
@@ -106,7 +108,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     }
 
     alertExpandButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    alertExpandButton.frame = CGRectMake(0.0, 0.0, 320.0, 40.0);
+    alertExpandButton.frame = _frame;
     [alertExpandButton setAlpha:0.0];
 
     // Popdown alert actions
