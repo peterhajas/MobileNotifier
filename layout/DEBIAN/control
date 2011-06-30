@@ -3,7 +3,7 @@ Name: MobileNotifier
 Depends: mobilesubstrate, libactivator (>= 1.4.6)
 Version: 0.5.1
 Architecture: iphoneos-arm
-Description: iOS notifications. Done right. iOS 4.x only for now.
-Maintainer: Peter Hajas
+Description: iOS notifications. Done right. iOS 4.x only.
+Maintainer: Tim Novinger
 Author: Peter Hajas
 Section: Tweaks
