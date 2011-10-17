@@ -1,6 +1,7 @@
 MobileNotifier
-iOS Notifications Done Right.
 ==============
+iOS Notifications Done Right.
+--------------
 by Peter Hajas
 --------------
 web: peterhajas.com
