@@ -1,0 +1,148 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		A06DB7241394283B00B460EC /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
+		A06DB7251394283B00B460EC /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		A06DB7261394283B00B460EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A06DB7271394283B00B460EC /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		A06DB7281394283B00B460EC /* MobileNukifierApplication.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MobileNukifierApplication.mm; sourceTree = "<group>"; };
+		A06DB7291394283B00B460EC /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
+		A06DB72A1394283B00B460EC /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		A06DB72B1394283B00B460EC /* RootViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewController.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		A06DB71C1394283B00B460EC = {
+			isa = PBXGroup;
+			children = (
+				A06DB7241394283B00B460EC /* control */,
+				A06DB7251394283B00B460EC /* icon.png */,
+				A06DB7261394283B00B460EC /* main.m */,
+				A06DB7271394283B00B460EC /* Makefile */,
+				A06DB7281394283B00B460EC /* MobileNukifierApplication.mm */,
+				A06DB7291394283B00B460EC /* Resources */,
+				A06DB72A1394283B00B460EC /* RootViewController.h */,
+				A06DB72B1394283B00B460EC /* RootViewController.mm */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		A06DB7231394283B00B460EC /* mobilenukifier */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = A06DB72C1394283B00B460EC /* Build configuration list for PBXLegacyTarget "mobilenukifier" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/marceasen/My-Programs/MobileNotifier/mobilenukifier";
+			dependencies = (
+			);
+			name = mobilenukifier;
+			passBuildSettingsInEnvironment = 1;
+			productName = mobilenukifier;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		A06DB71E1394283B00B460EC /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = A06DB7211394283B00B460EC /* Build configuration list for PBXProject "mobilenukifier" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A06DB71C1394283B00B460EC;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A06DB7231394283B00B460EC /* mobilenukifier */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		A06DB71F1394283B00B460EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		A06DB7201394283B00B460EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		A06DB72D1394283B00B460EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = mobilenukifier;
+			};
+			name = Debug;
+		};
+		A06DB72E1394283B00B460EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = mobilenukifier;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A06DB7211394283B00B460EC /* Build configuration list for PBXProject "mobilenukifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A06DB71F1394283B00B460EC /* Debug */,
+				A06DB7201394283B00B460EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A06DB72C1394283B00B460EC /* Build configuration list for PBXLegacyTarget "mobilenukifier" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A06DB72D1394283B00B460EC /* Debug */,
+				A06DB72E1394283B00B460EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A06DB71E1394283B00B460EC /* Project object */;
+}
